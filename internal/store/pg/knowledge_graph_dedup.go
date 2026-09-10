@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	kg "github.com/nextlevelbuilder/zalosclaw/internal/knowledgegraph"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	kg "github.com/mnh-shop/7alosclaw/internal/knowledgegraph"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 const (

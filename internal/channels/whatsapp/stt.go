@@ -6,8 +6,8 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
-	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/mnh-shop/7alosclaw/internal/audio"
+	"github.com/mnh-shop/7alosclaw/internal/i18n"
 )
 
 // sttSettings is the minimal contract Phase 5 needs from builtin_tools[stt].settings.

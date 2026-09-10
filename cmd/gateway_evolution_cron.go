@@ -6,8 +6,8 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/agent"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // evolutionCronLockID is a PG advisory lock ID for preventing duplicate cron runs.

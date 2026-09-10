@@ -10,8 +10,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/permissions"
-	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/permissions"
+	"github.com/mnh-shop/7alosclaw/pkg/protocol"
 )
 
 // Client represents a single WebSocket connection.

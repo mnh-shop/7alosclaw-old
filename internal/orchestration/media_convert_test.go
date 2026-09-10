@@ -3,8 +3,8 @@ package orchestration
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/mnh-shop/7alosclaw/internal/agent"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
 )
 
 func TestMediaResultToBusFiles_Empty(t *testing.T) {

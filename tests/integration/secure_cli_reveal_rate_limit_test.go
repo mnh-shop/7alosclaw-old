@@ -13,9 +13,9 @@ import (
 
 	"github.com/google/uuid"
 
-	httphandler "github.com/nextlevelbuilder/zalosclaw/internal/http"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
+	httphandler "github.com/mnh-shop/7alosclaw/internal/http"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store/pg"
 )
 
 // buildRevealCtxRequest constructs a reveal request with owner-role context so

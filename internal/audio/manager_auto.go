@@ -7,7 +7,7 @@ import (
 	"maps"
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // MaybeApply inspects auto-mode and conditionally applies TTS to a reply.

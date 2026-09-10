@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // EpisodicHandler serves episodic memory summary endpoints.

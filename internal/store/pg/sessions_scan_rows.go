@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // sessionListRow is an sqlx scan struct for the List query (SELECT session_key, messages, ...).

@@ -10,8 +10,8 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
 )
 
 // TestSelfConnectedServer_CacheRetainsDescriptionAndSchema is a regression

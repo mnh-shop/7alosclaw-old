@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 // compactionSummaryPrompt is the structured summarization instruction used by both

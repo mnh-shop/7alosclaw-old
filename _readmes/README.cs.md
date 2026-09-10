@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.zalosclaw.sh">Dokumentace</a> •
-  <a href="https://docs.zalosclaw.sh/#quick-start">Rychlý start</a> •
+  <a href="https://docs.7alos.com">Dokumentace</a> •
+  <a href="https://docs.7alos.com/#quick-start">Rychlý start</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -120,7 +120,7 @@ Go port projektu [OpenClaw](https://github.com/openclaw/openclaw) s vylepšeným
 ### Ze zdrojového kódu
 
 ```bash
-git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
+git clone https://github.com/mnh-shop/7alosclaw.git && cd zalosclaw
 make build
 ./zalosclaw onboard        # Interaktivní průvodce nastavením
 source .env.local && ./zalosclaw
@@ -141,7 +141,7 @@ make up
 
 Pokud jsou nastaveny proměnné prostředí `ZALOSCLAW_*_API_KEY`, gateway se automaticky inicializuje bez interaktivních výzev — detekuje poskytovatele, spustí migrace a naplní výchozí data.
 
-> Pro varianty sestavení (OTel, Tailscale, Redis), tagy Docker image a překrytí compose viz [Průvodce nasazením](https://docs.zalosclaw.sh/#deploy-docker-compose).
+> Pro varianty sestavení (OTel, Tailscale, Redis), tagy Docker image a překrytí compose viz [Průvodce nasazením](https://docs.7alos.com/#deploy-docker-compose).
 
 ## Multi-agentní orchestrace
 
@@ -170,7 +170,7 @@ Agenti komunikují prostřednictvím explicitních **odkazů oprávnění** s ř
 - **Týmová schránka** — Přímé zprávy mezi peer agenty a broadcasty
 - **Nástroje**: `team_tasks` pro správu úkolů, `team_message` pro schránku
 
-> Podrobnosti o delegování, odkazech oprávnění a řízení souběžnosti viz [dokumentace Týmů agentů](https://docs.zalosclaw.sh/#teams-what-are-teams).
+> Podrobnosti o delegování, odkazech oprávnění a řízení souběžnosti viz [dokumentace Týmů agentů](https://docs.7alos.com/#teams-what-are-teams).
 
 ## Vestavěné nástroje
 
@@ -214,19 +214,19 @@ Agenti komunikují prostřednictvím explicitních **odkazů oprávnění** s ř
 
 ## Dokumentace
 
-Úplná dokumentace na **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** — nebo procházejte zdroj v [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
+Úplná dokumentace na **[docs.7alos.com](https://docs.7alos.com)** — nebo procházejte zdroj v [`zalosclaw-docs/`](https://github.com/mnh-shop/7alosclaw-docs)
 
 | Sekce | Témata |
 |-------|--------|
-| [Začínáme](https://docs.zalosclaw.sh/#what-is-zalosclaw) | Instalace, Rychlý start, Konfigurace, Prohlídka webového dashboardu |
-| [Základní koncepty](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Smyčka agenta, Relace, Nástroje, Paměť, Multi-tenancy |
-| [Agenti](https://docs.zalosclaw.sh/#creating-agents) | Vytváření agentů, Kontextové soubory, Osobnost, Sdílení a přístup |
-| [Poskytovatelé](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 dalších |
-| [Kanály](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Týmy agentů](https://docs.zalosclaw.sh/#teams-what-are-teams) | Týmy, Nástěnka úkolů, Zasílání zpráv, Delegování a předání |
-| [Pokročilé](https://docs.zalosclaw.sh/#custom-tools) | Vlastní nástroje, MCP, Dovednosti, Cron, Sandbox, Háky, RBAC |
-| [Nasazení](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, Databáze, Bezpečnost, Pozorovatelnost, Tailscale |
-| [Reference](https://docs.zalosclaw.sh/#cli-commands) | Příkazy CLI, REST API, WebSocket protokol, Proměnné prostředí |
+| [Začínáme](https://docs.7alos.com/#what-is-zalosclaw) | Instalace, Rychlý start, Konfigurace, Prohlídka webového dashboardu |
+| [Základní koncepty](https://docs.7alos.com/#how-zalosclaw-works) | Smyčka agenta, Relace, Nástroje, Paměť, Multi-tenancy |
+| [Agenti](https://docs.7alos.com/#creating-agents) | Vytváření agentů, Kontextové soubory, Osobnost, Sdílení a přístup |
+| [Poskytovatelé](https://docs.7alos.com/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 dalších |
+| [Kanály](https://docs.7alos.com/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Týmy agentů](https://docs.7alos.com/#teams-what-are-teams) | Týmy, Nástěnka úkolů, Zasílání zpráv, Delegování a předání |
+| [Pokročilé](https://docs.7alos.com/#custom-tools) | Vlastní nástroje, MCP, Dovednosti, Cron, Sandbox, Háky, RBAC |
+| [Nasazení](https://docs.7alos.com/#deploy-docker-compose) | Docker Compose, Databáze, Bezpečnost, Pozorovatelnost, Tailscale |
+| [Reference](https://docs.7alos.com/#cli-commands) | Příkazy CLI, REST API, WebSocket protokol, Proměnné prostředí |
 
 ## Testování
 

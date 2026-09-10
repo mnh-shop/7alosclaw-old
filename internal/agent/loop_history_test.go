@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 func TestLimitHistoryTurns_NoLimit(t *testing.T) {

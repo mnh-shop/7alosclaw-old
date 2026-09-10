@@ -7,11 +7,11 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
-	orchestration "github.com/nextlevelbuilder/zalosclaw/internal/childrun"
-	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tracing"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
+	orchestration "github.com/mnh-shop/7alosclaw/internal/childrun"
+	"github.com/mnh-shop/7alosclaw/internal/edition"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/tracing"
 )
 
 // SpawnReceipt identifies both the in-memory runtime task and its durable

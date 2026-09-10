@@ -9,13 +9,13 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
-	"github.com/nextlevelbuilder/zalosclaw/internal/gateway"
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
-	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
-	"github.com/nextlevelbuilder/zalosclaw/internal/permissions"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/edition"
+	"github.com/mnh-shop/7alosclaw/internal/gateway"
+	"github.com/mnh-shop/7alosclaw/internal/hooks"
+	"github.com/mnh-shop/7alosclaw/internal/i18n"
+	"github.com/mnh-shop/7alosclaw/internal/permissions"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/pkg/protocol"
 )
 
 // HookMethods handles hooks.* RPC methods: list/create/update/delete/toggle/test/history.

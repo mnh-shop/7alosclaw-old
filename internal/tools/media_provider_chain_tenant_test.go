@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 // Phase 6 verification: proves the 4-tier overlay (built in Phase 3) flows

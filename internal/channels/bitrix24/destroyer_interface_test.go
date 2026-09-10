@@ -1,7 +1,7 @@
 package bitrix24
 
 import (
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/mnh-shop/7alosclaw/internal/channels"
 )
 
 // Compile-time guard: bitrix24.Channel must satisfy channels.ChannelDestroyer.

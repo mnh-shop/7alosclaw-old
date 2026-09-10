@@ -6,7 +6,7 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/mnh-shop/7alosclaw/internal/channels"
 )
 
 const contactDisplayTitleMetadataKey = "display_title"

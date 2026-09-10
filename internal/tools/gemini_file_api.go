@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 const (

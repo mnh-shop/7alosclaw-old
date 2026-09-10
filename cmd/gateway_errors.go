@@ -5,7 +5,7 @@ import (
 	"log/slog"
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/mnh-shop/7alosclaw/internal/channels"
 )
 
 // Matching TS pi-embedded-helpers/errors.ts error classification.

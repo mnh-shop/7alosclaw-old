@@ -3,9 +3,9 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
-	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/agent"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
+	"github.com/mnh-shop/7alosclaw/pkg/protocol"
 )
 
 // wireSlowToolNotifySubscriber registers a subscriber that sends direct outbound

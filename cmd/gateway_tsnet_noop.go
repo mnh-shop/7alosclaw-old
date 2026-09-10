@@ -6,7 +6,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/config"
 )
 
 // initTailscale is a no-op when built without the "tsnet" tag.

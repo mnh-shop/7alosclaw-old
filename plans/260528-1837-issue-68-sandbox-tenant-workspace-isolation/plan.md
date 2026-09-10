@@ -21,7 +21,7 @@ Fix the sandbox isolation gap where Docker containers receive the global workspa
 
 ## Evidence
 
-- Issue: digitopvn/zalosclaw#68, upstream nextlevelbuilder/zalosclaw#1163
+- Issue: digitopvn/zalosclaw#68, upstream mnh-shop/7alosclaw#1163
 - Mount source: `internal/sandbox/docker.go:91-100`
 - Shell sandbox caller passes global workspace: `internal/tools/shell.go:645-667`
 - File-tool sandbox callers also request sandbox by global workspace: `internal/tools/filesystem.go:198-222`, `internal/tools/filesystem_write.go:242-291`, `internal/tools/filesystem_list.go:142-166`, `internal/tools/edit.go:209-221`

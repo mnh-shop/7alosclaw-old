@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // GenerateCredentialContext builds a TOOLS.md supplement from enabled secure CLI configs.

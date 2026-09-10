@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/internal/agent"
+	"github.com/mnh-shop/7alosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
 )
 
 func TestBuildConfigDefaults_NilCfg(t *testing.T) {

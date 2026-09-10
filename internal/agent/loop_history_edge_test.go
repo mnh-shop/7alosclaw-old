@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 // --- sanitizeHistory: all-tool-message history ---

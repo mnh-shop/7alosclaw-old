@@ -9,15 +9,15 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
-	"github.com/nextlevelbuilder/zalosclaw/internal/cronexec"
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/scheduler"
-	"github.com/nextlevelbuilder/zalosclaw/internal/sessions"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/agent"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
+	"github.com/mnh-shop/7alosclaw/internal/channels"
+	"github.com/mnh-shop/7alosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/cronexec"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/scheduler"
+	"github.com/mnh-shop/7alosclaw/internal/sessions"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // makeCronJobHandler creates a cron job handler that routes through the scheduler's cron lane.

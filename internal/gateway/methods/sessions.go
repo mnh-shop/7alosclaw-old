@@ -4,14 +4,14 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
-	"github.com/nextlevelbuilder/zalosclaw/internal/gateway"
-	httpapi "github.com/nextlevelbuilder/zalosclaw/internal/http"
-	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
+	"github.com/mnh-shop/7alosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/gateway"
+	httpapi "github.com/mnh-shop/7alosclaw/internal/http"
+	"github.com/mnh-shop/7alosclaw/internal/i18n"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/pkg/protocol"
 )
 
 // SessionsMethods handles sessions.list, sessions.preview, sessions.patch, sessions.delete, sessions.reset.

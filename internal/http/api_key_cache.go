@@ -6,8 +6,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/permissions"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/permissions"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // cacheEntry holds a cached API key lookup result.

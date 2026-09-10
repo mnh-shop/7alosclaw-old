@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tokencount"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/tokencount"
 )
 
 var contextGuardCounter tokencount.BudgetCounter = tokencount.NewBudgetCounter()

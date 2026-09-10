@@ -9,9 +9,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/upgrade"
+	"github.com/mnh-shop/7alosclaw/internal/crypto"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/upgrade"
 )
 
 // TestWebSearchMigrateHook_ConfigJSON5Path tests migration of inline keys

@@ -13,7 +13,7 @@ Verify current tool registration and policy paths before coding. Write tests fir
 
 ## Context Links
 
-- Issue: nextlevelbuilder/zalosclaw#1097
+- Issue: mnh-shop/7alosclaw#1097
 - Tool interface: `internal/tools/types.go`
 - Tool registry execution and cancellation path: `internal/tools/registry.go`
 - Built-in groups/profiles: `internal/tools/policy.go`

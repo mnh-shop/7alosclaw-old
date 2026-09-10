@@ -12,7 +12,7 @@ import (
 
 	"tailscale.com/tsnet"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/config"
 )
 
 // initTailscale starts an additional Tailscale listener alongside the main gateway.

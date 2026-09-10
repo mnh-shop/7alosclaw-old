@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
 )
 
 // runLoop (v2 agent iteration loop) was removed in the v3 force migration.

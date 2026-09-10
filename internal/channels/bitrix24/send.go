@@ -10,7 +10,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
 )
 
 // sendOptions captures per-message routing context extracted from

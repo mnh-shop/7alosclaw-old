@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.zalosclaw.sh">문서</a> •
-  <a href="https://docs.zalosclaw.sh/#quick-start">빠른 시작</a> •
+  <a href="https://docs.7alos.com">문서</a> •
+  <a href="https://docs.7alos.com/#quick-start">빠른 시작</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -98,7 +98,7 @@ Single binary. Production-tested. Agents that orchestrate for you.
 ### 소스에서 빌드
 
 ```bash
-git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
+git clone https://github.com/mnh-shop/7alosclaw.git && cd zalosclaw
 make build
 ./zalosclaw onboard        # Interactive setup wizard
 source .env.local && ./zalosclaw
@@ -119,7 +119,7 @@ make up
 
 `ZALOSCLAW_*_API_KEY` 환경 변수가 설정되면, 게이트웨이는 대화형 프롬프트 없이 자동으로 온보딩됩니다 — 공급자를 감지하고, 마이그레이션을 실행하며, 기본 데이터를 시드합니다.
 
-> 빌드 변형(OTel, Tailscale, Redis), Docker 이미지 태그, compose 오버레이에 대해서는 [배포 가이드](https://docs.zalosclaw.sh/#deploy-docker-compose)를 참조하세요.
+> 빌드 변형(OTel, Tailscale, Redis), Docker 이미지 태그, compose 오버레이에 대해서는 [배포 가이드](https://docs.7alos.com/#deploy-docker-compose)를 참조하세요.
 
 ## 멀티 에이전트 오케스트레이션
 
@@ -148,7 +148,7 @@ ZalosClaw는 에이전트 팀과 에이전트 간 위임을 지원합니다 — 
 - **팀 메일박스** — 직접 P2P 메시지 및 브로드캐스트
 - **도구**: 태스크 관리를 위한 `team_tasks`, 메일박스를 위한 `team_message`
 
-> 위임 세부 사항, 권한 링크, 동시성 제어에 대해서는 [에이전트 팀 문서](https://docs.zalosclaw.sh/#teams-what-are-teams)를 참조하세요.
+> 위임 세부 사항, 권한 링크, 동시성 제어에 대해서는 [에이전트 팀 문서](https://docs.7alos.com/#teams-what-are-teams)를 참조하세요.
 
 ## 내장 도구
 
@@ -192,19 +192,19 @@ ZalosClaw는 에이전트 팀과 에이전트 간 위임을 지원합니다 — 
 
 ## 문서
 
-전체 문서는 **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)**에서 — 또는 [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)의 소스를 탐색하세요.
+전체 문서는 **[docs.7alos.com](https://docs.7alos.com)**에서 — 또는 [`zalosclaw-docs/`](https://github.com/mnh-shop/7alosclaw-docs)의 소스를 탐색하세요.
 
 | 섹션 | 주제 |
 |---------|--------|
-| [시작하기](https://docs.zalosclaw.sh/#what-is-zalosclaw) | 설치, 빠른 시작, 구성, 웹 대시보드 둘러보기 |
-| [핵심 개념](https://docs.zalosclaw.sh/#how-zalosclaw-works) | 에이전트 루프, 세션, 도구, 기억, 멀티 테넌시 |
-| [에이전트](https://docs.zalosclaw.sh/#creating-agents) | 에이전트 생성, 컨텍스트 파일, 개성, 공유 & 접근 |
-| [공급자](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15개 이상 |
-| [채널](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [에이전트 팀](https://docs.zalosclaw.sh/#teams-what-are-teams) | 팀, 태스크 보드, 메시징, 위임 & 핸드오프 |
-| [고급](https://docs.zalosclaw.sh/#custom-tools) | 커스텀 도구, MCP, 스킬, Cron, 샌드박스, 훅, RBAC |
-| [배포](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, 데이터베이스, 보안, 관측 가능성, Tailscale |
-| [레퍼런스](https://docs.zalosclaw.sh/#cli-commands) | CLI 명령, REST API, WebSocket 프로토콜, 환경 변수 |
+| [시작하기](https://docs.7alos.com/#what-is-zalosclaw) | 설치, 빠른 시작, 구성, 웹 대시보드 둘러보기 |
+| [핵심 개념](https://docs.7alos.com/#how-zalosclaw-works) | 에이전트 루프, 세션, 도구, 기억, 멀티 테넌시 |
+| [에이전트](https://docs.7alos.com/#creating-agents) | 에이전트 생성, 컨텍스트 파일, 개성, 공유 & 접근 |
+| [공급자](https://docs.7alos.com/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15개 이상 |
+| [채널](https://docs.7alos.com/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [에이전트 팀](https://docs.7alos.com/#teams-what-are-teams) | 팀, 태스크 보드, 메시징, 위임 & 핸드오프 |
+| [고급](https://docs.7alos.com/#custom-tools) | 커스텀 도구, MCP, 스킬, Cron, 샌드박스, 훅, RBAC |
+| [배포](https://docs.7alos.com/#deploy-docker-compose) | Docker Compose, 데이터베이스, 보안, 관측 가능성, Tailscale |
+| [레퍼런스](https://docs.7alos.com/#cli-commands) | CLI 명령, REST API, WebSocket 프로토콜, 환경 변수 |
 
 ## 테스트
 

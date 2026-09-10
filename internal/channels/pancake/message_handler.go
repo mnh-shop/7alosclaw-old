@@ -8,8 +8,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/channels"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // handleMessagingEvent converts a Pancake "messaging" webhook event to bus.InboundMessage.

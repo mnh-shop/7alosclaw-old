@@ -13,8 +13,8 @@ import (
 	"sync"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // WebhookRoute holds a path and handler pair for mounting on the main gateway mux.

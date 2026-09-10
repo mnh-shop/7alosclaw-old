@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.zalosclaw.sh">Dokumentáció</a> •
-  <a href="https://docs.zalosclaw.sh/#quick-start">Gyors kezdés</a> •
+  <a href="https://docs.7alos.com">Dokumentáció</a> •
+  <a href="https://docs.7alos.com/#quick-start">Gyors kezdés</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -120,7 +120,7 @@ Az [OpenClaw](https://github.com/openclaw/openclaw) Go portja, fokozott biztons�
 ### Forrásból
 
 ```bash
-git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
+git clone https://github.com/mnh-shop/7alosclaw.git && cd zalosclaw
 make build
 ./zalosclaw onboard        # Interaktív telepítő varázsló
 source .env.local && ./zalosclaw
@@ -141,7 +141,7 @@ make up
 
 Ha a `ZALOSCLAW_*_API_KEY` környezeti változók be vannak állítva, az átjáró interaktív prompt nélkül automatikusan elvégzi az onboardingot — felismeri a szolgáltatót, futtatja a migrációkat és feltölti az alapértelmezett adatokat.
 
-> A build-változatokért (OTel, Tailscale, Redis), Docker image-címkékért és compose overlay-ekért lásd a [Telepítési útmutatót](https://docs.zalosclaw.sh/#deploy-docker-compose).
+> A build-változatokért (OTel, Tailscale, Redis), Docker image-címkékért és compose overlay-ekért lásd a [Telepítési útmutatót](https://docs.7alos.com/#deploy-docker-compose).
 
 ## Többügynökös vezénylés
 
@@ -170,7 +170,7 @@ Az ügynökök explicit **jogosultsági kapcsolatokon** keresztül kommunikálna
 - **Csapat postaláda** — Közvetlen társak közötti üzenetküldés és körüzenet
 - **Eszközök**: `team_tasks` feladatkezeléshez, `team_message` postaládához
 
-> A delegálás részleteiért, jogosultsági kapcsolatokért és párhuzamossági vezérlésért lásd az [Ügynökcsapatok dokumentációt](https://docs.zalosclaw.sh/#teams-what-are-teams).
+> A delegálás részleteiért, jogosultsági kapcsolatokért és párhuzamossági vezérlésért lásd az [Ügynökcsapatok dokumentációt](https://docs.7alos.com/#teams-what-are-teams).
 
 ## Beépített eszközök
 
@@ -214,19 +214,19 @@ Az ügynökök explicit **jogosultsági kapcsolatokon** keresztül kommunikálna
 
 ## Dokumentáció
 
-A teljes dokumentáció elérhető a **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** oldalon — vagy böngéssz a forrásban itt: [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
+A teljes dokumentáció elérhető a **[docs.7alos.com](https://docs.7alos.com)** oldalon — vagy böngéssz a forrásban itt: [`zalosclaw-docs/`](https://github.com/mnh-shop/7alosclaw-docs)
 
 | Szakasz | Témák |
 |---------|--------|
-| [Kezdő lépések](https://docs.zalosclaw.sh/#what-is-zalosclaw) | Telepítés, Gyors kezdés, Konfiguráció, Webes irányítópult bemutató |
-| [Alapfogalmak](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Ügynök hurok, Munkamenetek, Eszközök, Memória, Többbérlősség |
-| [Ügynökök](https://docs.zalosclaw.sh/#creating-agents) | Ügynökök létrehozása, Kontextfájlok, Személyiség, Megosztás és hozzáférés |
-| [Szolgáltatók](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 további |
-| [Csatornák](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Ügynökcsapatok](https://docs.zalosclaw.sh/#teams-what-are-teams) | Csapatok, Feladattábla, Üzenetküldés, Delegálás és átadás |
-| [Haladó](https://docs.zalosclaw.sh/#custom-tools) | Egyéni eszközök, MCP, Skillek, Cron, Sandbox, Horgok, RBAC |
-| [Telepítés](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, Adatbázis, Biztonság, Megfigyelhetőség, Tailscale |
-| [Hivatkozás](https://docs.zalosclaw.sh/#cli-commands) | CLI parancsok, REST API, WebSocket protokoll, Környezeti változók |
+| [Kezdő lépések](https://docs.7alos.com/#what-is-zalosclaw) | Telepítés, Gyors kezdés, Konfiguráció, Webes irányítópult bemutató |
+| [Alapfogalmak](https://docs.7alos.com/#how-zalosclaw-works) | Ügynök hurok, Munkamenetek, Eszközök, Memória, Többbérlősség |
+| [Ügynökök](https://docs.7alos.com/#creating-agents) | Ügynökök létrehozása, Kontextfájlok, Személyiség, Megosztás és hozzáférés |
+| [Szolgáltatók](https://docs.7alos.com/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 további |
+| [Csatornák](https://docs.7alos.com/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Ügynökcsapatok](https://docs.7alos.com/#teams-what-are-teams) | Csapatok, Feladattábla, Üzenetküldés, Delegálás és átadás |
+| [Haladó](https://docs.7alos.com/#custom-tools) | Egyéni eszközök, MCP, Skillek, Cron, Sandbox, Horgok, RBAC |
+| [Telepítés](https://docs.7alos.com/#deploy-docker-compose) | Docker Compose, Adatbázis, Biztonság, Megfigyelhetőség, Tailscale |
+| [Hivatkozás](https://docs.7alos.com/#cli-commands) | CLI parancsok, REST API, WebSocket protokoll, Környezeti változók |
 
 ## Tesztelés
 

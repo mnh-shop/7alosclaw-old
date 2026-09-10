@@ -4,14 +4,14 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
-	"github.com/nextlevelbuilder/zalosclaw/internal/eventbus"
-	"github.com/nextlevelbuilder/zalosclaw/internal/memory"
-	"github.com/nextlevelbuilder/zalosclaw/internal/pipeline"
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tokencount"
-	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/eventbus"
+	"github.com/mnh-shop/7alosclaw/internal/memory"
+	"github.com/mnh-shop/7alosclaw/internal/pipeline"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/tokencount"
+	"github.com/mnh-shop/7alosclaw/pkg/protocol"
 )
 
 // runViaPipeline delegates a run to the v3 pipeline.

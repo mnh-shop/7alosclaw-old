@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
+	"github.com/mnh-shop/7alosclaw/internal/audio"
 )
 
 // TTSProvider synthesizes text via POST /v1/text-to-speech/{voice_id}.

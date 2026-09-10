@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	mcpbridge "github.com/nextlevelbuilder/zalosclaw/internal/mcp"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	mcpbridge "github.com/mnh-shop/7alosclaw/internal/mcp"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // ---- mock helpers for getUserMCPTools OAuth tests ----

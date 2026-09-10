@@ -1,4 +1,4 @@
-module github.com/nextlevelbuilder/zalosclaw
+module github.com/mnh-shop/7alosclaw
 
 go 1.26.0
 

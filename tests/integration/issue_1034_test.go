@@ -10,9 +10,9 @@ import (
 
 	"github.com/google/uuid"
 
-	httppkg "github.com/nextlevelbuilder/zalosclaw/internal/http"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
+	httppkg "github.com/mnh-shop/7alosclaw/internal/http"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store/pg"
 )
 
 // TestIssue1034_Bug1_VerifyEmptyBody — after phase 03, empty body triggers

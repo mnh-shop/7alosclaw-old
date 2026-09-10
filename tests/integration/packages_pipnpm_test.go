@@ -16,7 +16,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
+	"github.com/mnh-shop/7alosclaw/internal/skills"
 )
 
 // TestPipUpdateChecker_E2E verifies that PipUpdateChecker detects a known-stale

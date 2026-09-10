@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
+	"github.com/mnh-shop/7alosclaw/internal/crypto"
 )
 
 // oauthStateTTL bounds how long a signed authorize-URL state stays valid.

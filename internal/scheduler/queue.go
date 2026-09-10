@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
+	"github.com/mnh-shop/7alosclaw/internal/agent"
 )
 
 // QueueMode determines how incoming messages are handled when an agent

@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"regexp"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
-	"github.com/nextlevelbuilder/zalosclaw/internal/media"
+	"github.com/mnh-shop/7alosclaw/internal/i18n"
+	"github.com/mnh-shop/7alosclaw/internal/media"
 )
 
 // validMediaID matches safe media identifiers: alphanumeric, hyphens, underscores, dots.

@@ -6,7 +6,7 @@ import (
 	"context"
 	"hash/fnv"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // mockEmbedProvider returns deterministic vectors based on text content hash.

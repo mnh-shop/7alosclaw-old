@@ -4,9 +4,9 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
-	"github.com/nextlevelbuilder/zalosclaw/internal/gateway"
-	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/channels"
+	"github.com/mnh-shop/7alosclaw/internal/gateway"
+	"github.com/mnh-shop/7alosclaw/pkg/protocol"
 )
 
 // QuotaMethods handles quota.usage — returns per-user quota consumption for the dashboard.

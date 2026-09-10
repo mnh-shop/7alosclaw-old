@@ -11,7 +11,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 // minimaxImageAspectRatio returns the aspect_ratio string for MiniMax image_generation.

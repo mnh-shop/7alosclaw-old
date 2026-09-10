@@ -6,8 +6,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store/pg"
 )
 
 // TestTTSConfig_Store_RoundTrip_LegacyKeys verifies that legacy flat keys

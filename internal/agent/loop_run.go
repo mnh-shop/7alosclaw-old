@@ -7,10 +7,10 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tracing"
-	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/internal/tracing"
+	"github.com/mnh-shop/7alosclaw/pkg/protocol"
 )
 
 // Run processes a single message through the agent loop.

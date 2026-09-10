@@ -10,7 +10,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 // Session stores conversation history for one agent+scope combination.

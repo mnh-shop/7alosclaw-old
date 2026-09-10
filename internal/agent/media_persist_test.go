@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
 )
 
 // TestPersistMedia_NamingScheme verifies that persistMedia produces:

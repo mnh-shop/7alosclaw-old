@@ -13,8 +13,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
+	"github.com/mnh-shop/7alosclaw/internal/config"
 )
 
 // swapAPIBase points zalo.apiBase at a test server for the duration of t.

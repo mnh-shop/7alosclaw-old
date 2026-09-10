@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
+	"github.com/mnh-shop/7alosclaw/internal/audio"
 )
 
 func TestMusicProvider_GenerateMusic(t *testing.T) {

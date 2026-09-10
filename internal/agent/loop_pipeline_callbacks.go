@@ -13,16 +13,16 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
-	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
-	"github.com/nextlevelbuilder/zalosclaw/internal/pipeline"
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
-	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
-	"github.com/nextlevelbuilder/zalosclaw/internal/workspace"
-	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/bootstrap"
+	"github.com/mnh-shop/7alosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/i18n"
+	"github.com/mnh-shop/7alosclaw/internal/pipeline"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
+	usagecaps "github.com/mnh-shop/7alosclaw/internal/usage/caps"
+	"github.com/mnh-shop/7alosclaw/internal/workspace"
+	"github.com/mnh-shop/7alosclaw/pkg/protocol"
 )
 
 // pipelineCallbacks creates all callback closures that capture *Loop.

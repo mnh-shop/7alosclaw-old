@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/config"
 )
 
 func TestDetectShellOperators(t *testing.T) {

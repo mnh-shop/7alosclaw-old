@@ -17,7 +17,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
+	"github.com/mnh-shop/7alosclaw/internal/crypto"
 )
 
 // frontendDenylistExact reads the frontend ENV_DENYLIST_EXACT set from the TypeScript source.

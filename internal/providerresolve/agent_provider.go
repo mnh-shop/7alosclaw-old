@@ -3,8 +3,8 @@ package providerresolve
 import (
 	"fmt"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // ResolveConfiguredProvider resolves the provider an agent should actually use.

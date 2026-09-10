@@ -6,7 +6,7 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/cache"
+	"github.com/mnh-shop/7alosclaw/internal/cache"
 )
 
 const contactSeenTTL = 30 * time.Minute

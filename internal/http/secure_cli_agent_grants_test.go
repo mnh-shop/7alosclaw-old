@@ -12,7 +12,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 type fakeSecureCLIGrantStore struct {
@@ -243,7 +243,7 @@ func TestSecureCLIGrantGetSanitizesMixedEnv(t *testing.T) {
 				BinaryID:     binaryID,
 				AgentID:      uuid.New(),
 				Enabled:      true,
-				EncryptedEnv: []byte(`{"TOKEN":"secret-token","PUBLIC_BASE_URL":{"kind":"value","value":"https://zalosclaw.sh"}}`),
+				EncryptedEnv: []byte(`{"TOKEN":"secret-token","PUBLIC_BASE_URL":{"kind":"value","value":"https://7alos.com"}}`),
 			},
 		},
 	}
@@ -267,7 +267,7 @@ func TestSecureCLIGrantGetSanitizesMixedEnv(t *testing.T) {
 	if !got.Env["TOKEN"].Masked || got.Env["TOKEN"].Value != nil {
 		t.Fatalf("TOKEN not masked: %#v", got.Env["TOKEN"])
 	}
-	if got.Env["PUBLIC_BASE_URL"].Value == nil || *got.Env["PUBLIC_BASE_URL"].Value != "https://zalosclaw.sh" {
+	if got.Env["PUBLIC_BASE_URL"].Value == nil || *got.Env["PUBLIC_BASE_URL"].Value != "https://7alos.com" {
 		t.Fatalf("PUBLIC_BASE_URL not returned: %#v", got.Env["PUBLIC_BASE_URL"])
 	}
 }

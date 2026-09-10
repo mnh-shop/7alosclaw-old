@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/mnh-shop/7alosclaw/internal/channels"
 )
 
 // Compile-time guarantee the Bitrix24 channel provides status reactions.

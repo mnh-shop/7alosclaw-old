@@ -6,13 +6,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels/bitrix24"
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
-	"github.com/nextlevelbuilder/zalosclaw/internal/sessions"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/agent"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
+	"github.com/mnh-shop/7alosclaw/internal/channels"
+	"github.com/mnh-shop/7alosclaw/internal/channels/bitrix24"
+	"github.com/mnh-shop/7alosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/sessions"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // TestIsSafeBitrixEntityToken pins the validation contract for webhook-sourced

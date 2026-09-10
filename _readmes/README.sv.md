@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.zalosclaw.sh">Dokumentation</a> •
-  <a href="https://docs.zalosclaw.sh/#quick-start">Snabbstart</a> •
+  <a href="https://docs.7alos.com">Dokumentation</a> •
+  <a href="https://docs.7alos.com/#quick-start">Snabbstart</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -120,7 +120,7 @@ En Go-port av [OpenClaw](https://github.com/openclaw/openclaw) med förbättrad 
 ### Från källkod
 
 ```bash
-git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
+git clone https://github.com/mnh-shop/7alosclaw.git && cd zalosclaw
 make build
 ./zalosclaw onboard        # Interaktiv installationsguide
 source .env.local && ./zalosclaw
@@ -141,7 +141,7 @@ make up
 
 När miljövariabler av typen `ZALOSCLAW_*_API_KEY` är inställda registreras gatewayen automatiskt utan interaktiva promptar — identifierar leverantör, kör migrationer och sår standarddata.
 
-> För byggvarianter (OTel, Tailscale, Redis), Docker-avbildstaggar och compose-överlägg, se [Driftsättningsguiden](https://docs.zalosclaw.sh/#deploy-docker-compose).
+> För byggvarianter (OTel, Tailscale, Redis), Docker-avbildstaggar och compose-överlägg, se [Driftsättningsguiden](https://docs.7alos.com/#deploy-docker-compose).
 
 ## Multi-agent-orkestrering
 
@@ -170,7 +170,7 @@ Agenter kommunicerar via explicita **behörighetslänkar** med riktningskontroll
 - **Teamets brevlåda** — Direkt peer-to-peer-meddelanden och utsändningar
 - **Verktyg**: `team_tasks` för uppgiftshantering, `team_message` för brevlådan
 
-> För detaljer om delegering, behörighetslänkar och samtidighetskontroll, se [dokumentationen för agentteam](https://docs.zalosclaw.sh/#teams-what-are-teams).
+> För detaljer om delegering, behörighetslänkar och samtidighetskontroll, se [dokumentationen för agentteam](https://docs.7alos.com/#teams-what-are-teams).
 
 ## Inbyggda verktyg
 
@@ -214,19 +214,19 @@ Agenter kommunicerar via explicita **behörighetslänkar** med riktningskontroll
 
 ## Dokumentation
 
-Fullständig dokumentation på **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** — eller bläddra i källkoden i [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
+Fullständig dokumentation på **[docs.7alos.com](https://docs.7alos.com)** — eller bläddra i källkoden i [`zalosclaw-docs/`](https://github.com/mnh-shop/7alosclaw-docs)
 
 | Avsnitt | Ämnen |
 |---------|-------|
-| [Kom igång](https://docs.zalosclaw.sh/#what-is-zalosclaw) | Installation, Snabbstart, Konfiguration, Rundtur i webbinstrumentpanelen |
-| [Grundläggande begrepp](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Agentloop, Sessioner, Verktyg, Minne, Flertenancy |
-| [Agenter](https://docs.zalosclaw.sh/#creating-agents) | Skapa agenter, Kontextfiler, Personlighet, Delning och åtkomst |
-| [Leverantörer](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 fler |
-| [Kanaler](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Agentteam](https://docs.zalosclaw.sh/#teams-what-are-teams) | Team, Uppgiftstavla, Meddelanden, Delegering och överlämning |
-| [Avancerat](https://docs.zalosclaw.sh/#custom-tools) | Anpassade verktyg, MCP, Färdigheter, Cron, Sandbox, Krokar, RBAC |
-| [Driftsättning](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, Databas, Säkerhet, Observerbarhet, Tailscale |
-| [Referens](https://docs.zalosclaw.sh/#cli-commands) | CLI-kommandon, REST API, WebSocket-protokoll, Miljövariabler |
+| [Kom igång](https://docs.7alos.com/#what-is-zalosclaw) | Installation, Snabbstart, Konfiguration, Rundtur i webbinstrumentpanelen |
+| [Grundläggande begrepp](https://docs.7alos.com/#how-zalosclaw-works) | Agentloop, Sessioner, Verktyg, Minne, Flertenancy |
+| [Agenter](https://docs.7alos.com/#creating-agents) | Skapa agenter, Kontextfiler, Personlighet, Delning och åtkomst |
+| [Leverantörer](https://docs.7alos.com/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 fler |
+| [Kanaler](https://docs.7alos.com/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Agentteam](https://docs.7alos.com/#teams-what-are-teams) | Team, Uppgiftstavla, Meddelanden, Delegering och överlämning |
+| [Avancerat](https://docs.7alos.com/#custom-tools) | Anpassade verktyg, MCP, Färdigheter, Cron, Sandbox, Krokar, RBAC |
+| [Driftsättning](https://docs.7alos.com/#deploy-docker-compose) | Docker Compose, Databas, Säkerhet, Observerbarhet, Tailscale |
+| [Referens](https://docs.7alos.com/#cli-commands) | CLI-kommandon, REST API, WebSocket-protokoll, Miljövariabler |
 
 ## Testning
 

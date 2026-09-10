@@ -10,7 +10,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers/acp"
+	"github.com/mnh-shop/7alosclaw/internal/providers/acp"
 )
 
 // acpSessionEntry tracks a live ACP session for one zalosclaw conversation.

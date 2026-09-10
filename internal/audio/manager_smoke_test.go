@@ -9,7 +9,7 @@ package audio_test
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
+	"github.com/mnh-shop/7alosclaw/internal/audio"
 )
 
 func TestNewManager_ReturnsNonNil(t *testing.T) {

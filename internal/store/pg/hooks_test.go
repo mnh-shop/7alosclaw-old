@@ -14,8 +14,8 @@ import (
 	"github.com/google/uuid"
 	_ "github.com/jackc/pgx/v5/stdlib"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/hooks"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // ─── test DB setup ───────────────────────────────────────────────────────────

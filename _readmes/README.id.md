@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.zalosclaw.sh">Dokumentasi</a> •
-  <a href="https://docs.zalosclaw.sh/#quick-start">Mulai Cepat</a> •
+  <a href="https://docs.7alos.com">Dokumentasi</a> •
+  <a href="https://docs.7alos.com/#quick-start">Mulai Cepat</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -120,7 +120,7 @@ Merupakan port Go dari [OpenClaw](https://github.com/openclaw/openclaw) dengan k
 ### Dari Kode Sumber
 
 ```bash
-git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
+git clone https://github.com/mnh-shop/7alosclaw.git && cd zalosclaw
 make build
 ./zalosclaw onboard        # Wizard pengaturan interaktif
 source .env.local && ./zalosclaw
@@ -141,7 +141,7 @@ make up
 
 Ketika variabel lingkungan `ZALOSCLAW_*_API_KEY` diatur, gateway akan melakukan onboard otomatis tanpa prompt interaktif — mendeteksi penyedia, menjalankan migrasi, dan menyemai data default.
 
-> Untuk varian build (OTel, Tailscale, Redis), tag image Docker, dan overlay compose, lihat [Panduan Deployment](https://docs.zalosclaw.sh/#deploy-docker-compose).
+> Untuk varian build (OTel, Tailscale, Redis), tag image Docker, dan overlay compose, lihat [Panduan Deployment](https://docs.7alos.com/#deploy-docker-compose).
 
 ## Orkestrasi Multi-Agen
 
@@ -170,7 +170,7 @@ Agen berkomunikasi melalui **tautan izin** eksplisit dengan kontrol arah (`outbo
 - **Kotak surat tim** — Pesan langsung antar-sesama dan siaran
 - **Alat**: `team_tasks` untuk manajemen tugas, `team_message` untuk kotak surat
 
-> Untuk detail delegasi, tautan izin, dan kontrol konkurensi, lihat [dokumentasi Tim Agen](https://docs.zalosclaw.sh/#teams-what-are-teams).
+> Untuk detail delegasi, tautan izin, dan kontrol konkurensi, lihat [dokumentasi Tim Agen](https://docs.7alos.com/#teams-what-are-teams).
 
 ## Alat Bawaan
 
@@ -214,19 +214,19 @@ Agen berkomunikasi melalui **tautan izin** eksplisit dengan kontrol arah (`outbo
 
 ## Dokumentasi
 
-Dokumentasi lengkap di **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** — atau jelajahi sumbernya di [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
+Dokumentasi lengkap di **[docs.7alos.com](https://docs.7alos.com)** — atau jelajahi sumbernya di [`zalosclaw-docs/`](https://github.com/mnh-shop/7alosclaw-docs)
 
 | Bagian | Topik |
 |---------|--------|
-| [Memulai](https://docs.zalosclaw.sh/#what-is-zalosclaw) | Instalasi, Mulai Cepat, Konfigurasi, Tur Dasbor Web |
-| [Konsep Inti](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Loop Agen, Sesi, Alat, Memori, Multi-Tenancy |
-| [Agen](https://docs.zalosclaw.sh/#creating-agents) | Membuat Agen, File Konteks, Kepribadian, Berbagi & Akses |
-| [Penyedia](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 lainnya |
-| [Saluran](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Tim Agen](https://docs.zalosclaw.sh/#teams-what-are-teams) | Tim, Papan Tugas, Pesan, Delegasi & Handoff |
-| [Lanjutan](https://docs.zalosclaw.sh/#custom-tools) | Alat Kustom, MCP, Skill, Cron, Sandbox, Hook, RBAC |
-| [Deployment](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, Database, Keamanan, Observabilitas, Tailscale |
-| [Referensi](https://docs.zalosclaw.sh/#cli-commands) | Perintah CLI, REST API, Protokol WebSocket, Variabel Lingkungan |
+| [Memulai](https://docs.7alos.com/#what-is-zalosclaw) | Instalasi, Mulai Cepat, Konfigurasi, Tur Dasbor Web |
+| [Konsep Inti](https://docs.7alos.com/#how-zalosclaw-works) | Loop Agen, Sesi, Alat, Memori, Multi-Tenancy |
+| [Agen](https://docs.7alos.com/#creating-agents) | Membuat Agen, File Konteks, Kepribadian, Berbagi & Akses |
+| [Penyedia](https://docs.7alos.com/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 lainnya |
+| [Saluran](https://docs.7alos.com/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Tim Agen](https://docs.7alos.com/#teams-what-are-teams) | Tim, Papan Tugas, Pesan, Delegasi & Handoff |
+| [Lanjutan](https://docs.7alos.com/#custom-tools) | Alat Kustom, MCP, Skill, Cron, Sandbox, Hook, RBAC |
+| [Deployment](https://docs.7alos.com/#deploy-docker-compose) | Docker Compose, Database, Keamanan, Observabilitas, Tailscale |
+| [Referensi](https://docs.7alos.com/#cli-commands) | Perintah CLI, REST API, Protokol WebSocket, Variabel Lingkungan |
 
 ## Pengujian
 

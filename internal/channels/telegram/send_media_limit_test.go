@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/config"
 )
 
 func TestOutboundMediaMaxBytes_OfficialAPIUsesUploadLimit(t *testing.T) {

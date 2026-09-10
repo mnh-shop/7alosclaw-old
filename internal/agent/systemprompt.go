@@ -6,10 +6,10 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/internal/bootstrap"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
 )
 
 // providerTypeOf extracts the DB provider_type (e.g. "chatgpt_oauth", "codex")

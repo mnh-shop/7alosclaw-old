@@ -6,11 +6,11 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels/media"
-	mcpbridge "github.com/nextlevelbuilder/zalosclaw/internal/mcp"
-	"github.com/nextlevelbuilder/zalosclaw/internal/sessions"
+	"github.com/mnh-shop/7alosclaw/internal/agent"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
+	"github.com/mnh-shop/7alosclaw/internal/channels/media"
+	mcpbridge "github.com/mnh-shop/7alosclaw/internal/mcp"
+	"github.com/mnh-shop/7alosclaw/internal/sessions"
 )
 
 // agentChatRunner implements mcpbridge.ChatRunner against the live

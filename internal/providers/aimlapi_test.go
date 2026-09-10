@@ -31,7 +31,7 @@ func TestAIMLAPIProviderSendsAttributionHeaders(t *testing.T) {
 	checks := map[string]string{
 		"Authorization":                 "Bearer test-key",
 		"X-AIMLAPI-Partner-ID":          "nextlevelbuilder",
-		"X-AIMLAPI-Integration-Repo":    "nextlevelbuilder/zalosclaw",
+		"X-AIMLAPI-Integration-Repo":    "mnh-shop/7alosclaw",
 		"X-AIMLAPI-Integration-Version": "1.0.0",
 	}
 	for header, want := range checks {

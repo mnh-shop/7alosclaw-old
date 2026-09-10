@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.zalosclaw.sh">ドキュメント</a> •
-  <a href="https://docs.zalosclaw.sh/#quick-start">クイックスタート</a> •
+  <a href="https://docs.7alos.com">ドキュメント</a> •
+  <a href="https://docs.7alos.com/#quick-start">クイックスタート</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -98,7 +98,7 @@ Single binary. Production-tested. Agents that orchestrate for you.
 ### ソースから
 
 ```bash
-git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
+git clone https://github.com/mnh-shop/7alosclaw.git && cd zalosclaw
 make build
 ./zalosclaw onboard        # Interactive setup wizard
 source .env.local && ./zalosclaw
@@ -119,7 +119,7 @@ make up
 
 `ZALOSCLAW_*_API_KEY` 環境変数が設定されている場合、ゲートウェイはインタラクティブなプロンプトなしで自動オンボーディングを行います — プロバイダを検出し、マイグレーションを実行し、デフォルトデータをシードします。
 
-> ビルドバリアント（OTel、Tailscale、Redis）、Docker イメージタグ、compose オーバーレイについては、[デプロイメントガイド](https://docs.zalosclaw.sh/#deploy-docker-compose)を参照してください。
+> ビルドバリアント（OTel、Tailscale、Redis）、Docker イメージタグ、compose オーバーレイについては、[デプロイメントガイド](https://docs.7alos.com/#deploy-docker-compose)を参照してください。
 
 ## マルチエージェントオーケストレーション
 
@@ -148,7 +148,7 @@ ZalosClaw はエージェントチームとエージェント間デリゲーシ�
 - **チームメールボックス** — ピアツーピアの直接メッセージとブロードキャスト
 - **ツール**: タスク管理用の `team_tasks`、メールボックス用の `team_message`
 
-> デリゲーションの詳細、パーミッションリンク、並列実行制御については、[エージェントチームのドキュメント](https://docs.zalosclaw.sh/#teams-what-are-teams)を参照してください。
+> デリゲーションの詳細、パーミッションリンク、並列実行制御については、[エージェントチームのドキュメント](https://docs.7alos.com/#teams-what-are-teams)を参照してください。
 
 ## 組み込みツール
 
@@ -192,19 +192,19 @@ ZalosClaw はエージェントチームとエージェント間デリゲーシ�
 
 ## ドキュメント
 
-完全なドキュメントは **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** で確認できます。またはソースを [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs) で参照してください。
+完全なドキュメントは **[docs.7alos.com](https://docs.7alos.com)** で確認できます。またはソースを [`zalosclaw-docs/`](https://github.com/mnh-shop/7alosclaw-docs) で参照してください。
 
 | セクション | トピック |
 |------------|----------|
-| [はじめに](https://docs.zalosclaw.sh/#what-is-zalosclaw) | インストール、クイックスタート、設定、Web ダッシュボードツアー |
-| [コアコンセプト](https://docs.zalosclaw.sh/#how-zalosclaw-works) | エージェントループ、セッション、ツール、メモリ、マルチテナンシー |
-| [エージェント](https://docs.zalosclaw.sh/#creating-agents) | エージェントの作成、コンテキストファイル、パーソナリティ、共有とアクセス |
-| [プロバイダ](https://docs.zalosclaw.sh/#providers-overview) | Anthropic、OpenAI、OpenRouter、Gemini、DeepSeek、その他 15 以上 |
-| [チャンネル](https://docs.zalosclaw.sh/#channels-overview) | Telegram、Discord、Slack、Feishu、Zalo、WhatsApp、WebSocket |
-| [エージェントチーム](https://docs.zalosclaw.sh/#teams-what-are-teams) | チーム、タスクボード、メッセージング、デリゲーションとハンドオフ |
-| [上級](https://docs.zalosclaw.sh/#custom-tools) | カスタムツール、MCP、スキル、Cron、サンドボックス、フック、RBAC |
-| [デプロイメント](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose、データベース、セキュリティ、オブザーバビリティ、Tailscale |
-| [リファレンス](https://docs.zalosclaw.sh/#cli-commands) | CLI コマンド、REST API、WebSocket プロトコル、環境変数 |
+| [はじめに](https://docs.7alos.com/#what-is-zalosclaw) | インストール、クイックスタート、設定、Web ダッシュボードツアー |
+| [コアコンセプト](https://docs.7alos.com/#how-zalosclaw-works) | エージェントループ、セッション、ツール、メモリ、マルチテナンシー |
+| [エージェント](https://docs.7alos.com/#creating-agents) | エージェントの作成、コンテキストファイル、パーソナリティ、共有とアクセス |
+| [プロバイダ](https://docs.7alos.com/#providers-overview) | Anthropic、OpenAI、OpenRouter、Gemini、DeepSeek、その他 15 以上 |
+| [チャンネル](https://docs.7alos.com/#channels-overview) | Telegram、Discord、Slack、Feishu、Zalo、WhatsApp、WebSocket |
+| [エージェントチーム](https://docs.7alos.com/#teams-what-are-teams) | チーム、タスクボード、メッセージング、デリゲーションとハンドオフ |
+| [上級](https://docs.7alos.com/#custom-tools) | カスタムツール、MCP、スキル、Cron、サンドボックス、フック、RBAC |
+| [デプロイメント](https://docs.7alos.com/#deploy-docker-compose) | Docker Compose、データベース、セキュリティ、オブザーバビリティ、Tailscale |
+| [リファレンス](https://docs.7alos.com/#cli-commands) | CLI コマンド、REST API、WebSocket プロトコル、環境変数 |
 
 ## テスト
 

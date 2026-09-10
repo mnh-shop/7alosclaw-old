@@ -3,7 +3,7 @@
 Install CLI tools directly from GitHub Releases at runtime. Covers Go, Rust,
 shell, and other binary-distributed tools not available via `apk` / `pip` / `npm`.
 
-Closes [#741](https://github.com/nextlevelbuilder/zalosclaw/issues/741).
+Closes [#741](https://github.com/mnh-shop/7alosclaw/issues/741).
 
 ## Install Syntax
 
@@ -248,4 +248,4 @@ Phase 1 leaves `.bak.{nanos}` files on disk. Manual recovery:
 
 - [`docs/packages-pip-npm.md`](./packages-pip-npm.md) — pip + npm package updates (Phase 2a)
 - [`docs/14-skills-runtime.md`](./14-skills-runtime.md) — Overview of the runtime packages system
-- Issue [#741](https://github.com/nextlevelbuilder/zalosclaw/issues/741) — Original feature request
+- Issue [#741](https://github.com/mnh-shop/7alosclaw/issues/741) — Original feature request

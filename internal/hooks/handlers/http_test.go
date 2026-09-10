@@ -8,10 +8,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks/handlers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/security"
+	"github.com/mnh-shop/7alosclaw/internal/crypto"
+	"github.com/mnh-shop/7alosclaw/internal/hooks"
+	"github.com/mnh-shop/7alosclaw/internal/hooks/handlers"
+	"github.com/mnh-shop/7alosclaw/internal/security"
 )
 
 // testCtx returns a context with a 10s deadline for HTTP handler tests.

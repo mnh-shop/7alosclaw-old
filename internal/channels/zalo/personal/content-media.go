@@ -11,9 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels/media"
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels/zalo/personal/protocol"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/internal/channels/media"
+	"github.com/mnh-shop/7alosclaw/internal/channels/zalo/personal/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
 )
 
 // extractContentAndMedia returns text content with media tags plus local media paths.

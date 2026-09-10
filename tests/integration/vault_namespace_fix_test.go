@@ -10,9 +10,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
-	"github.com/nextlevelbuilder/zalosclaw/internal/vault"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/internal/vault"
 )
 
 // TestVaultNamespaceFix_thuyTienScenario reproduces the thuy-tien bug:

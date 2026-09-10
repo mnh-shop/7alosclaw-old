@@ -10,8 +10,8 @@ import (
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/backup"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
+	"github.com/mnh-shop/7alosclaw/internal/backup"
+	"github.com/mnh-shop/7alosclaw/internal/store/pg"
 )
 
 // TestBackup_CheckActiveConnections_ExcludesGatewayPool is a regression test for

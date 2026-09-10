@@ -7,7 +7,7 @@ import (
 	"testing"
 	"unicode/utf8"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
 )
 
 func TestChunkText_ShortStaysOneChunk(t *testing.T) {

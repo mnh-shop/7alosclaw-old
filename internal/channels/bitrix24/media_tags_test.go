@@ -3,8 +3,8 @@ package bitrix24
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels/media"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
+	"github.com/mnh-shop/7alosclaw/internal/channels/media"
 )
 
 // TestClassifyMediaType pins the MIME → media.Type* mapping. The fallback to

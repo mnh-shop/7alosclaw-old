@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
 )
 
 // MCPToolSearchTool searches deferred MCP tools by keyword using BM25.

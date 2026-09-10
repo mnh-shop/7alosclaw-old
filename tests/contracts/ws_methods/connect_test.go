@@ -5,7 +5,7 @@ package ws_methods
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
+	"github.com/mnh-shop/7alosclaw/pkg/protocol"
 )
 
 // CONTRACT: connect response MUST include these fields with correct types.

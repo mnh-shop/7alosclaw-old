@@ -6,11 +6,11 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels/replycontext"
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels/typing"
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels/zalo/personal/protocol"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/channels"
+	"github.com/mnh-shop/7alosclaw/internal/channels/replycontext"
+	"github.com/mnh-shop/7alosclaw/internal/channels/typing"
+	"github.com/mnh-shop/7alosclaw/internal/channels/zalo/personal/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 func (c *Channel) handleMessage(msg protocol.Message) {

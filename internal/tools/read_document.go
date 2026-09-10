@@ -9,9 +9,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tracing"
-	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/tracing"
+	usagecaps "github.com/mnh-shop/7alosclaw/internal/usage/caps"
 )
 
 // textReadableMIMEs are MIME types whose content can be returned directly without LLM analysis.

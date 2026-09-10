@@ -7,7 +7,7 @@ import (
 
 	slackapi "github.com/slack-go/slack"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels/media"
+	"github.com/mnh-shop/7alosclaw/internal/channels/media"
 )
 
 const defaultMediaMaxBytes int64 = 20 * 1024 * 1024 // 20MB

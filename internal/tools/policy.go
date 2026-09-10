@@ -6,8 +6,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 // builtinToolGroups is const-like seed data for per-Registry tool groups.

@@ -13,9 +13,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
-	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/crypto"
+	"github.com/mnh-shop/7alosclaw/internal/skills"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 func TestHandleSkillDependenciesStatus_ReturnsStructuredMissingBySource(t *testing.T) {

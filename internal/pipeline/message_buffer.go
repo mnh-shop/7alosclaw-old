@@ -1,6 +1,6 @@
 package pipeline
 
-import "github.com/nextlevelbuilder/zalosclaw/internal/providers"
+import "github.com/mnh-shop/7alosclaw/internal/providers"
 
 // MessageBuffer wraps the message list with append/replace semantics.
 // Sequential pipeline guarantees only one stage writes at a time — no mutex needed.

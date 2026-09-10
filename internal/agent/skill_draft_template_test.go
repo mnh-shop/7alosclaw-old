@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
+	"github.com/mnh-shop/7alosclaw/internal/skills"
 )
 
 func TestGenerateSkillDraft_ContainsValidFrontmatter(t *testing.T) {

@@ -11,8 +11,8 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
+	"github.com/mnh-shop/7alosclaw/internal/edition"
+	"github.com/mnh-shop/7alosclaw/internal/hooks"
 )
 
 // registerHooksCRUDTools registers the zalosclaw_hooks_* MCP tools backed by

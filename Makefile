@@ -1,5 +1,5 @@
 VERSION ?= $(shell git describe --tags --abbrev=0 --match "v[0-9]*" 2>/dev/null || echo dev)
-LDFLAGS  = -s -w -X github.com/nextlevelbuilder/zalosclaw/cmd.Version=$(VERSION)
+LDFLAGS  = -s -w -X github.com/mnh-shop/7alosclaw/cmd.Version=$(VERSION)
 BINARY   = zalosclaw
 
 .PHONY: build build-full build-tui run clean version up up-build down logs reset test vet check-web dev migrate setup ci desktop-dev desktop-build desktop-dmg test-hooks test-hooks-unit test-hooks-e2e test-hooks-chaos test-hooks-rbac test-hooks-tracing
@@ -152,7 +152,7 @@ desktop-dev:
 	cd ui/desktop && wails dev -tags sqliteonly
 
 desktop-build:
-	cd ui/desktop && wails build -tags sqliteonly -ldflags="-s -w -X github.com/nextlevelbuilder/zalosclaw/cmd.Version=$(VERSION)"
+	cd ui/desktop && wails build -tags sqliteonly -ldflags="-s -w -X github.com/mnh-shop/7alosclaw/cmd.Version=$(VERSION)"
 
 desktop-dmg: desktop-build
 	@echo "Creating DMG..."

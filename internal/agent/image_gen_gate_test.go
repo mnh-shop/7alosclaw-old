@@ -12,8 +12,8 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
 )
 
 // imageCapableProvider is a stub provider that also implements CapabilitiesAware

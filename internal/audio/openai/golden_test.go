@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
-	"github.com/nextlevelbuilder/zalosclaw/internal/audio/openai"
+	"github.com/mnh-shop/7alosclaw/internal/audio"
+	"github.com/mnh-shop/7alosclaw/internal/audio/openai"
 )
 
 // TestGolden_DefaultBody verifies the serialized nil-params request body matches

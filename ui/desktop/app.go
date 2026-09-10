@@ -15,8 +15,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/cmd"
-	"github.com/nextlevelbuilder/zalosclaw/internal/updater"
+	"github.com/mnh-shop/7alosclaw/cmd"
+	"github.com/mnh-shop/7alosclaw/internal/updater"
 	wailsRuntime "github.com/wailsapp/wails/v2/pkg/runtime"
 )
 

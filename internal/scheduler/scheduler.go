@@ -7,7 +7,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
+	"github.com/mnh-shop/7alosclaw/internal/agent"
 )
 
 // --- Scheduler ---

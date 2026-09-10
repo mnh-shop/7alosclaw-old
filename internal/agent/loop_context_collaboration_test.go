@@ -10,10 +10,10 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
-	"github.com/nextlevelbuilder/zalosclaw/internal/workspace"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/internal/workspace"
 )
 
 func newArtifactRunRequest(t *testing.T, root string) *RunRequest {

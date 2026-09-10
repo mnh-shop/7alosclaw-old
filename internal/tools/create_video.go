@@ -9,9 +9,9 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
-	mediapkg "github.com/nextlevelbuilder/zalosclaw/internal/channels/media"
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
+	mediapkg "github.com/mnh-shop/7alosclaw/internal/channels/media"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 // videoGenProviderPriority is the default order for video generation providers.

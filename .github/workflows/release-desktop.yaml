@@ -60,7 +60,7 @@ jobs:
           GOARCH: ${{ matrix.arch }}
         run: |
           wails build -tags sqliteonly \
-            -ldflags "-s -w -X github.com/nextlevelbuilder/zalosclaw/cmd.Version=${{ steps.version.outputs.version }}"
+            -ldflags "-s -w -X github.com/mnh-shop/7alosclaw/cmd.Version=${{ steps.version.outputs.version }}"
 
       - name: Create DMG
         run: |
@@ -131,7 +131,7 @@ jobs:
         shell: bash
         run: |
           wails build -tags sqliteonly \
-            -ldflags "-s -w -X github.com/nextlevelbuilder/zalosclaw/cmd.Version=${{ steps.version.outputs.version }}"
+            -ldflags "-s -w -X github.com/mnh-shop/7alosclaw/cmd.Version=${{ steps.version.outputs.version }}"
 
       - name: Create zip
         shell: pwsh

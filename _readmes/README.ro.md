@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.zalosclaw.sh">Documentație</a> •
-  <a href="https://docs.zalosclaw.sh/#quick-start">Pornire Rapidă</a> •
+  <a href="https://docs.7alos.com">Documentație</a> •
+  <a href="https://docs.7alos.com/#quick-start">Pornire Rapidă</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -120,7 +120,7 @@ Un port Go al [OpenClaw](https://github.com/openclaw/openclaw) cu securitate îm
 ### Din Sursă
 
 ```bash
-git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
+git clone https://github.com/mnh-shop/7alosclaw.git && cd zalosclaw
 make build
 ./zalosclaw onboard        # Asistent interactiv de configurare
 source .env.local && ./zalosclaw
@@ -141,7 +141,7 @@ make up
 
 Când variabilele de mediu `ZALOSCLAW_*_API_KEY` sunt setate, gateway-ul se configurează automat fără prompturi interactive — detectează furnizorul, rulează migrările și inițializează datele implicite.
 
-> Pentru variante de build (OTel, Tailscale, Redis), etichete imagini Docker și suprapuneri compose, consultați [Ghidul de Implementare](https://docs.zalosclaw.sh/#deploy-docker-compose).
+> Pentru variante de build (OTel, Tailscale, Redis), etichete imagini Docker și suprapuneri compose, consultați [Ghidul de Implementare](https://docs.7alos.com/#deploy-docker-compose).
 
 ## Orchestrare Multi-Agent
 
@@ -170,7 +170,7 @@ Agenții comunică prin **linkuri de permisiune** explicite cu control direcțio
 - **Cutie poștală echipă** — Mesagerie directă peer-to-peer și transmisii
 - **Instrumente**: `team_tasks` pentru gestionarea sarcinilor, `team_message` pentru cutia poștală
 
-> Pentru detalii despre delegare, linkuri de permisiune și control concurență, consultați [documentația Echipe de Agenți](https://docs.zalosclaw.sh/#teams-what-are-teams).
+> Pentru detalii despre delegare, linkuri de permisiune și control concurență, consultați [documentația Echipe de Agenți](https://docs.7alos.com/#teams-what-are-teams).
 
 ## Instrumente Integrate
 
@@ -214,19 +214,19 @@ Agenții comunică prin **linkuri de permisiune** explicite cu control direcțio
 
 ## Documentație
 
-Documentație completă la **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** — sau parcurge sursa în [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
+Documentație completă la **[docs.7alos.com](https://docs.7alos.com)** — sau parcurge sursa în [`zalosclaw-docs/`](https://github.com/mnh-shop/7alosclaw-docs)
 
 | Secțiune | Subiecte |
 |---------|--------|
-| [Începere](https://docs.zalosclaw.sh/#what-is-zalosclaw) | Instalare, Pornire Rapidă, Configurare, Tur Tablou de Bord Web |
-| [Concepte de Bază](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Bucla Agent, Sesiuni, Instrumente, Memorie, Multi-Tenant |
-| [Agenți](https://docs.zalosclaw.sh/#creating-agents) | Creare Agenți, Fișiere Context, Personalitate, Partajare și Acces |
-| [Furnizori](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 alții |
-| [Canale](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Echipe de Agenți](https://docs.zalosclaw.sh/#teams-what-are-teams) | Echipe, Panou Sarcini, Mesagerie, Delegare și Handoff |
-| [Avansat](https://docs.zalosclaw.sh/#custom-tools) | Instrumente Personalizate, MCP, Skill-uri, Cron, Sandbox, Hook-uri, RBAC |
-| [Implementare](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, Bază de Date, Securitate, Observabilitate, Tailscale |
-| [Referință](https://docs.zalosclaw.sh/#cli-commands) | Comenzi CLI, REST API, Protocol WebSocket, Variabile de Mediu |
+| [Începere](https://docs.7alos.com/#what-is-zalosclaw) | Instalare, Pornire Rapidă, Configurare, Tur Tablou de Bord Web |
+| [Concepte de Bază](https://docs.7alos.com/#how-zalosclaw-works) | Bucla Agent, Sesiuni, Instrumente, Memorie, Multi-Tenant |
+| [Agenți](https://docs.7alos.com/#creating-agents) | Creare Agenți, Fișiere Context, Personalitate, Partajare și Acces |
+| [Furnizori](https://docs.7alos.com/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 alții |
+| [Canale](https://docs.7alos.com/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Echipe de Agenți](https://docs.7alos.com/#teams-what-are-teams) | Echipe, Panou Sarcini, Mesagerie, Delegare și Handoff |
+| [Avansat](https://docs.7alos.com/#custom-tools) | Instrumente Personalizate, MCP, Skill-uri, Cron, Sandbox, Hook-uri, RBAC |
+| [Implementare](https://docs.7alos.com/#deploy-docker-compose) | Docker Compose, Bază de Date, Securitate, Observabilitate, Tailscale |
+| [Referință](https://docs.7alos.com/#cli-commands) | Comenzi CLI, REST API, Protocol WebSocket, Variabile de Mediu |
 
 ## Testare
 

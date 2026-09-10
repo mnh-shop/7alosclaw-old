@@ -7,7 +7,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/backup"
+	"github.com/mnh-shop/7alosclaw/internal/backup"
 )
 
 // TestBackup_ExportAllRegistryTables_NoSQLError is an end-to-end regression for

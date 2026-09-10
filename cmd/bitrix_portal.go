@@ -11,9 +11,9 @@ import (
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/spf13/cobra"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels/bitrix24"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
+	"github.com/mnh-shop/7alosclaw/internal/channels/bitrix24"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store/pg"
 )
 
 // bitrixPortalCmd wires `zalosclaw bitrix-portal ...` — direct-DB management of

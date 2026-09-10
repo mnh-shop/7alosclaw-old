@@ -154,7 +154,7 @@ function SortableExtractorCard({ entry, index, onUpdate }: SortableCardProps) {
               <Input
                 value={entry.base_url}
                 onChange={(e) => onUpdate(entry.id, { base_url: e.target.value })}
-                placeholder="https://fetch.zalosclaw.sh/"
+                placeholder="https://fetch.7alos.com/"
                 className="h-7 text-base md:text-sm"
               />
             </div>

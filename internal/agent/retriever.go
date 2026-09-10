@@ -3,7 +3,7 @@ package agent
 import (
 	"context"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/memory"
+	"github.com/mnh-shop/7alosclaw/internal/memory"
 )
 
 // RetrievalConfig controls auto-inject behavior. Per-agent configurable.

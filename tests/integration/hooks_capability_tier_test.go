@@ -9,10 +9,10 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks/builtin"
-	hookhandlers "github.com/nextlevelbuilder/zalosclaw/internal/hooks/handlers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
+	"github.com/mnh-shop/7alosclaw/internal/hooks"
+	"github.com/mnh-shop/7alosclaw/internal/hooks/builtin"
+	hookhandlers "github.com/mnh-shop/7alosclaw/internal/hooks/handlers"
+	"github.com/mnh-shop/7alosclaw/internal/store/pg"
 )
 
 // Phase 08 — C bucket: source-tier capability gate + FireResult propagation.

@@ -5,8 +5,8 @@ package cmd
 import (
 	"database/sql"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store/sqlitestore"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store/sqlitestore"
 )
 
 func newVaultGraphStore(db *sql.DB) store.VaultGraphStore { return sqlitestore.NewSQLiteVaultGraphStore(db) }

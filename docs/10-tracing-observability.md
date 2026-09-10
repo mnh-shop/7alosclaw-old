@@ -246,7 +246,7 @@ zalosclaw --server https://zalosclaw.example.com --token "$ZALOSCLAW_GATEWAY_TOK
 `sessions`, `cron`, and `pairing`. The URL can also come from `ZALOSCLAW_SERVER`
 or `ZALOSCLAW_GATEWAY_URL`; `--server` wins when both are set.
 
-The standalone `nextlevelbuilder/zalosclaw-cli` can remain a compatibility tool,
+The standalone `mnh-shop/7alosclaw-cli` can remain a compatibility tool,
 but first-party trace operator workflows are now available from the main
 server/runtime binary.
 

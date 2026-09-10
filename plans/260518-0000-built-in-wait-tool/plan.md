@@ -31,7 +31,7 @@ Scope is intentionally narrow: bounded sleep inside tool execution, context canc
 
 ## Dependencies
 
-- Related issue: nextlevelbuilder/zalosclaw#1097
+- Related issue: mnh-shop/7alosclaw#1097
 - Existing tool contract: `internal/tools/types.go`, `internal/tools/registry.go`
 - Existing registration surfaces: `cmd/gateway_setup.go`, `cmd/gateway_tools_wiring.go`, `cmd/gateway_builtin_tools.go`
 - Ordering barrier: `internal/pipeline/tool_stage.go` parallelizes multi-tool responses unless a tool opts out

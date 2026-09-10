@@ -13,7 +13,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
+	"github.com/mnh-shop/7alosclaw/internal/audio"
 )
 
 // pronunciationDictMaxBytes is the maximum accepted byte length for the

@@ -8,9 +8,9 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/zalosclaw/internal/bgalert"
-	"github.com/nextlevelbuilder/zalosclaw/internal/eventbus"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/bgalert"
+	"github.com/mnh-shop/7alosclaw/internal/eventbus"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // semanticWorker handles episodic.created events → extracts KG facts from summaries.

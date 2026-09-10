@@ -9,10 +9,10 @@ import (
 
 	"github.com/google/uuid"
 
-	orchestration "github.com/nextlevelbuilder/zalosclaw/internal/childrun"
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
-	"github.com/nextlevelbuilder/zalosclaw/internal/sandbox"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	orchestration "github.com/mnh-shop/7alosclaw/internal/childrun"
+	"github.com/mnh-shop/7alosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/sandbox"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // Tool execution context keys.

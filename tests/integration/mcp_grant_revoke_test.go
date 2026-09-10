@@ -13,9 +13,9 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/mcp"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
+	"github.com/mnh-shop/7alosclaw/internal/mcp"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store/pg"
 )
 
 // TestBridgeTool_Execute_RevokeAgentGrant_ReturnsError: TDD-red for Phase 02.

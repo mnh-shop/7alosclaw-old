@@ -1,5 +1,5 @@
 # Base docker-compose — shared service definition.
-# Pre-built images: ghcr.io/nextlevelbuilder/zalosclaw (also on Docker Hub: digitop/zalosclaw)
+# Pre-built images: ghcr.io/mnh-shop/7alosclaw (also on Docker Hub: digitop/zalosclaw)
 #
 # The default `latest` image includes an embedded web dashboard (no separate nginx needed).
 # Web UI is served at the same port as the API (default: 18790).
@@ -24,7 +24,7 @@
 
 services:
   zalosclaw:
-    image: ghcr.io/nextlevelbuilder/zalosclaw:latest
+    image: ghcr.io/mnh-shop/7alosclaw:latest
     build:
       context: ${ZALOSCLAW_DIR:-.}
       dockerfile: Dockerfile

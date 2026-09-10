@@ -10,12 +10,12 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels/zalo/personal/protocol"
-	"github.com/nextlevelbuilder/zalosclaw/internal/gateway"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	zalosclawprotocol "github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
+	"github.com/mnh-shop/7alosclaw/internal/channels"
+	"github.com/mnh-shop/7alosclaw/internal/channels/zalo/personal/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/gateway"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	zalosclawprotocol "github.com/mnh-shop/7alosclaw/pkg/protocol"
 )
 
 // cancelEntry wraps a CancelFunc so it can be stored and compared by pointer

@@ -6,7 +6,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // Search performs LIKE-based text search over memory_chunks.

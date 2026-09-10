@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/security"
+	"github.com/mnh-shop/7alosclaw/internal/security"
 )
 
 func TestRegisterClientSuccess201(t *testing.T) {

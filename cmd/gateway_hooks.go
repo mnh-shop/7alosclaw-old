@@ -4,16 +4,16 @@ import (
 	"os"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
-	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks/budget"
-	hookhandlers "github.com/nextlevelbuilder/zalosclaw/internal/hooks/handlers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/security"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
-	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
+	"github.com/mnh-shop/7alosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/edition"
+	"github.com/mnh-shop/7alosclaw/internal/hooks"
+	"github.com/mnh-shop/7alosclaw/internal/hooks/budget"
+	hookhandlers "github.com/mnh-shop/7alosclaw/internal/hooks/handlers"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/security"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store/pg"
+	usagecaps "github.com/mnh-shop/7alosclaw/internal/usage/caps"
 )
 
 // sharedHookHandlers is populated by wireExtras so the gateway.go router

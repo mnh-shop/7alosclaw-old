@@ -3,7 +3,7 @@ package tools
 import (
 	"context"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 // ToolExecutor abstracts tool execution for dependency inversion.

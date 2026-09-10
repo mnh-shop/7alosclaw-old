@@ -9,8 +9,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels/media"
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/channels/media"
+	"github.com/mnh-shop/7alosclaw/internal/config"
 )
 
 // bridgedChannels tracks channels already registered per manager for idempotency.

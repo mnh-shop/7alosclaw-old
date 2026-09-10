@@ -5,8 +5,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/bootstrap"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // TestDropBuiltinUserFileIfPredefined_WithUserPredefined verifies that USER.md

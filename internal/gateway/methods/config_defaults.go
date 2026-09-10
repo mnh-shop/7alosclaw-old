@@ -3,11 +3,11 @@ package methods
 import (
 	"context"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
-	"github.com/nextlevelbuilder/zalosclaw/internal/gateway"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
-	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/agent"
+	"github.com/mnh-shop/7alosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/gateway"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/pkg/protocol"
 )
 
 // Response shape matches TS AgentConfig (ui/web/src/types/agent.ts).

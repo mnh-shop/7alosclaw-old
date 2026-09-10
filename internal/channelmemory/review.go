@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/zalosclaw/internal/eventbus"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/eventbus"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 func (s *Service) Approve(ctx context.Context, itemID uuid.UUID, approver string) (*store.ChannelMemoryExtractionItem, error) {

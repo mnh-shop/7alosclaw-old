@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/bootstrap"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 // TestSOULEchoForGPT verifies SOUL echo is injected for GPT providers.

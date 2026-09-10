@@ -11,10 +11,10 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tracing"
+	"github.com/mnh-shop/7alosclaw/internal/hooks"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/tracing"
 )
 
 const (
@@ -61,7 +61,7 @@ func (s *ToolStage) Execute(ctx context.Context, state *RunState) error {
 	// Sequential fallback: ExecuteToolCall handles both I/O and state mutation.
 	// Non-tool messages (warnings, nudges) are deferred until all tool results
 	// are emitted to maintain correct tool_result grouping for OpenAI-compatible
-	// providers. See https://github.com/nextlevelbuilder/zalosclaw/issues/1177
+	// providers. See https://github.com/mnh-shop/7alosclaw/issues/1177
 	cumulativeWaitMs := 0
 	var deferredNonTool []providers.Message
 	for _, tc := range toolCalls {

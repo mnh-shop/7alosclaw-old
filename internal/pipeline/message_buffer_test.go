@@ -3,7 +3,7 @@ package pipeline
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 func TestMessageBuffer_All_OrderIsSystemHistoryPending(t *testing.T) {

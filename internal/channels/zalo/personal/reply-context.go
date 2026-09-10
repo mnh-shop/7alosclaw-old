@@ -3,8 +3,8 @@ package personal
 import (
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels/replycontext"
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels/zalo/personal/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/channels/replycontext"
+	"github.com/mnh-shop/7alosclaw/internal/channels/zalo/personal/protocol"
 )
 
 func (c *Channel) buildReplyContext(threadID string, quote *protocol.TQuote) string {

@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
+	"github.com/mnh-shop/7alosclaw/internal/skills"
 )
 
 // initGitHubInstaller constructs the process-wide GitHub Releases installer

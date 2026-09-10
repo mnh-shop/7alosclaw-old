@@ -9,7 +9,7 @@ import (
 	"github.com/jmoiron/sqlx/reflectx"
 	"github.com/lib/pq"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // pkgSqlxDB is the package-level *sqlx.DB wrapping the same *sql.DB connection pool.

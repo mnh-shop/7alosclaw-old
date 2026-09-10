@@ -3,8 +3,8 @@ package hooks_test
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
+	"github.com/mnh-shop/7alosclaw/internal/edition"
+	"github.com/mnh-shop/7alosclaw/internal/hooks"
 )
 
 // TestEditionGate covers the full matrix (handlerType × scope × edition).

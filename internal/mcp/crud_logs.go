@@ -7,7 +7,7 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	runtimelogs "github.com/nextlevelbuilder/zalosclaw/internal/logs"
+	runtimelogs "github.com/mnh-shop/7alosclaw/internal/logs"
 )
 
 // RuntimeLogSnapshotter returns a bounded, in-memory aggregate of recent

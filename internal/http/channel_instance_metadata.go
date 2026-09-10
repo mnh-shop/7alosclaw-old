@@ -4,8 +4,8 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
-	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/channels"
+	"github.com/mnh-shop/7alosclaw/pkg/protocol"
 )
 
 type channelMetadataRefresher interface {

@@ -749,7 +749,7 @@ document analysis when local binaries are available.
 **Requirements**
 
 - Requires `pdftotext` and `pandoc` on PATH for local extraction. Present in:
-  - Docker `full` variant (`ghcr.io/nextlevelbuilder/zalosclaw:vX.Y.Z-full`)
+  - Docker `full` variant (`ghcr.io/mnh-shop/7alosclaw:vX.Y.Z-full`)
   - Builds with `-tags "" -X main.enableFullSkills=true` (when available)
 - Desktop Lite edition: local extraction wired but not user-configurable
   (remains in code for future mobile/CLI usage; server/Docker only now).
@@ -1210,7 +1210,7 @@ bit-for-bit.
 **Fixes**
 
 - Fixed GitHub Releases package installs on bare-metal gateways by defaulting the GitHub binary directory to `{runtimeDir}/bin` instead of Docker-only `/app/data/.runtime/bin`.
-- The fix covers installs such as `github:nextlevelbuilder/zalosclaw-cli@v0.4.1` on the VPS, where `/app` is not writable or present.
+- The fix covers installs such as `github:mnh-shop/7alosclaw-cli@v0.4.1` on the VPS, where `/app` is not writable or present.
 
 **Tests**
 
@@ -1414,7 +1414,7 @@ bit-for-bit.
 
 ### Upgrade notes
 
-- **Docker users:** MUST pull the new image (`ghcr.io/nextlevelbuilder/zalosclaw:v3.11.3`) AND run `zalosclaw upgrade` (or `zalosclaw migrate up`). Stale images on v3.11.2 will fail boot with `schema version mismatch: required 57, current 56` after the migration runs.
+- **Docker users:** MUST pull the new image (`ghcr.io/mnh-shop/7alosclaw:v3.11.3`) AND run `zalosclaw upgrade` (or `zalosclaw migrate up`). Stale images on v3.11.2 will fail boot with `schema version mismatch: required 57, current 56` after the migration runs.
 - **Bare-metal users:** rebuild and run `./zalosclaw upgrade`.
 
 ### OpenAPI

@@ -9,8 +9,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/cron"
-	"github.com/nextlevelbuilder/zalosclaw/internal/sandbox"
+	"github.com/mnh-shop/7alosclaw/internal/cron"
+	"github.com/mnh-shop/7alosclaw/internal/sandbox"
 )
 
 // FlexibleStringSlice accepts both ["str"] and [123] in JSON.

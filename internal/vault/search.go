@@ -8,7 +8,7 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // shouldFanout returns true when a store with the given key participates in

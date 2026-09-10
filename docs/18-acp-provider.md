@@ -2,7 +2,7 @@
 
 The ACP provider enables ZalosClaw to orchestrate external coding agents (Claude Code, Codex CLI, Gemini CLI, Kiro, or any ACP-compatible agent) as subprocesses via JSON-RPC 2.0 over stdio. One provider covers all ACP agents through config-driven agent registry.
 
-> **References:** [ACP Spec](https://agentclientprotocol.com/) · [ACP Schema](https://github.com/agentclientprotocol/agent-client-protocol/blob/main/schema/schema.json) · Issue [#189](https://github.com/nextlevelbuilder/zalosclaw/issues/189) · PR [#190](https://github.com/nextlevelbuilder/zalosclaw/pull/190)
+> **References:** [ACP Spec](https://agentclientprotocol.com/) · [ACP Schema](https://github.com/agentclientprotocol/agent-client-protocol/blob/main/schema/schema.json) · Issue [#189](https://github.com/mnh-shop/7alosclaw/issues/189) · PR [#190](https://github.com/mnh-shop/7alosclaw/pull/190)
 
 ---
 

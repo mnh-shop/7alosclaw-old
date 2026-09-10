@@ -13,11 +13,11 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
-	"github.com/nextlevelbuilder/zalosclaw/internal/oauth"
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/oauth"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
 )
 
 // loopbackAddr normalizes a gateway address for local connections.
@@ -56,7 +56,7 @@ func registerProviders(registry *providers.Registry, cfg *config.Config, modelRe
 
 	if cfg.Providers.OpenRouter.APIKey != "" {
 		orProv := providers.NewOpenAIProvider("openrouter", cfg.Providers.OpenRouter.APIKey, "https://openrouter.ai/api/v1", "anthropic/claude-sonnet-4-5-20250929")
-		orProv.WithSiteInfo("https://zalosclaw.sh", "ZalosClaw")
+		orProv.WithSiteInfo("https://7alos.com", "ZalosClaw")
 		registry.Register(orProv)
 		slog.Info("registered provider", "name", "openrouter")
 	}
@@ -457,7 +457,7 @@ func registerProvidersFromDB(registry *providers.Registry, provStore store.Provi
 			prov.WithProviderType(p.ProviderType)
 			prov.WithThinkingEnabled(store.ParseThinkingEnabled(p.Settings))
 			if p.ProviderType == store.ProviderOpenRouter {
-				prov.WithSiteInfo("https://zalosclaw.sh", "ZalosClaw")
+				prov.WithSiteInfo("https://7alos.com", "ZalosClaw")
 			}
 			registry.RegisterForTenant(p.TenantID, prov)
 		}

@@ -8,9 +8,9 @@ import (
 	"strings"
 	"testing"
 
-	mcpbridge "github.com/nextlevelbuilder/zalosclaw/internal/mcp"
-	"github.com/nextlevelbuilder/zalosclaw/internal/security"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	mcpbridge "github.com/mnh-shop/7alosclaw/internal/mcp"
+	"github.com/mnh-shop/7alosclaw/internal/security"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 type recordingMCPServerStore struct {

@@ -13,10 +13,10 @@ import (
 	qrcode "github.com/skip2/go-qrcode"
 	wastore "go.mau.fi/whatsmeow/store"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
-	"github.com/nextlevelbuilder/zalosclaw/internal/gateway"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	zalosclawprotocol "github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/channels"
+	"github.com/mnh-shop/7alosclaw/internal/gateway"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	zalosclawprotocol "github.com/mnh-shop/7alosclaw/pkg/protocol"
 )
 
 const qrSessionTimeout = 3 * time.Minute

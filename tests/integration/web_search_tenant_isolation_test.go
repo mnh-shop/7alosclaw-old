@@ -7,9 +7,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/internal/crypto"
+	"github.com/mnh-shop/7alosclaw/internal/store/pg"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
 )
 
 // TestWebSearch_TenantIsolation verifies that two tenants with different

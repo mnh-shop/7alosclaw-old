@@ -18,11 +18,11 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
-	orchestration "github.com/nextlevelbuilder/zalosclaw/internal/childrun"
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
+	orchestration "github.com/mnh-shop/7alosclaw/internal/childrun"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	usagecaps "github.com/mnh-shop/7alosclaw/internal/usage/caps"
 )
 
 var ErrSubagentLifecycleDrainTimeout = errors.New("subagent_lifecycle_drain_timeout")

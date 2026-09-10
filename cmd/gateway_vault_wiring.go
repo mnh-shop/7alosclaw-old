@@ -3,10 +3,10 @@ package cmd
 import (
 	"log/slog"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/eventbus"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
-	"github.com/nextlevelbuilder/zalosclaw/internal/vault"
+	"github.com/mnh-shop/7alosclaw/internal/eventbus"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/internal/vault"
 )
 
 // wireVault wires Knowledge Vault tools and interceptors into the tool registry.

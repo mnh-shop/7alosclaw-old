@@ -3,7 +3,7 @@ package pg
 import (
 	"context"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // ListAllInstances returns all channel instances across all tenants. Server-internal only.

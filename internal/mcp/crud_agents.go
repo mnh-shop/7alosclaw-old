@@ -12,8 +12,8 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/bootstrap"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // AgentRuntimeLookup resolves a live agent's running state without the mcp

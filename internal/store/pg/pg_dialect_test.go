@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store/base"
+	"github.com/mnh-shop/7alosclaw/internal/store/base"
 )
 
 func TestPGDialect_Placeholder(t *testing.T) {

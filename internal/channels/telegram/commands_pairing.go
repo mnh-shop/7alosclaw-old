@@ -9,7 +9,7 @@ import (
 	"github.com/mymmrac/telego"
 	tu "github.com/mymmrac/telego/telegoutil"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/systemmessages"
+	"github.com/mnh-shop/7alosclaw/internal/systemmessages"
 )
 
 // --- Pairing UX ---

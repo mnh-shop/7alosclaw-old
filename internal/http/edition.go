@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
+	"github.com/mnh-shop/7alosclaw/internal/edition"
 )
 
 // EditionHandler serves the current edition info for UI feature comparison.

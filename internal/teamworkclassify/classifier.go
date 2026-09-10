@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	usagecaps "github.com/mnh-shop/7alosclaw/internal/usage/caps"
 )
 
 type Decision string

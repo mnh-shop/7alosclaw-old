@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 func strp(s string) *string { return &s }

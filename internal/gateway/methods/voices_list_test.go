@@ -8,10 +8,10 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
-	"github.com/nextlevelbuilder/zalosclaw/internal/audio/elevenlabs"
-	"github.com/nextlevelbuilder/zalosclaw/internal/gateway/methods"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/audio"
+	"github.com/mnh-shop/7alosclaw/internal/audio/elevenlabs"
+	"github.com/mnh-shop/7alosclaw/internal/gateway/methods"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // TestVoicesMethods_CacheHit verifies a warm cache entry is returned without

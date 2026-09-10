@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
+	"github.com/mnh-shop/7alosclaw/internal/bootstrap"
 )
 
 // BuildDeliveryPersonaBrief extracts only compact style cues suitable for

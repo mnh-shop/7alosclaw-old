@@ -104,7 +104,7 @@ jobs:
           VERSION: v${{ needs.release.outputs.version }}
         run: |
           CGO_ENABLED=0 go build -tags embedui \
-            -ldflags="-s -w -X github.com/nextlevelbuilder/zalosclaw/cmd.Version=${VERSION}" \
+            -ldflags="-s -w -X github.com/mnh-shop/7alosclaw/cmd.Version=${VERSION}" \
             -o zalosclaw .
           tar -czf "zalosclaw-${{ needs.release.outputs.version }}-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz" zalosclaw migrations/ skills/
 

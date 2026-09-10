@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/internal/usage/pricing"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/usage/pricing"
 )
 
 const TraceMetadataKey = "usage_caps"

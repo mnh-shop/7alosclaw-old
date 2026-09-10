@@ -1,6 +1,6 @@
 package orchestration
 
-import "github.com/nextlevelbuilder/zalosclaw/internal/childrun"
+import "github.com/mnh-shop/7alosclaw/internal/childrun"
 
 var (
 	ErrChildRunBusy                = childrun.ErrChildRunBusy

@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.zalosclaw.sh">Документація</a> •
-  <a href="https://docs.zalosclaw.sh/#quick-start">Швидкий старт</a> •
+  <a href="https://docs.7alos.com">Документація</a> •
+  <a href="https://docs.7alos.com/#quick-start">Швидкий старт</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -120,7 +120,7 @@ Go-порт [OpenClaw](https://github.com/openclaw/openclaw) з посилено
 ### З вихідного коду
 
 ```bash
-git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
+git clone https://github.com/mnh-shop/7alosclaw.git && cd zalosclaw
 make build
 ./zalosclaw onboard        # Інтерактивний майстер налаштування
 source .env.local && ./zalosclaw
@@ -141,7 +141,7 @@ make up
 
 Якщо встановлені змінні середовища `ZALOSCLAW_*_API_KEY`, шлюз виконує автоматичне налаштування без інтерактивних підказок — визначає постачальника, запускає міграції та заповнює початкові дані.
 
-> Щодо варіантів збірки (OTel, Tailscale, Redis), тегів Docker-образів та compose-оверлеїв, дивіться [Посібник із розгортання](https://docs.zalosclaw.sh/#deploy-docker-compose).
+> Щодо варіантів збірки (OTel, Tailscale, Redis), тегів Docker-образів та compose-оверлеїв, дивіться [Посібник із розгортання](https://docs.7alos.com/#deploy-docker-compose).
 
 ## Мультиагентна оркестрація
 
@@ -170,7 +170,7 @@ ZalosClaw підтримує команди агентів та міжагент
 - **Командна поштова скринька** — Пряме повідомлення між учасниками та широкомовні розсилки
 - **Інструменти**: `team_tasks` для керування завданнями, `team_message` для поштової скриньки
 
-> Щодо деталей делегації, посилань дозволів та керування паралелізмом, дивіться [документацію Команд агентів](https://docs.zalosclaw.sh/#teams-what-are-teams).
+> Щодо деталей делегації, посилань дозволів та керування паралелізмом, дивіться [документацію Команд агентів](https://docs.7alos.com/#teams-what-are-teams).
 
 ## Вбудовані інструменти
 
@@ -214,19 +214,19 @@ ZalosClaw підтримує команди агентів та міжагент
 
 ## Документація
 
-Повна документація на **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** — або перегляньте вихідний код у [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
+Повна документація на **[docs.7alos.com](https://docs.7alos.com)** — або перегляньте вихідний код у [`zalosclaw-docs/`](https://github.com/mnh-shop/7alosclaw-docs)
 
 | Розділ | Теми |
 |--------|------|
-| [Початок роботи](https://docs.zalosclaw.sh/#what-is-zalosclaw) | Встановлення, Швидкий старт, Конфігурація, Огляд веб-панелі |
-| [Основні концепції](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Цикл агента, Сесії, Інструменти, Пам'ять, Мультиорендарність |
-| [Агенти](https://docs.zalosclaw.sh/#creating-agents) | Створення агентів, Файли контексту, Особистість, Спільний доступ |
-| [Постачальники](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 інших |
-| [Канали](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Команди агентів](https://docs.zalosclaw.sh/#teams-what-are-teams) | Команди, Дошка завдань, Обмін повідомленнями, Делегація та передача |
-| [Розширено](https://docs.zalosclaw.sh/#custom-tools) | Власні інструменти, MCP, Навички, Cron, Пісочниця, Хуки, RBAC |
-| [Розгортання](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, База даних, Безпека, Спостережуваність, Tailscale |
-| [Довідник](https://docs.zalosclaw.sh/#cli-commands) | Команди CLI, REST API, Протокол WebSocket, Змінні середовища |
+| [Початок роботи](https://docs.7alos.com/#what-is-zalosclaw) | Встановлення, Швидкий старт, Конфігурація, Огляд веб-панелі |
+| [Основні концепції](https://docs.7alos.com/#how-zalosclaw-works) | Цикл агента, Сесії, Інструменти, Пам'ять, Мультиорендарність |
+| [Агенти](https://docs.7alos.com/#creating-agents) | Створення агентів, Файли контексту, Особистість, Спільний доступ |
+| [Постачальники](https://docs.7alos.com/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 інших |
+| [Канали](https://docs.7alos.com/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Команди агентів](https://docs.7alos.com/#teams-what-are-teams) | Команди, Дошка завдань, Обмін повідомленнями, Делегація та передача |
+| [Розширено](https://docs.7alos.com/#custom-tools) | Власні інструменти, MCP, Навички, Cron, Пісочниця, Хуки, RBAC |
+| [Розгортання](https://docs.7alos.com/#deploy-docker-compose) | Docker Compose, База даних, Безпека, Спостережуваність, Tailscale |
+| [Довідник](https://docs.7alos.com/#cli-commands) | Команди CLI, REST API, Протокол WebSocket, Змінні середовища |
 
 ## Тестування
 

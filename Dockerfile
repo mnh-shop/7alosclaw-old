@@ -61,7 +61,7 @@ RUN set -eux; \
     fi; \
     if [ -n "$TAGS" ]; then TAGS="-tags $TAGS"; fi; \
     CGO_ENABLED=0 GOOS=linux \
-    go build -ldflags="-s -w -X github.com/nextlevelbuilder/zalosclaw/cmd.Version=${VERSION}" \
+    go build -ldflags="-s -w -X github.com/mnh-shop/7alosclaw/cmd.Version=${VERSION}" \
     ${TAGS} -o /out/zalosclaw . && \
     CGO_ENABLED=0 GOOS=linux \
     go build -ldflags="-s -w" -o /out/pkg-helper ./cmd/pkg-helper

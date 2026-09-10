@@ -31,7 +31,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
+	"github.com/mnh-shop/7alosclaw/internal/skills"
 )
 
 // skipIfNotAlpine skips the test when /etc/alpine-release is absent.

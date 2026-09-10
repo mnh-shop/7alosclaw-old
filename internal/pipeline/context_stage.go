@@ -6,11 +6,11 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
-	hookhandlers "github.com/nextlevelbuilder/zalosclaw/internal/hooks/handlers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/bootstrap"
+	"github.com/mnh-shop/7alosclaw/internal/hooks"
+	hookhandlers "github.com/mnh-shop/7alosclaw/internal/hooks/handlers"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // ContextStage runs once in setup. Resolves workspace, loads context files,

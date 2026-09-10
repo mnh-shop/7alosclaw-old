@@ -12,7 +12,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 // nativeImageProvider is a minimal fake that satisfies providers.NativeImageProvider.

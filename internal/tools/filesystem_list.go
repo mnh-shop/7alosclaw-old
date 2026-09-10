@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/sandbox"
+	"github.com/mnh-shop/7alosclaw/internal/sandbox"
 )
 
 // ListFilesTool lists files in a directory, optionally through a sandbox container.

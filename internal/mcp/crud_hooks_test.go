@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
+	"github.com/mnh-shop/7alosclaw/internal/hooks"
 )
 
 func TestHooksCreate_HappyPath(t *testing.T) {

@@ -6,7 +6,7 @@ package pancake
 import (
 	"encoding/json"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/config"
 )
 
 // pancakeCreds holds encrypted credentials stored in channel_instances.credentials.

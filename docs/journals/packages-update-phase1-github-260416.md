@@ -1,7 +1,7 @@
 ---
 date: 2026-04-16
 branch: feat/packages-update-flow
-issue: nextlevelbuilder/zalosclaw#900
+issue: mnh-shop/7alosclaw#900
 plan: plans/260415-1400-packages-update-flow/
 status: shipped
 severity: High
@@ -10,7 +10,7 @@ severity: High
 # Packages Update Flow Phase 1: What Went Wrong (And How We Caught It)
 
 **Date**: 2026-04-16 16:35
-**Issue**: [#900](https://github.com/nextlevelbuilder/zalosclaw/issues/900)
+**Issue**: [#900](https://github.com/mnh-shop/7alosclaw/issues/900)
 **Branch**: `feat/packages-update-flow`
 **Completion**: 8 phases, 3.2k LOC, ship blockers identified and fixed before merge
 

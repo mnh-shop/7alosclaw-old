@@ -11,7 +11,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 func TestMergeCredentialedEnvPerUserOverridesGrantEnv(t *testing.T) {
@@ -56,7 +56,7 @@ func TestMergeCredentialedEnvFlattensSensitiveValueEntries(t *testing.T) {
 	binary := &store.SecureCLIBinary{
 		EncryptedEnv: []byte(`{
 			"TOKEN":{"kind":"sensitive","value":"secret"},
-			"PUBLIC_BASE_URL":{"kind":"value","value":"https://zalosclaw.sh"}
+			"PUBLIC_BASE_URL":{"kind":"value","value":"https://7alos.com"}
 		}`),
 		UserEnv: []byte(`{"PUBLIC_BASE_URL":{"kind":"value","value":"https://user.example"}}`),
 	}
@@ -95,7 +95,7 @@ func TestMergeCredentialedEnvUsesAgentEnvCredential(t *testing.T) {
 func TestMergeCredentialedEnvDoesNotFlattenTypedCredentialBlob(t *testing.T) {
 	typ := "pat"
 	binary := &store.SecureCLIBinary{
-		EncryptedEnv: []byte(`{"PUBLIC_BASE_URL":"https://zalosclaw.sh"}`),
+		EncryptedEnv: []byte(`{"PUBLIC_BASE_URL":"https://7alos.com"}`),
 	}
 	binary.SetEffectiveCredential([]byte(`{"token":"ghp_not_real_token"}`), &typ, nil, "agent", "")
 
@@ -106,7 +106,7 @@ func TestMergeCredentialedEnvDoesNotFlattenTypedCredentialBlob(t *testing.T) {
 	if _, ok := env["token"]; ok {
 		t.Fatalf("typed credential blob was flattened into child env: %#v", env)
 	}
-	if env["PUBLIC_BASE_URL"] != "https://zalosclaw.sh" {
+	if env["PUBLIC_BASE_URL"] != "https://7alos.com" {
 		t.Fatalf("PUBLIC_BASE_URL = %q", env["PUBLIC_BASE_URL"])
 	}
 }

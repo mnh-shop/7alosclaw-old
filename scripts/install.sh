@@ -2,7 +2,7 @@
 # ZalosClaw installer — downloads the latest binary from GitHub Releases.
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/nextlevelbuilder/zalosclaw/main/scripts/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/mnh-shop/7alosclaw/main/scripts/install.sh | bash
 #   curl -fsSL ... | bash -s -- --version v1.30.0
 #   curl -fsSL ... | bash -s -- --dir /opt/zalosclaw
 #
@@ -10,7 +10,7 @@
 
 set -euo pipefail
 
-REPO="nextlevelbuilder/zalosclaw"
+REPO="mnh-shop/7alosclaw"
 INSTALL_DIR="${ZALOSCLAW_INSTALL_DIR:-/usr/local/bin}"
 MIGRATIONS_DIR="/usr/local/share/zalosclaw/migrations"
 VERSION=""

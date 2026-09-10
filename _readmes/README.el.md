@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.zalosclaw.sh">Τεκμηρίωση</a> •
-  <a href="https://docs.zalosclaw.sh/#quick-start">Γρήγορη Εκκίνηση</a> •
+  <a href="https://docs.7alos.com">Τεκμηρίωση</a> •
+  <a href="https://docs.7alos.com/#quick-start">Γρήγορη Εκκίνηση</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -120,7 +120,7 @@ Single binary. Production-tested. Agents that orchestrate for you.
 ### Από Πηγαίο Κώδικα
 
 ```bash
-git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
+git clone https://github.com/mnh-shop/7alosclaw.git && cd zalosclaw
 make build
 ./zalosclaw onboard        # Interactive setup wizard
 source .env.local && ./zalosclaw
@@ -141,7 +141,7 @@ make up
 
 Όταν ορίζονται μεταβλητές περιβάλλοντος `ZALOSCLAW_*_API_KEY`, η πύλη ενσωματώνεται αυτόματα χωρίς διαδραστικές ερωτήσεις — ανιχνεύει τον πάροχο, εκτελεί μεταναστεύσεις, και εισάγει προεπιλεγμένα δεδομένα.
 
-> Για παραλλαγές κατασκευής (OTel, Tailscale, Redis), ετικέτες Docker image, και επικαλύψεις compose, δείτε τον [Οδηγό Ανάπτυξης](https://docs.zalosclaw.sh/#deploy-docker-compose).
+> Για παραλλαγές κατασκευής (OTel, Tailscale, Redis), ετικέτες Docker image, και επικαλύψεις compose, δείτε τον [Οδηγό Ανάπτυξης](https://docs.7alos.com/#deploy-docker-compose).
 
 ## Ενορχήστρωση Πολλαπλών Πρακτόρων
 
@@ -170,7 +170,7 @@ make up
 - **Ταχυδρομείο ομάδας** — Άμεση ανταλλαγή μηνυμάτων μεταξύ ομότιμων και εκπομπές
 - **Εργαλεία**: `team_tasks` για διαχείριση εργασιών, `team_message` για ταχυδρομείο
 
-> Για λεπτομέρειες ανάθεσης, συνδέσμους αδειών, και έλεγχο ταυτόχρονης εκτέλεσης, δείτε την [τεκμηρίωση Ομάδων Πρακτόρων](https://docs.zalosclaw.sh/#teams-what-are-teams).
+> Για λεπτομέρειες ανάθεσης, συνδέσμους αδειών, και έλεγχο ταυτόχρονης εκτέλεσης, δείτε την [τεκμηρίωση Ομάδων Πρακτόρων](https://docs.7alos.com/#teams-what-are-teams).
 
 ## Ενσωματωμένα Εργαλεία
 
@@ -214,19 +214,19 @@ make up
 
 ## Τεκμηρίωση
 
-Πλήρης τεκμηρίωση στο **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** — ή περιηγηθείτε στην πηγή στο [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
+Πλήρης τεκμηρίωση στο **[docs.7alos.com](https://docs.7alos.com)** — ή περιηγηθείτε στην πηγή στο [`zalosclaw-docs/`](https://github.com/mnh-shop/7alosclaw-docs)
 
 | Ενότητα | Θέματα |
 |---------|--------|
-| [Ξεκινώντας](https://docs.zalosclaw.sh/#what-is-zalosclaw) | Εγκατάσταση, Γρήγορη Εκκίνηση, Διαμόρφωση, Περιήγηση Web Dashboard |
-| [Βασικές Έννοιες](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Βρόχος Πράκτορα, Συνεδρίες, Εργαλεία, Μνήμη, Πολλαπλή Ενοικίαση |
-| [Πράκτορες](https://docs.zalosclaw.sh/#creating-agents) | Δημιουργία Πρακτόρων, Αρχεία Περιβάλλοντος, Προσωπικότητα, Κοινοποίηση & Πρόσβαση |
-| [Πάροχοι](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 ακόμα |
-| [Κανάλια](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Ομάδες Πρακτόρων](https://docs.zalosclaw.sh/#teams-what-are-teams) | Ομάδες, Πίνακας Εργασιών, Ανταλλαγή Μηνυμάτων, Ανάθεση & Παράδοση |
-| [Προχωρημένα](https://docs.zalosclaw.sh/#custom-tools) | Προσαρμοσμένα Εργαλεία, MCP, Δεξιότητες, Cron, Sandbox, Hooks, RBAC |
-| [Ανάπτυξη](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, Βάση Δεδομένων, Ασφάλεια, Παρατηρησιμότητα, Tailscale |
-| [Αναφορά](https://docs.zalosclaw.sh/#cli-commands) | Εντολές CLI, REST API, WebSocket Protocol, Μεταβλητές Περιβάλλοντος |
+| [Ξεκινώντας](https://docs.7alos.com/#what-is-zalosclaw) | Εγκατάσταση, Γρήγορη Εκκίνηση, Διαμόρφωση, Περιήγηση Web Dashboard |
+| [Βασικές Έννοιες](https://docs.7alos.com/#how-zalosclaw-works) | Βρόχος Πράκτορα, Συνεδρίες, Εργαλεία, Μνήμη, Πολλαπλή Ενοικίαση |
+| [Πράκτορες](https://docs.7alos.com/#creating-agents) | Δημιουργία Πρακτόρων, Αρχεία Περιβάλλοντος, Προσωπικότητα, Κοινοποίηση & Πρόσβαση |
+| [Πάροχοι](https://docs.7alos.com/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 ακόμα |
+| [Κανάλια](https://docs.7alos.com/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Ομάδες Πρακτόρων](https://docs.7alos.com/#teams-what-are-teams) | Ομάδες, Πίνακας Εργασιών, Ανταλλαγή Μηνυμάτων, Ανάθεση & Παράδοση |
+| [Προχωρημένα](https://docs.7alos.com/#custom-tools) | Προσαρμοσμένα Εργαλεία, MCP, Δεξιότητες, Cron, Sandbox, Hooks, RBAC |
+| [Ανάπτυξη](https://docs.7alos.com/#deploy-docker-compose) | Docker Compose, Βάση Δεδομένων, Ασφάλεια, Παρατηρησιμότητα, Tailscale |
+| [Αναφορά](https://docs.7alos.com/#cli-commands) | Εντολές CLI, REST API, WebSocket Protocol, Μεταβλητές Περιβάλλοντος |
 
 ## Δοκιμές
 

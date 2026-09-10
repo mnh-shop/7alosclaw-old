@@ -8,7 +8,7 @@ import (
 
 	"github.com/dop251/goja"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
+	"github.com/mnh-shop/7alosclaw/internal/hooks"
 )
 
 // compile returns a cached compiled program; fresh compile on cache miss or

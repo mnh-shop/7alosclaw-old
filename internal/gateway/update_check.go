@@ -11,11 +11,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/version"
+	"github.com/mnh-shop/7alosclaw/internal/version"
 )
 
 const (
-	githubRepo         = "nextlevelbuilder/zalosclaw"
+	githubRepo         = "mnh-shop/7alosclaw"
 	liteTagPrefix      = "lite-v"
 	updateCheckInterval = 1 * time.Hour
 	maxResponseBody    = 2 << 20 // 2 MB

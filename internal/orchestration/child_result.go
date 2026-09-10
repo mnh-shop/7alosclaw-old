@@ -4,9 +4,9 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
-	plpkg "github.com/nextlevelbuilder/zalosclaw/internal/pipeline"
+	"github.com/mnh-shop/7alosclaw/internal/agent"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
+	plpkg "github.com/mnh-shop/7alosclaw/internal/pipeline"
 )
 
 // ChildResult is a unified struct capturing the outcome of a child agent run,

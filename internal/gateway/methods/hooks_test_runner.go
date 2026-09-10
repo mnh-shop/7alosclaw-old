@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
+	"github.com/mnh-shop/7alosclaw/internal/hooks"
 )
 
 // DispatcherTestRunner is a HookTestRunner that invokes a registered handler

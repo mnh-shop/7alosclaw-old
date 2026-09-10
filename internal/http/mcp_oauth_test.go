@@ -12,11 +12,11 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
-	mcpoauth "github.com/nextlevelbuilder/zalosclaw/internal/mcp/oauth"
-	"github.com/nextlevelbuilder/zalosclaw/internal/security"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
+	mcpoauth "github.com/mnh-shop/7alosclaw/internal/mcp/oauth"
+	"github.com/mnh-shop/7alosclaw/internal/security"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/pkg/protocol"
 )
 
 // hasMCPCacheInvalidate reports whether a CacheKindMCP cache-invalidate event was broadcast.

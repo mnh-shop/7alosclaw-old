@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
+	"github.com/mnh-shop/7alosclaw/pkg/protocol"
 )
 
 // TestSessionsReset_ClearsCLISession is a regression guard ensuring the

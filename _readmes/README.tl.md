@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.zalosclaw.sh">Dokumentasyon</a> •
-  <a href="https://docs.zalosclaw.sh/#quick-start">Mabilis na Simula</a> •
+  <a href="https://docs.7alos.com">Dokumentasyon</a> •
+  <a href="https://docs.7alos.com/#quick-start">Mabilis na Simula</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -120,7 +120,7 @@ Isang Go port ng [OpenClaw](https://github.com/openclaw/openclaw) na may pinahus
 ### Mula sa Source
 
 ```bash
-git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
+git clone https://github.com/mnh-shop/7alosclaw.git && cd zalosclaw
 make build
 ./zalosclaw onboard        # Interactive setup wizard
 source .env.local && ./zalosclaw
@@ -141,7 +141,7 @@ make up
 
 Kapag nakatakda ang mga environment variable na `ZALOSCLAW_*_API_KEY`, ang gateway ay awtomatikong mag-onboard nang walang interactive na mga tanong — nakikita ang provider, nagpapatakbo ng mga migration, at naglalagay ng default na datos.
 
-> Para sa mga variant ng build (OTel, Tailscale, Redis), mga Docker image tag, at compose overlay, tingnan ang [Gabay sa Deployment](https://docs.zalosclaw.sh/#deploy-docker-compose).
+> Para sa mga variant ng build (OTel, Tailscale, Redis), mga Docker image tag, at compose overlay, tingnan ang [Gabay sa Deployment](https://docs.7alos.com/#deploy-docker-compose).
 
 ## Multi-Agent Orkestrasyon
 
@@ -170,7 +170,7 @@ Ang mga agent ay nakikipag-ugnayan sa pamamagitan ng malinaw na **mga link ng pa
 - **Mailbox ng team** — Direktang peer-to-peer na pagmemensahe at mga broadcast
 - **Mga Kasangkapan**: `team_tasks` para sa pamamahala ng gawain, `team_message` para sa mailbox
 
-> Para sa mga detalye ng delegasyon, mga link ng pahintulot, at kontrol ng concurrency, tingnan ang [dokumentasyon ng Mga Agent Team](https://docs.zalosclaw.sh/#teams-what-are-teams).
+> Para sa mga detalye ng delegasyon, mga link ng pahintulot, at kontrol ng concurrency, tingnan ang [dokumentasyon ng Mga Agent Team](https://docs.7alos.com/#teams-what-are-teams).
 
 ## Mga Built-in na Kasangkapan
 
@@ -214,19 +214,19 @@ Ang mga agent ay nakikipag-ugnayan sa pamamagitan ng malinaw na **mga link ng pa
 
 ## Dokumentasyon
 
-Buong dokumentasyon sa **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** — o i-browse ang source sa [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
+Buong dokumentasyon sa **[docs.7alos.com](https://docs.7alos.com)** — o i-browse ang source sa [`zalosclaw-docs/`](https://github.com/mnh-shop/7alosclaw-docs)
 
 | Seksyon | Mga Paksa |
 |---------|-----------|
-| [Pagsisimula](https://docs.zalosclaw.sh/#what-is-zalosclaw) | Pag-install, Mabilis na Simula, Konfiguraksyon, Pagsasaliksik sa Web Dashboard |
-| [Mga Pangunahing Konsepto](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Agent Loop, Mga Session, Mga Kasangkapan, Memorya, Multi-Tenancy |
-| [Mga Agent](https://docs.zalosclaw.sh/#creating-agents) | Paglikha ng Mga Agent, Mga Context File, Personalidad, Pagbabahagi at Access |
-| [Mga Provider](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 pa |
-| [Mga Channel](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Mga Agent Team](https://docs.zalosclaw.sh/#teams-what-are-teams) | Mga Team, Task Board, Pagmemensahe, Delegasyon at Handoff |
-| [Advanced](https://docs.zalosclaw.sh/#custom-tools) | Mga Custom na Kasangkapan, MCP, Mga Skill, Cron, Sandbox, Hooks, RBAC |
-| [Deployment](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, Database, Seguridad, Observability, Tailscale |
-| [Sanggunian](https://docs.zalosclaw.sh/#cli-commands) | Mga CLI Command, REST API, WebSocket Protocol, Mga Environment Variable |
+| [Pagsisimula](https://docs.7alos.com/#what-is-zalosclaw) | Pag-install, Mabilis na Simula, Konfiguraksyon, Pagsasaliksik sa Web Dashboard |
+| [Mga Pangunahing Konsepto](https://docs.7alos.com/#how-zalosclaw-works) | Agent Loop, Mga Session, Mga Kasangkapan, Memorya, Multi-Tenancy |
+| [Mga Agent](https://docs.7alos.com/#creating-agents) | Paglikha ng Mga Agent, Mga Context File, Personalidad, Pagbabahagi at Access |
+| [Mga Provider](https://docs.7alos.com/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 pa |
+| [Mga Channel](https://docs.7alos.com/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Mga Agent Team](https://docs.7alos.com/#teams-what-are-teams) | Mga Team, Task Board, Pagmemensahe, Delegasyon at Handoff |
+| [Advanced](https://docs.7alos.com/#custom-tools) | Mga Custom na Kasangkapan, MCP, Mga Skill, Cron, Sandbox, Hooks, RBAC |
+| [Deployment](https://docs.7alos.com/#deploy-docker-compose) | Docker Compose, Database, Seguridad, Observability, Tailscale |
+| [Sanggunian](https://docs.7alos.com/#cli-commands) | Mga CLI Command, REST API, WebSocket Protocol, Mga Environment Variable |
 
 ## Pagsusuri
 

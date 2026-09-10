@@ -10,7 +10,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/backup"
+	"github.com/mnh-shop/7alosclaw/internal/backup"
 )
 
 // TestTenantRestore_DeleteTenantData_PreservesTenantsRow verifies that

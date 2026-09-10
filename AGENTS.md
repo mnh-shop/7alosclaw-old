@@ -159,7 +159,7 @@ git tag lite-v1.1.0-beta.1 && git push origin lite-v1.1.0-beta.1  # beta (prerel
 
 ### Docker Images
 
-Published to GHCR (`ghcr.io/nextlevelbuilder/zalosclaw`) and Docker Hub (`digitop/zalosclaw`).
+Published to GHCR (`ghcr.io/mnh-shop/7alosclaw`) and Docker Hub (`digitop/zalosclaw`).
 
 | Variant | Tag | Contents |
 |---------|-----|----------|

@@ -1,6 +1,6 @@
 package cmd
 
-import "github.com/nextlevelbuilder/zalosclaw/internal/agent"
+import "github.com/mnh-shop/7alosclaw/internal/agent"
 
 // normalizeAgentOutboundContent keeps silent text out of user-facing messages
 // while allowing attached media to continue through channel delivery.

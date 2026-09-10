@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 func TestReadImage_BothPathAndUrl_Error(t *testing.T) {

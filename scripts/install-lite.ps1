@@ -1,7 +1,7 @@
 # ZalosClaw Lite (Desktop) installer for Windows
 #
 # Usage:
-#   irm https://raw.githubusercontent.com/nextlevelbuilder/zalosclaw/main/scripts/install-lite.ps1 | iex
+#   irm https://raw.githubusercontent.com/mnh-shop/7alosclaw/main/scripts/install-lite.ps1 | iex
 #   .\install-lite.ps1 -Version lite-v0.1.0
 
 param([string]$Version = "")
@@ -16,7 +16,7 @@ function Exit-WithPause {
     try { $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown") } catch { Start-Sleep -Seconds 5 }
     exit $Code
 }
-$Repo = "nextlevelbuilder/zalosclaw"
+$Repo = "mnh-shop/7alosclaw"
 $InstallDir = Join-Path $env:LOCALAPPDATA "ZalosClaw Lite"
 
 # ── Resolve version ──

@@ -1,8 +1,8 @@
 package tools
 
 import (
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 // Result is the unified return type from tool execution.

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
+	"github.com/mnh-shop/7alosclaw/internal/hooks"
 )
 
 // TestHookEventJSONRoundTrip verifies all 7 HookEvent constants have stable string values.

@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.zalosclaw.sh">文档</a> •
-  <a href="https://docs.zalosclaw.sh/#quick-start">快速开始</a> •
+  <a href="https://docs.7alos.com">文档</a> •
+  <a href="https://docs.7alos.com/#quick-start">快速开始</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -98,7 +98,7 @@ Single binary. Production-tested. Agents that orchestrate for you.
 ### 从源码构建
 
 ```bash
-git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
+git clone https://github.com/mnh-shop/7alosclaw.git && cd zalosclaw
 make build
 ./zalosclaw onboard        # 交互式设置向导
 source .env.local && ./zalosclaw
@@ -119,7 +119,7 @@ make up
 
 当设置了 `ZALOSCLAW_*_API_KEY` 环境变量时，网关会自动完成初始化，无需交互提示 —— 自动检测提供商、运行数据库迁移并填充默认数据。
 
-> 有关构建变体（OTel、Tailscale、Redis）、Docker 镜像标签和 compose 覆盖文件，请参阅[部署指南](https://docs.zalosclaw.sh/#deploy-docker-compose)。
+> 有关构建变体（OTel、Tailscale、Redis）、Docker 镜像标签和 compose 覆盖文件，请参阅[部署指南](https://docs.7alos.com/#deploy-docker-compose)。
 
 ## 多智能体编排
 
@@ -148,7 +148,7 @@ ZalosClaw 支持智能体团队和跨智能体委托 —— 每个智能体以�
 - **团队邮箱** — 点对点直接消息和广播
 - **工具**：`team_tasks` 用于任务管理，`team_message` 用于邮箱
 
-> 有关委托详情、权限链接和并发控制，请参阅[智能体团队文档](https://docs.zalosclaw.sh/#teams-what-are-teams)。
+> 有关委托详情、权限链接和并发控制，请参阅[智能体团队文档](https://docs.7alos.com/#teams-what-are-teams)。
 
 ## 内置工具
 
@@ -192,19 +192,19 @@ ZalosClaw 支持智能体团队和跨智能体委托 —— 每个智能体以�
 
 ## 文档
 
-完整文档请访问 **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** —— 或在 [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs) 中浏览源码。
+完整文档请访问 **[docs.7alos.com](https://docs.7alos.com)** —— 或在 [`zalosclaw-docs/`](https://github.com/mnh-shop/7alosclaw-docs) 中浏览源码。
 
 | 章节 | 主题 |
 |------|------|
-| [快速开始](https://docs.zalosclaw.sh/#what-is-zalosclaw) | 安装、快速启动、配置、Web 控制台导览 |
-| [核心概念](https://docs.zalosclaw.sh/#how-zalosclaw-works) | 智能体循环、会话、工具、记忆、多租户 |
-| [智能体](https://docs.zalosclaw.sh/#creating-agents) | 创建智能体、上下文文件、人格设定、共享与访问 |
-| [提供商](https://docs.zalosclaw.sh/#providers-overview) | Anthropic、OpenAI、OpenRouter、Gemini、DeepSeek，以及 15+ 个其他提供商 |
-| [渠道](https://docs.zalosclaw.sh/#channels-overview) | Telegram、Discord、Slack、飞书、Zalo、WhatsApp、WebSocket |
-| [智能体团队](https://docs.zalosclaw.sh/#teams-what-are-teams) | 团队、任务板、消息传递、委托与交接 |
-| [高级功能](https://docs.zalosclaw.sh/#custom-tools) | 自定义工具、MCP、技能、定时任务、沙箱、钩子、RBAC |
-| [部署](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose、数据库、安全、可观测性、Tailscale |
-| [参考](https://docs.zalosclaw.sh/#cli-commands) | CLI 命令、REST API、WebSocket 协议、环境变量 |
+| [快速开始](https://docs.7alos.com/#what-is-zalosclaw) | 安装、快速启动、配置、Web 控制台导览 |
+| [核心概念](https://docs.7alos.com/#how-zalosclaw-works) | 智能体循环、会话、工具、记忆、多租户 |
+| [智能体](https://docs.7alos.com/#creating-agents) | 创建智能体、上下文文件、人格设定、共享与访问 |
+| [提供商](https://docs.7alos.com/#providers-overview) | Anthropic、OpenAI、OpenRouter、Gemini、DeepSeek，以及 15+ 个其他提供商 |
+| [渠道](https://docs.7alos.com/#channels-overview) | Telegram、Discord、Slack、飞书、Zalo、WhatsApp、WebSocket |
+| [智能体团队](https://docs.7alos.com/#teams-what-are-teams) | 团队、任务板、消息传递、委托与交接 |
+| [高级功能](https://docs.7alos.com/#custom-tools) | 自定义工具、MCP、技能、定时任务、沙箱、钩子、RBAC |
+| [部署](https://docs.7alos.com/#deploy-docker-compose) | Docker Compose、数据库、安全、可观测性、Tailscale |
+| [参考](https://docs.7alos.com/#cli-commands) | CLI 命令、REST API、WebSocket 协议、环境变量 |
 
 ## 测试
 

@@ -2,7 +2,7 @@
 
 ## Issue
 
-`digitopvn/zalosclaw#68` reports P0 cross-tenant workspace exposure through Docker sandbox global workspace mounts. Upstream `nextlevelbuilder/zalosclaw#1163` is still open and describes the same mount-layer gap.
+`digitopvn/zalosclaw#68` reports P0 cross-tenant workspace exposure through Docker sandbox global workspace mounts. Upstream `mnh-shop/7alosclaw#1163` is still open and describes the same mount-layer gap.
 
 ## Verified Code Evidence
 

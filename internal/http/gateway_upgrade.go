@@ -15,7 +15,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/permissions"
+	"github.com/mnh-shop/7alosclaw/internal/permissions"
 )
 
 const (

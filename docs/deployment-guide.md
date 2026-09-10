@@ -227,7 +227,7 @@ mkdir -p internal/webui/dist
 cp -r ui/web/dist/* internal/webui/dist/
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
   go build -tags embedui \
-  -ldflags="-s -w -X github.com/nextlevelbuilder/zalosclaw/cmd.Version=<version>" \
+  -ldflags="-s -w -X github.com/mnh-shop/7alosclaw/cmd.Version=<version>" \
   -o dist/zalosclaw-linux-amd64 .
 ```
 

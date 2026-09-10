@@ -7,7 +7,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
 )
 
 // writeTempFile drops a zero-byte file at workspace/relPath, creating dirs.

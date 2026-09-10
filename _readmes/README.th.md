@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.zalosclaw.sh">เอกสาร</a> •
-  <a href="https://docs.zalosclaw.sh/#quick-start">เริ่มต้นอย่างรวดเร็ว</a> •
+  <a href="https://docs.7alos.com">เอกสาร</a> •
+  <a href="https://docs.7alos.com/#quick-start">เริ่มต้นอย่างรวดเร็ว</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -100,7 +100,7 @@ Single binary. Production-tested. Agents that orchestrate for you.
 ### จาก Source Code
 
 ```bash
-git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
+git clone https://github.com/mnh-shop/7alosclaw.git && cd zalosclaw
 make build
 ./zalosclaw onboard        # ตัวช่วยตั้งค่าแบบ interactive
 source .env.local && ./zalosclaw
@@ -121,7 +121,7 @@ make up
 
 เมื่อตั้งค่า environment variables `ZALOSCLAW_*_API_KEY` แล้ว gateway จะทำการ onboard อัตโนมัติโดยไม่ต้องป้อนข้อมูลแบบ interactive — ตรวจจับผู้ให้บริการ รัน migrations และสร้างข้อมูลเริ่มต้น
 
-> สำหรับ build variants (OTel, Tailscale, Redis), Docker image tags และ compose overlays ดูที่ [Deployment Guide](https://docs.zalosclaw.sh/#deploy-docker-compose)
+> สำหรับ build variants (OTel, Tailscale, Redis), Docker image tags และ compose overlays ดูที่ [Deployment Guide](https://docs.7alos.com/#deploy-docker-compose)
 
 ## การประสานงาน Multi-Agent
 
@@ -150,7 +150,7 @@ Agent สื่อสารผ่าน **permission links** แบบชัด�
 - **Team mailbox** — การส่งข้อความแบบ peer-to-peer และการ broadcast
 - **เครื่องมือ**: `team_tasks` สำหรับจัดการ task, `team_message` สำหรับ mailbox
 
-> สำหรับรายละเอียดการส่งต่องาน, permission links และการควบคุม concurrency ดูที่ [เอกสาร Agent Teams](https://docs.zalosclaw.sh/#teams-what-are-teams)
+> สำหรับรายละเอียดการส่งต่องาน, permission links และการควบคุม concurrency ดูที่ [เอกสาร Agent Teams](https://docs.7alos.com/#teams-what-are-teams)
 
 ## เครื่องมือ Built-in
 
@@ -194,19 +194,19 @@ Agent สื่อสารผ่าน **permission links** แบบชัด�
 
 ## เอกสาร
 
-เอกสารฉบับสมบูรณ์ที่ **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** — หรือดู source ที่ [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
+เอกสารฉบับสมบูรณ์ที่ **[docs.7alos.com](https://docs.7alos.com)** — หรือดู source ที่ [`zalosclaw-docs/`](https://github.com/mnh-shop/7alosclaw-docs)
 
 | หัวข้อ | เนื้อหา |
 |---------|--------|
-| [เริ่มต้นใช้งาน](https://docs.zalosclaw.sh/#what-is-zalosclaw) | การติดตั้ง, เริ่มต้นอย่างรวดเร็ว, การตั้งค่า, ทัวร์ Web Dashboard |
-| [แนวคิดหลัก](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Agent Loop, Sessions, เครื่องมือ, Memory, Multi-Tenancy |
-| [Agents](https://docs.zalosclaw.sh/#creating-agents) | การสร้าง Agent, ไฟล์ Context, บุคลิกภาพ, การแชร์และการเข้าถึง |
-| [Providers](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 เพิ่มเติม |
-| [ช่องทาง](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Agent Teams](https://docs.zalosclaw.sh/#teams-what-are-teams) | Teams, Task Board, การส่งข้อความ, การส่งต่องานและ Handoff |
-| [ขั้นสูง](https://docs.zalosclaw.sh/#custom-tools) | เครื่องมือกำหนดเอง, MCP, Skills, Cron, Sandbox, Hooks, RBAC |
-| [การ Deploy](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, ฐานข้อมูล, ความปลอดภัย, Observability, Tailscale |
-| [อ้างอิง](https://docs.zalosclaw.sh/#cli-commands) | คำสั่ง CLI, REST API, WebSocket Protocol, Environment Variables |
+| [เริ่มต้นใช้งาน](https://docs.7alos.com/#what-is-zalosclaw) | การติดตั้ง, เริ่มต้นอย่างรวดเร็ว, การตั้งค่า, ทัวร์ Web Dashboard |
+| [แนวคิดหลัก](https://docs.7alos.com/#how-zalosclaw-works) | Agent Loop, Sessions, เครื่องมือ, Memory, Multi-Tenancy |
+| [Agents](https://docs.7alos.com/#creating-agents) | การสร้าง Agent, ไฟล์ Context, บุคลิกภาพ, การแชร์และการเข้าถึง |
+| [Providers](https://docs.7alos.com/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 เพิ่มเติม |
+| [ช่องทาง](https://docs.7alos.com/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Agent Teams](https://docs.7alos.com/#teams-what-are-teams) | Teams, Task Board, การส่งข้อความ, การส่งต่องานและ Handoff |
+| [ขั้นสูง](https://docs.7alos.com/#custom-tools) | เครื่องมือกำหนดเอง, MCP, Skills, Cron, Sandbox, Hooks, RBAC |
+| [การ Deploy](https://docs.7alos.com/#deploy-docker-compose) | Docker Compose, ฐานข้อมูล, ความปลอดภัย, Observability, Tailscale |
+| [อ้างอิง](https://docs.7alos.com/#cli-commands) | คำสั่ง CLI, REST API, WebSocket Protocol, Environment Variables |
 
 ## การทดสอบ
 

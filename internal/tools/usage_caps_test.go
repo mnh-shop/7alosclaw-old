@@ -7,9 +7,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
-	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/store"
+	usagecaps "github.com/mnh-shop/7alosclaw/internal/usage/caps"
 )
 
 // bigContent builds a user message string that exceeds `targetChars` words under

@@ -11,8 +11,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
+	"github.com/mnh-shop/7alosclaw/internal/crypto"
+	"github.com/mnh-shop/7alosclaw/internal/hooks"
 )
 
 // fakeExecStore captures HookExecution rows passed to WriteExecution.

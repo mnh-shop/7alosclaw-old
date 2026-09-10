@@ -3,7 +3,7 @@ package http
 import (
 	"context"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // webhookCtxKey is the unexported context key type for webhook-layer values.

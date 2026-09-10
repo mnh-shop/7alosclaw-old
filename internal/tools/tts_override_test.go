@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/tts"
+	"github.com/mnh-shop/7alosclaw/internal/tts"
 )
 
 func makeTTSManager(providers ...string) *tts.Manager {

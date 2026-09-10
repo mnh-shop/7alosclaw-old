@@ -16,7 +16,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
+	"github.com/mnh-shop/7alosclaw/internal/skills"
 )
 
 // TestPackagesUpdateRegistry_CheckAll_Minimal validates that UpdateRegistry

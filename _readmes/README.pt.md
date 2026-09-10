@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.zalosclaw.sh">Documentação</a> •
-  <a href="https://docs.zalosclaw.sh/#quick-start">Início Rápido</a> •
+  <a href="https://docs.7alos.com">Documentação</a> •
+  <a href="https://docs.7alos.com/#quick-start">Início Rápido</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -98,7 +98,7 @@ Um port em Go do [OpenClaw](https://github.com/openclaw/openclaw) com segurança
 ### A Partir do Código-Fonte
 
 ```bash
-git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
+git clone https://github.com/mnh-shop/7alosclaw.git && cd zalosclaw
 make build
 ./zalosclaw onboard        # Assistente de configuração interativo
 source .env.local && ./zalosclaw
@@ -119,7 +119,7 @@ make up
 
 Quando as variáveis de ambiente `ZALOSCLAW_*_API_KEY` estão definidas, o gateway é configurado automaticamente sem prompts interativos — detecta o provedor, executa migrações e popula os dados padrão.
 
-> Para variantes de build (OTel, Tailscale, Redis), tags de imagem Docker e sobreposições de compose, consulte o [Guia de Implantação](https://docs.zalosclaw.sh/#deploy-docker-compose).
+> Para variantes de build (OTel, Tailscale, Redis), tags de imagem Docker e sobreposições de compose, consulte o [Guia de Implantação](https://docs.7alos.com/#deploy-docker-compose).
 
 ## Orquestração Multi-Agente
 
@@ -148,7 +148,7 @@ Os agentes se comunicam por meio de **links de permissão** explícitos com cont
 - **Caixa de entrada da equipe** — Mensagens diretas entre pares e transmissões
 - **Ferramentas**: `team_tasks` para gerenciamento de tarefas, `team_message` para caixa de entrada
 
-> Para detalhes de delegação, links de permissão e controle de concorrência, consulte a [documentação de Equipes de Agentes](https://docs.zalosclaw.sh/#teams-what-are-teams).
+> Para detalhes de delegação, links de permissão e controle de concorrência, consulte a [documentação de Equipes de Agentes](https://docs.7alos.com/#teams-what-are-teams).
 
 ## Ferramentas Integradas
 
@@ -192,19 +192,19 @@ Os agentes se comunicam por meio de **links de permissão** explícitos com cont
 
 ## Documentação
 
-Documentação completa em **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** — ou navegue pelo código-fonte em [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
+Documentação completa em **[docs.7alos.com](https://docs.7alos.com)** — ou navegue pelo código-fonte em [`zalosclaw-docs/`](https://github.com/mnh-shop/7alosclaw-docs)
 
 | Seção | Tópicos |
 |---------|--------|
-| [Primeiros Passos](https://docs.zalosclaw.sh/#what-is-zalosclaw) | Instalação, Início Rápido, Configuração, Tour do Painel Web |
-| [Conceitos Fundamentais](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Loop do Agente, Sessões, Ferramentas, Memória, Multi-Tenancy |
-| [Agentes](https://docs.zalosclaw.sh/#creating-agents) | Criação de Agentes, Arquivos de Contexto, Personalidade, Compartilhamento e Acesso |
-| [Provedores](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 mais |
-| [Canais](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Equipes de Agentes](https://docs.zalosclaw.sh/#teams-what-are-teams) | Equipes, Quadro de Tarefas, Mensagens, Delegação e Transferência |
-| [Avançado](https://docs.zalosclaw.sh/#custom-tools) | Ferramentas Personalizadas, MCP, Skills, Cron, Sandbox, Hooks, RBAC |
-| [Implantação](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, Banco de Dados, Segurança, Observabilidade, Tailscale |
-| [Referência](https://docs.zalosclaw.sh/#cli-commands) | Comandos CLI, REST API, Protocolo WebSocket, Variáveis de Ambiente |
+| [Primeiros Passos](https://docs.7alos.com/#what-is-zalosclaw) | Instalação, Início Rápido, Configuração, Tour do Painel Web |
+| [Conceitos Fundamentais](https://docs.7alos.com/#how-zalosclaw-works) | Loop do Agente, Sessões, Ferramentas, Memória, Multi-Tenancy |
+| [Agentes](https://docs.7alos.com/#creating-agents) | Criação de Agentes, Arquivos de Contexto, Personalidade, Compartilhamento e Acesso |
+| [Provedores](https://docs.7alos.com/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 mais |
+| [Canais](https://docs.7alos.com/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Equipes de Agentes](https://docs.7alos.com/#teams-what-are-teams) | Equipes, Quadro de Tarefas, Mensagens, Delegação e Transferência |
+| [Avançado](https://docs.7alos.com/#custom-tools) | Ferramentas Personalizadas, MCP, Skills, Cron, Sandbox, Hooks, RBAC |
+| [Implantação](https://docs.7alos.com/#deploy-docker-compose) | Docker Compose, Banco de Dados, Segurança, Observabilidade, Tailscale |
+| [Referência](https://docs.7alos.com/#cli-commands) | Comandos CLI, REST API, Protocolo WebSocket, Variáveis de Ambiente |
 
 ## Testes
 

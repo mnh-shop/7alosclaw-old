@@ -4,9 +4,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
-	plpkg "github.com/nextlevelbuilder/zalosclaw/internal/pipeline"
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/agent"
+	plpkg "github.com/mnh-shop/7alosclaw/internal/pipeline"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 func TestCaptureFromRunResult_Nil(t *testing.T) {

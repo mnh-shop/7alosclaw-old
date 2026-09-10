@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/config"
 )
 
 // resolveGatewayBaseURL reads host/port from config and returns http://host:port.

@@ -4,9 +4,9 @@ import (
 	"log/slog"
 	"path/filepath"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
-	httpapi "github.com/nextlevelbuilder/zalosclaw/internal/http"
-	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
+	"github.com/mnh-shop/7alosclaw/internal/edition"
+	httpapi "github.com/mnh-shop/7alosclaw/internal/http"
+	"github.com/mnh-shop/7alosclaw/internal/skills"
 )
 
 // wirePackagesHandler constructs the UpdateRegistry and wires it into

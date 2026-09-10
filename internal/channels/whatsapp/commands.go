@@ -6,8 +6,8 @@ import (
 
 	"go.mau.fi/whatsmeow/types"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
 )
 
 const menuHelpText = "Available commands:\n" +

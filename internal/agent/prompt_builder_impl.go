@@ -3,8 +3,8 @@ package agent
 import (
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/bootstrap"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // BridgePromptBuilder implements PromptBuilder by delegating to the existing

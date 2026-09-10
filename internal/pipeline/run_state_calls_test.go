@@ -4,7 +4,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 func TestRunStateAppendCallAndBuildResult(t *testing.T) {

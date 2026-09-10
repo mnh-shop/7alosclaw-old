@@ -9,8 +9,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/spf13/cobra"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/backup"
-	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/backup"
+	"github.com/mnh-shop/7alosclaw/internal/config"
 )
 
 func tenantRestoreCmd() *cobra.Command {

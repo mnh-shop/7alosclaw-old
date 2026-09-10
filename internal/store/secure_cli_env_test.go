@@ -6,7 +6,7 @@ import (
 )
 
 func TestParseSecureCLIEnvLegacyMapDefaultsSensitive(t *testing.T) {
-	env, err := ParseSecureCLIEnv([]byte(`{"TOKEN":"secret","PUBLIC_BASE_URL":"https://zalosclaw.sh"}`))
+	env, err := ParseSecureCLIEnv([]byte(`{"TOKEN":"secret","PUBLIC_BASE_URL":"https://7alos.com"}`))
 	if err != nil {
 		t.Fatalf("ParseSecureCLIEnv() error = %v", err)
 	}
@@ -37,7 +37,7 @@ func TestParseSecureCLIEnvLegacyScalarsDefaultSensitive(t *testing.T) {
 func TestSanitizeSecureCLIEnvMasksSensitiveAndReturnsValues(t *testing.T) {
 	env := map[string]SecureCLIEnvEntry{
 		"TOKEN":           {Kind: SecureCLIEnvKindSensitive, Value: "secret"},
-		"PUBLIC_BASE_URL": {Kind: SecureCLIEnvKindValue, Value: "https://zalosclaw.sh"},
+		"PUBLIC_BASE_URL": {Kind: SecureCLIEnvKindValue, Value: "https://7alos.com"},
 	}
 	got := SanitizeSecureCLIEnv(env)
 
@@ -47,7 +47,7 @@ func TestSanitizeSecureCLIEnvMasksSensitiveAndReturnsValues(t *testing.T) {
 	if !got["TOKEN"].Masked {
 		t.Fatalf("sensitive masked = false")
 	}
-	if got["PUBLIC_BASE_URL"].Value == nil || *got["PUBLIC_BASE_URL"].Value != "https://zalosclaw.sh" {
+	if got["PUBLIC_BASE_URL"].Value == nil || *got["PUBLIC_BASE_URL"].Value != "https://7alos.com" {
 		t.Fatalf("value entry not returned: %#v", got["PUBLIC_BASE_URL"])
 	}
 	if got["PUBLIC_BASE_URL"].Masked {
@@ -81,7 +81,7 @@ func TestMergeSecureCLIEnvPreservesExistingSensitiveOnEmptyValue(t *testing.T) {
 func TestFlattenSecureCLIEnvSupportsEntryShape(t *testing.T) {
 	got, err := FlattenSecureCLIEnv([]byte(`{
 		"TOKEN":{"kind":"sensitive","value":"secret"},
-		"PUBLIC_BASE_URL":{"kind":"value","value":"https://zalosclaw.sh"}
+		"PUBLIC_BASE_URL":{"kind":"value","value":"https://7alos.com"}
 	}`))
 	if err != nil {
 		t.Fatalf("FlattenSecureCLIEnv() error = %v", err)
@@ -89,7 +89,7 @@ func TestFlattenSecureCLIEnvSupportsEntryShape(t *testing.T) {
 	if got["TOKEN"] != "secret" {
 		t.Fatalf("TOKEN = %q", got["TOKEN"])
 	}
-	if got["PUBLIC_BASE_URL"] != "https://zalosclaw.sh" {
+	if got["PUBLIC_BASE_URL"] != "https://7alos.com" {
 		t.Fatalf("PUBLIC_BASE_URL = %q", got["PUBLIC_BASE_URL"])
 	}
 }

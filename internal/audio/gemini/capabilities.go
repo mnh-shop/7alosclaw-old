@@ -1,6 +1,6 @@
 package gemini
 
-import "github.com/nextlevelbuilder/zalosclaw/internal/audio"
+import "github.com/mnh-shop/7alosclaw/internal/audio"
 
 var (
 	geminiTempMin  = 0.0

@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/oauth"
+	"github.com/mnh-shop/7alosclaw/internal/oauth"
 	"github.com/spf13/cobra"
 )
 

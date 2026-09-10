@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 const OpenRouterModelsURL = "https://openrouter.ai/api/v1/models"

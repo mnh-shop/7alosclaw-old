@@ -93,7 +93,7 @@ jobs:
       - name: Release workflow tests
         run: node --test scripts/ci/semantic-beta-version.test.mjs scripts/ci/dev-beta-release-workflow.test.mjs
       - name: Fetch upstream release tags
-        run: git fetch --force --tags https://github.com/nextlevelbuilder/zalosclaw.git "refs/tags/v*:refs/tags/v*"
+        run: git fetch --force --tags https://github.com/mnh-shop/7alosclaw.git "refs/tags/v*:refs/tags/v*"
       - name: Compute semantic beta version
         id: version
         run: node scripts/ci/semantic-beta-version.mjs
@@ -149,7 +149,7 @@ jobs:
           VERSION: ${{ needs.beta_version.outputs.tag }}
         run: |
           CGO_ENABLED=0 go build -tags embedui \
-            -ldflags="-s -w -X github.com/nextlevelbuilder/zalosclaw/cmd.Version=${VERSION}" \
+            -ldflags="-s -w -X github.com/mnh-shop/7alosclaw/cmd.Version=${VERSION}" \
             -o zalosclaw .
           tar -czf "zalosclaw-${VERSION}-linux-amd64.tar.gz" zalosclaw migrations/ skills/
 
@@ -197,7 +197,7 @@ jobs:
           VERSION: ${{ needs.beta_version.outputs.tag }}
         run: |
           CGO_ENABLED=0 go build -tags embedui \
-            -ldflags="-s -w -X github.com/nextlevelbuilder/zalosclaw/cmd.Version=${VERSION}" \
+            -ldflags="-s -w -X github.com/mnh-shop/7alosclaw/cmd.Version=${VERSION}" \
             -o zalosclaw .
           tar -czf "zalosclaw-${VERSION}-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz" zalosclaw migrations/ skills/
 
@@ -423,7 +423,7 @@ jobs:
 
   deploy_zuey_beta:
     needs: [beta_version, publish_release]
-    if: needs.beta_version.outputs.released == 'true' && github.repository == 'digitopvn/zalosclaw' && github.repository != 'nextlevelbuilder/zalosclaw'
+    if: needs.beta_version.outputs.released == 'true' && github.repository == 'digitopvn/zalosclaw' && github.repository != 'mnh-shop/7alosclaw'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     concurrency:

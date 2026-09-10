@@ -9,9 +9,9 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/zalosclaw/internal/sandbox"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/bootstrap"
+	"github.com/mnh-shop/7alosclaw/internal/sandbox"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // virtualSystemFiles are files dynamically injected into the system prompt.

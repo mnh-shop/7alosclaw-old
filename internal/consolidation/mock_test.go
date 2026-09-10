@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/zalosclaw/internal/knowledgegraph"
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/knowledgegraph"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 // testRegistry creates a Registry with the given provider registered under MasterTenantID.

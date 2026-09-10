@@ -10,11 +10,11 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
-	"github.com/nextlevelbuilder/zalosclaw/internal/eventbus"
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
-	hookhandlers "github.com/nextlevelbuilder/zalosclaw/internal/hooks/handlers"
-	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
+	"github.com/mnh-shop/7alosclaw/internal/edition"
+	"github.com/mnh-shop/7alosclaw/internal/eventbus"
+	"github.com/mnh-shop/7alosclaw/internal/hooks"
+	hookhandlers "github.com/mnh-shop/7alosclaw/internal/hooks/handlers"
+	"github.com/mnh-shop/7alosclaw/internal/store/pg"
 )
 
 // newDispatcher wires a StdDispatcher with the supplied handler map over a

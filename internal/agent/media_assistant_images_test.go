@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/providers"
 )
 
 // minimalPNG is a 1x1 red PNG (67 bytes) — real PNG magic bytes + valid IHDR/IDAT.

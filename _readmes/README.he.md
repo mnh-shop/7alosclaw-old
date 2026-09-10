@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.zalosclaw.sh">תיעוד</a> •
-  <a href="https://docs.zalosclaw.sh/#quick-start">התחלה מהירה</a> •
+  <a href="https://docs.7alos.com">תיעוד</a> •
+  <a href="https://docs.7alos.com/#quick-start">התחלה מהירה</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -120,7 +120,7 @@ Single binary. Production-tested. Agents that orchestrate for you.
 ### מהמקור
 
 ```bash
-git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
+git clone https://github.com/mnh-shop/7alosclaw.git && cd zalosclaw
 make build
 ./zalosclaw onboard        # אשף הגדרה אינטראקטיבי
 source .env.local && ./zalosclaw
@@ -141,7 +141,7 @@ make up
 
 כאשר משתני הסביבה `ZALOSCLAW_*_API_KEY` מוגדרים, השער מגדיר את עצמו אוטומטית ללא פרומפטים אינטראקטיביים — מזהה ספק, מריץ מיגרציות ומזרע נתוני ברירת מחדל.
 
-> לגרסאות בנייה (OTel, Tailscale, Redis), תגי תמונת Docker ושכבות compose, ראה את [מדריך הפריסה](https://docs.zalosclaw.sh/#deploy-docker-compose).
+> לגרסאות בנייה (OTel, Tailscale, Redis), תגי תמונת Docker ושכבות compose, ראה את [מדריך הפריסה](https://docs.7alos.com/#deploy-docker-compose).
 
 ## תזמור רב-סוכנים
 
@@ -170,7 +170,7 @@ ZalosClaw תומך בצוותי סוכנים ובהאברת משימות בין 
 - **תיבת דואר של הצוות** — הודעות ישירות עמית-לעמית ושידורים
 - **כלים**: `team_tasks` לניהול משימות, `team_message` לתיבת הדואר
 
-> לפרטי האברה, קישורי הרשאה ובקרת מקביליות, ראה את [תיעוד צוותי סוכנים](https://docs.zalosclaw.sh/#teams-what-are-teams).
+> לפרטי האברה, קישורי הרשאה ובקרת מקביליות, ראה את [תיעוד צוותי סוכנים](https://docs.7alos.com/#teams-what-are-teams).
 
 ## כלים מובנים
 
@@ -214,19 +214,19 @@ ZalosClaw תומך בצוותי סוכנים ובהאברת משימות בין 
 
 ## תיעוד
 
-תיעוד מלא בכתובת **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** — או עיין במקור ב-[`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
+תיעוד מלא בכתובת **[docs.7alos.com](https://docs.7alos.com)** — או עיין במקור ב-[`zalosclaw-docs/`](https://github.com/mnh-shop/7alosclaw-docs)
 
 | קטע | נושאים |
 |---------|--------|
-| [תחילת עבודה](https://docs.zalosclaw.sh/#what-is-zalosclaw) | התקנה, התחלה מהירה, הגדרה, סיור בלוח הבקרה הווב |
-| [מושגי יסוד](https://docs.zalosclaw.sh/#how-zalosclaw-works) | לולאת סוכן, סשנים, כלים, זיכרון, מרובה-דיירות |
-| [סוכנים](https://docs.zalosclaw.sh/#creating-agents) | יצירת סוכנים, קבצי הקשר, אישיות, שיתוף וגישה |
-| [ספקים](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 נוספים |
-| [ערוצים](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [צוותי סוכנים](https://docs.zalosclaw.sh/#teams-what-are-teams) | צוותים, לוח משימות, הודעות, האברה והעברה |
-| [מתקדם](https://docs.zalosclaw.sh/#custom-tools) | כלים מותאמים, MCP, מיומנויות, Cron, ארגז חול, Hooks, RBAC |
-| [פריסה](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, מסד נתונים, אבטחה, תצפית, Tailscale |
-| [עיון](https://docs.zalosclaw.sh/#cli-commands) | פקודות CLI, REST API, פרוטוקול WebSocket, משתני סביבה |
+| [תחילת עבודה](https://docs.7alos.com/#what-is-zalosclaw) | התקנה, התחלה מהירה, הגדרה, סיור בלוח הבקרה הווב |
+| [מושגי יסוד](https://docs.7alos.com/#how-zalosclaw-works) | לולאת סוכן, סשנים, כלים, זיכרון, מרובה-דיירות |
+| [סוכנים](https://docs.7alos.com/#creating-agents) | יצירת סוכנים, קבצי הקשר, אישיות, שיתוף וגישה |
+| [ספקים](https://docs.7alos.com/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 נוספים |
+| [ערוצים](https://docs.7alos.com/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [צוותי סוכנים](https://docs.7alos.com/#teams-what-are-teams) | צוותים, לוח משימות, הודעות, האברה והעברה |
+| [מתקדם](https://docs.7alos.com/#custom-tools) | כלים מותאמים, MCP, מיומנויות, Cron, ארגז חול, Hooks, RBAC |
+| [פריסה](https://docs.7alos.com/#deploy-docker-compose) | Docker Compose, מסד נתונים, אבטחה, תצפית, Tailscale |
+| [עיון](https://docs.7alos.com/#cli-commands) | פקודות CLI, REST API, פרוטוקול WebSocket, משתני סביבה |
 
 ## בדיקות
 

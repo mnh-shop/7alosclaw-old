@@ -18,8 +18,8 @@ import (
 
 	"golang.org/x/net/idna"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/internal/i18n"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
 )
 
 // hostScopeRe matches lowercase hostnames with optional port. Applied AFTER

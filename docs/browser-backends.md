@@ -58,4 +58,4 @@ The AX-tree (`Accessibility.getFullAXTree`) snapshot path requires Lightpanda wi
 
 - Lightpanda: https://lightpanda.io
 - Lightpanda + go-rod demos: https://github.com/lightpanda-io/demo/tree/main/rod
-- Tracking issue: https://github.com/nextlevelbuilder/zalosclaw/issues/223
+- Tracking issue: https://github.com/mnh-shop/7alosclaw/issues/223

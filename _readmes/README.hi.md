@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.zalosclaw.sh">दस्तावेज़ीकरण</a> •
-  <a href="https://docs.zalosclaw.sh/#quick-start">त्वरित प्रारंभ</a> •
+  <a href="https://docs.7alos.com">दस्तावेज़ीकरण</a> •
+  <a href="https://docs.7alos.com/#quick-start">त्वरित प्रारंभ</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -120,7 +120,7 @@ Single binary. Production-tested. Agents that orchestrate for you.
 ### सोर्स से
 
 ```bash
-git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
+git clone https://github.com/mnh-shop/7alosclaw.git && cd zalosclaw
 make build
 ./zalosclaw onboard        # Interactive setup wizard
 source .env.local && ./zalosclaw
@@ -141,7 +141,7 @@ make up
 
 जब `ZALOSCLAW_*_API_KEY` एनवायरनमेंट वेरिएबल सेट हों, तो गेटवे इंटरएक्टिव प्रॉम्प्ट के बिना स्वत: ऑनबोर्ड हो जाता है — प्रदाता का पता लगाता है, माइग्रेशन चलाता है, और डिफ़ॉल्ट डेटा सीड करता है।
 
-> बिल्ड वेरिएंट (OTel, Tailscale, Redis), Docker इमेज टैग, और compose ओवरले के लिए, [Deployment Guide](https://docs.zalosclaw.sh/#deploy-docker-compose) देखें।
+> बिल्ड वेरिएंट (OTel, Tailscale, Redis), Docker इमेज टैग, और compose ओवरले के लिए, [Deployment Guide](https://docs.7alos.com/#deploy-docker-compose) देखें।
 
 ## मल्टी-एजेंट ऑर्केस्ट्रेशन
 
@@ -170,7 +170,7 @@ ZalosClaw एजेंट टीमों और इंटर-एजेंट �
 - **टीम मेलबॉक्स** — सीधे पीयर-टू-पीयर मैसेजिंग और ब्रॉडकास्ट
 - **टूल्स**: टास्क मैनेजमेंट के लिए `team_tasks`, मेलबॉक्स के लिए `team_message`
 
-> डेलीगेशन विवरण, परमिशन लिंक, और कंकरेंसी कंट्रोल के लिए, [Agent Teams docs](https://docs.zalosclaw.sh/#teams-what-are-teams) देखें।
+> डेलीगेशन विवरण, परमिशन लिंक, और कंकरेंसी कंट्रोल के लिए, [Agent Teams docs](https://docs.7alos.com/#teams-what-are-teams) देखें।
 
 ## बिल्ट-इन टूल्स
 
@@ -214,19 +214,19 @@ ZalosClaw एजेंट टीमों और इंटर-एजेंट �
 
 ## दस्तावेज़ीकरण
 
-पूर्ण दस्तावेज़ीकरण **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** पर — या [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs) में सोर्स ब्राउज़ करें।
+पूर्ण दस्तावेज़ीकरण **[docs.7alos.com](https://docs.7alos.com)** पर — या [`zalosclaw-docs/`](https://github.com/mnh-shop/7alosclaw-docs) में सोर्स ब्राउज़ करें।
 
 | अनुभाग | विषय |
 |---------|--------|
-| [Getting Started](https://docs.zalosclaw.sh/#what-is-zalosclaw) | इंस्टॉलेशन, त्वरित प्रारंभ, कॉन्फ़िगरेशन, Web Dashboard टूर |
-| [Core Concepts](https://docs.zalosclaw.sh/#how-zalosclaw-works) | एजेंट लूप, सेशन, टूल्स, मेमोरी, मल्टी-टेनेंसी |
-| [Agents](https://docs.zalosclaw.sh/#creating-agents) | एजेंट बनाना, कॉन्टेक्स्ट फ़ाइलें, व्यक्तित्व, शेयरिंग और एक्सेस |
-| [Providers](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 और |
-| [Channels](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Agent Teams](https://docs.zalosclaw.sh/#teams-what-are-teams) | टीमें, टास्क बोर्ड, मैसेजिंग, डेलीगेशन और हैंडऑफ |
-| [Advanced](https://docs.zalosclaw.sh/#custom-tools) | कस्टम टूल्स, MCP, स्किल्स, Cron, सैंडबॉक्स, हुक, RBAC |
-| [Deployment](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, डेटाबेस, सुरक्षा, ऑब्ज़र्वेबिलिटी, Tailscale |
-| [Reference](https://docs.zalosclaw.sh/#cli-commands) | CLI कमांड, REST API, WebSocket प्रोटोकॉल, एनवायरनमेंट वेरिएबल |
+| [Getting Started](https://docs.7alos.com/#what-is-zalosclaw) | इंस्टॉलेशन, त्वरित प्रारंभ, कॉन्फ़िगरेशन, Web Dashboard टूर |
+| [Core Concepts](https://docs.7alos.com/#how-zalosclaw-works) | एजेंट लूप, सेशन, टूल्स, मेमोरी, मल्टी-टेनेंसी |
+| [Agents](https://docs.7alos.com/#creating-agents) | एजेंट बनाना, कॉन्टेक्स्ट फ़ाइलें, व्यक्तित्व, शेयरिंग और एक्सेस |
+| [Providers](https://docs.7alos.com/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 और |
+| [Channels](https://docs.7alos.com/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Agent Teams](https://docs.7alos.com/#teams-what-are-teams) | टीमें, टास्क बोर्ड, मैसेजिंग, डेलीगेशन और हैंडऑफ |
+| [Advanced](https://docs.7alos.com/#custom-tools) | कस्टम टूल्स, MCP, स्किल्स, Cron, सैंडबॉक्स, हुक, RBAC |
+| [Deployment](https://docs.7alos.com/#deploy-docker-compose) | Docker Compose, डेटाबेस, सुरक्षा, ऑब्ज़र्वेबिलिटी, Tailscale |
+| [Reference](https://docs.7alos.com/#cli-commands) | CLI कमांड, REST API, WebSocket प्रोटोकॉल, एनवायरनमेंट वेरिएबल |
 
 ## परीक्षण
 

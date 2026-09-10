@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
 )
 
 // Reproduces the false-success bug: a cross-target forward (message tool,

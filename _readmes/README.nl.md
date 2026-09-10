@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.zalosclaw.sh">Documentatie</a> •
-  <a href="https://docs.zalosclaw.sh/#quick-start">Snel starten</a> •
+  <a href="https://docs.7alos.com">Documentatie</a> •
+  <a href="https://docs.7alos.com/#quick-start">Snel starten</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -120,7 +120,7 @@ Een Go-port van [OpenClaw](https://github.com/openclaw/openclaw) met verbeterde 
 ### Vanuit broncode
 
 ```bash
-git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
+git clone https://github.com/mnh-shop/7alosclaw.git && cd zalosclaw
 make build
 ./zalosclaw onboard        # Interactieve installatiewizard
 source .env.local && ./zalosclaw
@@ -141,7 +141,7 @@ make up
 
 Wanneer `ZALOSCLAW_*_API_KEY`-omgevingsvariabelen zijn ingesteld, voert de gateway automatisch de installatie uit zonder interactieve aanwijzingen — detecteert de provider, voert migraties uit en seeded standaardgegevens.
 
-> Voor buildvarianten (OTel, Tailscale, Redis), Docker-imagetags en compose-overlays, zie de [Implementatiegids](https://docs.zalosclaw.sh/#deploy-docker-compose).
+> Voor buildvarianten (OTel, Tailscale, Redis), Docker-imagetags en compose-overlays, zie de [Implementatiegids](https://docs.7alos.com/#deploy-docker-compose).
 
 ## Multi-agent orkestratie
 
@@ -170,7 +170,7 @@ Agents communiceren via expliciete **rechtenkoppelingen** met richtingscontrole 
 - **Team-postvak** — Directe peer-to-peer berichten en uitzendboodschappen
 - **Tools**: `team_tasks` voor taakbeheer, `team_message` voor het postvak
 
-> Voor delegatiedetails, rechtenkoppelingen en gelijktijdigheidscontrole, zie de [Agentteams-documentatie](https://docs.zalosclaw.sh/#teams-what-are-teams).
+> Voor delegatiedetails, rechtenkoppelingen en gelijktijdigheidscontrole, zie de [Agentteams-documentatie](https://docs.7alos.com/#teams-what-are-teams).
 
 ## Ingebouwde tools
 
@@ -214,19 +214,19 @@ Agents communiceren via expliciete **rechtenkoppelingen** met richtingscontrole 
 
 ## Documentatie
 
-Volledige documentatie op **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** — of blader door de broncode in [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
+Volledige documentatie op **[docs.7alos.com](https://docs.7alos.com)** — of blader door de broncode in [`zalosclaw-docs/`](https://github.com/mnh-shop/7alosclaw-docs)
 
 | Sectie | Onderwerpen |
 |--------|-------------|
-| [Aan de slag](https://docs.zalosclaw.sh/#what-is-zalosclaw) | Installatie, Snel starten, Configuratie, Rondleiding webdashboard |
-| [Kernconcepten](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Agent-loop, Sessies, Tools, Geheugen, Multi-tenancy |
-| [Agents](https://docs.zalosclaw.sh/#creating-agents) | Agents aanmaken, Contextbestanden, Persoonlijkheid, Delen & Toegang |
-| [Providers](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 meer |
-| [Kanalen](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Agentteams](https://docs.zalosclaw.sh/#teams-what-are-teams) | Teams, Taakbord, Berichten, Delegatie & Overdracht |
-| [Geavanceerd](https://docs.zalosclaw.sh/#custom-tools) | Aangepaste tools, MCP, Vaardigheden, Cron, Sandbox, Hooks, RBAC |
-| [Implementatie](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, Database, Beveiliging, Observeerbaarheid, Tailscale |
-| [Referentie](https://docs.zalosclaw.sh/#cli-commands) | CLI-opdrachten, REST API, WebSocket Protocol, Omgevingsvariabelen |
+| [Aan de slag](https://docs.7alos.com/#what-is-zalosclaw) | Installatie, Snel starten, Configuratie, Rondleiding webdashboard |
+| [Kernconcepten](https://docs.7alos.com/#how-zalosclaw-works) | Agent-loop, Sessies, Tools, Geheugen, Multi-tenancy |
+| [Agents](https://docs.7alos.com/#creating-agents) | Agents aanmaken, Contextbestanden, Persoonlijkheid, Delen & Toegang |
+| [Providers](https://docs.7alos.com/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 meer |
+| [Kanalen](https://docs.7alos.com/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Agentteams](https://docs.7alos.com/#teams-what-are-teams) | Teams, Taakbord, Berichten, Delegatie & Overdracht |
+| [Geavanceerd](https://docs.7alos.com/#custom-tools) | Aangepaste tools, MCP, Vaardigheden, Cron, Sandbox, Hooks, RBAC |
+| [Implementatie](https://docs.7alos.com/#deploy-docker-compose) | Docker Compose, Database, Beveiliging, Observeerbaarheid, Tailscale |
+| [Referentie](https://docs.7alos.com/#cli-commands) | CLI-opdrachten, REST API, WebSocket Protocol, Omgevingsvariabelen |
 
 ## Testen
 

@@ -8,7 +8,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/security"
+	"github.com/mnh-shop/7alosclaw/internal/security"
 )
 
 // DCRRequest is the Dynamic Client Registration request body (RFC 7591).

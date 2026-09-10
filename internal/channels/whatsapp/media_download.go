@@ -9,7 +9,7 @@ import (
 	"go.mau.fi/whatsmeow"
 	"go.mau.fi/whatsmeow/types/events"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels/media"
+	"github.com/mnh-shop/7alosclaw/internal/channels/media"
 )
 
 // downloadMedia downloads media attachments from a WhatsApp message.

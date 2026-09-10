@@ -18,11 +18,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/version"
+	"github.com/mnh-shop/7alosclaw/internal/version"
 )
 
 const (
-	githubRepo = "nextlevelbuilder/zalosclaw"
+	githubRepo = "mnh-shop/7alosclaw"
 	tagPrefix  = "lite-v"
 	// maxFileSize limits individual extracted files to 500 MB (decompression bomb guard).
 	maxFileSize = 500 << 20

@@ -3,8 +3,8 @@ package minimax_test
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
-	"github.com/nextlevelbuilder/zalosclaw/internal/audio/minimax"
+	"github.com/mnh-shop/7alosclaw/internal/audio"
+	"github.com/mnh-shop/7alosclaw/internal/audio/minimax"
 )
 
 func TestSynthesize_AppliesParams_Speed(t *testing.T) {

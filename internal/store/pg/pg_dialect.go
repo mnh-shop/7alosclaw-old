@@ -3,7 +3,7 @@ package pg
 import (
 	"fmt"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store/base"
+	"github.com/mnh-shop/7alosclaw/internal/store/base"
 )
 
 // pgDialect implements base.Dialect for PostgreSQL ($1, $2, ... placeholders).

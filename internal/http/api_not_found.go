@@ -3,8 +3,8 @@ package http
 import (
 	"net/http"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
-	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
+	"github.com/mnh-shop/7alosclaw/internal/i18n"
+	"github.com/mnh-shop/7alosclaw/pkg/protocol"
 )
 
 // RegisterAPINotFoundRoute keeps unknown /v1/* paths in the structured API envelope.

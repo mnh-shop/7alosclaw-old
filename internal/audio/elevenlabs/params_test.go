@@ -3,8 +3,8 @@ package elevenlabs_test
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
-	"github.com/nextlevelbuilder/zalosclaw/internal/audio/elevenlabs"
+	"github.com/mnh-shop/7alosclaw/internal/audio"
+	"github.com/mnh-shop/7alosclaw/internal/audio/elevenlabs"
 )
 
 func TestSynthesize_AppliesParams_NestedStability(t *testing.T) {

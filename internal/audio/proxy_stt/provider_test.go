@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels/media"
+	"github.com/mnh-shop/7alosclaw/internal/audio"
+	"github.com/mnh-shop/7alosclaw/internal/channels/media"
 )
 
 // proxyTestResponse mirrors the STT proxy JSON response for test assertions.

@@ -12,7 +12,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/upgrade"
+	"github.com/mnh-shop/7alosclaw/internal/upgrade"
 )
 
 // RestoreOptions configures a system restore run.

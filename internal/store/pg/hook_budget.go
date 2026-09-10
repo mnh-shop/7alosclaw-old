@@ -9,7 +9,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/hooks/budget"
+	"github.com/mnh-shop/7alosclaw/internal/hooks/budget"
 )
 
 // PGHookBudget implements budget.Dialect over PostgreSQL.

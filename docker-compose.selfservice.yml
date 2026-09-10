@@ -12,7 +12,7 @@
 
 services:
   zalosclaw-ui:
-    image: ghcr.io/nextlevelbuilder/zalosclaw-web:latest
+    image: ghcr.io/mnh-shop/7alosclaw-web:latest
     build:
       context: ${ZALOSCLAW_DIR:-.}/ui/web
       dockerfile: Dockerfile

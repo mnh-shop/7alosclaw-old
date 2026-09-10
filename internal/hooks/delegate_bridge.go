@@ -6,7 +6,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/eventbus"
+	"github.com/mnh-shop/7alosclaw/internal/eventbus"
 )
 
 // SubscribeDelegateEvents wires delegate.completed and delegate.failed eventbus

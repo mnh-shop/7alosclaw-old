@@ -13,8 +13,8 @@ import (
 	"go.mau.fi/whatsmeow/types"
 	_ "modernc.org/sqlite"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/mnh-shop/7alosclaw/internal/bus"
+	"github.com/mnh-shop/7alosclaw/internal/channels"
 )
 
 func TestResetClientLockedDoesNotFallbackToFirstDeviceWhenCredentialJIDMissing(t *testing.T) {

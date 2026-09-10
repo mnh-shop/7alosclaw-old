@@ -16,7 +16,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
+	"github.com/mnh-shop/7alosclaw/pkg/protocol"
 )
 
 // Role represents a user's permission level.

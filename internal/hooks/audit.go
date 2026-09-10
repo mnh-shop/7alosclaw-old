@@ -9,7 +9,7 @@ import (
 	"sort"
 	"unicode/utf8"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
+	"github.com/mnh-shop/7alosclaw/internal/crypto"
 )
 
 // MaxErrorLen caps the visible `error` column in hook_executions (M2 mitigation).

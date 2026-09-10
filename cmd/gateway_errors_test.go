@@ -3,7 +3,7 @@ package cmd
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/mnh-shop/7alosclaw/internal/channels"
 )
 
 // TestIsExternalChannel ensures the whitelist matches actual channel type

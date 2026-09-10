@@ -8,7 +8,7 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // CredentialAdapter transforms a user credential into the shape a specific CLI

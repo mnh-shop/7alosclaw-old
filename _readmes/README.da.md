@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.zalosclaw.sh">Dokumentation</a> •
-  <a href="https://docs.zalosclaw.sh/#quick-start">Hurtig Start</a> •
+  <a href="https://docs.7alos.com">Dokumentation</a> •
+  <a href="https://docs.7alos.com/#quick-start">Hurtig Start</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -120,7 +120,7 @@ En Go-port af [OpenClaw](https://github.com/openclaw/openclaw) med forbedret sik
 ### Fra Kildekode
 
 ```bash
-git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
+git clone https://github.com/mnh-shop/7alosclaw.git && cd zalosclaw
 make build
 ./zalosclaw onboard        # Interaktiv opsætningsguide
 source .env.local && ./zalosclaw
@@ -141,7 +141,7 @@ make up
 
 Når `ZALOSCLAW_*_API_KEY`-miljøvariabler er sat, onboarder gatewayen automatisk uden interaktive prompter — registrerer udbyder, kører migrationer og seeder standarddata.
 
-> For build-varianter (OTel, Tailscale, Redis), Docker-image-tags og compose-overlays, se [Deployeringsguide](https://docs.zalosclaw.sh/#deploy-docker-compose).
+> For build-varianter (OTel, Tailscale, Redis), Docker-image-tags og compose-overlays, se [Deployeringsguide](https://docs.7alos.com/#deploy-docker-compose).
 
 ## Multi-Agent-orkestrering
 
@@ -170,7 +170,7 @@ Agenter kommunikerer via eksplicitte **tilladelseslinks** med retningskontrol (`
 - **Team-postkasse** — Direkte peer-to-peer-beskeder og broadcasts
 - **Værktøjer**: `team_tasks` til opgavestyring, `team_message` til postkassen
 
-> For delegationsdetaljer, tilladelseslinks og samtidige begrænsninger, se [Agent Teams-dokumentationen](https://docs.zalosclaw.sh/#teams-what-are-teams).
+> For delegationsdetaljer, tilladelseslinks og samtidige begrænsninger, se [Agent Teams-dokumentationen](https://docs.7alos.com/#teams-what-are-teams).
 
 ## Indbyggede Værktøjer
 
@@ -214,19 +214,19 @@ Agenter kommunikerer via eksplicitte **tilladelseslinks** med retningskontrol (`
 
 ## Dokumentation
 
-Fuld dokumentation på **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** — eller gennemse kilden i [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
+Fuld dokumentation på **[docs.7alos.com](https://docs.7alos.com)** — eller gennemse kilden i [`zalosclaw-docs/`](https://github.com/mnh-shop/7alosclaw-docs)
 
 | Sektion | Emner |
 |---------|-------|
-| [Kom i gang](https://docs.zalosclaw.sh/#what-is-zalosclaw) | Installation, Hurtig Start, Konfiguration, Web Dashboard-rundvisning |
-| [Kernebegreber](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Agent Loop, Sessioner, Værktøjer, Hukommelse, Multi-Tenancy |
-| [Agenter](https://docs.zalosclaw.sh/#creating-agents) | Opret agenter, Kontekstfiler, Personlighed, Deling og adgang |
-| [Udbydere](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 flere |
-| [Kanaler](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Agent-teams](https://docs.zalosclaw.sh/#teams-what-are-teams) | Teams, Opgavetavle, Beskeder, Delegering og overdragelse |
-| [Avanceret](https://docs.zalosclaw.sh/#custom-tools) | Brugerdefinerede værktøjer, MCP, Skills, Cron, Sandkasse, Hooks, RBAC |
-| [Deployering](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, Database, Sikkerhed, Observabilitet, Tailscale |
-| [Reference](https://docs.zalosclaw.sh/#cli-commands) | CLI-kommandoer, REST API, WebSocket-protokol, Miljøvariabler |
+| [Kom i gang](https://docs.7alos.com/#what-is-zalosclaw) | Installation, Hurtig Start, Konfiguration, Web Dashboard-rundvisning |
+| [Kernebegreber](https://docs.7alos.com/#how-zalosclaw-works) | Agent Loop, Sessioner, Værktøjer, Hukommelse, Multi-Tenancy |
+| [Agenter](https://docs.7alos.com/#creating-agents) | Opret agenter, Kontekstfiler, Personlighed, Deling og adgang |
+| [Udbydere](https://docs.7alos.com/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 flere |
+| [Kanaler](https://docs.7alos.com/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Agent-teams](https://docs.7alos.com/#teams-what-are-teams) | Teams, Opgavetavle, Beskeder, Delegering og overdragelse |
+| [Avanceret](https://docs.7alos.com/#custom-tools) | Brugerdefinerede værktøjer, MCP, Skills, Cron, Sandkasse, Hooks, RBAC |
+| [Deployering](https://docs.7alos.com/#deploy-docker-compose) | Docker Compose, Database, Sikkerhed, Observabilitet, Tailscale |
+| [Reference](https://docs.7alos.com/#cli-commands) | CLI-kommandoer, REST API, WebSocket-protokol, Miljøvariabler |
 
 ## Test
 

@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // isSessionInScope checks whether a target session key falls within

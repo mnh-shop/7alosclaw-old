@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/mnh-shop/7alosclaw/internal/tools"
 )
 
 // buildMergedSubagentAnnounce creates the announce message for one or more subagent results.
