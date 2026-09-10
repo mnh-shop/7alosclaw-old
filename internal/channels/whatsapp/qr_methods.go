@@ -13,10 +13,10 @@ import (
 	qrcode "github.com/skip2/go-qrcode"
 	wastore "go.mau.fi/whatsmeow/store"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/gateway"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	goclawprotocol "github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/gateway"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	zalosclawprotocol "github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 const qrSessionTimeout = 3 * time.Minute
@@ -43,10 +43,10 @@ func NewQRMethods(instanceStore store.ChannelInstanceStore, manager *channels.Ma
 }
 
 func (m *QRMethods) Register(router *gateway.MethodRouter) {
-	router.Register(goclawprotocol.MethodWhatsAppQRStart, m.handleQRStart)
+	router.Register(zalosclawprotocol.MethodWhatsAppQRStart, m.handleQRStart)
 }
 
-func (m *QRMethods) handleQRStart(ctx context.Context, client *gateway.Client, req *goclawprotocol.RequestFrame) {
+func (m *QRMethods) handleQRStart(ctx context.Context, client *gateway.Client, req *zalosclawprotocol.RequestFrame) {
 	var params struct {
 		InstanceID  string `json:"instance_id"`
 		ForceReauth bool   `json:"force_reauth"`
@@ -57,13 +57,13 @@ func (m *QRMethods) handleQRStart(ctx context.Context, client *gateway.Client, r
 
 	instID, err := uuid.Parse(params.InstanceID)
 	if err != nil {
-		client.SendResponse(goclawprotocol.NewErrorResponse(req.ID, goclawprotocol.ErrInvalidRequest, "invalid instance_id"))
+		client.SendResponse(zalosclawprotocol.NewErrorResponse(req.ID, zalosclawprotocol.ErrInvalidRequest, "invalid instance_id"))
 		return
 	}
 
 	inst, err := m.instanceStore.Get(ctx, instID)
 	if err != nil || inst.ChannelType != channels.TypeWhatsApp {
-		client.SendResponse(goclawprotocol.NewErrorResponse(req.ID, goclawprotocol.ErrNotFound, "whatsapp instance not found"))
+		client.SendResponse(zalosclawprotocol.NewErrorResponse(req.ID, zalosclawprotocol.ErrNotFound, "whatsapp instance not found"))
 		return
 	}
 
@@ -78,7 +78,7 @@ func (m *QRMethods) handleQRStart(ctx context.Context, client *gateway.Client, r
 	}
 
 	// ACK immediately — QR/done events arrive asynchronously.
-	client.SendResponse(goclawprotocol.NewOKResponse(req.ID, map[string]any{"status": "started"}))
+	client.SendResponse(zalosclawprotocol.NewOKResponse(req.ID, map[string]any{"status": "started"}))
 
 	go m.runQRSession(qrCtx, entry, client, instID, params.InstanceID, inst.Name, params.ForceReauth)
 }
@@ -115,9 +115,9 @@ func (m *QRMethods) runQRSession(ctx context.Context, entry *cancelEntry,
 		}
 	}
 	if wa == nil {
-		client.SendEvent(goclawprotocol.EventFrame{
-			Type:  goclawprotocol.FrameTypeEvent,
-			Event: goclawprotocol.EventWhatsAppQRDone,
+		client.SendEvent(zalosclawprotocol.EventFrame{
+			Type:  zalosclawprotocol.FrameTypeEvent,
+			Event: zalosclawprotocol.EventWhatsAppQRDone,
 			Payload: map[string]any{
 				"instance_id": instanceIDStr,
 				"success":     false,
@@ -132,9 +132,9 @@ func (m *QRMethods) runQRSession(ctx context.Context, entry *cancelEntry,
 		if err := m.persistDeviceJID(ctx, instanceID, wa); err != nil {
 			slog.Warn("whatsapp QR: persist device JID failed", "instance", instanceIDStr, "error", err)
 		}
-		client.SendEvent(goclawprotocol.EventFrame{
-			Type:  goclawprotocol.FrameTypeEvent,
-			Event: goclawprotocol.EventWhatsAppQRDone,
+		client.SendEvent(zalosclawprotocol.EventFrame{
+			Type:  zalosclawprotocol.FrameTypeEvent,
+			Event: zalosclawprotocol.EventWhatsAppQRDone,
 			Payload: map[string]any{
 				"instance_id":       instanceIDStr,
 				"success":           true,
@@ -153,9 +153,9 @@ func (m *QRMethods) runQRSession(ctx context.Context, entry *cancelEntry,
 
 	// Deliver cached QR if available.
 	if cached := wa.GetLastQRB64(); cached != "" {
-		client.SendEvent(goclawprotocol.EventFrame{
-			Type:  goclawprotocol.FrameTypeEvent,
-			Event: goclawprotocol.EventWhatsAppQRCode,
+		client.SendEvent(zalosclawprotocol.EventFrame{
+			Type:  zalosclawprotocol.FrameTypeEvent,
+			Event: zalosclawprotocol.EventWhatsAppQRCode,
 			Payload: map[string]any{
 				"instance_id": instanceIDStr,
 				"png_b64":     cached,
@@ -167,9 +167,9 @@ func (m *QRMethods) runQRSession(ctx context.Context, entry *cancelEntry,
 	qrChan, err := wa.StartQRFlow(ctx)
 	if err != nil {
 		slog.Warn("whatsapp QR: start flow failed", "error", err)
-		client.SendEvent(goclawprotocol.EventFrame{
-			Type:  goclawprotocol.FrameTypeEvent,
-			Event: goclawprotocol.EventWhatsAppQRDone,
+		client.SendEvent(zalosclawprotocol.EventFrame{
+			Type:  zalosclawprotocol.FrameTypeEvent,
+			Event: zalosclawprotocol.EventWhatsAppQRDone,
 			Payload: map[string]any{
 				"instance_id": instanceIDStr,
 				"success":     false,
@@ -184,9 +184,9 @@ func (m *QRMethods) runQRSession(ctx context.Context, entry *cancelEntry,
 		if err := m.persistDeviceJID(ctx, instanceID, wa); err != nil {
 			slog.Warn("whatsapp QR: persist device JID failed", "instance", instanceIDStr, "error", err)
 		}
-		client.SendEvent(goclawprotocol.EventFrame{
-			Type:  goclawprotocol.FrameTypeEvent,
-			Event: goclawprotocol.EventWhatsAppQRDone,
+		client.SendEvent(zalosclawprotocol.EventFrame{
+			Type:  zalosclawprotocol.FrameTypeEvent,
+			Event: zalosclawprotocol.EventWhatsAppQRDone,
 			Payload: map[string]any{
 				"instance_id":       instanceIDStr,
 				"success":           true,
@@ -200,9 +200,9 @@ func (m *QRMethods) runQRSession(ctx context.Context, entry *cancelEntry,
 	for {
 		select {
 		case <-ctx.Done():
-			client.SendEvent(goclawprotocol.EventFrame{
-				Type:  goclawprotocol.FrameTypeEvent,
-				Event: goclawprotocol.EventWhatsAppQRDone,
+			client.SendEvent(zalosclawprotocol.EventFrame{
+				Type:  zalosclawprotocol.FrameTypeEvent,
+				Event: zalosclawprotocol.EventWhatsAppQRDone,
 				Payload: map[string]any{
 					"instance_id": instanceIDStr,
 					"success":     false,
@@ -227,9 +227,9 @@ func (m *QRMethods) runQRSession(ctx context.Context, entry *cancelEntry,
 
 				wa.cacheQR(pngB64)
 
-				client.SendEvent(goclawprotocol.EventFrame{
-					Type:  goclawprotocol.FrameTypeEvent,
-					Event: goclawprotocol.EventWhatsAppQRCode,
+				client.SendEvent(zalosclawprotocol.EventFrame{
+					Type:  zalosclawprotocol.FrameTypeEvent,
+					Event: zalosclawprotocol.EventWhatsAppQRCode,
 					Payload: map[string]any{
 						"instance_id": instanceIDStr,
 						"png_b64":     pngB64,
@@ -240,9 +240,9 @@ func (m *QRMethods) runQRSession(ctx context.Context, entry *cancelEntry,
 				if err := m.persistDeviceJID(ctx, instanceID, wa); err != nil {
 					slog.Warn("whatsapp QR: persist device JID failed", "instance", instanceIDStr, "error", err)
 				}
-				client.SendEvent(goclawprotocol.EventFrame{
-					Type:  goclawprotocol.FrameTypeEvent,
-					Event: goclawprotocol.EventWhatsAppQRDone,
+				client.SendEvent(zalosclawprotocol.EventFrame{
+					Type:  zalosclawprotocol.FrameTypeEvent,
+					Event: zalosclawprotocol.EventWhatsAppQRDone,
 					Payload: map[string]any{
 						"instance_id": instanceIDStr,
 						"success":     true,
@@ -252,9 +252,9 @@ func (m *QRMethods) runQRSession(ctx context.Context, entry *cancelEntry,
 				return
 
 			case "timeout":
-				client.SendEvent(goclawprotocol.EventFrame{
-					Type:  goclawprotocol.FrameTypeEvent,
-					Event: goclawprotocol.EventWhatsAppQRDone,
+				client.SendEvent(zalosclawprotocol.EventFrame{
+					Type:  zalosclawprotocol.FrameTypeEvent,
+					Event: zalosclawprotocol.EventWhatsAppQRDone,
 					Payload: map[string]any{
 						"instance_id": instanceIDStr,
 						"success":     false,

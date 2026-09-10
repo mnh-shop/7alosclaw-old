@@ -7,17 +7,17 @@ describe("runtime branding", () => {
     document.head.innerHTML = "";
   });
 
-  it("falls back to built-in GoClaw branding", () => {
+  it("falls back to built-in ZalosClaw branding", () => {
     expect(getRuntimeBranding()).toEqual({
-      appName: "GoClaw",
-      appShortName: "GoClaw",
-      logoUrl: "/goclaw-icon.svg",
+      appName: "ZalosClaw",
+      appShortName: "ZalosClaw",
+      logoUrl: "/zalosclaw-icon.svg",
     });
   });
 
   it("reads branding injected by the server", () => {
     const script = document.createElement("script");
-    script.id = "goclaw-branding";
+    script.id = "zalosclaw-branding";
     script.type = "application/json";
     script.textContent = JSON.stringify({
       app_name: "Acme Agents",

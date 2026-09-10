@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/lib/pq"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // entityRow is an sqlx scan struct for kg_entities SELECT queries.

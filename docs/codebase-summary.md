@@ -1,6 +1,6 @@
 # Codebase Summary
 
-High-level map of GoClaw modules and key cross-cutting concerns.
+High-level map of ZalosClaw modules and key cross-cutting concerns.
 For system design see `docs/00-architecture-overview.md`; for API contract see `docs/18-http-api.md`.
 
 ---
@@ -125,7 +125,7 @@ Native `image_generation` support in the Codex provider (`POST /codex/responses`
 
 **Provider flag:** `ProviderCapabilities.ImageGeneration bool` (`internal/providers/capabilities.go`). Codex sets `true`; other providers default `false`.
 
-**Gate (agent loop):** `ToolDefinition{Type:"image_generation"}` appended iff (provider capability) AND (`AgentConfig.AllowImageGeneration`, default true) AND (request lacks `x-goclaw-no-image-gen` header). Gate logic in `internal/agent/loop_tool_filter.go`.
+**Gate (agent loop):** `ToolDefinition{Type:"image_generation"}` appended iff (provider capability) AND (`AgentConfig.AllowImageGeneration`, default true) AND (request lacks `x-zalosclaw-no-image-gen` header). Gate logic in `internal/agent/loop_tool_filter.go`.
 
 **Codex native events** (`internal/providers/codex.go`):
 - `response.image_generation_call.partial_image` → `ChatResponse.Images` entry with `Partial:true`.
@@ -178,7 +178,7 @@ External systems invoke agents or send channel messages via webhooks without gat
 
 ### Secret Encryption
 
-Raw webhook secret encrypted at rest via AES-256-GCM using `GOCLAW_ENCRYPTION_KEY` (same as LLM provider keys).
+Raw webhook secret encrypted at rest via AES-256-GCM using `ZALOSCLAW_ENCRYPTION_KEY` (same as LLM provider keys).
 - Database: stores `encrypted_secret` column + `secret_hash` (for bearer lookups).
 - DB compromise does not leak HMAC material.
 - Clients receive plaintext secret once (create/rotate response) — must store securely.

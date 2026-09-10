@@ -4,10 +4,10 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/sessions"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/sessions"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // MessageTargetEnforced reports whether the message tool must enforce

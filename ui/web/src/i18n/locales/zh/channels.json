@@ -827,7 +827,7 @@
         "invalidDomain": "必须是有效的主机名（例如：mycorp.bitrix24.com、mycorp.bitrix24.vn 或你的自托管域名）。",
         "duplicateName": "门户名称已存在。",
         "forbidden": "您需要租户管理员权限才能创建门户。",
-        "gatewayURLUnknown": "请先通过公网 URL（非 localhost）打开 goclaw UI 然后重试。"
+        "gatewayURLUnknown": "请先通过公网 URL（非 localhost）打开 zalosclaw UI 然后重试。"
       },
       "help": {
         "title": "如何获取 Client ID 和 Secret？",
@@ -845,7 +845,7 @@
         "installed": "门户安装成功！",
         "timedOut": "尚未完成授权。可从下拉框继续。",
         "closeResumeLater": "关闭（稍后继续）",
-        "urlUnknown": "无法获取安装 URL。请通过公网 URL 打开 goclaw UI 后从下拉框重试。"
+        "urlUnknown": "无法获取安装 URL。请通过公网 URL 打开 zalosclaw UI 后从下拉框重试。"
       }
     }
   }

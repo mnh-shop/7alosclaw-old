@@ -5,8 +5,8 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/skills"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
 )
 
 func unknownSkillSlashResult(all []skills.Info, target string, cfg config.SkillSlashCommandConfig) skillSlashCommandResult {

@@ -11,11 +11,11 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/hooks"
-	hookhandlers "github.com/nextlevelbuilder/goclaw/internal/hooks/handlers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/store/pg"
-	"github.com/nextlevelbuilder/goclaw/internal/tracing"
+	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
+	hookhandlers "github.com/nextlevelbuilder/zalosclaw/internal/hooks/handlers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tracing"
 )
 
 // TestHooksTracing_EmitHookSpan verifies EmitHookSpan writes a span row with

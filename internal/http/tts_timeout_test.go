@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
 )
 
 // sleepingTTSProvider is a test-only TTS provider that sleeps for a configurable

@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // TestBuildSystemPrompt_BootstrapStates verifies the 4 bootstrap states

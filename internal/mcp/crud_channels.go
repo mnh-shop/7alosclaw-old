@@ -11,25 +11,25 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerChannelsCRUDTools registers the goclaw_channels_* MCP tools backed
+// registerChannelsCRUDTools registers the zalosclaw_channels_* MCP tools backed
 // by the runtime *channels.Manager. Mirrors internal/gateway/methods/channels.go.
 func registerChannelsCRUDTools(srv *mcpserver.MCPServer, mgr *channels.Manager) {
-	srv.AddTool(mcpgo.NewTool("goclaw_channels_list",
-		mcpgo.WithDescription("List enabled goclaw channels."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_channels_list",
+		mcpgo.WithDescription("List enabled zalosclaw channels."),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleChannelsList(mgr))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_channels_status",
-		mcpgo.WithDescription("Return the connection status for all goclaw channels."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_channels_status",
+		mcpgo.WithDescription("Return the connection status for all zalosclaw channels."),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleChannelsStatus(mgr))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_channels_toggle",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_channels_toggle",
 		mcpgo.WithDescription("Enable or disable a channel. NOTE: not yet implemented server-side — always returns a \"not implemented\" error (matches the WS twin, channels.toggle, which requires a channel restart not yet supported)."),
 		mcpgo.WithString("channel", mcpgo.Required(), mcpgo.Description("Channel name.")),
 		mcpgo.WithBoolean("enabled", mcpgo.Required(), mcpgo.Description("Desired enabled state.")),
@@ -101,21 +101,21 @@ func maskChannelInstance(inst store.ChannelInstanceData) map[string]any {
 	return result
 }
 
-// registerChannelInstancesCRUDTools registers the goclaw_channel_instances_*
+// registerChannelInstancesCRUDTools registers the zalosclaw_channel_instances_*
 // MCP tools backed by store.ChannelInstanceStore.
 func registerChannelInstancesCRUDTools(srv *mcpserver.MCPServer, insts store.ChannelInstanceStore, agents store.AgentStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_channel_instances_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_channel_instances_list",
 		mcpgo.WithDescription("List all channel instances (credentials masked)."),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleChannelInstancesList(insts))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_channel_instances_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_channel_instances_get",
 		mcpgo.WithDescription("Get a single channel instance by UUID (credentials masked)."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("Instance UUID.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleChannelInstancesGet(insts))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_channel_instances_create",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_channel_instances_create",
 		mcpgo.WithDescription("Create a new channel instance."),
 		mcpgo.WithString("name", mcpgo.Required(), mcpgo.Description("Instance name.")),
 		mcpgo.WithString("display_name", mcpgo.Description("Human-readable display name.")),
@@ -126,13 +126,13 @@ func registerChannelInstancesCRUDTools(srv *mcpserver.MCPServer, insts store.Cha
 		mcpgo.WithBoolean("enabled", mcpgo.Description("Enabled state; defaults to true.")),
 	), handleChannelInstancesCreate(insts, agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_channel_instances_update",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_channel_instances_update",
 		mcpgo.WithDescription("Apply a partial update to a channel instance."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("Instance UUID.")),
 		mcpgo.WithObject("updates", mcpgo.Required(), mcpgo.Description("Column→value patch (allowlisted keys only).")),
 	), handleChannelInstancesUpdate(insts))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_channel_instances_delete",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_channel_instances_delete",
 		mcpgo.WithDescription("Delete a channel instance. Refuses to delete default (seeded) instances."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("Instance UUID.")),
 		mcpgo.WithDestructiveHintAnnotation(true),

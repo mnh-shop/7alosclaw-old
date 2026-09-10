@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-REPO="digitopvn/goclaw"
-BASE_DIR="/opt/goclaw"
+REPO="digitopvn/zalosclaw"
+BASE_DIR="/opt/zalosclaw"
 RELEASES_DIR="${BASE_DIR}/releases"
-DEPLOY_BIN="/usr/local/bin/goclaw-deploy"
-STATUS_DIR="/var/lib/goclaw/update-jobs"
+DEPLOY_BIN="/usr/local/bin/zalosclaw-deploy"
+STATUS_DIR="/var/lib/zalosclaw/update-jobs"
 STATUS_FILE="${STATUS_DIR}/current.json"
-STATUS_OWNER="${GOCLAW_STATUS_OWNER:-goclaw:goclaw}"
+STATUS_OWNER="${ZALOSCLAW_STATUS_OWNER:-zalosclaw:zalosclaw}"
 DRY_RUN=0
-DETACHED="${GOCLAW_UPGRADE_DETACHED:-0}"
+DETACHED="${ZALOSCLAW_UPGRADE_DETACHED:-0}"
 
 log() { printf '[%s] %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$*"; }
 json_escape() { python3 -c 'import json,sys; print(json.dumps(sys.argv[1]))' "$1"; }
@@ -61,7 +61,7 @@ fail() {
 
 usage() {
   cat <<'EOF'
-usage: goclaw-upgrade-release [--dry-run] <latest|vMAJOR.MINOR.PATCH[-beta.N|-rc.N]>
+usage: zalosclaw-upgrade-release [--dry-run] <latest|vMAJOR.MINOR.PATCH[-beta.N|-rc.N]>
 EOF
 }
 
@@ -93,7 +93,7 @@ detach_into_systemd() {
   if ! command -v systemd-run >/dev/null 2>&1 || [ ! -d /run/systemd/system ]; then
     return
   fi
-  if ! grep -q 'goclaw.service' "/proc/$$/cgroup" 2>/dev/null; then
+  if ! grep -q 'zalosclaw.service' "/proc/$$/cgroup" 2>/dev/null; then
     return
   fi
 
@@ -103,13 +103,13 @@ detach_into_systemd() {
     script_path="$0"
   fi
   unit_tag="$(printf '%s' "$REQUESTED_TAG" | tr -c 'A-Za-z0-9_.-' '-')"
-  unit_name="goclaw-upgrade-${unit_tag}-$(date -u +%Y%m%dT%H%M%SZ)"
+  unit_name="zalosclaw-upgrade-${unit_tag}-$(date -u +%Y%m%dT%H%M%SZ)"
   log "starting detached systemd upgrade unit=${unit_name}"
   systemd-run \
     --unit="$unit_name" \
     --collect \
     --property=Type=oneshot \
-    --setenv=GOCLAW_UPGRADE_DETACHED=1 \
+    --setenv=ZALOSCLAW_UPGRADE_DETACHED=1 \
     "$script_path" "$REQUESTED_TAG"
   exit 0
 }
@@ -151,7 +151,7 @@ TARGET_DIR="${RELEASES_DIR}/${RESOLVED_TAG}"
 
 download_release_asset() {
   local candidate url
-  for candidate in "goclaw-${VERSION}-linux-amd64.tar.gz" "goclaw-${RESOLVED_TAG}-linux-amd64.tar.gz"; do
+  for candidate in "zalosclaw-${VERSION}-linux-amd64.tar.gz" "zalosclaw-${RESOLVED_TAG}-linux-amd64.tar.gz"; do
     url="https://github.com/${REPO}/releases/download/${RESOLVED_TAG}/${candidate}"
     log "downloading release asset candidate=${candidate}"
     if curl -fsSL -o "$candidate" "$url"; then
@@ -224,8 +224,8 @@ if [ "$DRY_RUN" = "1" ]; then
 fi
 
 if target_release_is_active; then
-  if [ ! -x "$TARGET_DIR/goclaw" ] || [ ! -d "$TARGET_DIR/migrations" ]; then
-    fail "active release is missing goclaw binary or migrations directory"
+  if [ ! -x "$TARGET_DIR/zalosclaw" ] || [ ! -d "$TARGET_DIR/migrations" ]; then
+    fail "active release is missing zalosclaw binary or migrations directory"
   fi
   log "target release already active: ${RESOLVED_TAG}"
   write_status "succeeded" "$REQUESTED_TAG" "$RESOLVED_TAG" ""
@@ -247,10 +247,10 @@ if [ -e "$TARGET_DIR" ]; then
 fi
 mkdir -p "$TARGET_DIR"
 tar -xzf "$ASSET" -C "$TARGET_DIR"
-chmod +x "$TARGET_DIR/goclaw"
+chmod +x "$TARGET_DIR/zalosclaw"
 
-if [ ! -x "$TARGET_DIR/goclaw" ] || [ ! -d "$TARGET_DIR/migrations" ]; then
-  fail "release archive missing goclaw binary or migrations directory"
+if [ ! -x "$TARGET_DIR/zalosclaw" ] || [ ! -d "$TARGET_DIR/migrations" ]; then
+  fail "release archive missing zalosclaw binary or migrations directory"
 fi
 
 log "deploying ${RESOLVED_TAG}"

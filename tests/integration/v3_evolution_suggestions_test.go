@@ -8,9 +8,9 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/agent"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/store/pg"
+	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
 )
 
 func TestV3EvolutionSuggestions_CRUD(t *testing.T) {

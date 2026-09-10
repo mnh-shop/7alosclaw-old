@@ -9,7 +9,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // web_search_chain.go — per-tenant provider chain resolution.

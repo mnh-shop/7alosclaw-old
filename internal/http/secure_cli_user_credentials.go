@@ -6,8 +6,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func (h *SecureCLIHandler) handleListUserCredentials(w http.ResponseWriter, r *http.Request) {

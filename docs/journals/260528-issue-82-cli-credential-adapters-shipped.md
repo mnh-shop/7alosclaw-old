@@ -11,7 +11,7 @@ Issue #82 (CLI Credential Adapters) completed across 6 commits spanning phases 1
 
 ## The Brutal Truth
 
-We shipped with the understanding that we had **no production git-auth flow at all**. Users copy-pasted a token into the wrong place and watched clones fail with "access denied" because goclaw was silently running `git clone` unauthenticated. The framework we built is the *first* correct solution; it's not a refactor of something that worked.
+We shipped with the understanding that we had **no production git-auth flow at all**. Users copy-pasted a token into the wrong place and watched clones fail with "access denied" because zalosclaw was silently running `git clone` unauthenticated. The framework we built is the *first* correct solution; it's not a refactor of something that worked.
 
 The frustrating part: we validated this by catching the auth failure *during testing* — the legacy passthrough adapter with no host scope is a safety valve, not a feature. If a user later tries to use it anyway, they get the exact same silent-failure behavior they had before, but at least now they have a path to fix it.
 
@@ -36,11 +36,11 @@ The frustrating part: we validated this by catching the auth failure *during tes
 
 ### Extensibility Framework (Phase 2, commit 1fe7c5e0 + Phase 2b, commit 14cce5b9)
 - **Interface**: `CredentialAdapter` with `ValidateCredential()` + `Inject()`. Passthrough default + git typed + psql stub (Phase 2b, proof of generalization).
-- **WithExecCwd / ExecCwdFromContext helpers** (Phase 3): fixes latent design gap where adapter's pre-flight `git config --get` ran in goclaw's daemon CWD, not the agent's repo CWD.
+- **WithExecCwd / ExecCwdFromContext helpers** (Phase 3): fixes latent design gap where adapter's pre-flight `git config --get` ran in zalosclaw's daemon CWD, not the agent's repo CWD.
 
 ## What We Tried
 
-1. **memfd vs. tmpfile for SSH key**: Initial design used `/proc/self/fd/N` for memory-backed file. Validation revealed `/proc/self/fd/N` resolves "self" against the **caller** (goclaw), not the child process (git→ssh grandchild). git doesn't expose a mechanism to inherit fds without explicit cooperation. Reverted to 0600 tmpfile + defer cleanup.
+1. **memfd vs. tmpfile for SSH key**: Initial design used `/proc/self/fd/N` for memory-backed file. Validation revealed `/proc/self/fd/N` resolves "self" against the **caller** (zalosclaw), not the child process (git→ssh grandchild). git doesn't expose a mechanism to inherit fds without explicit cooperation. Reverted to 0600 tmpfile + defer cleanup.
 
 2. **Sentinel values in leak-detection tests**: First attempt used short sentinels like "1" for `GIT_CONFIG_COUNT`. False-positive matches occurred in slog timestamp digits (e.g., `"timestamp":"2026-05-28T17:29:21.000123..."`). Fixed by using distinctly-formed sentinels: `SENTINEL_COUNT_VALUE`, `ghp_SENTINEL_PAT_VALUE_4242424242424242` (long enough that random substring collision is negligible).
 

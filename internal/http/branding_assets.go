@@ -13,8 +13,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/permissions"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/permissions"
 )
 
 const MaxBrandingAssetUploadBytes = 2 * 1024 * 1024

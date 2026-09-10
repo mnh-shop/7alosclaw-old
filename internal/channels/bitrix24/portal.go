@@ -15,7 +15,7 @@ import (
 	"github.com/google/uuid"
 	"golang.org/x/sync/singleflight"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // expiryBuffer is the safety margin before a token actually expires.
@@ -67,7 +67,7 @@ type Portal struct {
 // NewPortal loads the row from the store and returns a ready Portal.
 //
 // Missing credentials (brand-new row with no client_id/secret) is a fatal
-// error — the caller is supposed to seed credentials before goclaw touches
+// error — the caller is supposed to seed credentials before zalosclaw touches
 // the portal. Missing state (never installed) is fine; Exchange() fills it.
 func NewPortal(
 	ctx context.Context,
@@ -299,7 +299,7 @@ func (p *Portal) UpdatePublicURL(ctx context.Context, url string) error {
 }
 
 // PublicURL returns the gateway URL captured at install. Empty string when no
-// install has run yet (or row was created on a goclaw release predating the
+// install has run yet (or row was created on a zalosclaw release predating the
 // capture feature — see plans/260513-1648-bitrix24-portal-self-service-ux).
 func (p *Portal) PublicURL() string {
 	p.mu.RLock()
@@ -808,7 +808,7 @@ const installSuccessHTML = `<!doctype html>
 </head>
 <body>
 <h1>Installation successful</h1>
-<p>GoClaw is now connected to your Bitrix24 portal. You can close this window.</p>
+<p>ZalosClaw is now connected to your Bitrix24 portal. You can close this window.</p>
 <script>
   // Signal install completion to Bitrix24. Without this the app stays at
   // INSTALLED=false and imbot events are suppressed server-side.

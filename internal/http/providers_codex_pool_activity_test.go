@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func TestEmptyProviderPoolActivityResponseDefaultsToPriorityOrder(t *testing.T) {

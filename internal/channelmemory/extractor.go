@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	usagecaps "github.com/nextlevelbuilder/goclaw/internal/usage/caps"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
 )
 
 const (

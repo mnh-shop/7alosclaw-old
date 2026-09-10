@@ -1,13 +1,13 @@
-// Package backup provides system-level backup and restore for GoClaw.
+// Package backup provides system-level backup and restore for ZalosClaw.
 package backup
 
 // BackupManifest describes the contents and metadata of a system backup archive.
 type BackupManifest struct {
 	Version       int         `json:"version"`          // always 1
-	Format        string      `json:"format"`           // "goclaw-system-backup"
+	Format        string      `json:"format"`           // "zalosclaw-system-backup"
 	CreatedAt     string      `json:"created_at"`       // RFC3339
 	CreatedBy     string      `json:"created_by"`       // user ID or "cli"
-	GoclawVersion string      `json:"goclaw_version"`
+	ZalosclawVersion string      `json:"zalosclaw_version"`
 	SchemaVersion int         `json:"schema_version"`
 	PgDumpVersion string      `json:"pg_dump_version"`  // pg_dump --version output or "sqlite"
 	DatabaseDSN   string      `json:"database_dsn"`     // sanitized (no password)

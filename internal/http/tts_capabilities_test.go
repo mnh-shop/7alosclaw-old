@@ -7,9 +7,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
-	"github.com/nextlevelbuilder/goclaw/internal/crypto"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 
 	"github.com/google/uuid"
 )

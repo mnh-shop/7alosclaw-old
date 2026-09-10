@@ -76,7 +76,7 @@ export function BitrixPortalCreateModal({
           err?.code === "FAILED_PRECONDITION"
             ? t("bitrix24.create.authorize.urlUnknown", {
                 defaultValue:
-                  "Install URL is unavailable. Open the goclaw UI via your public URL and retry.",
+                  "Install URL is unavailable. Open the zalosclaw UI via your public URL and retry.",
               })
             : err?.message ?? t("common.unknownError", { defaultValue: "Unknown error" }),
         );

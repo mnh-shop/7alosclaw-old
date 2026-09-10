@@ -2,7 +2,7 @@
 
 package sqlitestore
 
-import "github.com/nextlevelbuilder/goclaw/internal/store/base"
+import "github.com/nextlevelbuilder/zalosclaw/internal/store/base"
 
 // sqliteDialect implements base.Dialect for SQLite (? placeholders + value transform).
 var sqliteDialect base.Dialect = sqliteDialectImpl{}

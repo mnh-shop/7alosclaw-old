@@ -460,7 +460,7 @@ Knowledge Vault is **v3-only** feature.
 - **Edition:** Standard and Lite (full support)
 - **Prerequisite:** PostgreSQL with pgvector extension
 - **Storage:** vault_* tables created by migration 000038
-- **Workspace:** Documents organized in agent-level workspace directory (e.g., `~/.goclaw/workspace/agent_name/`)
+- **Workspace:** Documents organized in agent-level workspace directory (e.g., `~/.zalosclaw/workspace/agent_name/`)
 
 No explicit feature flag; vault is enabled if:
 1. Migration 000038 ran successfully
@@ -475,7 +475,7 @@ No explicit feature flag; vault is enabled if:
 
 Agent writes to workspace:
 ```
-~/.goclaw/workspace/myagent/notes/architecture.md
+~/.zalosclaw/workspace/myagent/notes/architecture.md
 ```
 
 On next sync (or immediate write):

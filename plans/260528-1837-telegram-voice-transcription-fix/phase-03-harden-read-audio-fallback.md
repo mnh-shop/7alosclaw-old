@@ -30,7 +30,7 @@
 - Preserved Gemini File API, native OpenAI input audio, and OpenAI-compatible transcription model routes.
 
 ## Success Criteria
-- The observed "image format illegal" class cannot be produced by GoClaw for audio fallback.
+- The observed "image format illegal" class cannot be produced by ZalosClaw for audio fallback.
 - User-facing error says audio provider/model unsupported or STT provider unavailable.
 - Existing Gemini/OpenAI/transcription tests still pass.
 

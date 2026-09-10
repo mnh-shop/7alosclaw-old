@@ -23,7 +23,7 @@ interface SystemPromptPreviewProps {
 }
 
 /** Cache boundary marker — highlighted in the preview output. */
-const CACHE_BOUNDARY = "<!-- GOCLAW_CACHE_BOUNDARY -->";
+const CACHE_BOUNDARY = "<!-- ZALOSCLAW_CACHE_BOUNDARY -->";
 
 /**
  * Readonly preview of the actual system prompt built for an agent.

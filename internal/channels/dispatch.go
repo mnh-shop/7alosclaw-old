@@ -13,8 +13,8 @@ import (
 	"sync"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // WebhookRoute holds a path and handler pair for mounting on the main gateway mux.
@@ -46,13 +46,13 @@ const (
 
 // outboundShardCount resolves the dispatch worker count.
 //
-//	GOCLAW_OUTBOUND_SHARDS=8
+//	ZALOSCLAW_OUTBOUND_SHARDS=8
 //
 // Raising it past the point where the *remote* API meters us (DingTalk's
 // per-app card QPS, a provider's rate limit) only moves queueing from our
 // process into theirs.
 func outboundShardCount() int {
-	if v := os.Getenv("GOCLAW_OUTBOUND_SHARDS"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_OUTBOUND_SHARDS"); v != "" {
 		if n, err := strconv.Atoi(v); err == nil && n > 0 {
 			return n
 		}

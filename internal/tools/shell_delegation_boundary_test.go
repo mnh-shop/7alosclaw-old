@@ -11,8 +11,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/sandbox"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/sandbox"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func TestExecDelegationArtifactRejectsNativeHostRead(t *testing.T) {

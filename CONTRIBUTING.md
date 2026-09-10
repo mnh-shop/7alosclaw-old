@@ -1,4 +1,4 @@
-# Contributing to GoClaw
+# Contributing to ZalosClaw
 
 ## Branch Strategy
 

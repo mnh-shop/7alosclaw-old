@@ -13,7 +13,7 @@ import (
 	"github.com/google/uuid"
 	lru "github.com/hashicorp/golang-lru/v2"
 
-	"github.com/nextlevelbuilder/goclaw/internal/hooks"
+	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
 )
 
 // MaxScriptSourceBytes is the mandatory safety-floor cap on script source size

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // PGVaultGraphStore implements store.VaultGraphStore backed by PostgreSQL.

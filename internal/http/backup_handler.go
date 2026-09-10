@@ -9,12 +9,12 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/backup"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/permissions"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/backup"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/permissions"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 // backupInProgress prevents concurrent backup/restore operations.
@@ -110,7 +110,7 @@ func (h *BackupHandler) handleBackup(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tmpFile, err := os.CreateTemp("", "goclaw-backup-*.tar.gz")
+	tmpFile, err := os.CreateTemp("", "zalosclaw-backup-*.tar.gz")
 	if err != nil {
 		sendSSE(w, flusher, "error", ProgressEvent{Phase: "init", Status: "error", Detail: "failed to create temp file"})
 		return
@@ -127,7 +127,7 @@ func (h *BackupHandler) handleBackup(w http.ResponseWriter, r *http.Request) {
 		WorkspacePath: h.cfg.WorkspacePath(),
 		OutputPath:    tmpPath,
 		CreatedBy:     userID,
-		GoclawVersion: h.version,
+		ZalosclawVersion: h.version,
 		ExcludeDB:     req.ExcludeDB,
 		ExcludeFiles:  req.ExcludeFiles,
 		ProgressFn: func(phase, detail string) {

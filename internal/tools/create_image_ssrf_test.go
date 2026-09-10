@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/security"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
 )
 
 // downloadImageBytes fetches caller-supplied reference image URLs server-side, so

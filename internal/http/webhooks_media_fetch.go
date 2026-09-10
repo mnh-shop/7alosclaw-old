@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/security"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
 )
 
 const (

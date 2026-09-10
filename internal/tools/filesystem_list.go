@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/sandbox"
+	"github.com/nextlevelbuilder/zalosclaw/internal/sandbox"
 )
 
 // ListFilesTool lists files in a directory, optionally through a sandbox container.
@@ -15,7 +15,7 @@ type ListFilesTool struct {
 	workspace       string
 	restrict        bool
 	allowedPrefixes []string // extra allowed path prefixes (e.g. skills dirs)
-	deniedPrefixes  []string // path prefixes to deny access to (e.g. .goclaw)
+	deniedPrefixes  []string // path prefixes to deny access to (e.g. .zalosclaw)
 	sandboxMgr      sandbox.Manager
 	contextFileIntc *ContextFileInterceptor // unused, satisfies InterceptorAware
 	memIntc         *MemoryInterceptor      // nil = no memory routing

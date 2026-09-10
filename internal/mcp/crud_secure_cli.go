@@ -9,14 +9,14 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerSecureCLICRUDTools registers the goclaw_secure_cli_binaries_* MCP
+// registerSecureCLICRUDTools registers the zalosclaw_secure_cli_binaries_* MCP
 // tools backed by store.SecureCLIStore — this is the closest real
-// server-side resource to the CLI's local `goclaw credentials` command,
+// server-side resource to the CLI's local `zalosclaw credentials` command,
 // which is otherwise out of scope for this MCP surface (it manages the
-// `goclaw` CLI's own auth profile in ~/.goclaw/config.yaml + OS keychain,
+// `zalosclaw` CLI's own auth profile in ~/.zalosclaw/config.yaml + OS keychain,
 // a client-local concept with no server API to wrap). SecureCLIStore
 // instead manages which exec-sandboxed binaries (gh, git, etc.) are
 // credential-gated and how — the actual secret values (encrypted_env) are
@@ -26,18 +26,18 @@ import (
 // secure_cli_agent_credentials.go) needs the same encryption handling the
 // HTTP layer owns and is not exposed here.
 func registerSecureCLICRUDTools(srv *mcpserver.MCPServer, secureCLI store.SecureCLIStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_secure_cli_binaries_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_secure_cli_binaries_list",
 		mcpgo.WithDescription("List registered secure-CLI binary configs (which sandboxed exec binaries are credential-gated)."),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleSecureCLIBinariesList(secureCLI))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_secure_cli_binaries_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_secure_cli_binaries_get",
 		mcpgo.WithDescription("Get a single secure-CLI binary config by UUID."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("Binary config UUID.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleSecureCLIBinariesGet(secureCLI))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_secure_cli_binaries_create",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_secure_cli_binaries_create",
 		mcpgo.WithDescription("Register a new secure-CLI binary config."),
 		mcpgo.WithString("binary_name", mcpgo.Required(), mcpgo.Description("Binary name (e.g. \"gh\", \"git\").")),
 		mcpgo.WithString("description", mcpgo.Description("Description shown to agents.")),
@@ -46,7 +46,7 @@ func registerSecureCLICRUDTools(srv *mcpserver.MCPServer, secureCLI store.Secure
 		mcpgo.WithNumber("timeout_seconds", mcpgo.Description("Exec timeout in seconds.")),
 	), handleSecureCLIBinariesCreate(secureCLI))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_secure_cli_binaries_update",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_secure_cli_binaries_update",
 		mcpgo.WithDescription("Apply a partial update to a secure-CLI binary config."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("Binary config UUID.")),
 		mcpgo.WithString("description", mcpgo.Description("New description.")),
@@ -55,7 +55,7 @@ func registerSecureCLICRUDTools(srv *mcpserver.MCPServer, secureCLI store.Secure
 		mcpgo.WithNumber("timeout_seconds", mcpgo.Description("New exec timeout in seconds.")),
 	), handleSecureCLIBinariesUpdate(secureCLI))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_secure_cli_binaries_delete",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_secure_cli_binaries_delete",
 		mcpgo.WithDescription("Delete a secure-CLI binary config."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("Binary config UUID.")),
 		mcpgo.WithDestructiveHintAnnotation(true),

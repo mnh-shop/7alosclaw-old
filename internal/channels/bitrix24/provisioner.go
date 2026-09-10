@@ -12,7 +12,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // mcpProvisionDebounceTTL is how long we suppress repeat auto-onboard calls
@@ -83,7 +83,7 @@ func isDeadTokenCode(code string) bool {
 	return deadTokenCodes[code]
 }
 
-// ErrUserAuthRequired means goclaw has no way to obtain a working Bitrix
+// ErrUserAuthRequired means zalosclaw has no way to obtain a working Bitrix
 // OAuth token for this user — either no mcp_user_credentials row exists yet,
 // or the stored refresh_token was rejected outright by Bitrix
 // (isDeadTokenCode). The caller (handle.go) must DM the user the URL so they

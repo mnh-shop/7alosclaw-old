@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/channels/media"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/systemmessages"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/media"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/systemmessages"
 )
 
 // mentionMatcher is the compiled-once regex + rendered tag string used to

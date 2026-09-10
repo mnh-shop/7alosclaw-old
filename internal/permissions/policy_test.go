@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 // --- Role hierarchy ---

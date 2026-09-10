@@ -6,9 +6,9 @@ import (
 	"sync"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 // GrantChecker verifies if an agent/user still has access to an MCP server tool.

@@ -8,7 +8,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/lib/pq"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // Export types — used exclusively by the agent export pipeline.

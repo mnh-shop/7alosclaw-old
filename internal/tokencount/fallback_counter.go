@@ -7,7 +7,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // FallbackCounter is the BEST-EFFORT heuristic counter used when tiktoken-go is

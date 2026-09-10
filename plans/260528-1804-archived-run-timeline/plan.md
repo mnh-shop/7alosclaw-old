@@ -16,7 +16,7 @@ source: skill
 
 ## Overview
 
-Implement `digitopvn/goclaw#76`: persist assistant intermediate messages, tool calls, tool results, activity markers, and final run status as an ordered archive timeline. Phase 1 exposes both HTTP and WS RPC fetch APIs, stores safe previews only, and links to traces/spans for admin debug.
+Implement `digitopvn/zalosclaw#76`: persist assistant intermediate messages, tool calls, tool results, activity markers, and final run status as an ordered archive timeline. Phase 1 exposes both HTTP and WS RPC fetch APIs, stores safe previews only, and links to traces/spans for admin debug.
 
 Recommended Phase 1 UI: add the archive inside session detail first, with a per-run timeline panel/drawer and trace links for admin/debug. This is closest to user intent ("what happened in this run?") and avoids building a public share surface before the archive contract is proven.
 
@@ -44,8 +44,8 @@ Hard boundary with related issue `#67`: this plan does not add quick acknowledge
 
 ## Dependencies
 
-- GitHub issue: `digitopvn/goclaw#76`
-- Related non-overlap issue: `digitopvn/goclaw#67`
+- GitHub issue: `digitopvn/zalosclaw#76`
+- Related non-overlap issue: `digitopvn/zalosclaw#67`
 - No blocking plan found. Existing pending issue #80 plan targets skills export UI and does not overlap this feature.
 
 ## Data Contract Target

@@ -1,6 +1,6 @@
 # Browser Cookie Sync Threat Model
 
-Selected cookie sync lets a user copy specific Chrome cookies into a GoClaw server-side browser session for one agent.
+Selected cookie sync lets a user copy specific Chrome cookies into a ZalosClaw server-side browser session for one agent.
 
 ## Assets
 
@@ -38,6 +38,6 @@ Selected cookie sync lets a user copy specific Chrome cookies into a GoClaw serv
 
 ## Operational Notes
 
-- Set `GOCLAW_ENCRYPTION_KEY` before enabling cookie sync.
+- Set `ZALOSCLAW_ENCRYPTION_KEY` before enabling cookie sync.
 - Revoke synced cookies with `DELETE /v1/browser/cookies?agent_id=<agent>&domain=<domain>`.
 - Restart the gateway after changing browser launch settings that affect manager startup.

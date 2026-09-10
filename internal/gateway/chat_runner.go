@@ -6,15 +6,15 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/agent"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels/media"
-	mcpbridge "github.com/nextlevelbuilder/goclaw/internal/mcp"
-	"github.com/nextlevelbuilder/goclaw/internal/sessions"
+	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/media"
+	mcpbridge "github.com/nextlevelbuilder/zalosclaw/internal/mcp"
+	"github.com/nextlevelbuilder/zalosclaw/internal/sessions"
 )
 
 // agentChatRunner implements mcpbridge.ChatRunner against the live
-// *agent.Router, backing the CRUD MCP server's goclaw_chat_* tools
+// *agent.Router, backing the CRUD MCP server's zalosclaw_chat_* tools
 // (see internal/mcp/crud_chat.go). It intentionally omits the WS-only
 // concerns handled by ChatMethods (internal/gateway/methods/chat.go): rate
 // limiting, send debouncing, and per-WS-client session ownership checks. The

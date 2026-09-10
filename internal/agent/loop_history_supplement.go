@@ -5,10 +5,10 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // teamGuidance returns edition-specific system prompt guidance for team members.

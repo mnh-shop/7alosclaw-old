@@ -10,12 +10,12 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/gateway"
-	httpapi "github.com/nextlevelbuilder/goclaw/internal/http"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/gateway"
+	httpapi "github.com/nextlevelbuilder/zalosclaw/internal/http"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 // maxCommentLength caps comment/reason content to prevent DB bloat.

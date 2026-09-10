@@ -13,7 +13,7 @@ dependencies: [1, 2]
 
 - API docs: `docs/18-http-api.md`
 - Changelog: `docs/project-changelog.md`
-- GitHub issue: `digitopvn/goclaw#80`
+- GitHub issue: `digitopvn/zalosclaw#80`
 - Existing beta workflow note: `dev-beta-release.yaml` is the release check surface for later implementation, not for this plan-only branch.
 
 ## Overview

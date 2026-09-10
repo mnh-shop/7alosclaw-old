@@ -8,7 +8,7 @@ import (
 
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // jsonToolResult marshals v as an MCP text tool result. Marshal failures are
@@ -62,14 +62,14 @@ func resolveAgentInfo(ctx context.Context, agents store.AgentStore, keyOrID stri
 
 // mcpTenantHeader is the HTTP header a CRUD MCP caller may use to scope a
 // request to a specific tenant, mirroring internal/http/auth.go's
-// "X-GoClaw-Tenant-Id" header used by the gateway-token (owner) and
+// "X-ZalosClaw-Tenant-Id" header used by the gateway-token (owner) and
 // system-level API key auth paths. The MCP bearer token
 // (gateway.mcp_server_token) is a single shared secret with no per-caller
 // identity, so it is treated the same way the owner branch of
 // resolveAuthWithBearer treats the gateway token: any tenant may be
 // requested, with no membership check, falling back to store.MasterTenantID
 // when absent or unresolvable.
-const mcpTenantHeader = "X-GoClaw-Tenant-Id"
+const mcpTenantHeader = "X-ZalosClaw-Tenant-Id"
 
 // resolveMCPTenantID resolves the caller-supplied tenant header (UUID or
 // slug) to a concrete tenant UUID using tenants, falling back to
@@ -94,14 +94,14 @@ func resolveMCPTenantID(ctx context.Context, tenants store.TenantStore, headerVa
 	return store.MasterTenantID
 }
 
-// ChatMediaItem represents a media file attached to a goclaw_chat_send call,
+// ChatMediaItem represents a media file attached to a zalosclaw_chat_send call,
 // mirroring internal/gateway/methods/chat.go's chatMediaItem.
 type ChatMediaItem struct {
 	Path     string
 	Filename string
 }
 
-// ChatSendResult is the outcome of a goclaw_chat_send call.
+// ChatSendResult is the outcome of a zalosclaw_chat_send call.
 type ChatSendResult struct {
 	RunID        string `json:"runId"`
 	SessionKey   string `json:"sessionKey"`
@@ -112,7 +112,7 @@ type ChatSendResult struct {
 	Cancelled    bool   `json:"cancelled,omitempty"`
 }
 
-// ChatAbortResult is the outcome of a goclaw_chat_abort call, mirroring
+// ChatAbortResult is the outcome of a zalosclaw_chat_abort call, mirroring
 // internal/gateway/methods/chat.go's handleAbort response shape.
 type ChatAbortResult struct {
 	OK              bool     `json:"ok"`
@@ -131,7 +131,7 @@ type ChatActivity struct {
 	Iteration int    `json:"iteration"`
 }
 
-// ChatSessionStatusResult is the outcome of a goclaw_chat_session_status call.
+// ChatSessionStatusResult is the outcome of a zalosclaw_chat_session_status call.
 type ChatSessionStatusResult struct {
 	IsRunning bool          `json:"isRunning"`
 	RunID     string        `json:"runId"`
@@ -150,7 +150,7 @@ type ChatSessionStatusResult struct {
 // send debouncing, and no session-ownership check against a caller identity.
 // The MCP bearer token (gateway.mcp_server_token) is the sole security
 // boundary here, matching the rest of this CRUD MCP surface (e.g.
-// goclaw_sessions_* has no ownership checks either).
+// zalosclaw_sessions_* has no ownership checks either).
 type ChatRunner interface {
 	// Send runs the agent for sessionKey (creating a new session key when
 	// empty) and returns the final result. Always synchronous/non-streaming:

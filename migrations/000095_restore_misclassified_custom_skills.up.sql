@@ -10,7 +10,7 @@ SET is_system = false,
     visibility = 'private',
     status = 'archived',
     frontmatter = COALESCE(frontmatter, '{}'::jsonb) ||
-        '{"_goclaw_recovery":"bundled_slug_collision"}'::jsonb,
+        '{"_zalosclaw_recovery":"bundled_slug_collision"}'::jsonb,
     version = GREATEST(version - 1, 1),
     file_path = regexp_replace(
         file_path,

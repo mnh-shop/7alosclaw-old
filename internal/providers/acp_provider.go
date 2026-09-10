@@ -10,10 +10,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers/acp"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers/acp"
 )
 
-// acpSessionEntry tracks a live ACP session for one goclaw conversation.
+// acpSessionEntry tracks a live ACP session for one zalosclaw conversation.
 type acpSessionEntry struct {
 	id       string       // ACP session ID returned by session/new or session/load
 	proc     *acp.ACPProcess // process that owns this session (for respawn detection)
@@ -21,7 +21,7 @@ type acpSessionEntry struct {
 }
 
 // ACPProvider implements Provider by orchestrating ACP-compatible agent subprocesses.
-// One shared Gemini process is used; each goclaw conversation gets its own ACP session.
+// One shared Gemini process is used; each zalosclaw conversation gets its own ACP session.
 type ACPProvider struct {
 	name         string
 	pool         *acp.ProcessPool
@@ -30,8 +30,8 @@ type ACPProvider struct {
 	permMode     string
 	poolKey      string // key for the shared process in the pool (binary + args)
 
-	acpSessions sync.Map // goclawSessionKey → *acpSessionEntry
-	sessionMu   sync.Map // goclawSessionKey → *sync.Mutex (prevents concurrent session creation)
+	acpSessions sync.Map // zalosclawSessionKey → *acpSessionEntry
+	sessionMu   sync.Map // zalosclawSessionKey → *sync.Mutex (prevents concurrent session creation)
 
 	done      chan struct{}
 	closeOnce sync.Once
@@ -113,7 +113,7 @@ func (p *ACPProvider) sessionReaper() {
 			p.acpSessions.Range(func(key, value any) bool {
 				entry := value.(*acpSessionEntry)
 				if time.Since(entry.lastUsed) > sessionIdleTTL {
-					slog.Info("acp: expiring idle session", "goclaw_session", key, "sid", entry.id)
+					slog.Info("acp: expiring idle session", "zalosclaw_session", key, "sid", entry.id)
 					if entry.proc != nil {
 						_ = entry.proc.Cancel(entry.id)
 					}
@@ -127,16 +127,16 @@ func (p *ACPProvider) sessionReaper() {
 	}
 }
 
-// resolveSession returns the ACP session ID for a goclaw session key.
+// resolveSession returns the ACP session ID for a zalosclaw session key.
 // It creates a new session if none exists, or reloads it after a process respawn.
 // A per-key mutex prevents concurrent creation races for the same session.
-func (p *ACPProvider) resolveSession(ctx context.Context, proc *acp.ACPProcess, goclawKey string) (string, error) {
-	actual, _ := p.sessionMu.LoadOrStore(goclawKey, &sync.Mutex{})
+func (p *ACPProvider) resolveSession(ctx context.Context, proc *acp.ACPProcess, zalosclawKey string) (string, error) {
+	actual, _ := p.sessionMu.LoadOrStore(zalosclawKey, &sync.Mutex{})
 	mu := actual.(*sync.Mutex)
 	mu.Lock()
 	defer mu.Unlock()
 
-	if val, ok := p.acpSessions.Load(goclawKey); ok {
+	if val, ok := p.acpSessions.Load(zalosclawKey); ok {
 		entry := val.(*acpSessionEntry)
 		if entry.proc == proc {
 			// Same process instance: session is still live, just update last-used
@@ -145,11 +145,11 @@ func (p *ACPProvider) resolveSession(ctx context.Context, proc *acp.ACPProcess, 
 		}
 		// Process was respawned — try to restore the session
 		slog.Info("acp: process respawned, attempting session restore",
-			"goclaw_session", goclawKey, "old_sid", entry.id)
+			"zalosclaw_session", zalosclawKey, "old_sid", entry.id)
 		if proc.AgentCaps().LoadSession {
 			sid, err := proc.LoadSession(ctx, entry.id)
 			if err == nil {
-				p.acpSessions.Store(goclawKey, &acpSessionEntry{id: sid, proc: proc, lastUsed: time.Now()})
+				p.acpSessions.Store(zalosclawKey, &acpSessionEntry{id: sid, proc: proc, lastUsed: time.Now()})
 				return sid, nil
 			}
 			slog.Warn("acp: session/load failed, creating new session", "old_sid", entry.id, "error", err)
@@ -157,12 +157,12 @@ func (p *ACPProvider) resolveSession(ctx context.Context, proc *acp.ACPProcess, 
 		// session/load not supported or failed — fall through to create new
 	}
 
-	slog.Info("acp: creating new session", "goclaw_session", goclawKey, "pool_key", p.poolKey)
+	slog.Info("acp: creating new session", "zalosclaw_session", zalosclawKey, "pool_key", p.poolKey)
 	sid, err := proc.NewSession(ctx)
 	if err != nil {
 		return "", err
 	}
-	p.acpSessions.Store(goclawKey, &acpSessionEntry{id: sid, proc: proc, lastUsed: time.Now()})
+	p.acpSessions.Store(zalosclawKey, &acpSessionEntry{id: sid, proc: proc, lastUsed: time.Now()})
 	return sid, nil
 }
 
@@ -208,7 +208,7 @@ func (p *ACPProvider) Chat(ctx context.Context, req ChatRequest) (*ChatResponse,
 		return nil, fmt.Errorf("acp: no user message in request")
 	}
 
-	ctx = acp.WithGoclawSession(ctx, sessionKey)
+	ctx = acp.WithZalosclawSession(ctx, sessionKey)
 
 	var buf strings.Builder
 	var updateCount int
@@ -264,7 +264,7 @@ func (p *ACPProvider) ChatStream(ctx context.Context, req ChatRequest, onChunk f
 		return nil, fmt.Errorf("acp: no user message in request")
 	}
 
-	ctx = acp.WithGoclawSession(ctx, sessionKey)
+	ctx = acp.WithZalosclawSession(ctx, sessionKey)
 
 	// done channel ensures the cancel goroutine exits cleanly on normal completion,
 	// preventing it from sending a spurious session/cancel after the prompt finishes.
@@ -327,7 +327,7 @@ func (p *ACPProvider) purgeSession(key string) {
 	}
 	p.acpSessions.Delete(key)
 	p.sessionMu.Delete(key)
-	slog.Info("acp: purged temp session", "goclaw_session", key)
+	slog.Info("acp: purged temp session", "zalosclaw_session", key)
 }
 
 // Close shuts down all subprocesses and cleans up terminals.
@@ -366,7 +366,7 @@ func extractACPContent(req ChatRequest) []acp.ContentBlock {
 	return blocks
 }
 
-// mapStopReason converts ACP stopReason to GoClaw finish reason.
+// mapStopReason converts ACP stopReason to ZalosClaw finish reason.
 func mapStopReason(resp *acp.PromptResponse) string {
 	if resp == nil {
 		return "stop"

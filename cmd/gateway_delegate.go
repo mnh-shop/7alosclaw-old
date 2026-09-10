@@ -7,10 +7,10 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/agent"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/sandbox"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/sandbox"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // buildAgentLinkRunRequest preserves the origin's authorization-bearing

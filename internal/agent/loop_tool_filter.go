@@ -3,9 +3,9 @@ package agent
 import (
 	"slices"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // imageGenToolDef is the native image_generation tool sentinel. The request

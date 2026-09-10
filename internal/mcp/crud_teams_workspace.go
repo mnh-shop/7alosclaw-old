@@ -13,24 +13,24 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
-// registerTeamsWorkspaceCRUDTools registers the goclaw_teams_workspace_*
+// registerTeamsWorkspaceCRUDTools registers the zalosclaw_teams_workspace_*
 // MCP tools backed by the team workspace directory on disk. Mirrors
 // internal/gateway/methods/teams_workspace.go (path resolution, symlink
 // escape checks, shared-vs-isolated workspace mode).
 func registerTeamsWorkspaceCRUDTools(srv *mcpserver.MCPServer, teams store.TeamStore, cfg *config.Config) {
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_workspace_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_workspace_list",
 		mcpgo.WithDescription("List files in a team's workspace directory."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithString("chat_id", mcpgo.Description("Chat ID scope; empty lists shared/root or all chat scopes.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleTeamsWorkspaceList(teams, cfg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_workspace_read",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_workspace_read",
 		mcpgo.WithDescription("Read a file from a team's workspace directory."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithString("chat_id", mcpgo.Description("Chat ID scope; required unless the team uses a shared workspace.")),
@@ -38,7 +38,7 @@ func registerTeamsWorkspaceCRUDTools(srv *mcpserver.MCPServer, teams store.TeamS
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleTeamsWorkspaceRead(teams, cfg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_workspace_delete",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_workspace_delete",
 		mcpgo.WithDescription("Delete a file from a team's workspace directory."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithString("chat_id", mcpgo.Description("Chat ID scope; required unless the team uses a shared workspace.")),

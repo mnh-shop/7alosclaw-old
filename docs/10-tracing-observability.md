@@ -74,9 +74,9 @@ Token counts are aggregated **only from `llm_call` spans** (not `agent` spans) t
 | Mode | InputPreview | OutputPreview |
 |------|:---:|:---:|
 | Normal | Not recorded | 500 characters max |
-| Verbose (`GOCLAW_TRACE_VERBOSE=1`) | Up to 200KB | Up to 200KB |
+| Verbose (`ZALOSCLAW_TRACE_VERBOSE=1`) | Up to 200KB | Up to 200KB |
 
-Verbose mode is useful for debugging LLM conversations. When enabled via `GOCLAW_TRACE_VERBOSE=1`:
+Verbose mode is useful for debugging LLM conversations. When enabled via `ZALOSCLAW_TRACE_VERBOSE=1`:
 
 - **LLM spans**: Full input messages (including system prompt, history, and tool results) are serialized as JSON and stored in `InputPreview` (truncated at 200KB). LLM response content is stored in `OutputPreview` (truncated at 200KB, includes `<thinking>` tag if present).
 - **Tool spans**: Tool input and output are both recorded up to 200KB.
@@ -105,7 +105,7 @@ flowchart TD
 | `endpoint` | OTLP endpoint (e.g., `localhost:4317` for gRPC, `localhost:4318` for HTTP) |
 | `protocol` | `grpc` (default) or `http` |
 | `insecure` | Skip TLS for local development |
-| `service_name` | OTel service name (default: `goclaw-gateway`) |
+| `service_name` | OTel service name (default: `zalosclaw-gateway`) |
 | `headers` | Extra headers (auth tokens, etc.) |
 
 ### Batch Processing
@@ -223,30 +223,30 @@ worker.Stop()
 
 ### Operator CLI
 
-The main `goclaw` binary can also act as a thin operator client for trace
+The main `zalosclaw` binary can also act as a thin operator client for trace
 inspection:
 
 ```bash
-goclaw traces list --status error --limit 20
-goclaw traces get <trace-id> -o json
-goclaw traces export <trace-id> --file trace.json.gz
-goclaw traces follow --session <session-key> --since 2026-06-12T01:00:00Z
-goclaw traces timeline <trace-id>
+zalosclaw traces list --status error --limit 20
+zalosclaw traces get <trace-id> -o json
+zalosclaw traces export <trace-id> --file trace.json.gz
+zalosclaw traces follow --session <session-key> --since 2026-06-12T01:00:00Z
+zalosclaw traces timeline <trace-id>
 ```
 
 By default, commands use the same local gateway config and
-`GOCLAW_GATEWAY_TOKEN` behavior as existing admin commands. For remote
+`ZALOSCLAW_GATEWAY_TOKEN` behavior as existing admin commands. For remote
 operations, use explicit overrides:
 
 ```bash
-goclaw --server https://goclaw.example.com --token "$GOCLAW_GATEWAY_TOKEN" traces get <trace-id> -o json
+zalosclaw --server https://zalosclaw.example.com --token "$ZALOSCLAW_GATEWAY_TOKEN" traces get <trace-id> -o json
 ```
 
 `--server` also applies to existing WebSocket/RPC-backed admin commands such as
-`sessions`, `cron`, and `pairing`. The URL can also come from `GOCLAW_SERVER`
-or `GOCLAW_GATEWAY_URL`; `--server` wins when both are set.
+`sessions`, `cron`, and `pairing`. The URL can also come from `ZALOSCLAW_SERVER`
+or `ZALOSCLAW_GATEWAY_URL`; `--server` wins when both are set.
 
-The standalone `nextlevelbuilder/goclaw-cli` can remain a compatibility tool,
+The standalone `nextlevelbuilder/zalosclaw-cli` can remain a compatibility tool,
 but first-party trace operator workflows are now available from the main
 server/runtime binary.
 

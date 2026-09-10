@@ -19,7 +19,7 @@ source: skill
 
 ## Overview
 
-Issue #88 reports 30-40m dev beta CI. Recent run `26713221199` spent ~24m in Docker multi-arch while zuey deploy waited behind Docker promotion. Zuey deploy only needs the GitHub Release linux amd64 tarball, verified by `scripts/zuey/goclaw-upgrade-release.sh`.
+Issue #88 reports 30-40m dev beta CI. Recent run `26713221199` spent ~24m in Docker multi-arch while zuey deploy waited behind Docker promotion. Zuey deploy only needs the GitHub Release linux amd64 tarball, verified by `scripts/zuey/zalosclaw-upgrade-release.sh`.
 
 Goal: optimize time-to-zuey deployed. Do not weaken Go/Web gates. Do not drop arm64, Docker `latest/full`, beta aliases, or checksums; only move them off the zuey critical path.
 
@@ -36,14 +36,14 @@ Goal: optimize time-to-zuey deployed. Do not weaken Go/Web gates. Do not drop ar
 
 - Base branch: `origin/dev`
 - Primary files: `.github/workflows/dev-beta-release.yaml`, this plan
-- GitHub issue: `digitopvn/goclaw#88`
+- GitHub issue: `digitopvn/zalosclaw#88`
 
 ## Acceptance Criteria
 
 - `deploy_zuey_beta` no longer waits for `docker_images` or `promote_beta_aliases`.
 - Workflow-level concurrency no longer serializes a new dev push behind slow artifact completion from the previous push.
 - Zuey deploy and Docker beta alias promotion skip stale beta tags instead of rolling back to an older tag.
-- The prerelease is published with `goclaw-${TAG}-linux-amd64.tar.gz` and `CHECKSUMS.sha256` before deploy.
+- The prerelease is published with `zalosclaw-${TAG}-linux-amd64.tar.gz` and `CHECKSUMS.sha256` before deploy.
 - Linux arm64 binary, multi-arch Docker `latest/full`, and beta aliases still run after `beta_version` and keep workflow failure visible if broken.
-- Workflow YAML parses and preserves repo guard `github.repository == 'digitopvn/goclaw'`.
+- Workflow YAML parses and preserves repo guard `github.repository == 'digitopvn/zalosclaw'`.
 - PR targets `dev` and links issue #88.

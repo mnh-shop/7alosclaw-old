@@ -13,7 +13,7 @@ import (
 
 	"golang.org/x/net/idna"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // gitAdapter implements the CredentialAdapter contract for the `git` binary.

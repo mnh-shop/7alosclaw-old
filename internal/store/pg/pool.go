@@ -14,12 +14,12 @@ import (
 // PoolApplicationName tags every gateway pool connection via the PostgreSQL
 // application_name runtime parameter. Pre-restore safety checks use it to tell
 // the gateway's own connections apart from external clients (issue #1338).
-const PoolApplicationName = "goclaw"
+const PoolApplicationName = "zalosclaw"
 
 // Connection pool sizing, overridable for deployments that raise LaneMain:
 //
-//	GOCLAW_PG_MAX_OPEN_CONNS=25
-//	GOCLAW_PG_MAX_IDLE_CONNS=10
+//	ZALOSCLAW_PG_MAX_OPEN_CONNS=25
+//	ZALOSCLAW_PG_MAX_IDLE_CONNS=10
 //
 // A connection is held per query, not per agent run, so the pool does not cap
 // concurrency directly — it caps how many queries can be in flight. The cost of
@@ -59,8 +59,8 @@ func OpenDB(dsn string) (*sql.DB, error) {
 	}
 	db := stdlib.OpenDB(*config)
 
-	maxOpen := poolEnv("GOCLAW_PG_MAX_OPEN_CONNS", defaultMaxOpenConns)
-	maxIdle := poolEnv("GOCLAW_PG_MAX_IDLE_CONNS", defaultMaxIdleConns)
+	maxOpen := poolEnv("ZALOSCLAW_PG_MAX_OPEN_CONNS", defaultMaxOpenConns)
+	maxIdle := poolEnv("ZALOSCLAW_PG_MAX_IDLE_CONNS", defaultMaxIdleConns)
 	if maxIdle > maxOpen {
 		maxIdle = maxOpen
 	}

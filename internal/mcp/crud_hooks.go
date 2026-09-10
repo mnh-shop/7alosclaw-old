@@ -11,18 +11,18 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/edition"
-	"github.com/nextlevelbuilder/goclaw/internal/hooks"
+	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
+	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
 )
 
-// registerHooksCRUDTools registers the goclaw_hooks_* MCP tools backed by
+// registerHooksCRUDTools registers the zalosclaw_hooks_* MCP tools backed by
 // hooks.HookStore. Mirrors internal/gateway/methods/hooks.go, minus the
 // RBAC-role gate (this whole surface is gated by the CRUD MCP bearer token —
 // see internal/mcp/crud_server.go doc comment) and minus hooks.test's dry-run
 // support (no TestRunner is wired for this standalone MCP surface; skipped —
 // see final report).
 func registerHooksCRUDTools(srv *mcpserver.MCPServer, store hooks.HookStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_hooks_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_hooks_list",
 		mcpgo.WithDescription("List configured hooks, optionally filtered."),
 		mcpgo.WithString("event", mcpgo.Description("Filter by hook event.")),
 		mcpgo.WithString("scope", mcpgo.Description("Filter by scope (global, tenant, agent).")),
@@ -31,36 +31,36 @@ func registerHooksCRUDTools(srv *mcpserver.MCPServer, store hooks.HookStore) {
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleHooksList(store))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_hooks_create",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_hooks_create",
 		mcpgo.WithDescription("Create a new hook."),
 		mcpgo.WithObject("config", mcpgo.Required(), mcpgo.Description("Full hook config object (handler_type, event, scope, config, matcher, etc.).")),
 	), handleHooksCreate(store))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_hooks_update",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_hooks_update",
 		mcpgo.WithDescription("Apply a partial update to an existing hook."),
 		mcpgo.WithString("hook_id", mcpgo.Required(), mcpgo.Description("Hook UUID.")),
 		mcpgo.WithObject("updates", mcpgo.Required(), mcpgo.Description("Column→value patch.")),
 	), handleHooksUpdate(store))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_hooks_delete",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_hooks_delete",
 		mcpgo.WithDescription("Delete a hook. Builtin hooks are read-only and cannot be deleted."),
 		mcpgo.WithString("hook_id", mcpgo.Required(), mcpgo.Description("Hook UUID.")),
 		mcpgo.WithDestructiveHintAnnotation(true),
 	), handleHooksDelete(store))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_hooks_toggle",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_hooks_toggle",
 		mcpgo.WithDescription("Enable or disable a hook."),
 		mcpgo.WithString("hook_id", mcpgo.Required(), mcpgo.Description("Hook UUID.")),
 		mcpgo.WithBoolean("enabled", mcpgo.Required(), mcpgo.Description("Desired enabled state.")),
 	), handleHooksToggle(store))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_hooks_test",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_hooks_test",
 		mcpgo.WithDescription("Dry-run a hook. NOTE: not available on this MCP surface — no dry-run test runner is wired here (see internal/gateway/methods/hooks.go's HookTestRunner, which is only attached to the WS RPC surface); always returns an error."),
 		mcpgo.WithObject("config", mcpgo.Required(), mcpgo.Description("Hook config to test.")),
 		mcpgo.WithObject("sample_event", mcpgo.Description("Sample event payload.")),
 	), handleHooksTest())
 
-	srv.AddTool(mcpgo.NewTool("goclaw_hooks_history",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_hooks_history",
 		mcpgo.WithDescription("Return hook execution history. NOTE: matches the WS RPC twin's Phase 3 MVP stub — always returns an empty list (paginated reads are not yet implemented in HookStore)."),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleHooksHistory())

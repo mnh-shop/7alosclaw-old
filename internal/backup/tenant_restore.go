@@ -14,7 +14,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/upgrade"
+	"github.com/nextlevelbuilder/zalosclaw/internal/upgrade"
 )
 
 // TenantRestoreOptions configures a tenant-scoped restore run.
@@ -83,12 +83,12 @@ func TenantRestore(ctx context.Context, opts TenantRestoreOptions) (*TenantResto
 	// Schema version check.
 	currentSchema := int(upgrade.RequiredSchemaVersion)
 	if manifest.SchemaVersion > currentSchema {
-		return nil, fmt.Errorf("backup schema version %d is newer than current %d; upgrade GoClaw first",
+		return nil, fmt.Errorf("backup schema version %d is newer than current %d; upgrade ZalosClaw first",
 			manifest.SchemaVersion, currentSchema)
 	}
 	if manifest.SchemaVersion < currentSchema {
 		result.Warnings = append(result.Warnings,
-			fmt.Sprintf("backup schema version %d is older than current %d; run 'goclaw migrate up' after restore",
+			fmt.Sprintf("backup schema version %d is older than current %d; run 'zalosclaw migrate up' after restore",
 				manifest.SchemaVersion, currentSchema))
 	}
 
@@ -264,7 +264,7 @@ func readTenantArchive(archivePath string) (
 	if err := json.Unmarshal(manifestData, &m); err != nil {
 		return nil, nil, nil, nil, fmt.Errorf("parse manifest: %w", err)
 	}
-	if m.Format != "goclaw-tenant-backup" {
+	if m.Format != "zalosclaw-tenant-backup" {
 		return nil, nil, nil, nil, fmt.Errorf("unsupported archive format: %q", m.Format)
 	}
 	return tableData, wsEntries, dataEntries, &m, nil

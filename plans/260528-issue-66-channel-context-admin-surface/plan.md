@@ -38,7 +38,7 @@ Out of scope for the first implementation pass: raw credential reveal, storing M
 
 ## Dependencies
 
-- GitHub issue: https://github.com/digitopvn/goclaw/issues/66
+- GitHub issue: https://github.com/digitopvn/zalosclaw/issues/66
 - Existing web UI: `ui/web/src/pages/channels/channel-detail/`
 - Existing HTTP routes: `internal/http/channel_instances.go`, `internal/http/mcp_grants.go`, `internal/http/secure_cli_agent_grants.go`
 - Existing stores: `internal/store/pg/`, `internal/store/sqlitestore/`, `internal/store/*mcp*`, `internal/store/*secure_cli*`

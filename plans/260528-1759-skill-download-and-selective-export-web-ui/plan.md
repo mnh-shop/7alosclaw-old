@@ -49,7 +49,7 @@ Backward compatibility:
 
 ## Dependencies
 
-- GitHub issue: `digitopvn/goclaw#80`
+- GitHub issue: `digitopvn/zalosclaw#80`
 - No blocking plan found. Existing pending merge-train plan touches release flow, not this feature area.
 
 ## API Contract Target
@@ -63,8 +63,8 @@ Query params:
 - `include_system=true|false`: optional for full export only. Selected `ids` can include system skills without this flag.
 
 Response filenames:
-- Single selected skill: `goclaw-skill-<slug>-v<version>.<ext>`
-- Multi/full export: `goclaw-skills-export-YYYYMMDD-HHmm.<ext>`
+- Single selected skill: `zalosclaw-skill-<slug>-v<version>.<ext>`
+- Multi/full export: `zalosclaw-skills-export-YYYYMMDD-HHmm.<ext>`
 
 Archive layout:
 ```text

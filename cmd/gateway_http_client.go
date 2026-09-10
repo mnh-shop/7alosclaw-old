@@ -97,7 +97,7 @@ func gatewayHTTPDoRawWithLimit(method, path string, body any, limit int64) ([]by
 		return nil, 0, err
 	}
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("X-GoClaw-User-Id", "system")
+	req.Header.Set("X-ZalosClaw-User-Id", "system")
 	if token := resolveGatewayToken(); token != "" {
 		req.Header.Set("Authorization", "Bearer "+token)
 	}
@@ -182,7 +182,7 @@ func requireRunningGatewayHTTP() {
 	resp, err := healthClient.Do(req)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "Error: the gateway is not running.")
-		fmt.Fprintf(os.Stderr, "Start it first:  goclaw\n")
+		fmt.Fprintf(os.Stderr, "Start it first:  zalosclaw\n")
 		fmt.Fprintf(os.Stderr, "  (tried %s/health)\n", base)
 		os.Exit(1)
 	}

@@ -7,9 +7,9 @@ import (
 
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // fakeBridgeTool is a minimal tools.Tool for registry-driven bridge tests.

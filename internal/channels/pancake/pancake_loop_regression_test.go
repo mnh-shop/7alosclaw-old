@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
 )
 
 func TestMessageHandlerSkipsRecentOutboundEchoWithHTMLFormatting(t *testing.T) {

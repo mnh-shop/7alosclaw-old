@@ -104,7 +104,7 @@ func (c *GitHubClient) DownloadAsset(ctx context.Context, assetURL string, maxBy
 			resp.StatusCode, strings.TrimSpace(string(body)))
 	}
 
-	tmp, err := os.CreateTemp("", "goclaw-gh-asset-*.bin")
+	tmp, err := os.CreateTemp("", "zalosclaw-gh-asset-*.bin")
 	if err != nil {
 		return "", "", err
 	}

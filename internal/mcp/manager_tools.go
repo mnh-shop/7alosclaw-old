@@ -7,7 +7,7 @@ import (
 	"time"
 
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // UserCredServers returns servers requiring per-user credentials.
@@ -63,7 +63,7 @@ func (m *Manager) ServerToolNames(serverName string) []string {
 // (manager_connect.go) and ListToolsForAgent's tool_cache lookups
 // (manager.go), silently producing empty description/parameters in the
 // prompt preview for tools whose grant was captured while the server was
-// live-connected — most commonly a server (like goclaw's own CRUD server)
+// live-connected — most commonly a server (like zalosclaw's own CRUD server)
 // that self-connects and therefore tends to already be live by the time an
 // operator configures its grants.
 func (m *Manager) ServerToolInfos(serverName string) []ToolInfo {
@@ -210,7 +210,7 @@ func discoverRawTools(ctx context.Context, transportType, command string, args [
 
 	initReq := mcpgo.InitializeRequest{}
 	initReq.Params.ProtocolVersion = mcpgo.LATEST_PROTOCOL_VERSION
-	initReq.Params.ClientInfo = mcpgo.Implementation{Name: "goclaw-discovery", Version: "1.0.0"}
+	initReq.Params.ClientInfo = mcpgo.Implementation{Name: "zalosclaw-discovery", Version: "1.0.0"}
 	if _, err := client.Initialize(ctx, initReq); err != nil {
 		return nil, fmt.Errorf("initialize: %w", err)
 	}

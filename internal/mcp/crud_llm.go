@@ -10,25 +10,25 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // LLMDefaults carries the gateway's background-provider fallback used when a
-// goclaw_llm_complete call does not specify a provider/model, mirroring
+// zalosclaw_llm_complete call does not specify a provider/model, mirroring
 // internal/gateway/methods/llm.go's llmDefaults.
 type LLMDefaults struct {
 	Provider string
 	Model    string
 }
 
-// registerLLMCRUDTool registers goclaw_llm_complete, backed by the same
+// registerLLMCRUDTool registers zalosclaw_llm_complete, backed by the same
 // providers.Registry the gateway's own llm.complete WS method uses. The WS
 // method additionally requires RoleOperator; this MCP surface has no
 // per-caller role (the bearer token is the sole boundary), matching the rest
 // of this CRUD MCP server.
 func registerLLMCRUDTool(srv *mcpserver.MCPServer, reg *providers.Registry, defaults LLMDefaults) {
-	srv.AddTool(mcpgo.NewTool("goclaw_llm_complete",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_llm_complete",
 		mcpgo.WithDescription("Request a one-shot LLM completion via the gateway's configured provider registry, bypassing the agent loop."),
 		mcpgo.WithString("provider", mcpgo.Description("Provider name (e.g. \"anthropic\"); defaults to the gateway's background provider.")),
 		mcpgo.WithString("model", mcpgo.Description("Model name; defaults to the gateway's background model or the provider's default.")),

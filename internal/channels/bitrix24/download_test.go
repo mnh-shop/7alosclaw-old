@@ -13,7 +13,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
 )
 
 // TestResolveMime_PreferenceMime tests that EventFile.Mime is preferred first.

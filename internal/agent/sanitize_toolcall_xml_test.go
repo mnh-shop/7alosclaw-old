@@ -39,14 +39,14 @@ func TestStripGarbledToolXML_FullToolCallBlock(t *testing.T) {
 		{
 			name: "removes bare <invoke> block without function_calls wrapper",
 			input: "Collecting PRs.\n\n" +
-				"<invoke name=\"mcp__goclaw-bridge__exec\">\n" +
+				"<invoke name=\"mcp__zalosclaw-bridge__exec\">\n" +
 				"<parameter name=\"command\">gh pr view 1218</parameter>\n" +
 				"</invoke>",
 			want: "Collecting PRs.",
 		},
 		{
 			name: "bare invoke-only response collapses to empty",
-			input: "<invoke name=\"mcp__goclaw-bridge__message\">" +
+			input: "<invoke name=\"mcp__zalosclaw-bridge__message\">" +
 				"<parameter name=\"text\">hi</parameter></invoke>",
 			want: "",
 		},
@@ -86,7 +86,7 @@ func TestSanitizeAssistantContent_NoToolCallArgumentLeak(t *testing.T) {
 // removed so the command argument does not leak into the user-facing reply.
 func TestSanitizeAssistantContent_BareInvokeNoWrapper(t *testing.T) {
 	input := "Format error, retrying.\n\n" +
-		"<invoke name=\"mcp__goclaw-bridge__exec\">\n" +
+		"<invoke name=\"mcp__zalosclaw-bridge__exec\">\n" +
 		"<parameter name=\"command\">( cd ~/secret-path && gh pr view 1218 )</parameter>\n" +
 		"</invoke>"
 

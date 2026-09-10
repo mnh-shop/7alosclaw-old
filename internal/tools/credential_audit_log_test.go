@@ -130,7 +130,7 @@ func TestEmitSystemEnvInjectionAudit_SSH(t *testing.T) {
 	pemBody := "-----BEGIN OPENSSH PRIVATE KEY-----\nfakebody\n-----END OPENSSH PRIVATE KEY-----"
 	inj := &Injection{
 		Env: map[string]string{
-			"GIT_SSH_COMMAND": "ssh -i /tmp/goclaw-gitkey-xyz -o StrictHostKeyChecking=accept-new",
+			"GIT_SSH_COMMAND": "ssh -i /tmp/zalosclaw-gitkey-xyz -o StrictHostKeyChecking=accept-new",
 		},
 	}
 

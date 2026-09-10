@@ -11,7 +11,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
 )
 
 // geminiResponseWith builds a minimal Gemini generateContent response

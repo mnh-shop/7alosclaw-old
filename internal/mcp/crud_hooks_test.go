@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/nextlevelbuilder/goclaw/internal/hooks"
+	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
 )
 
 func TestHooksCreate_HappyPath(t *testing.T) {
@@ -16,7 +16,7 @@ func TestHooksCreate_HappyPath(t *testing.T) {
 	srv := newTestMCPServer()
 	registerHooksCRUDTools(srv, store)
 
-	result := callTool(t, srv, "goclaw_hooks_create", map[string]any{
+	result := callTool(t, srv, "zalosclaw_hooks_create", map[string]any{
 		"config": map[string]any{
 			"handler_type": "http",
 			"event":        "pre_tool_use",
@@ -33,7 +33,7 @@ func TestHooksCreate_MissingRequiredFields(t *testing.T) {
 	srv := newTestMCPServer()
 	registerHooksCRUDTools(srv, store)
 
-	result := callTool(t, srv, "goclaw_hooks_create", map[string]any{
+	result := callTool(t, srv, "zalosclaw_hooks_create", map[string]any{
 		"config": map[string]any{"handler_type": "http"},
 	})
 	assert.True(t, toolIsError(result))
@@ -45,7 +45,7 @@ func TestHooksList_FiltersByEnabled(t *testing.T) {
 	srv := newTestMCPServer()
 	registerHooksCRUDTools(srv, store)
 
-	result := callTool(t, srv, "goclaw_hooks_list", map[string]any{})
+	result := callTool(t, srv, "zalosclaw_hooks_list", map[string]any{})
 	require.False(t, toolIsError(result))
 	assert.Contains(t, toolResultText(result), "hooks")
 }
@@ -57,13 +57,13 @@ func TestHooksToggle_And_Delete(t *testing.T) {
 	srv := newTestMCPServer()
 	registerHooksCRUDTools(srv, store)
 
-	toggled := callTool(t, srv, "goclaw_hooks_toggle", map[string]any{"hook_id": id.String(), "enabled": true})
+	toggled := callTool(t, srv, "zalosclaw_hooks_toggle", map[string]any{"hook_id": id.String(), "enabled": true})
 	require.False(t, toolIsError(toggled))
 
-	deleted := callTool(t, srv, "goclaw_hooks_delete", map[string]any{"hook_id": id.String()})
+	deleted := callTool(t, srv, "zalosclaw_hooks_delete", map[string]any{"hook_id": id.String()})
 	require.False(t, toolIsError(deleted))
 
-	deleteAgain := callTool(t, srv, "goclaw_hooks_delete", map[string]any{"hook_id": id.String()})
+	deleteAgain := callTool(t, srv, "zalosclaw_hooks_delete", map[string]any{"hook_id": id.String()})
 	assert.True(t, toolIsError(deleteAgain))
 }
 
@@ -72,7 +72,7 @@ func TestHooksUpdate_NotFound(t *testing.T) {
 	srv := newTestMCPServer()
 	registerHooksCRUDTools(srv, store)
 
-	result := callTool(t, srv, "goclaw_hooks_update", map[string]any{
+	result := callTool(t, srv, "zalosclaw_hooks_update", map[string]any{
 		"hook_id": uuid.New().String(),
 		"updates": map[string]any{"enabled": false},
 	})
@@ -87,11 +87,11 @@ func TestHooksTest_And_History_AreDocumentedStubs(t *testing.T) {
 	srv := newTestMCPServer()
 	registerHooksCRUDTools(srv, store)
 
-	testResult := callTool(t, srv, "goclaw_hooks_test", map[string]any{"config": map[string]any{}})
+	testResult := callTool(t, srv, "zalosclaw_hooks_test", map[string]any{"config": map[string]any{}})
 	assert.True(t, toolIsError(testResult))
 	assert.Contains(t, toolResultText(testResult), "not available")
 
-	historyResult := callTool(t, srv, "goclaw_hooks_history", map[string]any{})
+	historyResult := callTool(t, srv, "zalosclaw_hooks_history", map[string]any{})
 	require.False(t, toolIsError(historyResult))
 	assert.Contains(t, toolResultText(historyResult), "not yet implemented")
 }

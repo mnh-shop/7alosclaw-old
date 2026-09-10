@@ -12,8 +12,8 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // AgentRuntimeLookup resolves a live agent's running state without the mcp
@@ -34,23 +34,23 @@ var allowedAgentContextFiles = []string{
 	bootstrap.HeartbeatFile,
 }
 
-// registerAgentCRUDTools registers the goclaw_agents_* MCP tools backed by store.AgentStore.
+// registerAgentCRUDTools registers the zalosclaw_agents_* MCP tools backed by store.AgentStore.
 func registerAgentCRUDTools(srv *mcpserver.MCPServer, agents store.AgentStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_agents_list",
-		mcpgo.WithDescription("List goclaw agents, optionally scoped to a specific owner."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agents_list",
+		mcpgo.WithDescription("List zalosclaw agents, optionally scoped to a specific owner."),
 		mcpgo.WithString("owner_id", mcpgo.Description("Filter by owner ID; empty lists all agents visible to the caller.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleAgentsList(agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_agents_get",
-		mcpgo.WithDescription("Get a single goclaw agent by UUID or agent_key."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agents_get",
+		mcpgo.WithDescription("Get a single zalosclaw agent by UUID or agent_key."),
 		mcpgo.WithString("id", mcpgo.Description("Agent UUID.")),
 		mcpgo.WithString("agent_key", mcpgo.Description("Agent key/slug, used when id is not known.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleAgentsGet(agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_agents_create",
-		mcpgo.WithDescription("Create a new goclaw agent."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agents_create",
+		mcpgo.WithDescription("Create a new zalosclaw agent."),
 		mcpgo.WithString("agent_key", mcpgo.Required(), mcpgo.Description("Unique agent key/slug (e.g. \"support-bot\").")),
 		mcpgo.WithString("display_name", mcpgo.Description("Human-readable agent name; defaults to agent_key.")),
 		mcpgo.WithString("owner_id", mcpgo.Description("Owner user ID; defaults to \"system\".")),
@@ -60,7 +60,7 @@ func registerAgentCRUDTools(srv *mcpserver.MCPServer, agents store.AgentStore) {
 		mcpgo.WithString("agent_type", mcpgo.Description("\"open\" or \"predefined\"; defaults to \"predefined\".")),
 	), handleAgentsCreate(agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_agents_update",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agents_update",
 		mcpgo.WithDescription("Apply a partial update to an existing agent."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("Agent UUID.")),
 		mcpgo.WithString("display_name", mcpgo.Description("New display name.")),
@@ -71,8 +71,8 @@ func registerAgentCRUDTools(srv *mcpserver.MCPServer, agents store.AgentStore) {
 		mcpgo.WithNumber("max_tool_iterations", mcpgo.Description("New max tool iterations per turn.")),
 	), handleAgentsUpdate(agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_agents_delete",
-		mcpgo.WithDescription("Delete a goclaw agent by UUID."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agents_delete",
+		mcpgo.WithDescription("Delete a zalosclaw agent by UUID."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("Agent UUID.")),
 		mcpgo.WithDestructiveHintAnnotation(true),
 	), handleAgentsDelete(agents))
@@ -208,45 +208,45 @@ func handleAgentsDelete(agents store.AgentStore) mcpserver.ToolHandlerFunc {
 	}
 }
 
-// registerAgentRuntimeCRUDTools registers the goclaw_agent_{get,wait,identity_get}
-// and goclaw_agents_files_{list,get,set} MCP tools. goclaw_agent_{get,wait}
+// registerAgentRuntimeCRUDTools registers the zalosclaw_agent_{get,wait,identity_get}
+// and zalosclaw_agents_files_{list,get,set} MCP tools. zalosclaw_agent_{get,wait}
 // need the live agent runtime (for running-state) in addition to
 // store.AgentStore (for context files/identity), unlike the plain CRUD tools
 // above.
 func registerAgentRuntimeCRUDTools(srv *mcpserver.MCPServer, agents store.AgentStore, lookup AgentRuntimeLookup) {
-	srv.AddTool(mcpgo.NewTool("goclaw_agent_get",
-		mcpgo.WithDescription("Return the running state for a single goclaw agent."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agent_get",
+		mcpgo.WithDescription("Return the running state for a single zalosclaw agent."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent key/slug (or \"default\").")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleAgentRuntimeGet(lookup))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_agent_wait",
-		mcpgo.WithDescription("Wait for (or report the current status of) a goclaw agent."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agent_wait",
+		mcpgo.WithDescription("Wait for (or report the current status of) a zalosclaw agent."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent key/slug (or \"default\").")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleAgentWait(lookup))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_agent_identity_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agent_identity_get",
 		mcpgo.WithDescription("Return identity metadata (name, emoji, avatar, description) for an agent."),
 		mcpgo.WithString("agent_id", mcpgo.Description("Agent key/slug.")),
 		mcpgo.WithString("session_key", mcpgo.Description("Session key to extract the agent ID from, when agent_id is not known.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleAgentIdentityGet(agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_agents_files_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agents_files_list",
 		mcpgo.WithDescription("List the well-known context files for an agent."),
 		mcpgo.WithString("agent_id", mcpgo.Description("Agent key/slug (or \"default\").")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleAgentsFilesList(agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_agents_files_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agents_files_get",
 		mcpgo.WithDescription("Read a single well-known context file for an agent."),
 		mcpgo.WithString("agent_id", mcpgo.Description("Agent key/slug (or \"default\").")),
 		mcpgo.WithString("name", mcpgo.Required(), mcpgo.Description("File name (e.g. \"SOUL.md\").")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleAgentsFilesGet(agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_agents_files_set",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agents_files_set",
 		mcpgo.WithDescription("Write a single well-known context file for an agent."),
 		mcpgo.WithString("agent_id", mcpgo.Description("Agent key/slug (or \"default\").")),
 		mcpgo.WithString("name", mcpgo.Required(), mcpgo.Description("File name (e.g. \"SOUL.md\").")),
@@ -454,8 +454,8 @@ func handleAgentsFilesSet(agents store.AgentStore) mcpserver.ToolHandlerFunc {
 // bound prompt size.
 const maxPinnedSkillsPerAgent = 10
 
-// registerAgentSkillPinCRUDTools registers goclaw_agents_pin_skill/
-// goclaw_agents_unpin_skill. Pinning is distinct from granting access
+// registerAgentSkillPinCRUDTools registers zalosclaw_agents_pin_skill/
+// zalosclaw_agents_unpin_skill. Pinning is distinct from granting access
 // (registerSkillGrantCRUDTools in crud_skills.go): a pinned skill is
 // auto-loaded into the agent's system prompt every turn (see
 // internal/agent/resolver.go's ParsePinnedSkills / PinnedSkillsSummary),
@@ -468,13 +468,13 @@ const maxPinnedSkillsPerAgent = 10
 // writing the full blob back — a naive partial write would silently drop
 // every other other_config field (self_evolution_metrics, tts_params, etc).
 func registerAgentSkillPinCRUDTools(srv *mcpserver.MCPServer, agents store.AgentStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_agents_pin_skill",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agents_pin_skill",
 		mcpgo.WithDescription("Pin a skill onto an agent so it's auto-loaded into that agent's system prompt every turn (distinct from granting access)."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("Agent UUID.")),
 		mcpgo.WithString("skill", mcpgo.Required(), mcpgo.Description("Skill slug/name to pin.")),
 	), handleAgentsPinSkill(agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_agents_unpin_skill",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agents_unpin_skill",
 		mcpgo.WithDescription("Unpin a skill from an agent (does not revoke access, only removes it from the always-loaded set)."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("Agent UUID.")),
 		mcpgo.WithString("skill", mcpgo.Required(), mcpgo.Description("Skill slug/name to unpin.")),

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
 )
 
 // captureEdgeArgs runs synthesizeWithFactory and returns the CLI args.

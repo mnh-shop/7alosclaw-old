@@ -9,8 +9,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/skills"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // TestSkillSearchTool_TenantIsolation mirrors

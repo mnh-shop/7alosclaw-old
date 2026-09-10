@@ -1,8 +1,8 @@
 # 18 - ACP Provider (Agent Client Protocol)
 
-The ACP provider enables GoClaw to orchestrate external coding agents (Claude Code, Codex CLI, Gemini CLI, Kiro, or any ACP-compatible agent) as subprocesses via JSON-RPC 2.0 over stdio. One provider covers all ACP agents through config-driven agent registry.
+The ACP provider enables ZalosClaw to orchestrate external coding agents (Claude Code, Codex CLI, Gemini CLI, Kiro, or any ACP-compatible agent) as subprocesses via JSON-RPC 2.0 over stdio. One provider covers all ACP agents through config-driven agent registry.
 
-> **References:** [ACP Spec](https://agentclientprotocol.com/) · [ACP Schema](https://github.com/agentclientprotocol/agent-client-protocol/blob/main/schema/schema.json) · Issue [#189](https://github.com/nextlevelbuilder/goclaw/issues/189) · PR [#190](https://github.com/nextlevelbuilder/goclaw/pull/190)
+> **References:** [ACP Spec](https://agentclientprotocol.com/) · [ACP Schema](https://github.com/agentclientprotocol/agent-client-protocol/blob/main/schema/schema.json) · Issue [#189](https://github.com/nextlevelbuilder/zalosclaw/issues/189) · PR [#190](https://github.com/nextlevelbuilder/zalosclaw/pull/190)
 
 ---
 
@@ -10,7 +10,7 @@ The ACP provider enables GoClaw to orchestrate external coding agents (Claude Co
 
 ```mermaid
 flowchart TD
-    AL["GoClaw Agent Loop"] -->|"Chat / ChatStream"| ACP["ACPProvider<br/>(acp_provider.go)"]
+    AL["ZalosClaw Agent Loop"] -->|"Chat / ChatStream"| ACP["ACPProvider<br/>(acp_provider.go)"]
     ACP -->|"GetOrSpawn"| PP["ProcessPool<br/>(process.go)"]
     PP -->|"spawn binary"| PROC["Subprocess<br/>(stdin/stdout pipes)"]
     PROC <-->|"JSON-RPC 2.0<br/>newline-delimited"| CONN["Conn<br/>(jsonrpc.go)"]
@@ -30,7 +30,7 @@ flowchart TD
 ```
 
 **Key principles:**
-- GoClaw is an ACP **client** — it spawns and controls agent subprocesses
+- ZalosClaw is an ACP **client** — it spawns and controls agent subprocesses
 - Each subprocess is a long-lived OS process communicating via stdin/stdout
 - Security enforced at the tool bridge layer: workspace sandboxing, deny patterns, permission modes
 
@@ -43,7 +43,7 @@ flowchart TD
 Messages are **newline-delimited JSON** on stdin/stdout. Each message is a complete JSON object followed by `\n`. The `Conn` type (`jsonrpc.go`, 217 lines) handles bidirectional communication.
 
 ```
-GoClaw (Client)                     Agent (Server)
+ZalosClaw (Client)                     Agent (Server)
      │                                    │
      │──── {"jsonrpc":"2.0","id":1,  ────►│  Request
      │      "method":"initialize",        │
@@ -96,7 +96,7 @@ type jsonrpcMessage struct {
 
 ```mermaid
 sequenceDiagram
-    participant C as GoClaw (Client)
+    participant C as ZalosClaw (Client)
     participant A as Agent (Subprocess)
 
     C->>A: initialize {clientInfo, capabilities}
@@ -123,7 +123,7 @@ Client declares capabilities (filesystem read/write, terminal support). Agent re
 ```go
 // Client sends:
 InitializeRequest{
-    ClientInfo: ClientInfo{Name: "goclaw", Version: "1.0"},
+    ClientInfo: ClientInfo{Name: "zalosclaw", Version: "1.0"},
     Capabilities: ClientCaps{
         Fs:       &FsCaps{Read: true, Write: true},
         Terminal: &TerminalCaps{Create: true},
@@ -158,17 +158,17 @@ type ContentBlock struct {
 }
 ```
 
-### Request Extraction (GoClaw → Agent)
+### Request Extraction (ZalosClaw → Agent)
 
 1. Extract system prompt + user message from `ChatRequest.Messages`
 2. Prepend system prompt to first user message (ACP has no separate system message API)
 3. Attach images as separate content blocks with base64 data
 
-### Response Collection (Agent → GoClaw)
+### Response Collection (Agent → ZalosClaw)
 
 1. Accumulate `SessionUpdate` notifications during prompt execution
 2. Collect text blocks into response content string
-3. Map `stopReason` to GoClaw finish reason:
+3. Map `stopReason` to ZalosClaw finish reason:
    - `"maxContextLength"` → `"length"`
    - All others → `"stop"`
 
@@ -305,7 +305,7 @@ unzip, gzip, cat, head, tail, less, grep, rg, find, ls, mv,
 cp, mkdir, rm, chmod, touch, sed, awk, sort, wc, diff, tee
 ```
 
-**2. Deny Patterns:** Regex patterns from GoClaw's `DefaultDenyPatterns` are applied to the full command string (binary + args).
+**2. Deny Patterns:** Regex patterns from ZalosClaw's `DefaultDenyPatterns` are applied to the full command string (binary + args).
 
 **3. Working Directory Sandbox:** Terminal `cwd` validated against workspace boundary.
 
@@ -332,7 +332,7 @@ Before spawning any agent subprocess, `filterACPEnv()` strips sensitive environm
 
 **Prefix-based (12 prefixes):**
 ```
-GOCLAW_, CLAUDE_, ANTHROPIC_, OPENAI_, DATABASE_, AWS_,
+ZALOSCLAW_, CLAUDE_, ANTHROPIC_, OPENAI_, DATABASE_, AWS_,
 GOOGLE_, AZURE_, GITHUB_, DOCKER_, STRIPE_, SSH_
 ```
 
@@ -357,7 +357,7 @@ This prevents credential leakage to untrusted agent binaries.
   "providers": {
     "acp": {
       "binary": "claude",        // agent binary (must be in PATH)
-      "args": ["--profile", "goclaw"],  // optional spawn args
+      "args": ["--profile", "zalosclaw"],  // optional spawn args
       "model": "claude",         // default model name for routing
       "work_dir": "/workspace",  // base workspace directory
       "idle_ttl": "5m",          // process idle timeout
@@ -392,7 +392,7 @@ registerACPFromDB(registry, providerData)
 Both paths:
 1. Verify binary exists via `exec.LookPath`
 2. Parse `IdleTTL` duration
-3. Resolve `WorkDir` (default: `~/.goclaw/acp-workspaces`)
+3. Resolve `WorkDir` (default: `~/.zalosclaw/acp-workspaces`)
 4. Create `NewACPProvider(binary, args, workDir, idleTTL, denyPatterns, opts...)`
 
 ### Live Reload

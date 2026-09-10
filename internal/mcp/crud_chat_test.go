@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 func TestChatSend_HappyPath(t *testing.T) {
@@ -16,7 +16,7 @@ func TestChatSend_HappyPath(t *testing.T) {
 	srv := newTestMCPServer()
 	registerChatCRUDTools(srv, runner, sessions)
 
-	result := callTool(t, srv, "goclaw_chat_send", map[string]any{"message": "hello"})
+	result := callTool(t, srv, "zalosclaw_chat_send", map[string]any{"message": "hello"})
 	require.False(t, toolIsError(result), toolResultText(result))
 	assert.Equal(t, "hello", runner.lastMessage)
 }
@@ -27,7 +27,7 @@ func TestChatSend_RunnerError(t *testing.T) {
 	srv := newTestMCPServer()
 	registerChatCRUDTools(srv, runner, sessions)
 
-	result := callTool(t, srv, "goclaw_chat_send", map[string]any{"message": "hello"})
+	result := callTool(t, srv, "zalosclaw_chat_send", map[string]any{"message": "hello"})
 	assert.True(t, toolIsError(result))
 }
 
@@ -36,7 +36,7 @@ func TestChatSend_NilRunner(t *testing.T) {
 	srv := newTestMCPServer()
 	registerChatCRUDTools(srv, nil, sessions)
 
-	result := callTool(t, srv, "goclaw_chat_send", map[string]any{"message": "hello"})
+	result := callTool(t, srv, "zalosclaw_chat_send", map[string]any{"message": "hello"})
 	assert.True(t, toolIsError(result))
 	assert.Contains(t, toolResultText(result), "chat runtime not available")
 }
@@ -48,7 +48,7 @@ func TestChatHistory(t *testing.T) {
 	srv := newTestMCPServer()
 	registerChatCRUDTools(srv, runner, sessions)
 
-	result := callTool(t, srv, "goclaw_chat_history", map[string]any{"session_key": "sess-1"})
+	result := callTool(t, srv, "zalosclaw_chat_history", map[string]any{"session_key": "sess-1"})
 	require.False(t, toolIsError(result))
 	assert.Contains(t, toolResultText(result), "hi")
 }
@@ -59,7 +59,7 @@ func TestChatInject_AddsLabeledMessage(t *testing.T) {
 	srv := newTestMCPServer()
 	registerChatCRUDTools(srv, runner, sessions)
 
-	result := callTool(t, srv, "goclaw_chat_inject", map[string]any{
+	result := callTool(t, srv, "zalosclaw_chat_inject", map[string]any{
 		"session_key": "sess-1", "message": "note text", "label": "note",
 	})
 	require.False(t, toolIsError(result))
@@ -73,7 +73,7 @@ func TestChatAbort_RequiresRunIDOrSessionKey(t *testing.T) {
 	srv := newTestMCPServer()
 	registerChatCRUDTools(srv, runner, sessions)
 
-	result := callTool(t, srv, "goclaw_chat_abort", map[string]any{})
+	result := callTool(t, srv, "zalosclaw_chat_abort", map[string]any{})
 	assert.True(t, toolIsError(result))
 }
 
@@ -82,7 +82,7 @@ func TestChatSessionStatus_NilRunner(t *testing.T) {
 	srv := newTestMCPServer()
 	registerChatCRUDTools(srv, nil, sessions)
 
-	result := callTool(t, srv, "goclaw_chat_session_status", map[string]any{"session_key": "sess-1"})
+	result := callTool(t, srv, "zalosclaw_chat_session_status", map[string]any{"session_key": "sess-1"})
 	assert.True(t, toolIsError(result))
 }
 
@@ -91,6 +91,6 @@ func TestChatBehaviorPreview_NoChannelManager(t *testing.T) {
 	srv := newTestMCPServer()
 	registerChatBehaviorCRUDTool(srv, cfg, nil)
 
-	result := callTool(t, srv, "goclaw_chat_behavior_preview", map[string]any{"content": "hello"})
+	result := callTool(t, srv, "zalosclaw_chat_behavior_preview", map[string]any{"content": "hello"})
 	require.False(t, toolIsError(result))
 }

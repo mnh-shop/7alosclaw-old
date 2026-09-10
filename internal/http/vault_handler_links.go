@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // handleSearchAll runs tenant-wide search (agent_id optional in body).

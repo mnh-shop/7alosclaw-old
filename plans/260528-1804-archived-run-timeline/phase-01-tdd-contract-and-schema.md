@@ -11,8 +11,8 @@ dependencies: []
 
 ## Context Links
 
-- GitHub issue: `digitopvn/goclaw#76`
-- Related issue boundary: `digitopvn/goclaw#67`
+- GitHub issue: `digitopvn/zalosclaw#76`
+- Related issue boundary: `digitopvn/zalosclaw#67`
 - Current schema: `migrations/000001_init_schema.up.sql`
 - SQLite schema: `internal/store/sqlitestore/schema.sql`
 - Trace store reference: `internal/store/tracing_store.go`

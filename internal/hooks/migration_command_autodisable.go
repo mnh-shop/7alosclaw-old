@@ -4,8 +4,8 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/nextlevelbuilder/goclaw/internal/edition"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // DisableLegacyCommandHooks turns off any enabled command-typed hook rows

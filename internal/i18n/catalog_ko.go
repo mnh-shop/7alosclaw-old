@@ -53,7 +53,7 @@ func init() {
 		// HTTP API
 		MsgInvalidAuth:           "잘못된 인증",
 		MsgMsgsRequired:          "messages가 필요합니다",
-		MsgUserIDHeader:          "X-GoClaw-User-Id 헤더가 필요합니다",
+		MsgUserIDHeader:          "X-ZalosClaw-User-Id 헤더가 필요합니다",
 		MsgFileTooLarge:          "파일이 너무 크거나 잘못된 멀티파트 양식입니다",
 		MsgMissingFileField:      "'file' 필드가 누락되었습니다",
 		MsgInvalidFilename:       "잘못된 파일명",

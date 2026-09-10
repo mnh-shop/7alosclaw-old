@@ -10,9 +10,9 @@ import (
 	slackapi "github.com/slack-go/slack"
 	"github.com/slack-go/slack/slackevents"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/systemmessages"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/systemmessages"
 )
 
 func (c *Channel) handleAppMention(ev *slackevents.AppMentionEvent) {

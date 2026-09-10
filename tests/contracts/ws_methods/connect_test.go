@@ -5,7 +5,7 @@ package ws_methods
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 // CONTRACT: connect response MUST include these fields with correct types.
@@ -28,5 +28,5 @@ func TestContract_WS_Connect(t *testing.T) {
 
 	// Value checks
 	assertFieldValue(t, resp, "protocol", float64(protocol.ProtocolVersion))
-	assertFieldValue(t, resp, "server.name", "goclaw")
+	assertFieldValue(t, resp, "server.name", "zalosclaw")
 }

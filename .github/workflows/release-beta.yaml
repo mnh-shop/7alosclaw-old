@@ -12,7 +12,7 @@ permissions:
 
 env:
   GHCR_IMAGE: ghcr.io/${{ github.repository }}
-  DOCKERHUB_IMAGE: digitop/goclaw
+  DOCKERHUB_IMAGE: digitop/zalosclaw
 
 jobs:
   # Build cross-platform binaries and create prerelease
@@ -51,15 +51,15 @@ jobs:
           VERSION: ${{ github.ref_name }}
         run: |
           CGO_ENABLED=0 go build -tags embedui \
-            -ldflags="-s -w -X github.com/nextlevelbuilder/goclaw/cmd.Version=${VERSION}" \
-            -o goclaw .
-          tar -czf "goclaw-${{ github.ref_name }}-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz" goclaw migrations/ skills/
+            -ldflags="-s -w -X github.com/nextlevelbuilder/zalosclaw/cmd.Version=${VERSION}" \
+            -o zalosclaw .
+          tar -czf "zalosclaw-${{ github.ref_name }}-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz" zalosclaw migrations/ skills/
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: binary-${{ matrix.goos }}-${{ matrix.goarch }}
-          path: goclaw-*.tar.gz
+          path: zalosclaw-*.tar.gz
 
   # Create GitHub prerelease with binaries
   create-prerelease:
@@ -78,7 +78,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          name: "GoClaw ${{ github.ref_name }}"
+          name: "ZalosClaw ${{ github.ref_name }}"
           draft: false
           prerelease: true
           generate_release_notes: true

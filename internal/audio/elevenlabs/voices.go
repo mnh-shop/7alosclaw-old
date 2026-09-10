@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
 )
 
 // voicesResponse mirrors the ElevenLabs GET /v1/voices response envelope.

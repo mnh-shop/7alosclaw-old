@@ -3,8 +3,8 @@ package orchestration
 import (
 	"path/filepath"
 
-	"github.com/nextlevelbuilder/goclaw/internal/agent"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
 )
 
 // MediaResultToBusFiles converts agent.MediaResult slice to bus.MediaFile slice.

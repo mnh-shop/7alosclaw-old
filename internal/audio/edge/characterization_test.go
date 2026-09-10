@@ -6,7 +6,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
 )
 
 // TestCharacterization_Edge_DefaultOpts captures the CLI args emitted by

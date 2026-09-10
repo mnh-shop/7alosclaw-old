@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
 )
 
 // Config bundles credentials + TTS defaults for OpenAI.

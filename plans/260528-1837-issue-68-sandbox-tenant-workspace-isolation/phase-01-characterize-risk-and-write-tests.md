@@ -9,8 +9,8 @@ effort: "2h"
 
 ## Context Links
 
-- Issue: https://github.com/digitopvn/goclaw/issues/68
-- Upstream issue: https://github.com/nextlevelbuilder/goclaw/issues/1163
+- Issue: https://github.com/digitopvn/zalosclaw/issues/68
+- Upstream issue: https://github.com/nextlevelbuilder/zalosclaw/issues/1163
 - Docker mount creation: `internal/sandbox/docker.go`
 - Sandbox path helpers: `internal/tools/sandbox_utils.go`
 - Exec sandbox path: `internal/tools/shell.go`

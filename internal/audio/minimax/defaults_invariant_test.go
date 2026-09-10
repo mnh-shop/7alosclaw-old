@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
-	"github.com/nextlevelbuilder/goclaw/internal/audio/minimax"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio/minimax"
 )
 
 // TestDefaults_PreserveLegacyBody verifies that populating opts.Params with all

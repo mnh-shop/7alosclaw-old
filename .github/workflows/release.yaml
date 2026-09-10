@@ -17,7 +17,7 @@ permissions:
 
 env:
   GHCR_IMAGE: ghcr.io/${{ github.repository }}
-  DOCKERHUB_IMAGE: digitop/goclaw
+  DOCKERHUB_IMAGE: digitop/zalosclaw
 
 jobs:
   release:
@@ -55,7 +55,7 @@ jobs:
         run: |
           TAG="v${{ steps.version.outputs.version }}"
           gh release create "$TAG" \
-            --title "GoClaw $TAG" \
+            --title "ZalosClaw $TAG" \
             --generate-notes \
             --latest \
             2>/dev/null || echo "Release $TAG already exists, continuing..."
@@ -104,16 +104,16 @@ jobs:
           VERSION: v${{ needs.release.outputs.version }}
         run: |
           CGO_ENABLED=0 go build -tags embedui \
-            -ldflags="-s -w -X github.com/nextlevelbuilder/goclaw/cmd.Version=${VERSION}" \
-            -o goclaw .
-          tar -czf "goclaw-${{ needs.release.outputs.version }}-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz" goclaw migrations/ skills/
+            -ldflags="-s -w -X github.com/nextlevelbuilder/zalosclaw/cmd.Version=${VERSION}" \
+            -o zalosclaw .
+          tar -czf "zalosclaw-${{ needs.release.outputs.version }}-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz" zalosclaw migrations/ skills/
 
       - name: Upload to release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release upload "v${{ needs.release.outputs.version }}" \
-            "goclaw-${{ needs.release.outputs.version }}-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz" \
+            "zalosclaw-${{ needs.release.outputs.version }}-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz" \
             --clobber
 
   # Generate SHA256 checksums for all binary assets
@@ -130,13 +130,13 @@ jobs:
           mkdir -p assets
           gh release download "v${{ needs.release.outputs.version }}" \
             --repo "${{ github.repository }}" \
-            --pattern "goclaw-*.tar.gz" \
+            --pattern "zalosclaw-*.tar.gz" \
             --dir assets
 
       - name: Generate checksums
         run: |
           cd assets
-          sha256sum goclaw-*.tar.gz > CHECKSUMS.sha256
+          sha256sum zalosclaw-*.tar.gz > CHECKSUMS.sha256
           echo "Generated checksums:"
           cat CHECKSUMS.sha256
 
@@ -292,11 +292,11 @@ jobs:
           curl -fsSL -H "Content-Type: application/json" \
             -d "{
               \"embeds\": [{
-                \"title\": \"GoClaw ${VERSION} Released\",
+                \"title\": \"ZalosClaw ${VERSION} Released\",
                 \"url\": \"https://github.com/${{ github.repository }}/releases/tag/${VERSION}\",
                 \"color\": 5814783,
                 \"fields\": [
-                  {\"name\": \"Docker\", \"value\": \"\`docker pull digitop/goclaw:latest\`\", \"inline\": false},
+                  {\"name\": \"Docker\", \"value\": \"\`docker pull digitop/zalosclaw:latest\`\", \"inline\": false},
                   {\"name\": \"Install\", \"value\": \"\`curl -fsSL https://raw.githubusercontent.com/${{ github.repository }}/main/scripts/install.sh | bash\`\", \"inline\": false}
                 ],
                 \"footer\": {\"text\": \"${{ github.repository }}\"},

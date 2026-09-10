@@ -11,8 +11,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // fakeUserMCPTool is a minimal tools.Tool standing in for a per-user MCP BridgeTool.

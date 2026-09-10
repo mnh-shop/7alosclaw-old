@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
 )
 
 func TestOpenAIEmbeddingProviderRestoresResponseOrder(t *testing.T) {

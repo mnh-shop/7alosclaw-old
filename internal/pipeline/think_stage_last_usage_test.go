@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // TestThinkStage_TracksLastUsagePerIteration guards the per-iteration usage

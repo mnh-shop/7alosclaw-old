@@ -3,7 +3,7 @@
 Install CLI tools directly from GitHub Releases at runtime. Covers Go, Rust,
 shell, and other binary-distributed tools not available via `apk` / `pip` / `npm`.
 
-Closes [#741](https://github.com/nextlevelbuilder/goclaw/issues/741).
+Closes [#741](https://github.com/nextlevelbuilder/zalosclaw/issues/741).
 
 ## Install Syntax
 
@@ -66,15 +66,15 @@ token in `config.json`.
 
 | Env var | Default | Notes |
 |---------|---------|-------|
-| `GOCLAW_PACKAGES_GITHUB_TOKEN` | `""` | Optional PAT: rate 60/hr → 5000/hr + private repo access |
-| `GOCLAW_PACKAGES_MAX_ASSET_SIZE_MB` | `200` | Applies to both download cap and 2× uncompressed cap |
-| `GOCLAW_PACKAGES_GITHUB_ALLOWED_ORGS` | `""` | Comma-separated allowlist (empty = all orgs allowed) |
-| `GOCLAW_PACKAGES_GITHUB_BIN_DIR` | `{runtimeDir}/bin` | Where extracted binaries land |
-| `GOCLAW_PACKAGES_GITHUB_MANIFEST` | `{bin_dir}/../github-packages.json` | Manifest path |
+| `ZALOSCLAW_PACKAGES_GITHUB_TOKEN` | `""` | Optional PAT: rate 60/hr → 5000/hr + private repo access |
+| `ZALOSCLAW_PACKAGES_MAX_ASSET_SIZE_MB` | `200` | Applies to both download cap and 2× uncompressed cap |
+| `ZALOSCLAW_PACKAGES_GITHUB_ALLOWED_ORGS` | `""` | Comma-separated allowlist (empty = all orgs allowed) |
+| `ZALOSCLAW_PACKAGES_GITHUB_BIN_DIR` | `{runtimeDir}/bin` | Where extracted binaries land |
+| `ZALOSCLAW_PACKAGES_GITHUB_MANIFEST` | `{bin_dir}/../github-packages.json` | Manifest path |
 
 `packages.scratch_dir` in `config.json` is optional. If it is empty or cannot
 be created, updates use `{runtimeDir}/tmp` so bare-metal services do not depend
-on root-owned release directories such as `/opt/goclaw/tmp`.
+on root-owned release directories such as `/opt/zalosclaw/tmp`.
 
 Token scopes:
 - public-only repos: no scopes required
@@ -101,7 +101,7 @@ Token scopes:
 
 ### "glibc not found" / segfault on execution
 
-GoClaw runs on Alpine Linux (musl libc). Many Go/Rust binaries target glibc.
+ZalosClaw runs on Alpine Linux (musl libc). Many Go/Rust binaries target glibc.
 
 **Fix:** pick a musl-compatible release asset. Look for names containing:
 - `*-musl.tar.gz` (explicit musl)
@@ -127,7 +127,7 @@ matching the host arch — the release picker UI filters automatically.
 ### "rate limit exceeded"
 
 Anonymous GitHub API is capped at 60 req/hr. Set
-`GOCLAW_PACKAGES_GITHUB_TOKEN` to bump to 5000/hr.
+`ZALOSCLAW_PACKAGES_GITHUB_TOKEN` to bump to 5000/hr.
 
 ### "checksum mismatch"
 
@@ -137,7 +137,7 @@ the release. Do not force-install; report upstream.
 ## Limitations (Phase 1)
 
 - Linux-only (Lite/Desktop editions not yet supported)
-- Docker and bare-metal gateway editions (default runtime dir resolves to `/app/data/.runtime/bin` in Docker or `/var/lib/goclaw/data/.runtime/bin` on bare-metal Linux)
+- Docker and bare-metal gateway editions (default runtime dir resolves to `/app/data/.runtime/bin` in Docker or `/var/lib/zalosclaw/data/.runtime/bin` on bare-metal Linux)
 - Installs all top-level executables in an archive (no interactive picker if
   archive contains multiple binaries)
 - No version history / rollback — re-installing replaces in place
@@ -248,4 +248,4 @@ Phase 1 leaves `.bak.{nanos}` files on disk. Manual recovery:
 
 - [`docs/packages-pip-npm.md`](./packages-pip-npm.md) — pip + npm package updates (Phase 2a)
 - [`docs/14-skills-runtime.md`](./14-skills-runtime.md) — Overview of the runtime packages system
-- Issue [#741](https://github.com/nextlevelbuilder/goclaw/issues/741) — Original feature request
+- Issue [#741](https://github.com/nextlevelbuilder/zalosclaw/issues/741) — Original feature request

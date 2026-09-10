@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
 )
 
 // sfxMaxDurationSeconds is ElevenLabs' upper limit for /v1/sound-generation.

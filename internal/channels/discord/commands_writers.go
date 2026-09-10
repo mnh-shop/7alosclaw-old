@@ -11,8 +11,8 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // resolveAgentUUID looks up the agent UUID from the channel's agent key.

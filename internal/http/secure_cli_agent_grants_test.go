@@ -12,7 +12,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 type fakeSecureCLIGrantStore struct {
@@ -186,20 +186,20 @@ func TestSecureCLIGrantCreateValidatesBinaryAndAgentScope(t *testing.T) {
 	}
 }
 
-func TestValidateAndSerializeEnvVarsRejectsGoClawGatewayToken(t *testing.T) {
+func TestValidateAndSerializeEnvVarsRejectsZalosClawGatewayToken(t *testing.T) {
 	rr := httptest.NewRecorder()
 
 	envJSON, ok := validateAndSerializeEnvVars(rr, "en", json.RawMessage(`{
-		"GOCLAW_GATEWAY_TOKEN": {"kind":"sensitive","value":"test-secret-token"}
+		"ZALOSCLAW_GATEWAY_TOKEN": {"kind":"sensitive","value":"test-secret-token"}
 	}`))
 
 	if ok || envJSON != nil {
-		t.Fatalf("expected GOCLAW_GATEWAY_TOKEN to be rejected by public env validator")
+		t.Fatalf("expected ZALOSCLAW_GATEWAY_TOKEN to be rejected by public env validator")
 	}
 	if rr.Code != http.StatusBadRequest {
 		t.Fatalf("expected 400, got %d body=%s", rr.Code, rr.Body.String())
 	}
-	if !strings.Contains(rr.Body.String(), "GOCLAW_GATEWAY_TOKEN") {
+	if !strings.Contains(rr.Body.String(), "ZALOSCLAW_GATEWAY_TOKEN") {
 		t.Fatalf("expected rejected key in response, got %s", rr.Body.String())
 	}
 	if strings.Contains(rr.Body.String(), "test-secret-token") {
@@ -243,7 +243,7 @@ func TestSecureCLIGrantGetSanitizesMixedEnv(t *testing.T) {
 				BinaryID:     binaryID,
 				AgentID:      uuid.New(),
 				Enabled:      true,
-				EncryptedEnv: []byte(`{"TOKEN":"secret-token","PUBLIC_BASE_URL":{"kind":"value","value":"https://goclaw.sh"}}`),
+				EncryptedEnv: []byte(`{"TOKEN":"secret-token","PUBLIC_BASE_URL":{"kind":"value","value":"https://zalosclaw.sh"}}`),
 			},
 		},
 	}
@@ -267,7 +267,7 @@ func TestSecureCLIGrantGetSanitizesMixedEnv(t *testing.T) {
 	if !got.Env["TOKEN"].Masked || got.Env["TOKEN"].Value != nil {
 		t.Fatalf("TOKEN not masked: %#v", got.Env["TOKEN"])
 	}
-	if got.Env["PUBLIC_BASE_URL"].Value == nil || *got.Env["PUBLIC_BASE_URL"].Value != "https://goclaw.sh" {
+	if got.Env["PUBLIC_BASE_URL"].Value == nil || *got.Env["PUBLIC_BASE_URL"].Value != "https://zalosclaw.sh" {
 		t.Fatalf("PUBLIC_BASE_URL not returned: %#v", got.Env["PUBLIC_BASE_URL"])
 	}
 }

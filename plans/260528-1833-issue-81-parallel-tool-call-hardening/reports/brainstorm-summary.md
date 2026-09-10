@@ -9,7 +9,7 @@ issue: 81
 
 ## Problem
 
-GoClaw should reduce latency by running independent tool calls concurrently. Current `dev` already has a parallel path, but it is too broad: any multi-tool batch except `wait` can parallelize, sync `PreToolUse` hooks are skipped, and there is no fixed raw-execution concurrency cap.
+ZalosClaw should reduce latency by running independent tool calls concurrently. Current `dev` already has a parallel path, but it is too broad: any multi-tool batch except `wait` can parallelize, sync `PreToolUse` hooks are skipped, and there is no fixed raw-execution concurrency cap.
 
 ## Requirements
 

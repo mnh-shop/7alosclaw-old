@@ -11,9 +11,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/cron"
-	"github.com/nextlevelbuilder/goclaw/internal/safego"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/cron"
+	"github.com/nextlevelbuilder/zalosclaw/internal/safego"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func (s *SQLiteCronStore) GetDueJobs(now time.Time) []store.CronJob {

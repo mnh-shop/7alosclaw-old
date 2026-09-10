@@ -8,8 +8,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/security"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // setupUpdatePurgeHandler builds an MCPHandler wired with an in-memory server

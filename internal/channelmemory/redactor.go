@@ -5,7 +5,7 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 type RedactionResult struct {

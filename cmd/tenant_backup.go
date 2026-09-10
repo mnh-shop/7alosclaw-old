@@ -6,9 +6,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/nextlevelbuilder/goclaw/internal/backup"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/upgrade"
+	"github.com/nextlevelbuilder/zalosclaw/internal/backup"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/upgrade"
 )
 
 func tenantBackupCmd() *cobra.Command {
@@ -31,7 +31,7 @@ func tenantBackupCmd() *cobra.Command {
 
 			// Tenant backup is PG-only — SQLite edition has only master tenant
 			if cfg.Database.StorageBackend == "sqlite" {
-				return fmt.Errorf("tenant backup is not available in Lite edition (single tenant). Use 'goclaw backup' for full system backup")
+				return fmt.Errorf("tenant backup is not available in Lite edition (single tenant). Use 'zalosclaw backup' for full system backup")
 			}
 
 			tid, slug, db, err := resolveTenantForCLI(cmd, cfg, tenantID, tenantSlug)

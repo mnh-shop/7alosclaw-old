@@ -13,7 +13,7 @@ Verify current tool registration and policy paths before coding. Write tests fir
 
 ## Context Links
 
-- Issue: nextlevelbuilder/goclaw#1097
+- Issue: nextlevelbuilder/zalosclaw#1097
 - Tool interface: `internal/tools/types.go`
 - Tool registry execution and cancellation path: `internal/tools/registry.go`
 - Built-in groups/profiles: `internal/tools/policy.go`
@@ -31,7 +31,7 @@ Verify current tool registration and policy paths before coding. Write tests fir
 ## Implementation Steps
 
 1. Add tests for `wait` validation: missing `timeMs`, below 100ms, above 300000ms, fractional numbers, success message, and context cancellation.
-2. Add policy tests showing `wait` belongs to `group:runtime`, `group:goclaw`, and coding/full visibility.
+2. Add policy tests showing `wait` belongs to `group:runtime`, `group:zalosclaw`, and coding/full visibility.
 3. Add config parsing test for `tools_config.wait.min_ms/max_ms`.
 4. Re-run grep for `runtime` group and `builtinToolSeedData` before implementation to avoid missing catalog surfaces.
 

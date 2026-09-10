@@ -430,7 +430,7 @@ type GatewayConfig struct {
 	Host                    string              `json:"host"`
 	Port                    int                 `json:"port"`
 	Token                   string              `json:"token,omitempty"`                      // bearer token for WS/HTTP auth
-	MCPServerToken          string              `json:"mcp_server_token,omitempty"`           // bearer token gating the CRUD MCP server mounted at /api/mcp/; callers may pass an optional "X-GoClaw-Tenant-Id" header (UUID or slug) to scope a request to a tenant, defaulting to the master tenant when absent (see internal/mcp/crud_server.go)
+	MCPServerToken          string              `json:"mcp_server_token,omitempty"`           // bearer token gating the CRUD MCP server mounted at /api/mcp/; callers may pass an optional "X-ZalosClaw-Tenant-Id" header (UUID or slug) to scope a request to a tenant, defaulting to the master tenant when absent (see internal/mcp/crud_server.go)
 	OwnerIDs                []string            `json:"owner_ids,omitempty"`                  // sender IDs considered "owner"
 	AllowedOrigins          []string            `json:"allowed_origins,omitempty"`            // WebSocket CORS whitelist (empty = allow all)
 	MCPAllowedHosts         []string            `json:"mcp_allowed_hosts,omitempty"`          // trusted MCP server hostnames exempt from the private-IP SSRF block during config validation (empty = none)
@@ -449,7 +449,7 @@ type GatewayConfig struct {
 	WebhookStream           *bool               `json:"webhook_stream,omitempty"`             // stream provider responses for server-side webhook agent runs (sync/async/test) so the upstream can populate/serve its prompt cache (default true). Response to the caller is unchanged (still assembled JSON).
 	BackgroundProvider      string              `json:"background_provider,omitempty"`        // LLM provider for background workers (vault enrichment, consolidation)
 	BackgroundModel         string              `json:"background_model,omitempty"`           // LLM model for background workers
-	PublicURL               string              `json:"public_url,omitempty"`                 // public base URL for OAuth callbacks (e.g. "https://goclaw.example.com")
+	PublicURL               string              `json:"public_url,omitempty"`                 // public base URL for OAuth callbacks (e.g. "https://zalosclaw.example.com")
 }
 
 // ToolsConfig controls tool availability, policy, and web search.

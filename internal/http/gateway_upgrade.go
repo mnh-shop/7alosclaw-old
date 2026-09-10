@@ -15,13 +15,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/permissions"
+	"github.com/nextlevelbuilder/zalosclaw/internal/permissions"
 )
 
 const (
-	defaultGatewayUpgradeScript = "/usr/local/bin/goclaw-upgrade-release"
-	defaultGatewayUpgradeStatus = "/var/lib/goclaw/update-jobs/current.json"
-	gatewayUpgradeTokenHeader   = "X-GoClaw-Upgrade-Token"
+	defaultGatewayUpgradeScript = "/usr/local/bin/zalosclaw-upgrade-release"
+	defaultGatewayUpgradeStatus = "/var/lib/zalosclaw/update-jobs/current.json"
+	gatewayUpgradeTokenHeader   = "X-ZalosClaw-Upgrade-Token"
 	gatewayUpgradeRunningMaxAge = 30 * time.Minute
 )
 
@@ -48,7 +48,7 @@ func (r gatewayUpgradeCommandRunner) Start(tag string) error {
 	return nil
 }
 
-// GatewayUpgradeHandler triggers the host-local GoClaw release upgrade script.
+// GatewayUpgradeHandler triggers the host-local ZalosClaw release upgrade script.
 // It never accepts arbitrary commands or URLs.
 type GatewayUpgradeHandler struct {
 	ScriptPath   string
@@ -59,18 +59,18 @@ type GatewayUpgradeHandler struct {
 }
 
 func NewGatewayUpgradeHandlerFromEnv() *GatewayUpgradeHandler {
-	scriptPath := strings.TrimSpace(os.Getenv("GOCLAW_UPGRADE_SCRIPT"))
+	scriptPath := strings.TrimSpace(os.Getenv("ZALOSCLAW_UPGRADE_SCRIPT"))
 	if scriptPath == "" {
 		scriptPath = defaultGatewayUpgradeScript
 	}
-	statusPath := strings.TrimSpace(os.Getenv("GOCLAW_UPGRADE_STATUS_PATH"))
+	statusPath := strings.TrimSpace(os.Getenv("ZALOSCLAW_UPGRADE_STATUS_PATH"))
 	if statusPath == "" {
 		statusPath = defaultGatewayUpgradeStatus
 	}
 	h := &GatewayUpgradeHandler{
 		ScriptPath:   scriptPath,
 		StatusPath:   statusPath,
-		TriggerToken: os.Getenv("GOCLAW_UPGRADE_TRIGGER_TOKEN"),
+		TriggerToken: os.Getenv("ZALOSCLAW_UPGRADE_TRIGGER_TOKEN"),
 	}
 	h.Runner = gatewayUpgradeCommandRunner{scriptPath: h.ScriptPath}
 	return h

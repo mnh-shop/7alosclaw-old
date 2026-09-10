@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
-	"github.com/nextlevelbuilder/goclaw/internal/channels/media"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/media"
 )
 
 // Provider wraps media.TranscribeAudio as an audio.STTProvider.

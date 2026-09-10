@@ -10,9 +10,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/goclaw/internal/cache"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
+	"github.com/nextlevelbuilder/zalosclaw/internal/cache"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // protectedFileSet defines files that require group file writer permission in group chats.

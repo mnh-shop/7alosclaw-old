@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // MCPCredentialManagerTool allows users to view and manage their MCP server credentials

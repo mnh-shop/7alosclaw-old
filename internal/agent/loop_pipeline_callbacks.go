@@ -13,16 +13,16 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/pipeline"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
-	usagecaps "github.com/nextlevelbuilder/goclaw/internal/usage/caps"
-	"github.com/nextlevelbuilder/goclaw/internal/workspace"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/pipeline"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
+	"github.com/nextlevelbuilder/zalosclaw/internal/workspace"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 // pipelineCallbacks creates all callback closures that capture *Loop.
@@ -874,5 +874,5 @@ func defaultPromptCacheKey(tenantID, agentID uuid.UUID, providerName, sessionKey
 		providerName,
 		sessionKey,
 	}, "\x00")))
-	return "goclaw/" + hex.EncodeToString(h[:16])
+	return "zalosclaw/" + hex.EncodeToString(h[:16])
 }

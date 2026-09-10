@@ -1,4 +1,4 @@
--- GoClaw SQLite Schema (auto-translated from PG migrations 000001-000029)
+-- ZalosClaw SQLite Schema (auto-translated from PG migrations 000001-000029)
 --
 -- Translation rules applied:
 --   UUID          → TEXT (36-char string)
@@ -2091,7 +2091,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_bitrix_portals_domain
 -- ============================================================
 -- Table: webhooks  (registry, migrations 000059 + 000061)
 -- secret_hash stores SHA-256 hex; used only for bearer-token lookup.
--- encrypted_secret stores AES-256-GCM(raw_secret, GOCLAW_ENCRYPTION_KEY); decrypted at HMAC sign time.
+-- encrypted_secret stores AES-256-GCM(raw_secret, ZALOSCLAW_ENCRYPTION_KEY); decrypted at HMAC sign time.
 -- scopes + ip_allowlist stored as JSON arrays (TEXT) — no native array type.
 -- ============================================================
 

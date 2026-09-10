@@ -11,11 +11,11 @@ func packageRuntimeDir() string {
 	if v := strings.TrimSpace(os.Getenv("RUNTIME_DIR")); v != "" {
 		return v
 	}
-	if v := strings.TrimSpace(os.Getenv("GOCLAW_DATA_DIR")); v != "" {
+	if v := strings.TrimSpace(os.Getenv("ZALOSCLAW_DATA_DIR")); v != "" {
 		return filepath.Join(v, ".runtime")
 	}
 	if runtime.GOOS != "windows" && !IsAlpineRuntime() {
-		return "/var/lib/goclaw/data/.runtime"
+		return "/var/lib/zalosclaw/data/.runtime"
 	}
 	return filepath.Join("/app/data", ".runtime")
 }

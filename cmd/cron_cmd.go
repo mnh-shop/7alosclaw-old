@@ -10,8 +10,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 func cronCmd() *cobra.Command {
@@ -49,8 +49,8 @@ func cronCreateCmd() *cobra.Command {
 			"process WITHOUT an LLM turn (zero model tokens). Requires the gateway to have\n" +
 			"cron.command_enabled=true.\n\n" +
 			"Examples:\n" +
-			"  goclaw cron create --name disk-probe --cron '*/15 * * * *' --command 'df -h /'\n" +
-			"  goclaw cron create --name backup --at 2026-07-01T09:00:00Z --argv '[\"/opt/backup.sh\"]' --timeout 5m",
+			"  zalosclaw cron create --name disk-probe --cron '*/15 * * * *' --command 'df -h /'\n" +
+			"  zalosclaw cron create --name backup --at 2026-07-01T09:00:00Z --argv '[\"/opt/backup.sh\"]' --timeout 5m",
 		Run: func(cmd *cobra.Command, args []string) {
 			if name == "" {
 				fmt.Fprintln(os.Stderr, "Error: --name is required")

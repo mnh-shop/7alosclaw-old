@@ -5,9 +5,9 @@ package cmd
 import (
 	"log/slog"
 
-	"github.com/nextlevelbuilder/goclaw/internal/cache"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/cache"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // initRedisClient is a no-op when built without the "redis" tag.

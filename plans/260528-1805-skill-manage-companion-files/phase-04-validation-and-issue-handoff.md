@@ -28,7 +28,7 @@ Validation should stay proportional. This issue changes a tool contract and file
 
 - Test command surface: `go test ./internal/tools ./internal/http ./internal/skills`
 - Compile command surface: `go test ./internal/tools`
-- GitHub issue: `digitopvn/goclaw#72`
+- GitHub issue: `digitopvn/zalosclaw#72`
 - Plan path: `plans/260528-1805-skill-manage-companion-files/plan.md`
 
 ## Implementation Steps

@@ -10,10 +10,10 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/gateway"
-	"github.com/nextlevelbuilder/goclaw/internal/permissions"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/gateway"
+	"github.com/nextlevelbuilder/zalosclaw/internal/permissions"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 // Phase 0b review regression coverage: WS api_keys.revoke.

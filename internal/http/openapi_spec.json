@@ -1,12 +1,12 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "GoClaw Gateway API",
-    "description": "PostgreSQL multi-tenant AI agent gateway with WebSocket RPC + HTTP API.\n\n## Authentication\n\nAll endpoints require a Bearer token in the `Authorization` header:\n\n```\nAuthorization: Bearer <gateway-token-or-api-key>\n```\n\nYou can use either the **gateway token** (grants admin access) or an **API key** created via the API Keys endpoints (grants scoped access).\n\nIf no gateway token is configured, empty-token admin access is limited to loopback local development or explicit `GOCLAW_ALLOW_INSECURE_NO_AUTH=1`; externally reachable deployments require `GOCLAW_GATEWAY_TOKEN`.\n\n## Common Headers\n\n| Header | Description |\n|--------|-------------|\n| `X-GoClaw-User-Id` | External user ID for multi-tenant context |\n| `X-GoClaw-Agent-Id` | Target agent ID (alternative to model prefix) |\n| `X-GoClaw-Tenant-Id` | Tenant scope — UUID or slug (gateway token / cross-tenant API keys) |\n| `Accept-Language` | Locale for error messages (`en`, `vi`, `zh`) |\n\n## WebSocket Protocol\n\nConnect via `POST /ws` (upgrade). Protocol v3 uses frame types: `req`, `res`, `event`.\nFirst request must be `connect` with `{\"token\": \"...\", \"user_id\": \"...\", \"locale\": \"en\"}`.",
+    "title": "ZalosClaw Gateway API",
+    "description": "PostgreSQL multi-tenant AI agent gateway with WebSocket RPC + HTTP API.\n\n## Authentication\n\nAll endpoints require a Bearer token in the `Authorization` header:\n\n```\nAuthorization: Bearer <gateway-token-or-api-key>\n```\n\nYou can use either the **gateway token** (grants admin access) or an **API key** created via the API Keys endpoints (grants scoped access).\n\nIf no gateway token is configured, empty-token admin access is limited to loopback local development or explicit `ZALOSCLAW_ALLOW_INSECURE_NO_AUTH=1`; externally reachable deployments require `ZALOSCLAW_GATEWAY_TOKEN`.\n\n## Common Headers\n\n| Header | Description |\n|--------|-------------|\n| `X-ZalosClaw-User-Id` | External user ID for multi-tenant context |\n| `X-ZalosClaw-Agent-Id` | Target agent ID (alternative to model prefix) |\n| `X-ZalosClaw-Tenant-Id` | Tenant scope — UUID or slug (gateway token / cross-tenant API keys) |\n| `Accept-Language` | Locale for error messages (`en`, `vi`, `zh`) |\n\n## WebSocket Protocol\n\nConnect via `POST /ws` (upgrade). Protocol v3 uses frame types: `req`, `res`, `event`.\nFirst request must be `connect` with `{\"token\": \"...\", \"user_id\": \"...\", \"locale\": \"en\"}`.",
     "version": "0.2.0",
     "contact": {
-      "name": "GoClaw",
-      "url": "https://github.com/nextlevelbuilder/goclaw"
+      "name": "ZalosClaw",
+      "url": "https://github.com/nextlevelbuilder/zalosclaw"
     }
   },
   "servers": [
@@ -82,7 +82,7 @@
         "summary": "Sync selected browser cookies",
         "description": "Stores explicitly selected cookies for the authenticated user and one agent. Cookie values are encrypted at rest and are never returned by list APIs.",
         "parameters": [
-          { "name": "X-GoClaw-User-Id", "in": "header", "required": true, "schema": { "type": "string" }, "description": "Authenticated external user ID for cookie scope" }
+          { "name": "X-ZalosClaw-User-Id", "in": "header", "required": true, "schema": { "type": "string" }, "description": "Authenticated external user ID for cookie scope" }
         ],
         "requestBody": {
           "required": true,
@@ -136,7 +136,7 @@
           { "name": "domain", "in": "query", "schema": { "type": "string" } },
           { "name": "name", "in": "query", "schema": { "type": "string" } },
           { "name": "path", "in": "query", "schema": { "type": "string" } },
-          { "name": "X-GoClaw-User-Id", "in": "header", "required": true, "schema": { "type": "string" } }
+          { "name": "X-ZalosClaw-User-Id", "in": "header", "required": true, "schema": { "type": "string" } }
         ],
         "responses": {
           "200": { "description": "Cookie metadata", "content": { "application/json": { "schema": { "type": "object", "properties": { "items": { "type": "array", "items": { "type": "object", "properties": { "domain": { "type": "string" }, "name": { "type": "string" }, "path": { "type": "string" }, "secure": { "type": "boolean" }, "httpOnly": { "type": "boolean" }, "sameSite": { "type": "string" }, "expiresAt": { "type": "string", "format": "date-time" }, "source": { "type": "string" }, "updatedAt": { "type": "string", "format": "date-time" } } } } } } } } },
@@ -152,7 +152,7 @@
           { "name": "domain", "in": "query", "schema": { "type": "string" } },
           { "name": "name", "in": "query", "schema": { "type": "string" } },
           { "name": "path", "in": "query", "schema": { "type": "string" } },
-          { "name": "X-GoClaw-User-Id", "in": "header", "required": true, "schema": { "type": "string" } }
+          { "name": "X-ZalosClaw-User-Id", "in": "header", "required": true, "schema": { "type": "string" } }
         ],
         "responses": {
           "200": { "description": "Cookies deleted", "content": { "application/json": { "schema": { "type": "object", "properties": { "deleted": { "type": "integer" } } } } } },
@@ -164,7 +164,7 @@
       "post": {
         "tags": ["Chat"],
         "summary": "OpenAI-compatible chat completions",
-        "description": "Send messages to an agent and get a response. Compatible with OpenAI's chat completions API.\n\nUse the `model` field to target a specific agent: `goclaw:<agent-id>` or `agent:<agent-id>`.",
+        "description": "Send messages to an agent and get a response. Compatible with OpenAI's chat completions API.\n\nUse the `model` field to target a specific agent: `zalosclaw:<agent-id>` or `agent:<agent-id>`.",
         "requestBody": {
           "required": true,
           "content": {
@@ -175,8 +175,8 @@
                 "properties": {
                   "model": {
                     "type": "string",
-                    "description": "Agent targeting: `goclaw:<id>` or `agent:<id>`. Defaults to `default`.",
-                    "example": "goclaw:default"
+                    "description": "Agent targeting: `zalosclaw:<id>` or `agent:<id>`. Defaults to `default`.",
+                    "example": "zalosclaw:default"
                   },
                   "messages": {
                     "type": "array",
@@ -309,8 +309,8 @@
                   "properties": {
                     "id": { "type": "string", "format": "uuid" },
                     "name": { "type": "string" },
-                    "prefix": { "type": "string", "example": "goclaw_a" },
-                    "key": { "type": "string", "description": "Raw API key (shown once)", "example": "goclaw_a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4" },
+                    "prefix": { "type": "string", "example": "zalosclaw_a" },
+                    "key": { "type": "string", "description": "Raw API key (shown once)", "example": "zalosclaw_a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4" },
                     "scopes": { "type": "array", "items": { "type": "string" } },
                     "expires_at": { "type": "string", "format": "date-time", "nullable": true },
                     "created_at": { "type": "string", "format": "date-time" }
@@ -436,7 +436,7 @@
         "summary": "List agents",
         "description": "List all agents accessible to the current user. Owners see all agents.",
         "parameters": [
-          { "name": "X-GoClaw-User-Id", "in": "header", "required": true, "schema": { "type": "string" } }
+          { "name": "X-ZalosClaw-User-Id", "in": "header", "required": true, "schema": { "type": "string" } }
         ],
         "responses": {
           "200": { "description": "Agent list" },
@@ -1109,7 +1109,7 @@
         "description": "Multipart upload to the tenant workspace.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -1188,7 +1188,7 @@
         "description": "List vault documents across all agents in the tenant. Non-owners see only personal + their teams' docs.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -1289,7 +1289,7 @@
         "description": "Create a vault document not bound to a specific agent. When no `team_id` is given the document is shared scope.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -1336,7 +1336,7 @@
         "summary": "Get vault document",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -1380,7 +1380,7 @@
         "summary": "Update vault document",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -1440,7 +1440,7 @@
         "summary": "Delete vault document",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -1479,7 +1479,7 @@
         "summary": "Get document outlinks + backlinks",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -1543,7 +1543,7 @@
         "summary": "Create vault link",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -1618,7 +1618,7 @@
         "summary": "Delete vault link",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -1655,7 +1655,7 @@
         "description": "Return all outlinks for up to 500 doc_ids in one query.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -1716,7 +1716,7 @@
         "description": "Accept multipart file uploads (up to 50 files, 50 MB each). Files are written to the tenant workspace under `agents/{agent_key}/`, `teams/{team_id}/`, or shared root, depending on form fields. Allowed extensions: md/txt/json/yaml/yml/csv/toml/xml/html/htm/go/py/js/ts/tsx/jsx/rs/java/rb/sh/sql/swift/kt/c/cpp/h.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -1804,7 +1804,7 @@
         "description": "Walk the tenant workspace and register missing/changed files. Per-tenant concurrency guard (returns 409 if another rescan is in progress).",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -1856,7 +1856,7 @@
         "description": "Return immediate children (files + virtual folders) under a path prefix for lazy-loading the vault sidebar.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -1946,7 +1946,7 @@
         "description": "Hybrid full-text + vector search across the tenant. Pass `agent_id` in the body to restrict to one agent.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -2036,7 +2036,7 @@
         "description": "Returns current per-tenant enrichment progress (summary generation + embeddings). May return an empty object if no enrichment is running or the worker is disabled.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -2071,7 +2071,7 @@
         "summary": "Stop running enrichment for this tenant",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -2116,7 +2116,7 @@
         "summary": "List vault documents for agent",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -2216,7 +2216,7 @@
         "summary": "Create vault document for agent",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -2272,7 +2272,7 @@
         "summary": "Get vault document (agent-scoped)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -2325,7 +2325,7 @@
         "summary": "Update vault document (agent-scoped)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -2394,7 +2394,7 @@
         "summary": "Delete vault document (agent-scoped)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -2442,7 +2442,7 @@
         "summary": "Get document links (agent-scoped)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -2515,7 +2515,7 @@
         "summary": "Search vault scoped to one agent",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -2613,7 +2613,7 @@
         "summary": "Create vault link (agent-scoped)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -2697,7 +2697,7 @@
         "summary": "Delete vault link (agent-scoped)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -2743,7 +2743,7 @@
         "description": "Lightweight nodes + edges for graph visualization (Cytoscape, etc.). Field names are short to keep wire size small.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -2824,7 +2824,7 @@
         "summary": "Get KG entity with relations",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -2895,7 +2895,7 @@
         "summary": "Delete KG entity",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -2948,7 +2948,7 @@
         "description": "Send a text snippet to a configured provider/model; the server runs entity + relation extraction, ingests the result into the KG, and runs inline dedup.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -3042,7 +3042,7 @@
         "summary": "KG aggregate statistics",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -3092,7 +3092,7 @@
         "summary": "Snapshot entities + relations for visualization",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -3166,7 +3166,7 @@
         "summary": "List pending dedup candidates",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -3228,7 +3228,7 @@
         "description": "Self-join over entity embeddings to flag duplicate candidates above the similarity threshold. Useful for one-off bulk scanning of legacy data.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -3300,7 +3300,7 @@
         "summary": "Dismiss a dedup candidate (not a duplicate)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -3359,7 +3359,7 @@
         "description": "Re-points relations from `source_id` to `target_id`, then deletes the source.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -3426,7 +3426,7 @@
         "description": "Lightweight short-key nodes/edges for graph rendering.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -3524,7 +3524,7 @@
         "summary": "List memory documents for agent",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -3577,7 +3577,7 @@
         "summary": "Get memory document",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -3637,7 +3637,7 @@
         "summary": "Create or replace memory document",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -3716,7 +3716,7 @@
         "summary": "Delete memory document",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -3768,7 +3768,7 @@
         "summary": "List chunks for a memory document",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -3832,7 +3832,7 @@
         "summary": "Index (or re-index) a single memory document",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -3889,7 +3889,7 @@
         "summary": "Re-index all memory documents for agent",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -3940,7 +3940,7 @@
         "summary": "OAuth account status",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -3983,7 +3983,7 @@
         "description": "Returns an authorization URL the user opens to grant access.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4045,7 +4045,7 @@
         "description": "Used when the OAuth provider returns the code out-of-band rather than redirecting to the gateway.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4101,7 +4101,7 @@
         "summary": "Log out OAuth account",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4136,7 +4136,7 @@
         "summary": "OAuth account status",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4171,7 +4171,7 @@
         "description": "Returns an authorization URL the user opens to grant access.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4225,7 +4225,7 @@
         "description": "Used when the OAuth provider returns the code out-of-band rather than redirecting to the gateway.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4273,7 +4273,7 @@
         "summary": "Log out OAuth account",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4300,7 +4300,7 @@
         "summary": "Read storage file",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4341,7 +4341,7 @@
         "summary": "Delete storage file (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4380,7 +4380,7 @@
         "summary": "Total storage size in bytes",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4420,7 +4420,7 @@
         "summary": "Move storage file (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4469,7 +4469,7 @@
         "summary": "Sync all agents' workspace dirs (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4496,7 +4496,7 @@
         "summary": "List agent shares",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4530,7 +4530,7 @@
         "summary": "Share agent with another user",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4587,7 +4587,7 @@
         "summary": "Revoke agent share",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4634,7 +4634,7 @@
         "summary": "Regenerate agent identity files",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4670,7 +4670,7 @@
         "summary": "Re-run agent summon pipeline",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4706,7 +4706,7 @@
         "summary": "Cancel in-progress summon",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4742,7 +4742,7 @@
         "summary": "Preview the rendered system prompt",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4778,7 +4778,7 @@
         "summary": "Trigger agent export (returns download token)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4814,7 +4814,7 @@
         "summary": "Dry-run preview of agent export",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4850,7 +4850,7 @@
         "summary": "Download a previously-issued agent export bundle",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4898,7 +4898,7 @@
         "summary": "Download an export bundle by token (alternate URL)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4937,7 +4937,7 @@
         "summary": "Dry-run preview of an agent import",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -4980,7 +4980,7 @@
         "summary": "Import an agent bundle",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5023,7 +5023,7 @@
         "summary": "Merge-import additional content into an existing agent",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5075,7 +5075,7 @@
         "summary": "List per-user agent instances",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5111,7 +5111,7 @@
         "summary": "List per-user agent context files",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5155,7 +5155,7 @@
         "summary": "Patch per-user agent instance metadata",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5210,7 +5210,7 @@
         "summary": "Get agent orchestration config + mode",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5246,7 +5246,7 @@
         "summary": "Get v3 feature flags for agent",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5280,7 +5280,7 @@
         "summary": "Update v3 feature flags for agent",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5327,7 +5327,7 @@
         "summary": "List agent evolution metrics",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5387,7 +5387,7 @@
         "summary": "List agent evolution suggestions",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5440,7 +5440,7 @@
         "summary": "Review an evolution suggestion (accept/reject/apply/revert)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5515,7 +5515,7 @@
         "summary": "List episodic summaries for agent",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5575,7 +5575,7 @@
         "summary": "Hybrid search over episodic summaries",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5636,7 +5636,7 @@
         "summary": "List skills granted to agent",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5672,7 +5672,7 @@
         "summary": "List skill versions",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5708,7 +5708,7 @@
         "summary": "List files inside a skill bundle",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5744,7 +5744,7 @@
         "summary": "Read a file inside a skill bundle",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5789,7 +5789,7 @@
         "summary": "Upload a skill bundle (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5832,7 +5832,7 @@
         "summary": "Grant skill to an agent (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5887,7 +5887,7 @@
         "summary": "Revoke skill from agent (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5935,7 +5935,7 @@
         "summary": "Grant skill to a user (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -5989,7 +5989,7 @@
         "summary": "Revoke skill from user (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6036,7 +6036,7 @@
         "summary": "Rescan installed skill dependencies (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6063,7 +6063,7 @@
         "summary": "Install dependencies for all skills (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6090,7 +6090,7 @@
         "summary": "Install a single dependency (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6148,7 +6148,7 @@
         "summary": "List supported skill runtimes (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6175,7 +6175,7 @@
         "summary": "Enable / disable a skill (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6226,7 +6226,7 @@
         "summary": "Set tenant-scoped config for a skill (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6271,7 +6271,7 @@
         "summary": "Reset tenant-scoped skill config (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6310,7 +6310,7 @@
         "summary": "Preview a skill-set export bundle (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6337,7 +6337,7 @@
         "summary": "Export a skill-set bundle (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6367,7 +6367,7 @@
         "summary": "Import a skill-set bundle (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6410,7 +6410,7 @@
         "summary": "Test MCP server connection without saving (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6473,7 +6473,7 @@
         "summary": "Force reconnect to MCP server (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6509,7 +6509,7 @@
         "summary": "List grants on this MCP server",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6545,7 +6545,7 @@
         "summary": "Grant agent access to MCP server (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6600,7 +6600,7 @@
         "summary": "Revoke agent MCP grant (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6648,7 +6648,7 @@
         "summary": "Grant user access to MCP server (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6702,7 +6702,7 @@
         "summary": "Revoke user MCP grant (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6749,7 +6749,7 @@
         "summary": "Get per-user MCP credentials (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6783,7 +6783,7 @@
         "summary": "Set per-user MCP credentials (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6828,7 +6828,7 @@
         "summary": "Clear per-user MCP credentials (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6867,7 +6867,7 @@
         "summary": "List all MCP grants for one agent",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6903,7 +6903,7 @@
         "summary": "List pending MCP requests",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6928,7 +6928,7 @@
         "summary": "Create an MCP request (delegated call requiring approval)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -6966,7 +6966,7 @@
         "summary": "Approve or reject an MCP request (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7027,7 +7027,7 @@
         "summary": "Export MCP server set (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7058,7 +7058,7 @@
         "summary": "Preview MCP server export (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7085,7 +7085,7 @@
         "summary": "Import MCP server set (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7123,7 +7123,7 @@
         "summary": "Verify provider's embedding endpoint",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7174,7 +7174,7 @@
         "summary": "Codex pool activity for one provider",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7210,7 +7210,7 @@
         "summary": "Aggregate Claude-CLI provider auth status",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7237,7 +7237,7 @@
         "summary": "Embedding subsystem status across providers",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7264,7 +7264,7 @@
         "summary": "List tenants (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7299,7 +7299,7 @@
         "summary": "Create tenant (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7351,7 +7351,7 @@
         "summary": "Get tenant",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7395,7 +7395,7 @@
         "summary": "Update tenant",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7442,7 +7442,7 @@
         "summary": "List tenant users",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7486,7 +7486,7 @@
         "summary": "Add user to tenant",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7548,7 +7548,7 @@
         "summary": "Remove user from tenant",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7595,7 +7595,7 @@
         "summary": "List the calling user's tenant memberships",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7632,7 +7632,7 @@
         "summary": "Search users by name/email",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7667,7 +7667,7 @@
         "summary": "List configured CLI credential presets",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7702,7 +7702,7 @@
         "summary": "Create CLI credential preset",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7743,7 +7743,7 @@
         "summary": "List built-in CLI credential presets",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7770,7 +7770,7 @@
         "summary": "Probe a CLI binary on the server",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7815,7 +7815,7 @@
         "summary": "Get CLI credential preset",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7852,7 +7852,7 @@
         "summary": "Update CLI credential preset",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7897,7 +7897,7 @@
         "summary": "Delete CLI credential preset",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7936,7 +7936,7 @@
         "summary": "Dry-run test the CLI preset",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -7972,7 +7972,7 @@
         "summary": "List per-user credentials under this preset",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8008,7 +8008,7 @@
         "summary": "Get per-user credential",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8053,7 +8053,7 @@
         "summary": "Set per-user credential",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8106,7 +8106,7 @@
         "summary": "Delete per-user credential",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8153,7 +8153,7 @@
         "summary": "List agent grants on a CLI credential",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8187,7 +8187,7 @@
         "summary": "Grant agent access to CLI credential",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8242,7 +8242,7 @@
         "summary": "Get an agent grant",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8288,7 +8288,7 @@
         "summary": "Update an agent grant",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8342,7 +8342,7 @@
         "summary": "Delete an agent grant",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8390,7 +8390,7 @@
         "summary": "List system config keys",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8417,7 +8417,7 @@
         "summary": "Get a system config value",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8453,7 +8453,7 @@
         "summary": "Set a system config value (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8497,7 +8497,7 @@
         "summary": "Reset a system config value (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8535,7 +8535,7 @@
         "summary": "Edition info (Lite/Standard) + feature limits",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8583,7 +8583,7 @@
         "summary": "Trigger a system backup (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8636,7 +8636,7 @@
         "summary": "Preflight check for backup",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8663,7 +8663,7 @@
         "summary": "Download backup bundle",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8701,7 +8701,7 @@
         "summary": "Get S3 backup config",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8726,7 +8726,7 @@
         "summary": "Set S3 backup config (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8764,7 +8764,7 @@
         "summary": "List backups in the configured S3 bucket",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8791,7 +8791,7 @@
         "summary": "Trigger backup directly to S3 (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8818,7 +8818,7 @@
         "summary": "Upload existing backup to S3 (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8863,7 +8863,7 @@
         "summary": "Restore system from a backup bundle (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8906,7 +8906,7 @@
         "summary": "Trigger tenant-scoped backup",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8933,7 +8933,7 @@
         "summary": "Preflight check for tenant backup",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8960,7 +8960,7 @@
         "summary": "Download tenant backup bundle",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -8998,7 +8998,7 @@
         "summary": "Restore tenant from a backup bundle",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9038,10 +9038,10 @@
         "tags": [
           "Packages"
         ],
-        "summary": "List packages tracked by goclaw",
+        "summary": "List packages tracked by zalosclaw",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9078,7 +9078,7 @@
         "summary": "Install a package (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9136,7 +9136,7 @@
         "summary": "Uninstall a package (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9185,7 +9185,7 @@
         "summary": "List installed runtimes (node/python/go)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9212,7 +9212,7 @@
         "summary": "Resolve GitHub-release-backed package versions",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9246,7 +9246,7 @@
         "summary": "Runtime shell-deny groups config",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9273,7 +9273,7 @@
         "summary": "Get tenant-scoped config for a built-in tool",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9309,7 +9309,7 @@
         "summary": "Set tenant-scoped config for a built-in tool (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9353,7 +9353,7 @@
         "summary": "Reset tenant-scoped tool config (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9391,7 +9391,7 @@
         "summary": "Get TTS config",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9416,7 +9416,7 @@
         "summary": "Set TTS config",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9454,7 +9454,7 @@
         "summary": "Synthesize speech",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9517,7 +9517,7 @@
         "summary": "Probe TTS provider connectivity",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9559,7 +9559,7 @@
         "summary": "Capabilities matrix of configured TTS providers",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9586,7 +9586,7 @@
         "summary": "List available TTS voices",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9613,7 +9613,7 @@
         "summary": "Refresh voice catalog from providers (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9640,7 +9640,7 @@
         "summary": "Preview a team export (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9676,7 +9676,7 @@
         "summary": "Export a team (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9715,7 +9715,7 @@
         "summary": "Import a team (admin)",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9758,7 +9758,7 @@
         "summary": "Upload files to team workspace",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9816,7 +9816,7 @@
         "summary": "Move file in team workspace",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9874,7 +9874,7 @@
         "summary": "Team event log",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9917,7 +9917,7 @@
         "summary": "Download a team task attachment",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9965,7 +9965,7 @@
         "summary": "List configured writers on a channel instance",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -9999,7 +9999,7 @@
         "summary": "Add a writer to a channel instance",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -10056,7 +10056,7 @@
         "summary": "Remove a writer from a channel instance",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -10103,7 +10103,7 @@
         "summary": "List writer groups available on this channel",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -10139,7 +10139,7 @@
         "summary": "Resolve a channel contact to a unified user",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -10180,7 +10180,7 @@
         "summary": "Show merged contact bundle for a tenant user",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -10215,7 +10215,7 @@
         "summary": "Merge two contacts",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -10264,7 +10264,7 @@
         "summary": "Unmerge a previously-merged contact",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -10309,7 +10309,7 @@
         "summary": "List pending channel messages",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -10336,7 +10336,7 @@
         "summary": "Compact / collapse pending messages",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -10364,7 +10364,7 @@
         "description": "Reads a file in the calling agent's workspace (or, with admin, any path). Used by the web UI's file browser.",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -10407,7 +10407,7 @@
         "summary": "Sign a file URL for temporary public access",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -10456,7 +10456,7 @@
         "summary": "Export full trace as JSON",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -10501,7 +10501,7 @@
         "summary": "Usage breakdown by agent/provider/model",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {
@@ -10558,7 +10558,7 @@
         "summary": "Revoke an API key",
         "parameters": [
           {
-            "name": "X-GoClaw-User-Id",
+            "name": "X-ZalosClaw-User-Id",
             "in": "header",
             "required": true,
             "schema": {

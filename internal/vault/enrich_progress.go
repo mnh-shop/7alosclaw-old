@@ -4,8 +4,8 @@ import (
 	"sync"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 // EnrichProgress tracks enrichment pipeline progress and broadcasts via WS events.

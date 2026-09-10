@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	usagecaps "github.com/nextlevelbuilder/goclaw/internal/usage/caps"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
 )
 
 const titleGenerateTimeout = 120 * time.Second

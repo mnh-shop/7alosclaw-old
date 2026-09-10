@@ -3,7 +3,7 @@
 ## Validation
 
 - `ck plan validate --strict plans/260612-1708-issue-172-multi-attachment-delivery/plan.md` passed with 0 errors and 0 warnings.
-- Repo matched source issue: `digitopvn/goclaw`, default branch `dev`.
+- Repo matched source issue: `digitopvn/zalosclaw`, default branch `dev`.
 - Source issue #172 is open and asks for multi-attachment delivery with channel limits, fallback, metadata preservation, and tests for Telegram plus another supported channel.
 - Verified Telegram `telego.SendMediaGroupParams.Media` requires 2-10 items and docs/audio same-type grouping in local module `github.com/mymmrac/telego@v1.6.0`.
 

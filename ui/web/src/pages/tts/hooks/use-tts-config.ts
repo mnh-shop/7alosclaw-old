@@ -134,7 +134,7 @@ export function useTtsConfig() {
   );
 
   // POST→Blob not in HttpClient; use fetch + getAuthHeaders() for tenant/user header parity.
-  // See: http-client.ts:107-109 — getAuthHeaders() returns Authorization + X-GoClaw-* headers.
+  // See: http-client.ts:107-109 — getAuthHeaders() returns Authorization + X-ZalosClaw-* headers.
   const synthesize = useCallback(
     async (params: SynthesizeParams): Promise<Blob> => {
       const res = await fetch("/v1/tts/synthesize", {

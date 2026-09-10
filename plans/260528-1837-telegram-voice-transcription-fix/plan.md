@@ -1,7 +1,7 @@
 # Telegram Voice Transcription Fix Plan
 
 ## Context
-- Issue: https://github.com/digitopvn/goclaw/issues/85
+- Issue: https://github.com/digitopvn/zalosclaw/issues/85
 - Worktree: `/Users/duynguyen/.codex/worktrees/codex/issue-85-telegram-voice-transcription-plan`
 - Branch: `codex/issue-85-telegram-voice-transcription-plan`
 - Base: `origin/dev` at `5017f7ca` after merging latest dev into the issue branch

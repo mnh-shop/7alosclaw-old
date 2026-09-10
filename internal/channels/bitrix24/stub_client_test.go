@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // captureRT is a RoundTripper that records requests and returns canned JSON responses.

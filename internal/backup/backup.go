@@ -19,7 +19,7 @@ type Options struct {
 	WorkspacePath string
 	OutputPath    string // destination .tar.gz file path
 	CreatedBy     string // user ID or "cli"
-	GoclawVersion string
+	ZalosclawVersion string
 	SchemaVersion int
 	ExcludeDB     bool
 	ExcludeFiles  bool
@@ -51,10 +51,10 @@ func Run(ctx context.Context, opts Options) (*BackupManifest, error) {
 
 	manifest := &BackupManifest{
 		Version:       1,
-		Format:        "goclaw-system-backup",
+		Format:        "zalosclaw-system-backup",
 		CreatedAt:     time.Now().UTC().Format(time.RFC3339),
 		CreatedBy:     opts.CreatedBy,
-		GoclawVersion: opts.GoclawVersion,
+		ZalosclawVersion: opts.ZalosclawVersion,
 		SchemaVersion: opts.SchemaVersion,
 		DatabaseDSN:   SanitizeDSN(opts.DSN),
 		Paths: PathsInfo{

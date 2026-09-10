@@ -6,10 +6,10 @@ import (
 	"log/slog"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
 	slackapi "github.com/slack-go/slack"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
 )
 
 // Send delivers an outbound message to Slack.

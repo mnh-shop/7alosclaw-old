@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/security"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
 )
 
 func TestRegisterClientSuccess201(t *testing.T) {
@@ -26,7 +26,7 @@ func TestRegisterClientSuccess201(t *testing.T) {
 			http.Error(w, "bad json", http.StatusBadRequest)
 			return
 		}
-		if req.ClientName != "GoClaw Gateway" {
+		if req.ClientName != "ZalosClaw Gateway" {
 			http.Error(w, "wrong client_name", http.StatusBadRequest)
 			return
 		}
@@ -37,7 +37,7 @@ func TestRegisterClientSuccess201(t *testing.T) {
 	defer srv.Close()
 
 	client := security.NewSafeClient(5 * time.Second)
-	resp, err := RegisterClient(context.Background(), client, srv.URL, "https://goclaw.example.com/callback")
+	resp, err := RegisterClient(context.Background(), client, srv.URL, "https://zalosclaw.example.com/callback")
 	if err != nil {
 		t.Fatalf("RegisterClient() error: %v", err)
 	}

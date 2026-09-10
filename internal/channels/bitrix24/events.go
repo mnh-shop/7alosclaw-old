@@ -95,7 +95,7 @@ type EventParams struct {
 
 	// ChatTitle mirrors data[PARAMS][CHAT_TITLE]. Bitrix pre-formats
 	// human-readable names — e.g. "Thân Công Huy - Zalo Synity 0964575404"
-	// for Openline connector chats, "Tích hợp channel bitrix24 vào goclaw"
+	// for Openline connector chats, "Tích hợp channel bitrix24 vào zalosclaw"
 	// for Task chats. Absent on 1-1 DMs. Forwarded as metadata so agents
 	// can display / reason about "who am I talking to" without extra RPCs.
 	ChatTitle string

@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/lib/pq"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // documentInfoRow is an sqlx scan struct for memory_documents SELECT queries.

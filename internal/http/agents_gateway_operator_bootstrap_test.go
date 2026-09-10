@@ -14,7 +14,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 type gatewayOperatorSecureCLIStore struct {
@@ -337,7 +337,7 @@ func TestGatewayOperatorBootstrapCreatesBinaryGrantAndSensitiveTokenEnv(t *testi
 	handler := &AgentsHandler{}
 	handler.SetGatewayOperatorBootstrap(secureCLI, grants, agentCreds, "http://127.0.0.1:18790")
 	handler.findGatewayOperatorBinary = func() (string, error) {
-		return "/usr/local/bin/goclaw", nil
+		return "/usr/local/bin/zalosclaw", nil
 	}
 
 	result, err := handler.bootstrapGatewayOperatorAccess(gatewayOperatorContext(), agentID)
@@ -348,15 +348,15 @@ func TestGatewayOperatorBootstrapCreatesBinaryGrantAndSensitiveTokenEnv(t *testi
 		t.Fatalf("bootstrap result missing IDs: %#v", result)
 	}
 	if secureCLI.created == nil {
-		t.Fatal("expected goclaw secure CLI binary to be registered")
+		t.Fatal("expected zalosclaw secure CLI binary to be registered")
 	}
-	if secureCLI.created.BinaryName != "goclaw" {
-		t.Fatalf("binary name=%q, want goclaw", secureCLI.created.BinaryName)
+	if secureCLI.created.BinaryName != "zalosclaw" {
+		t.Fatalf("binary name=%q, want zalosclaw", secureCLI.created.BinaryName)
 	}
 	if secureCLI.created.IsGlobal {
 		t.Fatal("gateway operator binary must be non-global")
 	}
-	if secureCLI.created.BinaryPath == nil || *secureCLI.created.BinaryPath != "/usr/local/bin/goclaw" {
+	if secureCLI.created.BinaryPath == nil || *secureCLI.created.BinaryPath != "/usr/local/bin/zalosclaw" {
 		t.Fatalf("binary path not recorded: %#v", secureCLI.created.BinaryPath)
 	}
 	if !strings.Contains(string(secureCLI.created.DenyArgs), "auth") {
@@ -375,16 +375,16 @@ func TestGatewayOperatorBootstrapCreatesBinaryGrantAndSensitiveTokenEnv(t *testi
 	if err != nil {
 		t.Fatalf("parse agent credential env: %v", err)
 	}
-	tokenEntry := entries["GOCLAW_GATEWAY_TOKEN"]
+	tokenEntry := entries["ZALOSCLAW_GATEWAY_TOKEN"]
 	if tokenEntry.Kind != store.SecureCLIEnvKindSensitive || tokenEntry.Value != "test-gateway-token" {
 		t.Fatalf("token entry not stored as sensitive override: %#v", tokenEntry)
 	}
-	if entries["GOCLAW_SERVER"].Value != "http://127.0.0.1:18790" {
-		t.Fatalf("GOCLAW_SERVER not injected: %#v", entries["GOCLAW_SERVER"])
+	if entries["ZALOSCLAW_SERVER"].Value != "http://127.0.0.1:18790" {
+		t.Fatalf("ZALOSCLAW_SERVER not injected: %#v", entries["ZALOSCLAW_SERVER"])
 	}
 
 	safeEnv := agentCredentialResponse(store.SecureCLIAgentCredential{EncryptedEnv: envJSON}).Env
-	if safeEnv["GOCLAW_GATEWAY_TOKEN"].Value != nil || !safeEnv["GOCLAW_GATEWAY_TOKEN"].Masked {
+	if safeEnv["ZALOSCLAW_GATEWAY_TOKEN"].Value != nil || !safeEnv["ZALOSCLAW_GATEWAY_TOKEN"].Masked {
 		encoded, _ := json.Marshal(safeEnv)
 		t.Fatalf("gateway token not masked in agent credential response: %s", encoded)
 	}
@@ -398,7 +398,7 @@ func TestGatewayOperatorBootstrapReusesExistingGrant(t *testing.T) {
 	secureCLI := &gatewayOperatorSecureCLIStore{
 		binaries: []store.SecureCLIBinary{{
 			BaseModel:  store.BaseModel{ID: binaryID},
-			BinaryName: "goclaw",
+			BinaryName: "zalosclaw",
 			Enabled:    true,
 			IsGlobal:   false,
 		}},
@@ -417,7 +417,7 @@ func TestGatewayOperatorBootstrapReusesExistingGrant(t *testing.T) {
 	handler := &AgentsHandler{}
 	handler.SetGatewayOperatorBootstrap(secureCLI, grants, agentCreds, "http://127.0.0.1:18790")
 	handler.findGatewayOperatorBinary = func() (string, error) {
-		return "/usr/local/bin/goclaw", nil
+		return "/usr/local/bin/zalosclaw", nil
 	}
 
 	result, err := handler.bootstrapGatewayOperatorAccess(gatewayOperatorContext(), agentID)
@@ -445,7 +445,7 @@ func TestGatewayOperatorBootstrapConvertsExistingGlobalBinaryToGrantScoped(t *te
 	secureCLI := &gatewayOperatorSecureCLIStore{
 		binaries: []store.SecureCLIBinary{{
 			BaseModel:  store.BaseModel{ID: binaryID},
-			BinaryName: "goclaw",
+			BinaryName: "zalosclaw",
 			Enabled:    true,
 			IsGlobal:   true,
 		}},
@@ -455,7 +455,7 @@ func TestGatewayOperatorBootstrapConvertsExistingGlobalBinaryToGrantScoped(t *te
 	handler := &AgentsHandler{}
 	handler.SetGatewayOperatorBootstrap(secureCLI, grants, agentCreds, "127.0.0.1:19999")
 	handler.findGatewayOperatorBinary = func() (string, error) {
-		return "/opt/goclaw/current/goclaw", nil
+		return "/opt/zalosclaw/current/zalosclaw", nil
 	}
 
 	result, err := handler.bootstrapGatewayOperatorAccess(gatewayOperatorContext(), agentID)
@@ -475,7 +475,7 @@ func TestGatewayOperatorBootstrapConvertsExistingGlobalBinaryToGrantScoped(t *te
 	if updates["is_global"] != false || updates["enabled"] != true {
 		t.Fatalf("expected explicit non-global enabled policy, got %#v", updates)
 	}
-	if got := secureCLI.binaries[0].BinaryPath; got == nil || *got != "/opt/goclaw/current/goclaw" {
+	if got := secureCLI.binaries[0].BinaryPath; got == nil || *got != "/opt/zalosclaw/current/zalosclaw" {
 		t.Fatalf("binary path not updated: %#v", got)
 	}
 	if len(grants.grants) != 1 {
@@ -485,8 +485,8 @@ func TestGatewayOperatorBootstrapConvertsExistingGlobalBinaryToGrantScoped(t *te
 	if err != nil {
 		t.Fatalf("parse agent credential env: %v", err)
 	}
-	if entries["GOCLAW_SERVER"].Value != "http://127.0.0.1:19999" {
-		t.Fatalf("GOCLAW_SERVER not normalized: %#v", entries["GOCLAW_SERVER"])
+	if entries["ZALOSCLAW_SERVER"].Value != "http://127.0.0.1:19999" {
+		t.Fatalf("ZALOSCLAW_SERVER not normalized: %#v", entries["ZALOSCLAW_SERVER"])
 	}
 }
 
@@ -494,12 +494,12 @@ func TestGatewayOperatorBootstrapRewritesUnsafeExistingNonGlobalBinary(t *testin
 	setupTestToken(t, "test-gateway-token")
 	binaryID := uuid.New()
 	agentID := uuid.New()
-	unsafePath := "/tmp/wrapper-goclaw"
+	unsafePath := "/tmp/wrapper-zalosclaw"
 	adapterName := "git"
 	secureCLI := &gatewayOperatorSecureCLIStore{
 		binaries: []store.SecureCLIBinary{{
 			BaseModel:      store.BaseModel{ID: binaryID},
-			BinaryName:     "goclaw",
+			BinaryName:     "zalosclaw",
 			BinaryPath:     &unsafePath,
 			Enabled:        true,
 			IsGlobal:       false,
@@ -514,7 +514,7 @@ func TestGatewayOperatorBootstrapRewritesUnsafeExistingNonGlobalBinary(t *testin
 	handler := &AgentsHandler{}
 	handler.SetGatewayOperatorBootstrap(secureCLI, grants, agentCreds, "http://127.0.0.1:18790")
 	handler.findGatewayOperatorBinary = func() (string, error) {
-		return "/opt/goclaw/current/goclaw", nil
+		return "/opt/zalosclaw/current/zalosclaw", nil
 	}
 
 	result, err := handler.bootstrapGatewayOperatorAccess(gatewayOperatorContext(), agentID)
@@ -528,7 +528,7 @@ func TestGatewayOperatorBootstrapRewritesUnsafeExistingNonGlobalBinary(t *testin
 	if updates == nil {
 		t.Fatal("expected unsafe existing binary policy to be rewritten before grant")
 	}
-	if got := secureCLI.binaries[0].BinaryPath; got == nil || *got != "/opt/goclaw/current/goclaw" {
+	if got := secureCLI.binaries[0].BinaryPath; got == nil || *got != "/opt/zalosclaw/current/zalosclaw" {
 		t.Fatalf("safe binary path not enforced: %#v", got)
 	}
 	if !strings.Contains(string(secureCLI.binaries[0].DenyArgs), "migrate") {
@@ -554,7 +554,7 @@ func TestAgentsCreateAddsGatewayOperatorBootstrapMetadataWhenRequested(t *testin
 	}
 	handler.SetGatewayOperatorBootstrap(secureCLI, grants, agentCreds, "http://127.0.0.1:18790")
 	handler.findGatewayOperatorBinary = func() (string, error) {
-		return "/usr/local/bin/goclaw", nil
+		return "/usr/local/bin/zalosclaw", nil
 	}
 
 	body := []byte(`{
@@ -606,7 +606,7 @@ func TestGatewayOperatorBootstrapFailsClosedWithoutToken(t *testing.T) {
 	handler := &AgentsHandler{}
 	handler.SetGatewayOperatorBootstrap(secureCLI, grants, agentCreds, "http://127.0.0.1:18790")
 	handler.findGatewayOperatorBinary = func() (string, error) {
-		return "/usr/local/bin/goclaw", nil
+		return "/usr/local/bin/zalosclaw", nil
 	}
 
 	_, err := handler.bootstrapGatewayOperatorAccess(gatewayOperatorContext(), uuid.New())

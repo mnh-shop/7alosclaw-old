@@ -9,47 +9,47 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerTenantsCRUDTools registers the goclaw_tenants_* MCP tools backed
-// by store.TenantStore — closes a CLI-vs-MCP coverage gap (the `goclaw
+// registerTenantsCRUDTools registers the zalosclaw_tenants_* MCP tools backed
+// by store.TenantStore — closes a CLI-vs-MCP coverage gap (the `zalosclaw
 // tenants create/list/users` commands had no MCP equivalent). deps.Tenants
-// was already threaded through CRUDDeps for the "X-GoClaw-Tenant-Id" header
+// was already threaded through CRUDDeps for the "X-ZalosClaw-Tenant-Id" header
 // resolution (see crud_server.go); this reuses the same store reference.
 func registerTenantsCRUDTools(srv *mcpserver.MCPServer, tenants store.TenantStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_tenants_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_tenants_list",
 		mcpgo.WithDescription("List all tenants."),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleTenantsList(tenants))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_tenants_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_tenants_get",
 		mcpgo.WithDescription("Get a single tenant by UUID or slug."),
 		mcpgo.WithString("id", mcpgo.Description("Tenant UUID.")),
 		mcpgo.WithString("slug", mcpgo.Description("Tenant slug, used when id is not known.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleTenantsGet(tenants))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_tenants_create",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_tenants_create",
 		mcpgo.WithDescription("Create a new tenant."),
 		mcpgo.WithString("name", mcpgo.Required(), mcpgo.Description("Tenant display name.")),
 		mcpgo.WithString("slug", mcpgo.Required(), mcpgo.Description("Tenant slug (URL/path-safe identifier).")),
 	), handleTenantsCreate(tenants))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_tenants_users_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_tenants_users_list",
 		mcpgo.WithDescription("List a tenant's member users."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("Tenant UUID.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleTenantsUsersList(tenants))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_tenants_users_add",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_tenants_users_add",
 		mcpgo.WithDescription("Add a user to a tenant with a given role."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("Tenant UUID.")),
 		mcpgo.WithString("user_id", mcpgo.Required(), mcpgo.Description("User ID to add.")),
 		mcpgo.WithString("role", mcpgo.Description("Tenant role; defaults to \"member\".")),
 	), handleTenantsUsersAdd(tenants))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_tenants_users_remove",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_tenants_users_remove",
 		mcpgo.WithDescription("Remove a user from a tenant."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("Tenant UUID.")),
 		mcpgo.WithString("user_id", mcpgo.Required(), mcpgo.Description("User ID to remove.")),

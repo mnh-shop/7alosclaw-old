@@ -6,32 +6,32 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerSystemConfigCRUDTools registers the goclaw_system_config_* MCP
+// registerSystemConfigCRUDTools registers the zalosclaw_system_config_* MCP
 // tools backed by store.SystemConfigStore — closes a CLI-vs-MCP coverage
-// gap (`goclaw system-config list`, plus set/delete which the CLI reference
+// gap (`zalosclaw system-config list`, plus set/delete which the CLI reference
 // didn't surface but the store supports).
 func registerSystemConfigCRUDTools(srv *mcpserver.MCPServer, cfg store.SystemConfigStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_system_config_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_system_config_list",
 		mcpgo.WithDescription("List all system config key/value pairs visible to the current tenant (master merged with tenant overrides)."),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleSystemConfigList(cfg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_system_config_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_system_config_get",
 		mcpgo.WithDescription("Get a single system config value by key."),
 		mcpgo.WithString("key", mcpgo.Required(), mcpgo.Description("Config key.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleSystemConfigGet(cfg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_system_config_set",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_system_config_set",
 		mcpgo.WithDescription("Set a system config value for the current tenant."),
 		mcpgo.WithString("key", mcpgo.Required(), mcpgo.Description("Config key.")),
 		mcpgo.WithString("value", mcpgo.Required(), mcpgo.Description("Config value.")),
 	), handleSystemConfigSet(cfg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_system_config_delete",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_system_config_delete",
 		mcpgo.WithDescription("Delete a system config value for the current tenant."),
 		mcpgo.WithString("key", mcpgo.Required(), mcpgo.Description("Config key.")),
 		mcpgo.WithDestructiveHintAnnotation(true),

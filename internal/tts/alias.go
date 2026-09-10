@@ -13,11 +13,11 @@
 package tts
 
 import (
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
-	"github.com/nextlevelbuilder/goclaw/internal/audio/edge"
-	"github.com/nextlevelbuilder/goclaw/internal/audio/elevenlabs"
-	"github.com/nextlevelbuilder/goclaw/internal/audio/minimax"
-	"github.com/nextlevelbuilder/goclaw/internal/audio/openai"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio/edge"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio/elevenlabs"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio/minimax"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio/openai"
 )
 
 // --- Types (15) ---

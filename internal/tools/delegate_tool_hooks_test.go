@@ -15,13 +15,13 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	orchestration "github.com/nextlevelbuilder/goclaw/internal/childrun"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/eventbus"
-	"github.com/nextlevelbuilder/goclaw/internal/hooks"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/tracing"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	orchestration "github.com/nextlevelbuilder/zalosclaw/internal/childrun"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/eventbus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tracing"
 )
 
 // fakeDispatcher records Fire calls and returns a preset decision.

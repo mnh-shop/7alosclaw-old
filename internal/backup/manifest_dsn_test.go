@@ -30,7 +30,7 @@ func TestBackupRun_FilesystemOnly(t *testing.T) {
 		WorkspacePath: ws,
 		OutputPath:    outPath,
 		CreatedBy:     "test",
-		GoclawVersion: "test-1.0",
+		ZalosclawVersion: "test-1.0",
 		SchemaVersion: 42,
 		ExcludeDB:     true,
 	}
@@ -44,7 +44,7 @@ func TestBackupRun_FilesystemOnly(t *testing.T) {
 	if manifest.Version != 1 {
 		t.Errorf("manifest.Version: got %d", manifest.Version)
 	}
-	if manifest.Format != "goclaw-system-backup" {
+	if manifest.Format != "zalosclaw-system-backup" {
 		t.Errorf("manifest.Format: got %q", manifest.Format)
 	}
 	if manifest.CreatedBy != "test" {
@@ -91,7 +91,7 @@ func TestBackupRun_FilesystemOnly(t *testing.T) {
 			if err := json.Unmarshal(data, &m); err != nil {
 				t.Errorf("manifest.json parse error: %v", err)
 			}
-			if m.Format != "goclaw-system-backup" {
+			if m.Format != "zalosclaw-system-backup" {
 				t.Errorf("manifest in archive: wrong format %q", m.Format)
 			}
 		case strings.HasPrefix(hdr.Name, "workspace/"):
@@ -119,7 +119,7 @@ func TestBackupRun_ExcludeFiles(t *testing.T) {
 	opts := Options{
 		OutputPath:    outPath,
 		CreatedBy:     "test",
-		GoclawVersion: "1.0",
+		ZalosclawVersion: "1.0",
 		ExcludeDB:     true,
 		ExcludeFiles:  true,
 	}

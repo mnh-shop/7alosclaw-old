@@ -4,7 +4,7 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // CheckpointStage runs per iteration. Flushes pending messages to session store

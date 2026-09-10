@@ -11,16 +11,16 @@ import (
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/spf13/cobra"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channels/bitrix24"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/store/pg"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/bitrix24"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
 )
 
-// bitrixPortalCmd wires `goclaw bitrix-portal ...` — direct-DB management of
+// bitrixPortalCmd wires `zalosclaw bitrix-portal ...` — direct-DB management of
 // `bitrix_portals` rows. It seeds the portal row required before an operator
 // runs the OAuth install flow at `/bitrix24/install`.
 //
-// Writes go through PGBitrixPortalStore so GOCLAW_ENCRYPTION_KEY is applied
+// Writes go through PGBitrixPortalStore so ZALOSCLAW_ENCRYPTION_KEY is applied
 // to the credentials column the same way the runtime would. Reads via `list`
 // deliberately don't print secrets — credentials stay encrypted at rest, and
 // a debug tool dumping them would be a regression.
@@ -30,7 +30,7 @@ func bitrixPortalCmd() *cobra.Command {
 		Short: "Manage Bitrix24 portals (direct DB access; postgres only)",
 		Long: `Manage Bitrix24 portal rows in the database.
 
-GoClaw expects a ` + "`bitrix_portals`" + ` row to exist before an operator runs the
+ZalosClaw expects a ` + "`bitrix_portals`" + ` row to exist before an operator runs the
 OAuth install flow at ` + "`/bitrix24/install`" + `. This command seeds that row without
 requiring SQL access to the database.`,
 	}
@@ -91,9 +91,9 @@ old credentials cannot refresh under new client_id/secret); pass
 				return fmt.Errorf("ping db: %w", err)
 			}
 
-			encKey := os.Getenv("GOCLAW_ENCRYPTION_KEY")
+			encKey := os.Getenv("ZALOSCLAW_ENCRYPTION_KEY")
 			if encKey == "" {
-				fmt.Fprintln(os.Stderr, "WARNING: GOCLAW_ENCRYPTION_KEY is not set — credentials will be stored UNENCRYPTED")
+				fmt.Fprintln(os.Stderr, "WARNING: ZALOSCLAW_ENCRYPTION_KEY is not set — credentials will be stored UNENCRYPTED")
 			}
 
 			creds := store.BitrixPortalCredentials{
@@ -180,14 +180,14 @@ to authorize the app — the install handler writes the OAuth token into the
 				return fmt.Errorf("ping db: %w", err)
 			}
 
-			encKey := os.Getenv("GOCLAW_ENCRYPTION_KEY")
+			encKey := os.Getenv("ZALOSCLAW_ENCRYPTION_KEY")
 			if encKey == "" {
 				// Not fatal — pg store passes plaintext through when the key is
 				// empty — but the runtime gateway would also run unencrypted,
 				// which is almost never what a production deploy wants. Warn
 				// loud so the operator notices instead of silently storing
 				// client_secret as cleartext.
-				fmt.Fprintln(os.Stderr, "WARNING: GOCLAW_ENCRYPTION_KEY is not set — credentials will be stored UNENCRYPTED")
+				fmt.Fprintln(os.Stderr, "WARNING: ZALOSCLAW_ENCRYPTION_KEY is not set — credentials will be stored UNENCRYPTED")
 			}
 
 			creds := store.BitrixPortalCredentials{
@@ -250,7 +250,7 @@ func bitrixPortalListCmd() *cobra.Command {
 				return fmt.Errorf("ping db: %w", err)
 			}
 
-			portalStore := pg.NewPGBitrixPortalStore(db, os.Getenv("GOCLAW_ENCRYPTION_KEY"))
+			portalStore := pg.NewPGBitrixPortalStore(db, os.Getenv("ZALOSCLAW_ENCRYPTION_KEY"))
 
 			var rows []store.BitrixPortalData
 			if tenantID == "" {
@@ -295,8 +295,8 @@ func bitrixPortalListCmd() *cobra.Command {
 //
 // Usage:
 //
-//	goclaw bitrix-portal set-public-url \
-//	  --tenant-id <uuid> --name <portal> --url https://goclaw.example.com
+//	zalosclaw bitrix-portal set-public-url \
+//	  --tenant-id <uuid> --name <portal> --url https://zalosclaw.example.com
 func bitrixPortalSetPublicURLCmd() *cobra.Command {
 	var (
 		tenantID string
@@ -308,7 +308,7 @@ func bitrixPortalSetPublicURLCmd() *cobra.Command {
 		Short: "Backfill state.public_url for a portal installed pre Phase-01",
 		Long: `Set the gateway-public URL used to register Bitrix24 imbot event handlers.
 
-Required for portals that were installed before the goclaw release that
+Required for portals that were installed before the zalosclaw release that
 auto-captures the URL from the /bitrix24/install callback. Without it, the
 factory cannot build a valid EVENT_MESSAGE_ADD URL for new channels.
 
@@ -339,9 +339,9 @@ initial backfill.`,
 				return fmt.Errorf("ping db: %w", err)
 			}
 
-			encKey := os.Getenv("GOCLAW_ENCRYPTION_KEY")
+			encKey := os.Getenv("ZALOSCLAW_ENCRYPTION_KEY")
 			if encKey == "" {
-				fmt.Fprintln(os.Stderr, "WARNING: GOCLAW_ENCRYPTION_KEY is not set — state will be read/written UNENCRYPTED")
+				fmt.Fprintln(os.Stderr, "WARNING: ZALOSCLAW_ENCRYPTION_KEY is not set — state will be read/written UNENCRYPTED")
 			}
 
 			portalStore := pg.NewPGBitrixPortalStore(db, encKey)
@@ -365,7 +365,7 @@ initial backfill.`,
 	}
 	cmd.Flags().StringVar(&tenantID, "tenant-id", "", "Tenant UUID this portal belongs to (required)")
 	cmd.Flags().StringVar(&name, "name", "", "Portal name (required)")
-	cmd.Flags().StringVar(&url, "url", "", "Gateway public URL, e.g. https://goclaw.tamgiac.com (required)")
+	cmd.Flags().StringVar(&url, "url", "", "Gateway public URL, e.g. https://zalosclaw.tamgiac.com (required)")
 	return cmd
 }
 

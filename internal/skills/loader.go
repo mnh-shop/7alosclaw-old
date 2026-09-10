@@ -5,7 +5,7 @@
 //  1. Workspace skills          — <workspace>/skills/
 //  2. Project agent skills      — <workspace>/.agents/skills/
 //  3. Personal agent skills     — ~/.agents/skills/
-//  4. Global/managed skills     — ~/.goclaw/skills/
+//  4. Global/managed skills     — ~/.zalosclaw/skills/
 //  5. Builtin skills            — bundled with binary
 package skills
 
@@ -26,8 +26,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // Metadata holds parsed SKILL.md frontmatter.
@@ -53,7 +53,7 @@ type Loader struct {
 	workspaceSkills     string // <workspace>/skills/
 	projectAgentSkills  string // <workspace>/.agents/skills/
 	personalAgentSkills string // ~/.agents/skills/
-	globalSkills        string // ~/.goclaw/skills/
+	globalSkills        string // ~/.zalosclaw/skills/
 	builtinSkills       string // bundled with binary
 
 	// dataDir is the root data directory used to resolve the tenant-scoped
@@ -72,7 +72,7 @@ type Loader struct {
 
 // NewLoader creates a skills loader.
 // workspace: project workspace root (skills dir is workspace/skills/)
-// globalSkills: global skills directory (e.g. ~/.goclaw/skills)
+// globalSkills: global skills directory (e.g. ~/.zalosclaw/skills)
 // builtinSkills: bundled skills directory
 func NewLoader(workspace, globalSkills, builtinSkills string) *Loader {
 	wsSkills := ""
@@ -85,7 +85,7 @@ func NewLoader(workspace, globalSkills, builtinSkills string) *Loader {
 	// Personal agent skills: ~/.agents/skills/ (matching TS)
 	homeDir, _ := os.UserHomeDir()
 	personalAgentSkills := ""
-	if homeDir != "" && os.Getenv("GOCLAW_DISABLE_PERSONAL_SKILLS") != "1" {
+	if homeDir != "" && os.Getenv("ZALOSCLAW_DISABLE_PERSONAL_SKILLS") != "1" {
 		personalAgentSkills = filepath.Join(homeDir, ".agents", "skills")
 	}
 
@@ -101,7 +101,7 @@ func NewLoader(workspace, globalSkills, builtinSkills string) *Loader {
 
 // SetManagedDir sets the root data directory used to resolve each tenant's
 // managed skills directory (skills-store) on every call, via resolveManagedDir.
-// dir must be the root data dir (e.g. GOCLAW_DATA_DIR), NOT a pre-resolved
+// dir must be the root data dir (e.g. ZALOSCLAW_DATA_DIR), NOT a pre-resolved
 // tenant-specific path — resolving a single fixed path here would leak or
 // hide skills across tenants. Called after PG stores are created.
 func (l *Loader) SetManagedDir(dir string) {

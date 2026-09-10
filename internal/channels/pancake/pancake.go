@@ -9,10 +9,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // Compile-time interface assertions.
@@ -257,7 +257,7 @@ func (ch *Channel) sendInboxReply(ctx context.Context, msg bus.OutboundMessage) 
 }
 
 // sendCommentReply posts a public reply to a comment and optionally sends a
-// one-time private DM to the commenter (best-effort). Stateless — no GoClaw
+// one-time private DM to the commenter (best-effort). Stateless — no ZalosClaw
 // dedup state; webhook-level comment_id dedup + FB platform per-comment
 // idempotency prevent duplicates.
 func (ch *Channel) sendCommentReply(ctx context.Context, msg bus.OutboundMessage) error {

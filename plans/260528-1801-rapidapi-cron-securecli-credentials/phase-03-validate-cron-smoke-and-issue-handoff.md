@@ -109,7 +109,7 @@ Validation combines:
 - `go build ./...`
 - `go build -tags sqliteonly ./...`
 - `go vet ./...`
-- `TEST_DATABASE_URL="postgres://postgres:test@localhost:5433/goclaw_test?sslmode=disable" go test -race -tags integration ./tests/integration/`
+- `TEST_DATABASE_URL="postgres://postgres:test@localhost:5433/zalosclaw_test?sslmode=disable" go test -race -tags integration ./tests/integration/`
 
 ## Risk Assessment
 
@@ -125,4 +125,4 @@ Validation combines:
 
 ## Next Steps
 
-- After plan approval, run `/ck:cook /Volumes/GOON/www/digitop/goclaw/plans/260528-1801-rapidapi-cron-securecli-credentials/plan.md --tdd`.
+- After plan approval, run `/ck:cook /Volumes/GOON/www/digitop/zalosclaw/plans/260528-1801-rapidapi-cron-securecli-credentials/plan.md --tdd`.

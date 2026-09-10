@@ -12,7 +12,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func (s *SQLiteSkillStore) LoadSkill(ctx context.Context, name string) (string, bool) {
@@ -288,7 +288,7 @@ func (s *SQLiteSkillStore) UpsertSystemSkill(ctx context.Context, p store.SkillC
 	var recoveryMarker string
 	err = s.db.QueryRowContext(ctx,
 		`SELECT id, CASE WHEN json_valid(frontmatter)
-		     THEN COALESCE(json_extract(frontmatter, '$._goclaw_recovery'), '')
+		     THEN COALESCE(json_extract(frontmatter, '$._zalosclaw_recovery'), '')
 		     ELSE '' END
 		 FROM skills
 		 WHERE slug = ? AND tenant_id = ? AND is_system = 0`,

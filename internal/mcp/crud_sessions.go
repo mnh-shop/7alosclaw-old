@@ -6,51 +6,51 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerSessionCRUDTools registers the goclaw_sessions_* MCP tools backed by store.SessionStore.
+// registerSessionCRUDTools registers the zalosclaw_sessions_* MCP tools backed by store.SessionStore.
 func registerSessionCRUDTools(srv *mcpserver.MCPServer, sessions store.SessionStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_sessions_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_sessions_list",
 		mcpgo.WithDescription("List session keys for a given agent."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID to list sessions for.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleSessionsList(sessions))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_sessions_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_sessions_get",
 		mcpgo.WithDescription("Get a session's current state (label, summary, message count) by key."),
 		mcpgo.WithString("key", mcpgo.Required(), mcpgo.Description("Session key.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleSessionsGet(sessions))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_sessions_preview",
-		mcpgo.WithDescription("Return the message history and summary for a goclaw session."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_sessions_preview",
+		mcpgo.WithDescription("Return the message history and summary for a zalosclaw session."),
 		mcpgo.WithString("key", mcpgo.Required(), mcpgo.Description("Session key.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleSessionsPreview(sessions))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_sessions_patch",
-		mcpgo.WithDescription("Update label, model, and/or metadata on a goclaw session."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_sessions_patch",
+		mcpgo.WithDescription("Update label, model, and/or metadata on a zalosclaw session."),
 		mcpgo.WithString("key", mcpgo.Required(), mcpgo.Description("Session key.")),
 		mcpgo.WithString("label", mcpgo.Description("New session label.")),
 		mcpgo.WithString("model", mcpgo.Description("New model name.")),
 		mcpgo.WithObject("metadata", mcpgo.Description("Metadata key/value pairs to set (replaces existing metadata).")),
 	), handleSessionsPatch(sessions))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_sessions_delete",
-		mcpgo.WithDescription("Delete a goclaw session."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_sessions_delete",
+		mcpgo.WithDescription("Delete a zalosclaw session."),
 		mcpgo.WithString("key", mcpgo.Required(), mcpgo.Description("Session key.")),
 		mcpgo.WithDestructiveHintAnnotation(true),
 	), handleSessionsDelete(sessions))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_sessions_reset",
-		mcpgo.WithDescription("Reset a goclaw session's transcript, clearing its message history."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_sessions_reset",
+		mcpgo.WithDescription("Reset a zalosclaw session's transcript, clearing its message history."),
 		mcpgo.WithString("key", mcpgo.Required(), mcpgo.Description("Session key.")),
 		mcpgo.WithDestructiveHintAnnotation(true),
 	), handleSessionsReset(sessions))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_sessions_compact",
-		mcpgo.WithDescription("Compact a goclaw session's history, keeping only the most recent messages."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_sessions_compact",
+		mcpgo.WithDescription("Compact a zalosclaw session's history, keeping only the most recent messages."),
 		mcpgo.WithString("key", mcpgo.Required(), mcpgo.Description("Session key.")),
 		mcpgo.WithNumber("keep_last", mcpgo.Description("Number of most-recent messages to keep.")),
 		mcpgo.WithDestructiveHintAnnotation(true),

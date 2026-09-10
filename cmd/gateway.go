@@ -14,57 +14,57 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/agent"
-	"github.com/nextlevelbuilder/goclaw/internal/bgalert"
-	"github.com/nextlevelbuilder/goclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/cache"
-	"github.com/nextlevelbuilder/goclaw/internal/channelmemory"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/channels/bitrix24"
-	"github.com/nextlevelbuilder/goclaw/internal/channels/discord"
-	"github.com/nextlevelbuilder/goclaw/internal/channels/facebook"
-	"github.com/nextlevelbuilder/goclaw/internal/channels/feishu"
-	"github.com/nextlevelbuilder/goclaw/internal/channels/pancake"
-	slackchannel "github.com/nextlevelbuilder/goclaw/internal/channels/slack"
-	"github.com/nextlevelbuilder/goclaw/internal/channels/telegram"
-	"github.com/nextlevelbuilder/goclaw/internal/channels/whatsapp"
-	"github.com/nextlevelbuilder/goclaw/internal/channels/zalo"
-	zalopersonal "github.com/nextlevelbuilder/goclaw/internal/channels/zalo/personal"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/consolidation"
-	"github.com/nextlevelbuilder/goclaw/internal/edition"
-	"github.com/nextlevelbuilder/goclaw/internal/eventbus"
-	"github.com/nextlevelbuilder/goclaw/internal/gateway"
-	"github.com/nextlevelbuilder/goclaw/internal/gateway/methods"
-	"github.com/nextlevelbuilder/goclaw/internal/hooks"
-	httpapi "github.com/nextlevelbuilder/goclaw/internal/http"
-	kg "github.com/nextlevelbuilder/goclaw/internal/knowledgegraph"
-	mcpbridge "github.com/nextlevelbuilder/goclaw/internal/mcp"
-	mcpoauth "github.com/nextlevelbuilder/goclaw/internal/mcp/oauth"
-	"github.com/nextlevelbuilder/goclaw/internal/media"
-	"github.com/nextlevelbuilder/goclaw/internal/orchestration"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/scheduler"
-	"github.com/nextlevelbuilder/goclaw/internal/security"
-	"github.com/nextlevelbuilder/goclaw/internal/skills"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/systemmessages"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
-	usagecaps "github.com/nextlevelbuilder/goclaw/internal/usage/caps"
-	usagepricing "github.com/nextlevelbuilder/goclaw/internal/usage/pricing"
-	"github.com/nextlevelbuilder/goclaw/internal/vault"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bgalert"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/cache"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channelmemory"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/bitrix24"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/discord"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/facebook"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/feishu"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/pancake"
+	slackchannel "github.com/nextlevelbuilder/zalosclaw/internal/channels/slack"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/telegram"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/whatsapp"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/zalo"
+	zalopersonal "github.com/nextlevelbuilder/zalosclaw/internal/channels/zalo/personal"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/consolidation"
+	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
+	"github.com/nextlevelbuilder/zalosclaw/internal/eventbus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/gateway"
+	"github.com/nextlevelbuilder/zalosclaw/internal/gateway/methods"
+	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
+	httpapi "github.com/nextlevelbuilder/zalosclaw/internal/http"
+	kg "github.com/nextlevelbuilder/zalosclaw/internal/knowledgegraph"
+	mcpbridge "github.com/nextlevelbuilder/zalosclaw/internal/mcp"
+	mcpoauth "github.com/nextlevelbuilder/zalosclaw/internal/mcp/oauth"
+	"github.com/nextlevelbuilder/zalosclaw/internal/media"
+	"github.com/nextlevelbuilder/zalosclaw/internal/orchestration"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/scheduler"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
+	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/systemmessages"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
+	usagepricing "github.com/nextlevelbuilder/zalosclaw/internal/usage/pricing"
+	"github.com/nextlevelbuilder/zalosclaw/internal/vault"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 
 	// Register workstation backend factories via init().
-	_ "github.com/nextlevelbuilder/goclaw/internal/workstation/backends"
+	_ "github.com/nextlevelbuilder/zalosclaw/internal/workstation/backends"
 )
 
 func gatewayLogOutput() io.Writer {
-	logFile := strings.TrimSpace(os.Getenv("GOCLAW_LOG_FILE"))
+	logFile := strings.TrimSpace(os.Getenv("ZALOSCLAW_LOG_FILE"))
 	if logFile == "" {
-		if st, err := os.Stat("/var/log/goclaw"); err == nil && st.IsDir() {
-			logFile = "/var/log/goclaw/goclaw.log"
+		if st, err := os.Stat("/var/log/zalosclaw"); err == nil && st.IsDir() {
+			logFile = "/var/log/zalosclaw/zalosclaw.log"
 		}
 	}
 	if logFile == "" {
@@ -72,7 +72,7 @@ func gatewayLogOutput() io.Writer {
 	}
 	f, err := os.OpenFile(logFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0o644)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "warning: cannot open GOCLAW_LOG_FILE=%q: %v\n", logFile, err)
+		fmt.Fprintf(os.Stderr, "warning: cannot open ZALOSCLAW_LOG_FILE=%q: %v\n", logFile, err)
 		return os.Stdout
 	}
 	fmt.Fprintf(os.Stderr, "logging to %s\n", logFile)
@@ -202,8 +202,8 @@ func runGateway() {
 	if verbose {
 		logLevel = slog.LevelDebug
 	}
-	// Env override (docker/K8s friendly, default: info): GOCLAW_LOG_LEVEL=debug|info|warn|error
-	if lvl := os.Getenv("GOCLAW_LOG_LEVEL"); lvl != "" {
+	// Env override (docker/K8s friendly, default: info): ZALOSCLAW_LOG_LEVEL=debug|info|warn|error
+	if lvl := os.Getenv("ZALOSCLAW_LOG_LEVEL"); lvl != "" {
 		switch strings.ToLower(lvl) {
 		case "debug":
 			logLevel = slog.LevelDebug
@@ -214,7 +214,7 @@ func runGateway() {
 		case "error":
 			logLevel = slog.LevelError
 		default:
-			fmt.Fprintf(os.Stderr, "warning: unknown GOCLAW_LOG_LEVEL=%q, using info\n", lvl)
+			fmt.Fprintf(os.Stderr, "warning: unknown ZALOSCLAW_LOG_LEVEL=%q, using info\n", lvl)
 		}
 	}
 	logOutput := gatewayLogOutput()
@@ -235,9 +235,9 @@ func runGateway() {
 		os.Exit(1)
 	}
 
-	// Edition override: explicit GOCLAW_EDITION takes precedence over auto-detection.
+	// Edition override: explicit ZALOSCLAW_EDITION takes precedence over auto-detection.
 	// Auto-detection happens later in setupStoresAndTracing (sqlite → lite).
-	if edName := os.Getenv("GOCLAW_EDITION"); edName != "" {
+	if edName := os.Getenv("ZALOSCLAW_EDITION"); edName != "" {
 		switch edName {
 		case "lite":
 			edition.SetCurrent(edition.Lite)
@@ -246,7 +246,7 @@ func runGateway() {
 			edition.SetCurrent(edition.Standard)
 			slog.Info("edition: standard (explicit)")
 		default:
-			slog.Warn("unknown GOCLAW_EDITION, using standard", "value", edName)
+			slog.Warn("unknown ZALOSCLAW_EDITION, using standard", "value", edName)
 		}
 	}
 
@@ -912,7 +912,7 @@ func runGateway() {
 		// Bitrix24: factory needs the portal store + encKey injected so each
 		// Channel can resolve its portal on Start(). The encKey here mirrors
 		// the one used by pg.NewPGStores → NewPGBitrixPortalStore.
-		bitrixEncKey := os.Getenv("GOCLAW_ENCRYPTION_KEY")
+		bitrixEncKey := os.Getenv("ZALOSCLAW_ENCRYPTION_KEY")
 		// Use the MCP-aware factory variant so channels that opt into
 		// lazy per-user credential provisioning (via mcp_server_id — or
 		// the legacy mcp_server_name + mcp_base_url pair — in their
@@ -949,10 +949,10 @@ func runGateway() {
 			if err := bitrix24.BootstrapPortals(context.Background(), pgStores.BitrixPortals, bitrixEncKey); err != nil {
 				// Surface the missing-table case loudly so an operator notices
 				// without having to grep logs — bitrix24 channels silently
-				// no-op until `goclaw migrate up` runs migration 000058.
+				// no-op until `zalosclaw migrate up` runs migration 000058.
 				if strings.Contains(err.Error(), "bitrix_portals") &&
 					(strings.Contains(err.Error(), "does not exist") || strings.Contains(err.Error(), "no such table")) {
-					slog.Warn("bitrix24 bootstrap skipped — bitrix_portals table missing; run `goclaw migrate up` (migration 000068) to enable Bitrix24 channels",
+					slog.Warn("bitrix24 bootstrap skipped — bitrix_portals table missing; run `zalosclaw migrate up` (migration 000068) to enable Bitrix24 channels",
 						"err", err)
 				} else {
 					slog.Warn("bitrix24 bootstrap failed", "err", err)
@@ -973,7 +973,7 @@ func runGateway() {
 	// Without this, deleting a disabled Bitrix24 channel would orphan the bot
 	// on the portal.
 	if pgStores.BitrixPortals != nil {
-		bitrixEncKey := os.Getenv("GOCLAW_ENCRYPTION_KEY")
+		bitrixEncKey := os.Getenv("ZALOSCLAW_ENCRYPTION_KEY")
 		orphanCleaner := func(ctx context.Context, tenantID uuid.UUID, cfg []byte) error {
 			return bitrix24.DestroyOrphanBot(ctx, pgStores.BitrixPortals, bitrixEncKey, tenantID, cfg)
 		}

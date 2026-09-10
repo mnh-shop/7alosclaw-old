@@ -82,7 +82,7 @@
     "binaryPlaceholder": "claude",
     "binaryHint": "Путь или имя бинарного файла ACP-агента (например claude, codex, gemini)",
     "args": "Аргументы",
-    "argsPlaceholder": "--profile goclaw",
+    "argsPlaceholder": "--profile zalosclaw",
     "argsHint": "Аргументы через пробел, передаваемые бинарному файлу",
     "idleTTL": "TTL простоя",
     "idleTTLPlaceholder": "5m",

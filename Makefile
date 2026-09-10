@@ -1,6 +1,6 @@
 VERSION ?= $(shell git describe --tags --abbrev=0 --match "v[0-9]*" 2>/dev/null || echo dev)
-LDFLAGS  = -s -w -X github.com/nextlevelbuilder/goclaw/cmd.Version=$(VERSION)
-BINARY   = goclaw
+LDFLAGS  = -s -w -X github.com/nextlevelbuilder/zalosclaw/cmd.Version=$(VERSION)
+BINARY   = zalosclaw
 
 .PHONY: build build-full build-tui run clean version up up-build down logs reset test vet check-web dev migrate setup ci desktop-dev desktop-build desktop-dmg test-hooks test-hooks-unit test-hooks-e2e test-hooks-chaos test-hooks-rbac test-hooks-tracing
 
@@ -70,24 +70,24 @@ version-file:
 
 # Pull latest published image (if changed) and start. Use for deploy/update flows.
 up: version-file
-	GOCLAW_VERSION=$(VERSION) $(COMPOSE) up -d --pull always
+	ZALOSCLAW_VERSION=$(VERSION) $(COMPOSE) up -d --pull always
 	$(UPGRADE) run --rm upgrade
 
 # Build image from local source (with pulled base layers), then start. Use for dev changes.
 up-build: version-file
-	GOCLAW_VERSION=$(VERSION) $(COMPOSE) build --pull
-	GOCLAW_VERSION=$(VERSION) $(COMPOSE) up -d
+	ZALOSCLAW_VERSION=$(VERSION) $(COMPOSE) build --pull
+	ZALOSCLAW_VERSION=$(VERSION) $(COMPOSE) up -d
 	$(UPGRADE) run --rm upgrade
 
 down:
 	$(COMPOSE) down
 
 logs:
-	$(COMPOSE) logs -f goclaw
+	$(COMPOSE) logs -f zalosclaw
 
 reset: version-file
 	$(COMPOSE) down -v
-	GOCLAW_VERSION=$(VERSION) $(COMPOSE) up -d --pull always
+	ZALOSCLAW_VERSION=$(VERSION) $(COMPOSE) up -d --pull always
 
 test:
 	go test -race -timeout=5m ./...
@@ -138,7 +138,7 @@ dev:
 	cd ui/web && pnpm dev
 
 migrate:
-	$(COMPOSE) run --rm goclaw migrate up
+	$(COMPOSE) run --rm zalosclaw migrate up
 
 setup:
 	go mod download
@@ -152,15 +152,15 @@ desktop-dev:
 	cd ui/desktop && wails dev -tags sqliteonly
 
 desktop-build:
-	cd ui/desktop && wails build -tags sqliteonly -ldflags="-s -w -X github.com/nextlevelbuilder/goclaw/cmd.Version=$(VERSION)"
+	cd ui/desktop && wails build -tags sqliteonly -ldflags="-s -w -X github.com/nextlevelbuilder/zalosclaw/cmd.Version=$(VERSION)"
 
 desktop-dmg: desktop-build
 	@echo "Creating DMG..."
-	rm -rf /tmp/goclaw-dmg-staging
-	mkdir -p /tmp/goclaw-dmg-staging
-	cp -R ui/desktop/build/bin/goclaw-lite.app /tmp/goclaw-dmg-staging/
-	ln -s /Applications /tmp/goclaw-dmg-staging/Applications
-	hdiutil create -volname "GoClaw Lite $(VERSION)" -srcfolder /tmp/goclaw-dmg-staging \
-		-ov -format UDZO "goclaw-lite-$(VERSION)-darwin-$$(uname -m | sed 's/x86_64/amd64/').dmg"
-	rm -rf /tmp/goclaw-dmg-staging
-	@echo "DMG created: goclaw-lite-$(VERSION)-darwin-$$(uname -m | sed 's/x86_64/amd64/').dmg"
+	rm -rf /tmp/zalosclaw-dmg-staging
+	mkdir -p /tmp/zalosclaw-dmg-staging
+	cp -R ui/desktop/build/bin/zalosclaw-lite.app /tmp/zalosclaw-dmg-staging/
+	ln -s /Applications /tmp/zalosclaw-dmg-staging/Applications
+	hdiutil create -volname "ZalosClaw Lite $(VERSION)" -srcfolder /tmp/zalosclaw-dmg-staging \
+		-ov -format UDZO "zalosclaw-lite-$(VERSION)-darwin-$$(uname -m | sed 's/x86_64/amd64/').dmg"
+	rm -rf /tmp/zalosclaw-dmg-staging
+	@echo "DMG created: zalosclaw-lite-$(VERSION)-darwin-$$(uname -m | sed 's/x86_64/amd64/').dmg"

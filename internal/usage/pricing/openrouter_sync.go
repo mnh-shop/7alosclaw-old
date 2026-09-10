@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 const DefaultOpenRouterCatalogSyncInterval = 24 * time.Hour

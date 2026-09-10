@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="../_statics/goclaw.png" alt="GoClaw" />
+  <img src="../_statics/zalosclaw.png" alt="ZalosClaw" />
 </p>
 
-<h1 align="center">GoClaw</h1>
+<h1 align="center">ZalosClaw</h1>
 
 <p align="center"><strong>Enterprise AI Agent Platform</strong></p>
 
@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.goclaw.sh">Dokumentace</a> •
-  <a href="https://docs.goclaw.sh/#quick-start">Rychlý start</a> •
+  <a href="https://docs.zalosclaw.sh">Dokumentace</a> •
+  <a href="https://docs.zalosclaw.sh/#quick-start">Rychlý start</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -28,7 +28,7 @@ Single binary. Production-tested. Agents that orchestrate for you.
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License: MIT" />
 </p>
 
-**GoClaw** je multi-agentní AI gateway, která propojuje LLM s vašimi nástroji, kanály a daty — nasazena jako jediný Go binární soubor bez runtime závislostí. Orchestruje týmy agentů a delegování mezi agenty napříč 20+ poskytovateli LLM s plnou multi-tenant izolací.
+**ZalosClaw** je multi-agentní AI gateway, která propojuje LLM s vašimi nástroji, kanály a daty — nasazena jako jediný Go binární soubor bez runtime závislostí. Orchestruje týmy agentů a delegování mezi agenty napříč 20+ poskytovateli LLM s plnou multi-tenant izolací.
 
 Go port projektu [OpenClaw](https://github.com/openclaw/openclaw) s vylepšeným zabezpečením, multi-tenant PostgreSQL a produkční pozorovatelností.
 
@@ -80,7 +80,7 @@ Go port projektu [OpenClaw](https://github.com/openclaw/openclaw) s vylepšeným
 
 ## Ekosystém Claw
 
-|                 | OpenClaw        | ZeroClaw | PicoClaw | **GoClaw**                              |
+|                 | OpenClaw        | ZeroClaw | PicoClaw | **ZalosClaw**                              |
 | --------------- | --------------- | -------- | -------- | --------------------------------------- |
 | Jazyk           | TypeScript      | Rust     | Go       | **Go**                                  |
 | Velikost binárního souboru | 28 MB + Node.js | 3.4 MB   | ~8 MB    | **~25 MB** (základ) / **~36 MB** (+ OTel) |
@@ -89,7 +89,7 @@ Go port projektu [OpenClaw](https://github.com/openclaw/openclaw) s vylepšeným
 | Spuštění        | > 5 s           | < 10 ms  | < 1 s    | **< 1 s**                               |
 | Cílový hardware | Mac Mini od $599+ | edge za $10 | edge za $10 | **VPS od $5+**                   |
 
-| Funkce                     | OpenClaw                             | ZeroClaw                                     | PicoClaw                              | **GoClaw**                     |
+| Funkce                     | OpenClaw                             | ZeroClaw                                     | PicoClaw                              | **ZalosClaw**                     |
 | -------------------------- | ------------------------------------ | -------------------------------------------- | ------------------------------------- | ------------------------------ |
 | Multi-tenant (PostgreSQL)  | —                                    | —                                            | —                                     | ✅                             |
 | Integrace MCP              | — (používá ACP)                      | —                                            | —                                     | ✅ (stdio/SSE/streamable-http) |
@@ -110,7 +110,7 @@ Go port projektu [OpenClaw](https://github.com/openclaw/openclaw) s vylepšeným
 ## Architektura
 
 <p align="center">
-  <img src="../_statics/architecture.jpg" alt="GoClaw Architecture" width="800" />
+  <img src="../_statics/architecture.jpg" alt="ZalosClaw Architecture" width="800" />
 </p>
 
 ## Rychlý start
@@ -120,10 +120,10 @@ Go port projektu [OpenClaw](https://github.com/openclaw/openclaw) s vylepšeným
 ### Ze zdrojového kódu
 
 ```bash
-git clone https://github.com/nextlevelbuilder/goclaw.git && cd goclaw
+git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
 make build
-./goclaw onboard        # Interaktivní průvodce nastavením
-source .env.local && ./goclaw
+./zalosclaw onboard        # Interaktivní průvodce nastavením
+source .env.local && ./zalosclaw
 ```
 
 ### S Docker
@@ -132,20 +132,20 @@ source .env.local && ./goclaw
 # Vygenerovat .env s automaticky generovanými tajemstvími
 chmod +x prepare-env.sh && ./prepare-env.sh
 
-# Přidat alespoň jeden GOCLAW_*_API_KEY do .env, poté:
+# Přidat alespoň jeden ZALOSCLAW_*_API_KEY do .env, poté:
 make up
 
 # Webový dashboard na http://localhost:18790
 # Kontrola stavu: curl http://localhost:18790/health
 ```
 
-Pokud jsou nastaveny proměnné prostředí `GOCLAW_*_API_KEY`, gateway se automaticky inicializuje bez interaktivních výzev — detekuje poskytovatele, spustí migrace a naplní výchozí data.
+Pokud jsou nastaveny proměnné prostředí `ZALOSCLAW_*_API_KEY`, gateway se automaticky inicializuje bez interaktivních výzev — detekuje poskytovatele, spustí migrace a naplní výchozí data.
 
-> Pro varianty sestavení (OTel, Tailscale, Redis), tagy Docker image a překrytí compose viz [Průvodce nasazením](https://docs.goclaw.sh/#deploy-docker-compose).
+> Pro varianty sestavení (OTel, Tailscale, Redis), tagy Docker image a překrytí compose viz [Průvodce nasazením](https://docs.zalosclaw.sh/#deploy-docker-compose).
 
 ## Multi-agentní orchestrace
 
-GoClaw podporuje týmy agentů a delegování mezi agenty — každý agent běží s vlastní identitou, nástroji, poskytovatelem LLM a kontextovými soubory.
+ZalosClaw podporuje týmy agentů a delegování mezi agenty — každý agent běží s vlastní identitou, nástroji, poskytovatelem LLM a kontextovými soubory.
 
 ### Delegování agentů
 
@@ -170,7 +170,7 @@ Agenti komunikují prostřednictvím explicitních **odkazů oprávnění** s ř
 - **Týmová schránka** — Přímé zprávy mezi peer agenty a broadcasty
 - **Nástroje**: `team_tasks` pro správu úkolů, `team_message` pro schránku
 
-> Podrobnosti o delegování, odkazech oprávnění a řízení souběžnosti viz [dokumentace Týmů agentů](https://docs.goclaw.sh/#teams-what-are-teams).
+> Podrobnosti o delegování, odkazech oprávnění a řízení souběžnosti viz [dokumentace Týmů agentů](https://docs.zalosclaw.sh/#teams-what-are-teams).
 
 ## Vestavěné nástroje
 
@@ -214,19 +214,19 @@ Agenti komunikují prostřednictvím explicitních **odkazů oprávnění** s ř
 
 ## Dokumentace
 
-Úplná dokumentace na **[docs.goclaw.sh](https://docs.goclaw.sh)** — nebo procházejte zdroj v [`goclaw-docs/`](https://github.com/nextlevelbuilder/goclaw-docs)
+Úplná dokumentace na **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** — nebo procházejte zdroj v [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
 
 | Sekce | Témata |
 |-------|--------|
-| [Začínáme](https://docs.goclaw.sh/#what-is-goclaw) | Instalace, Rychlý start, Konfigurace, Prohlídka webového dashboardu |
-| [Základní koncepty](https://docs.goclaw.sh/#how-goclaw-works) | Smyčka agenta, Relace, Nástroje, Paměť, Multi-tenancy |
-| [Agenti](https://docs.goclaw.sh/#creating-agents) | Vytváření agentů, Kontextové soubory, Osobnost, Sdílení a přístup |
-| [Poskytovatelé](https://docs.goclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 dalších |
-| [Kanály](https://docs.goclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Týmy agentů](https://docs.goclaw.sh/#teams-what-are-teams) | Týmy, Nástěnka úkolů, Zasílání zpráv, Delegování a předání |
-| [Pokročilé](https://docs.goclaw.sh/#custom-tools) | Vlastní nástroje, MCP, Dovednosti, Cron, Sandbox, Háky, RBAC |
-| [Nasazení](https://docs.goclaw.sh/#deploy-docker-compose) | Docker Compose, Databáze, Bezpečnost, Pozorovatelnost, Tailscale |
-| [Reference](https://docs.goclaw.sh/#cli-commands) | Příkazy CLI, REST API, WebSocket protokol, Proměnné prostředí |
+| [Začínáme](https://docs.zalosclaw.sh/#what-is-zalosclaw) | Instalace, Rychlý start, Konfigurace, Prohlídka webového dashboardu |
+| [Základní koncepty](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Smyčka agenta, Relace, Nástroje, Paměť, Multi-tenancy |
+| [Agenti](https://docs.zalosclaw.sh/#creating-agents) | Vytváření agentů, Kontextové soubory, Osobnost, Sdílení a přístup |
+| [Poskytovatelé](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 dalších |
+| [Kanály](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Týmy agentů](https://docs.zalosclaw.sh/#teams-what-are-teams) | Týmy, Nástěnka úkolů, Zasílání zpráv, Delegování a předání |
+| [Pokročilé](https://docs.zalosclaw.sh/#custom-tools) | Vlastní nástroje, MCP, Dovednosti, Cron, Sandbox, Háky, RBAC |
+| [Nasazení](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, Databáze, Bezpečnost, Pozorovatelnost, Tailscale |
+| [Reference](https://docs.zalosclaw.sh/#cli-commands) | Příkazy CLI, REST API, WebSocket protokol, Proměnné prostředí |
 
 ## Testování
 
@@ -241,7 +241,7 @@ Podrobný stav funkcí včetně toho, co bylo otestováno v produkci a co je st�
 
 ## Poděkování
 
-GoClaw je postaven na původním projektu [OpenClaw](https://github.com/openclaw/openclaw). Jsme vděčni za architekturu a vizi, která inspirovala tento Go port.
+ZalosClaw je postaven na původním projektu [OpenClaw](https://github.com/openclaw/openclaw). Jsme vděčni za architekturu a vizi, která inspirovala tento Go port.
 
 ## Licence
 

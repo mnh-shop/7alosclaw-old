@@ -8,9 +8,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	usagecaps "github.com/nextlevelbuilder/goclaw/internal/usage/caps"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
 )
 
 // callTrackingProvider records whether Chat/ChatStream ran, so a test can prove

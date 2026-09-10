@@ -1,6 +1,6 @@
-// Package mcp exposes goclaw's Model Context Protocol bridge/server surface.
+// Package mcp exposes zalosclaw's Model Context Protocol bridge/server surface.
 // crud_server.go implements a second, distinct MCP server (separate from the
-// tool bridge in bridge_server.go) that exposes goclaw's CRUD-style resource
+// tool bridge in bridge_server.go) that exposes zalosclaw's CRUD-style resource
 // management surface — agents, sessions, skills, cron, config, agent links,
 // API keys, config permissions, Bitrix24 portals, run timelines, teams,
 // teams tasks, teams workspace, channels, channel instances, hooks,
@@ -13,7 +13,7 @@
 // secret (gateway.mcp_server_token) with no per-caller identity, so it is
 // treated like the gateway-token/owner path in internal/http/auth.go —
 // callers may optionally scope a request to a tenant via the
-// "X-GoClaw-Tenant-Id" header (UUID or slug), with no membership check
+// "X-ZalosClaw-Tenant-Id" header (UUID or slug), with no membership check
 // (the token itself is the full-trust boundary), falling back to
 // store.MasterTenantID when the header is absent or unresolvable. This is
 // applied once per request via mcpserver.WithHTTPContextFunc in
@@ -29,14 +29,14 @@ import (
 
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/hooks"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // CRUDDeps bundles the store dependencies the CRUD MCP server needs.
@@ -45,7 +45,7 @@ import (
 // (e.g. SQLite/lite builds that omit certain stores).
 type CRUDDeps struct {
 	Agents            store.AgentStore
-	AgentRuntime      AgentRuntimeLookup // enables goclaw_agent_{get,wait}; agent identity/files work without it
+	AgentRuntime      AgentRuntimeLookup // enables zalosclaw_agent_{get,wait}; agent identity/files work without it
 	Sessions          store.SessionStore
 	Skills            store.SkillStore
 	Cron              store.CronStore
@@ -69,15 +69,15 @@ type CRUDDeps struct {
 	DB               *sql.DB // for quota.usage today's trace summary
 
 	// Phase 3: live-runtime-backed tool families (chat, LLM, logs, send, voices).
-	ChatRunner        ChatRunner               // enables goclaw_chat_{send,abort,session_status}
-	LLMProviders      *providers.Registry      // enables goclaw_llm_complete
-	LLMDefaults       LLMDefaults              // background provider/model fallback for goclaw_llm_complete
-	MessageBus        *bus.MessageBus          // enables goclaw_send
-	RuntimeLogs       RuntimeLogSnapshotter    // enables goclaw_logs_tail
-	VoiceCache        *audio.VoiceCache        // enables goclaw_voices_{list,refresh}
-	VoiceSecretsStore store.ConfigSecretsStore // per-tenant TTS provider API key lookup for goclaw_voices_*
+	ChatRunner        ChatRunner               // enables zalosclaw_chat_{send,abort,session_status}
+	LLMProviders      *providers.Registry      // enables zalosclaw_llm_complete
+	LLMDefaults       LLMDefaults              // background provider/model fallback for zalosclaw_llm_complete
+	MessageBus        *bus.MessageBus          // enables zalosclaw_send
+	RuntimeLogs       RuntimeLogSnapshotter    // enables zalosclaw_logs_tail
+	VoiceCache        *audio.VoiceCache        // enables zalosclaw_voices_{list,refresh}
+	VoiceSecretsStore store.ConfigSecretsStore // per-tenant TTS provider API key lookup for zalosclaw_voices_*
 
-	// Tenants resolves the optional "X-GoClaw-Tenant-Id" request header (UUID
+	// Tenants resolves the optional "X-ZalosClaw-Tenant-Id" request header (UUID
 	// or slug) to a concrete tenant for every CRUD MCP call — see
 	// resolveMCPTenantID. Every tenant-scoped tool handler in this package
 	// relies on store.TenantIDFromContext(ctx) already carrying a resolved
@@ -98,14 +98,14 @@ type CRUDDeps struct {
 	SecureCLI       store.SecureCLIStore
 }
 
-// NewCRUDServer builds a StreamableHTTPServer exposing goclaw's CRUD
+// NewCRUDServer builds a StreamableHTTPServer exposing zalosclaw's CRUD
 // resources (agents, sessions, skills, cron, config, agent links, API keys,
 // config permissions, Bitrix24 portals, run timelines) as MCP tools. Callers
 // are expected to gate access to the returned handler with a bearer-token
 // middleware (see gateway.tokenAuthMiddleware / Server.BuildMux) before
 // mounting it — this server performs no authentication of its own.
 func NewCRUDServer(deps CRUDDeps, version string) *mcpserver.StreamableHTTPServer {
-	srv := mcpserver.NewMCPServer("goclaw-crud", version,
+	srv := mcpserver.NewMCPServer("zalosclaw-crud", version,
 		mcpserver.WithToolCapabilities(false),
 	)
 

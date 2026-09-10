@@ -10,7 +10,7 @@ import (
 var pngSignature = []byte{0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a}
 
 // EmbedPNGPrompt rewrites a PNG byte stream to include tEXt metadata chunks
-// for "Description" (the generation prompt) and "Software" (goclaw).
+// for "Description" (the generation prompt) and "Software" (zalosclaw).
 //
 // The chunks are inserted immediately before the IEND chunk so all image data
 // remains valid. If the input is not a PNG (wrong magic bytes), the original
@@ -35,7 +35,7 @@ func EmbedPNGPrompt(pngBytes []byte, prompt string) ([]byte, error) {
 	// Build the tEXt chunks to insert.
 	extraChunks := buildTextChunks([]textKV{
 		{Key: "Description", Value: prompt},
-		{Key: "Software", Value: "goclaw"},
+		{Key: "Software", Value: "zalosclaw"},
 	})
 
 	// Locate the IEND chunk and insert before it.

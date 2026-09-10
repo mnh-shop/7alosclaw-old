@@ -6,13 +6,13 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerRunTimelineCRUDTools registers the goclaw_run_timeline_get MCP tool
+// registerRunTimelineCRUDTools registers the zalosclaw_run_timeline_get MCP tool
 // backed by store.RunTimelineStore.
 func registerRunTimelineCRUDTools(srv *mcpserver.MCPServer, timeline store.RunTimelineStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_run_timeline_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_run_timeline_get",
 		mcpgo.WithDescription("Fetch the archived timeline for a run or session."),
 		mcpgo.WithString("run_id", mcpgo.Description("Run ID; preferred when known.")),
 		mcpgo.WithString("session_key", mcpgo.Description("Session key; used to find the latest run when run_id is not known.")),

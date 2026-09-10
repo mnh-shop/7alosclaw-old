@@ -102,7 +102,7 @@ var CLIPresets = map[string]CLIPreset{
 	},
 	"git": {
 		BinaryName:  "git",
-		Description: "Git with credential adapter (PAT or SSH host-scoped credentials managed by goclaw)",
+		Description: "Git with credential adapter (PAT or SSH host-scoped credentials managed by zalosclaw)",
 		// Credential storage is adapter-managed (encrypted_env carries the
 		// typed blob), not env-paste. Keep EnvVars empty so the UI doesn't
 		// offer a free-text PAT field that would land in plain env.

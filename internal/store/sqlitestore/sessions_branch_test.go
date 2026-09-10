@@ -7,8 +7,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func TestBranchSessionPersistsCopyAndMetadata(t *testing.T) {

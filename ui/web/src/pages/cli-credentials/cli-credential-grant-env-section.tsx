@@ -32,7 +32,7 @@ const ENV_DENYLIST_EXACT = new Set([
   "IFS",
 ]);
 // Keep in sync with deniedPrefixes in internal/crypto/env_denylist.go.
-const ENV_DENYLIST_PREFIXES = ["DYLD_", "GOCLAW_", "LD_", "NPM_CONFIG_"];
+const ENV_DENYLIST_PREFIXES = ["DYLD_", "ZALOSCLAW_", "LD_", "NPM_CONFIG_"];
 
 export interface GrantEnvEntry {
   key: string;

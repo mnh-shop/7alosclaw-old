@@ -4,11 +4,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	runtimelogs "github.com/nextlevelbuilder/goclaw/internal/logs"
-	"github.com/nextlevelbuilder/goclaw/internal/permissions"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	runtimelogs "github.com/nextlevelbuilder/zalosclaw/internal/logs"
+	"github.com/nextlevelbuilder/zalosclaw/internal/permissions"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 type RuntimeLogSnapshotter interface {

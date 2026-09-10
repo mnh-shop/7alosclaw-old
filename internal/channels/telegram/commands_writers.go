@@ -12,8 +12,8 @@ import (
 	"github.com/mymmrac/telego"
 	tu "github.com/mymmrac/telego/telegoutil"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // writersSelfHealTTL gates repeated enrichment attempts for the same

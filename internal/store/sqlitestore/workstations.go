@@ -12,8 +12,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/crypto"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // SQLiteWorkstationStore implements store.WorkstationStore backed by SQLite.

@@ -7,9 +7,9 @@ import (
 	"log/slog"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	usagecaps "github.com/nextlevelbuilder/goclaw/internal/usage/caps"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
 )
 
 // ExtractionResult holds entities and relations extracted from text.

@@ -31,7 +31,7 @@ func writeTarGz(t *testing.T, entries map[string]string) string {
 	tw.Close()
 	gz.Close()
 
-	f, err := os.CreateTemp("", "goclaw-test-*.tar.gz")
+	f, err := os.CreateTemp("", "zalosclaw-test-*.tar.gz")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -57,7 +57,7 @@ func writeZip(t *testing.T, entries map[string]string) string {
 	}
 	zw.Close()
 
-	f, err := os.CreateTemp("", "goclaw-test-*.zip")
+	f, err := os.CreateTemp("", "zalosclaw-test-*.zip")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -254,7 +254,7 @@ var _ = io.EOF
 func TestExtractArchiveAs_RawELFUsesFallbackName(t *testing.T) {
 	// Write a tiny "ELF" (magic bytes only — format parsing is done by
 	// validateELF in callers, extractRaw just copies bytes).
-	tmp, err := os.CreateTemp("", "goclaw-gh-asset-*.bin")
+	tmp, err := os.CreateTemp("", "zalosclaw-gh-asset-*.bin")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -267,7 +267,7 @@ func TestExtractArchiveAs_RawELFUsesFallbackName(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !strings.HasPrefix(filepath.Base(files[0].Name), "goclaw-gh-asset-") {
+	if !strings.HasPrefix(filepath.Base(files[0].Name), "zalosclaw-gh-asset-") {
 		t.Errorf("expected temp basename leakage when no fallback, got %q", files[0].Name)
 	}
 

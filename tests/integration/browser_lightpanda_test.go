@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/pkg/browser"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/browser"
 )
 
 // These tests require a running Lightpanda CDP sidecar. Set

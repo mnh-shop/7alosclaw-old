@@ -5,9 +5,9 @@ export interface RuntimeBranding {
 }
 
 const FALLBACK_BRANDING: RuntimeBranding = {
-  appName: "GoClaw",
-  appShortName: "GoClaw",
-  logoUrl: "/goclaw-icon.svg",
+  appName: "ZalosClaw",
+  appShortName: "ZalosClaw",
+  logoUrl: "/zalosclaw-icon.svg",
 };
 
 interface RuntimeBrandingPayload {
@@ -22,7 +22,7 @@ function stringValue(value: unknown): string | undefined {
 
 export function getRuntimeBranding(): RuntimeBranding {
   if (typeof document === "undefined") return FALLBACK_BRANDING;
-  const node = document.getElementById("goclaw-branding");
+  const node = document.getElementById("zalosclaw-branding");
   if (!node?.textContent) return FALLBACK_BRANDING;
   try {
     const payload = JSON.parse(node.textContent) as RuntimeBrandingPayload;

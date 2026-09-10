@@ -12,9 +12,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/store/pg"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
 )
 
 // SetDB injects the raw DB handle needed for MCP export/import direct queries.
@@ -59,7 +59,7 @@ func (h *MCPHandler) handleMCPExport(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		tmpFile, err := os.CreateTemp("", "goclaw-mcp-export-*.tar.gz")
+		tmpFile, err := os.CreateTemp("", "zalosclaw-mcp-export-*.tar.gz")
 		if err != nil {
 			sendSSE(w, flusher, "error", ProgressEvent{Phase: "init", Status: "error", Detail: "failed to create temp file"})
 			return

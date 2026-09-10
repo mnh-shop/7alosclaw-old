@@ -28,9 +28,9 @@ func init() {
 		MsgGatewayOperatorEligibilityFailed:    "Агент создан, но доступ оператора шлюза не смог подтвердить право на статус первого агента.",
 		MsgGatewayOperatorNotFirstAgent:        "Доступ оператора шлюза не предоставлен, так как это не первый агент.",
 		MsgGatewayOperatorTokenMissing:         "Доступ оператора шлюза пропущен, так как токен шлюза не настроен.",
-		MsgGatewayOperatorBinaryMissing:        "Доступ оператора шлюза пропущен, так как не удалось обнаружить исполняемый файл goclaw.",
-		MsgGatewayOperatorExistingReview:       "Доступ оператора шлюза пропущен, так как существующие учётные данные goclaw CLI требуют ручной проверки.",
-		MsgGatewayOperatorRegisterFailed:       "Доступ оператора шлюза пропущен, так как не удалось зарегистрировать учётные данные goclaw CLI.",
+		MsgGatewayOperatorBinaryMissing:        "Доступ оператора шлюза пропущен, так как не удалось обнаружить исполняемый файл zalosclaw.",
+		MsgGatewayOperatorExistingReview:       "Доступ оператора шлюза пропущен, так как существующие учётные данные zalosclaw CLI требуют ручной проверки.",
+		MsgGatewayOperatorRegisterFailed:       "Доступ оператора шлюза пропущен, так как не удалось зарегистрировать учётные данные zalosclaw CLI.",
 		MsgGatewayOperatorCredentialFailed:     "Доступ оператора шлюза пропущен, так как не удалось сохранить учётные данные.",
 
 		// Chat
@@ -70,7 +70,7 @@ func init() {
 		// HTTP API
 		MsgInvalidAuth:            "неверная аутентификация",
 		MsgMsgsRequired:           "требуется messages",
-		MsgUserIDHeader:           "требуется заголовок X-GoClaw-User-Id",
+		MsgUserIDHeader:           "требуется заголовок X-ZalosClaw-User-Id",
 		MsgFileTooLarge:           "файл слишком большой или неверная multipart-форма",
 		MsgMissingFileField:       "отсутствует поле 'file'",
 		MsgInvalidFilename:        "неверное имя файла",
@@ -291,7 +291,7 @@ func init() {
 		MsgWebhookLocalhostOnlyViolation:      "этот вебхук ограничен вызовами только с localhost",
 		MsgWebhookMediaChannelUnsupported:     "канал не поддерживает медиавложения",
 		MsgWebhookIPDenied:                    "источник запроса не входит в список разрешённых IP",
-		MsgWebhookEncryptionUnavailable:       "ключ шифрования вебхука не настроен; установите GOCLAW_ENCRYPTION_KEY, чтобы включить вебхуки",
+		MsgWebhookEncryptionUnavailable:       "ключ шифрования вебхука не настроен; установите ZALOSCLAW_ENCRYPTION_KEY, чтобы включить вебхуки",
 		MsgWebhookMessageTestRequiresStandard: "тестирование вебхуков сообщений требует издания Standard",
 
 		// Hooks

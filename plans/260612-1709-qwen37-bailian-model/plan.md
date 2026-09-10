@@ -17,7 +17,7 @@ source: skill
 
 ## Overview
 
-Add `qwen3.7-plus` to GoClaw's hardcoded Bailian Coding model catalog so the shared `/v1/providers/{id}/models` endpoint exposes it to both web and desktop model pickers. Keep runtime request behavior backward-compatible: Bailian remains an OpenAI-compatible provider, and no GPT/Codex `reasoning_effort` metadata is added for this Qwen model.
+Add `qwen3.7-plus` to ZalosClaw's hardcoded Bailian Coding model catalog so the shared `/v1/providers/{id}/models` endpoint exposes it to both web and desktop model pickers. Keep runtime request behavior backward-compatible: Bailian remains an OpenAI-compatible provider, and no GPT/Codex `reasoning_effort` metadata is added for this Qwen model.
 
 ## Phases
 
@@ -29,7 +29,7 @@ Add `qwen3.7-plus` to GoClaw's hardcoded Bailian Coding model catalog so the sha
 
 ## Dependencies
 
-- Source issue: <https://github.com/digitopvn/goclaw/issues/169>
+- Source issue: <https://github.com/digitopvn/zalosclaw/issues/169>
 - Verified code paths:
   - `internal/http/provider_models_catalog.go`: `bailianModels()` hardcoded catalog.
   - `internal/http/provider_models.go`: Bailian dispatch uses `bailianModels()` then `withReasoningCapabilities()`.

@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // BenchmarkCount_100Tokens benchmarks token counting for ~100 token input.

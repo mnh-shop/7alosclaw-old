@@ -6,12 +6,12 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/providerresolve"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	usagecaps "github.com/nextlevelbuilder/goclaw/internal/usage/caps"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providerresolve"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
 )
 
 // PendingMessagesHandler handles pending message HTTP endpoints.

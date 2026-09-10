@@ -1,6 +1,6 @@
 package minimax
 
-import "github.com/nextlevelbuilder/goclaw/internal/audio"
+import "github.com/nextlevelbuilder/zalosclaw/internal/audio"
 
 // minimaxModels lists MiniMax T2A v2 model IDs.
 var minimaxModels = []string{

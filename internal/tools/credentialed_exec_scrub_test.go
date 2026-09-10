@@ -48,7 +48,7 @@ func TestFormatCredentialedResult_HonorsScrubBag_Success(t *testing.T) {
 //    failing URL/header that contains the token.
 func TestFormatCredentialedResult_HonorsScrubBag_Failure(t *testing.T) {
 	ctx := WithScrubBag(context.Background())
-	keyPath := "/tmp/goclaw-gitkey-SENTINEL_PATH_VALUE_xyz789"
+	keyPath := "/tmp/zalosclaw-gitkey-SENTINEL_PATH_VALUE_xyz789"
 	AddScrubValuesCtx(ctx, keyPath)
 
 	stderr := "Load key \"" + keyPath + "\": Permission denied\nfatal: Could not read from remote\n"

@@ -53,10 +53,10 @@ func countCacheControlMarkers(msg map[string]any) int {
 	return count
 }
 
-// dashScopeCacheDisabled returns true when env var GOCLAW_DISABLE_DASHSCOPE_CACHE
+// dashScopeCacheDisabled returns true when env var ZALOSCLAW_DISABLE_DASHSCOPE_CACHE
 // is set to a truthy value. Provides runtime escape hatch without requiring
 // code redeploy or config change.
 func dashScopeCacheDisabled() bool {
-	v := os.Getenv("GOCLAW_DISABLE_DASHSCOPE_CACHE")
+	v := os.Getenv("ZALOSCLAW_DISABLE_DASHSCOPE_CACHE")
 	return v == "true" || v == "1" || v == "yes"
 }

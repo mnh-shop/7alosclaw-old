@@ -112,7 +112,7 @@ export function BitrixPortalAuthorizeStep({
       ) : (
         <p className="text-sm text-destructive">
           {t("bitrix24.create.authorize.urlUnknown", {
-            defaultValue: "Install URL is unavailable. Open the goclaw UI via your public URL and retry from the dropdown.",
+            defaultValue: "Install URL is unavailable. Open the zalosclaw UI via your public URL and retry from the dropdown.",
           })}
         </p>
       )}

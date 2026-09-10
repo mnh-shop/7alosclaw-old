@@ -9,9 +9,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/skills"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // applySkillDraft creates a managed skill from a SuggestSkillAdd suggestion.

@@ -1,7 +1,7 @@
 # Fork image build — publishes a ready-to-run image to the fork's GHCR so a VPS
 # can `docker pull` it without building from source. Temporary: while the fork's
 # features (ru locale, telegram reactions) are not yet in an upstream release.
-# Once they land upstream, switch the VPS to ghcr.io/nextlevelbuilder/goclaw and
+# Once they land upstream, switch the VPS to ghcr.io/nextlevelbuilder/zalosclaw and
 # delete this workflow.
 name: fork image
 

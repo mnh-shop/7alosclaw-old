@@ -9,7 +9,7 @@ import (
 	"strings"
 	"sync/atomic"
 
-	"github.com/nextlevelbuilder/goclaw/internal/security"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
 )
 
 // Allowed commands for stdio transport (basename only).

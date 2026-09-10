@@ -6,7 +6,7 @@
 - Purpose: Lock current failing behavior before code changes.
 
 ## Context Links
-- Issue: https://github.com/digitopvn/goclaw/issues/85
+- Issue: https://github.com/digitopvn/zalosclaw/issues/85
 - Debug report: `reports/debugger-260528-1837-telegram-voice-transcription.md`
 
 ## Requirements

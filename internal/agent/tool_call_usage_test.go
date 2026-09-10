@@ -4,9 +4,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/pipeline"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/pipeline"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 type usageToolExecutor struct{}

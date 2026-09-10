@@ -1,8 +1,8 @@
 package http
 
 import (
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // bailianModels returns a hardcoded list of models available on the
@@ -56,7 +56,7 @@ func minimaxModels() []ModelInfo {
 
 // zaiModels returns a hardcoded list of Z.AI GLM models.
 // Z.AI supports OpenAI-compatible chat completions, but /models availability is
-// not required for GoClaw's model picker.
+// not required for ZalosClaw's model picker.
 func zaiModels() []ModelInfo {
 	return []ModelInfo{
 		{ID: store.ZaiDefaultModel, Name: "GLM 5.2"},

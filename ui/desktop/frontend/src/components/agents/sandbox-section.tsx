@@ -55,7 +55,7 @@ export function SandboxSection({ enabled, value, onToggle, onChange }: SandboxSe
         <input
           type="text"
           value={value.image ?? ''}
-          placeholder="goclaw-sandbox:bookworm-slim"
+          placeholder="zalosclaw-sandbox:bookworm-slim"
           onChange={(e) => update({ image: e.target.value || undefined })}
           className={`${inputCls} font-mono`}
         />

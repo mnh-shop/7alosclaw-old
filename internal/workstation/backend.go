@@ -9,7 +9,7 @@ import (
 	"io"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // Backend represents a connected remote execution environment.

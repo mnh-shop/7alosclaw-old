@@ -10,12 +10,12 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	usagecaps "github.com/nextlevelbuilder/goclaw/internal/usage/caps"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 // RegenerateAgent updates context files based on an edit prompt.

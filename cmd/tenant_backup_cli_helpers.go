@@ -9,14 +9,14 @@ import (
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/spf13/cobra"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/store/pg"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
 )
 
 func openTenantBackupDB(cfg *config.Config) (*sql.DB, error) {
 	dsn := cfg.Database.PostgresDSN
 	if dsn == "" {
-		return nil, fmt.Errorf("GOCLAW_POSTGRES_DSN not configured")
+		return nil, fmt.Errorf("ZALOSCLAW_POSTGRES_DSN not configured")
 	}
 
 	db, err := sql.Open("pgx", dsn)

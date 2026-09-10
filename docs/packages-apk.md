@@ -1,7 +1,7 @@
 # apk (Alpine Package Keeper) Updates (Phase 2b)
 
 Extends the Phase 2a pip + npm update flow to Alpine Linux system packages.
-GoClaw manages system packages via a privileged `pkg-helper` sidecar over a
+ZalosClaw manages system packages via a privileged `pkg-helper` sidecar over a
 Unix socket. This document covers how apk updates are detected, applied, and
 what to do when things go wrong.
 
@@ -24,10 +24,10 @@ Two gates must both pass for apk to appear in the availability map:
    edition: always true. Lite desktop (macOS/Windows): always false — system
    package management is not available outside containers.
 
-Architecture note: the gateway process runs as `uid 1000` (goclaw) and never
+Architecture note: the gateway process runs as `uid 1000` (zalosclaw) and never
 calls `apk` directly. All apk operations are delegated to `/app/pkg-helper`
 (root-owned), which listens on `/tmp/pkg.sock` (0600, accessible only to
-goclaw). This keeps the main process unprivileged.
+zalosclaw). This keeps the main process unprivileged.
 
 ---
 
@@ -216,7 +216,7 @@ use the apt path instead of apk/pkg-helper.
 ### Bare-metal Ubuntu/Debian package table
 
 On bare-metal Ubuntu/Debian, system package install does not write the Alpine
-`apk-packages` persist file. GoClaw records successful apt installs in
+`apk-packages` persist file. ZalosClaw records successful apt installs in
 `{runtimeDir}/system-packages.json` and lists versions via `dpkg-query`.
 
 Alias examples:
@@ -264,7 +264,7 @@ Logging: `slog.Warn("package.update.apk.outcome", "code", "locked")`.
 1. SSH into the container: `docker exec -it <container> sh`
 2. Run manually: `apk add -u <name> --simulate` to see the conflict details.
 3. Resolution typically requires upgrading a conflicting package first, or
-   accepting cascade upgrades. The GoClaw UI warns about cascade risk for
+   accepting cascade upgrades. The ZalosClaw UI warns about cascade risk for
    system packages.
 4. If unresolvable, the package must be pinned via Dockerfile `RUN apk add`.
 

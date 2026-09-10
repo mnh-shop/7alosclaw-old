@@ -16,8 +16,8 @@ func TestPublicURLSnapshot_StartsEmpty(t *testing.T) {
 
 func TestPublicURLSnapshot_SetAndGet(t *testing.T) {
 	s := NewPublicURLSnapshot()
-	s.Set("https://goclaw.tamgiac.com")
-	if got := s.Get(); got != "https://goclaw.tamgiac.com" {
+	s.Set("https://zalosclaw.tamgiac.com")
+	if got := s.Get(); got != "https://zalosclaw.tamgiac.com" {
 		t.Errorf("got %q", got)
 	}
 }
@@ -43,15 +43,15 @@ func TestPublicURLSnapshot_Update_FromRequest(t *testing.T) {
 		{
 			name:     "behind_cloudflare_tunnel",
 			host:     "internal-lb:8080",
-			fwdHost:  "goclaw.tamgiac.com",
+			fwdHost:  "zalosclaw.tamgiac.com",
 			fwdProto: "https",
-			wantURL:  "https://goclaw.tamgiac.com",
+			wantURL:  "https://zalosclaw.tamgiac.com",
 		},
 		{
 			name:    "direct_tls",
-			host:    "goclaw.example.com",
+			host:    "zalosclaw.example.com",
 			hasTLS:  true,
-			wantURL: "https://goclaw.example.com",
+			wantURL: "https://zalosclaw.example.com",
 		},
 		{
 			name:    "direct_http_no_proxy",
@@ -68,16 +68,16 @@ func TestPublicURLSnapshot_Update_FromRequest(t *testing.T) {
 		{
 			name:     "websocket_upgrade_wss_normalizes_to_https",
 			host:     "internal-lb:8080",
-			fwdHost:  "goclaw.tamgiac.com",
+			fwdHost:  "zalosclaw.tamgiac.com",
 			fwdProto: "wss",
-			wantURL:  "https://goclaw.tamgiac.com",
+			wantURL:  "https://zalosclaw.tamgiac.com",
 		},
 		{
 			name:     "websocket_upgrade_ws_normalizes_to_http",
 			host:     "internal-lb:8080",
-			fwdHost:  "goclaw.tamgiac.com",
+			fwdHost:  "zalosclaw.tamgiac.com",
 			fwdProto: "ws",
-			wantURL:  "http://goclaw.tamgiac.com",
+			wantURL:  "http://zalosclaw.tamgiac.com",
 		},
 	}
 	for _, tc := range cases {
@@ -122,8 +122,8 @@ func TestPublicURLSnapshot_Update_EmptyHost_NoChange(t *testing.T) {
 // public-internet URLs flow into the snapshot.
 func TestPublicURLSnapshot_SetIfPublic_AcceptsPublic(t *testing.T) {
 	cases := []string{
-		"https://goclaw.tamgiac.com",
-		"https://goclaw.tamgiac.com:8443",
+		"https://zalosclaw.tamgiac.com",
+		"https://zalosclaw.tamgiac.com:8443",
 		"http://app.example.co.uk",
 		"https://203.0.113.10", // TEST-NET-3 (documentation), not private
 	}
@@ -203,7 +203,7 @@ func TestPublicURLSnapshot_Middleware_InvokesNext(t *testing.T) {
 	})
 
 	req := httptest.NewRequest(http.MethodGet, "/health", nil)
-	req.Host = "goclaw.tamgiac.com"
+	req.Host = "zalosclaw.tamgiac.com"
 	req.Header.Set("X-Forwarded-Proto", "https")
 	rec := httptest.NewRecorder()
 
@@ -215,7 +215,7 @@ func TestPublicURLSnapshot_Middleware_InvokesNext(t *testing.T) {
 	if rec.Code != http.StatusTeapot {
 		t.Errorf("downstream status not propagated, got %d", rec.Code)
 	}
-	if got := s.Get(); got != "https://goclaw.tamgiac.com" {
+	if got := s.Get(); got != "https://zalosclaw.tamgiac.com" {
 		t.Errorf("middleware did not update snapshot, got %q", got)
 	}
 }

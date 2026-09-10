@@ -9,19 +9,19 @@ RUNTIME_DIR="/app/data/.runtime"
 # The app starts fine without .runtime; package installs will fail gracefully.
 mkdir -p "$RUNTIME_DIR/pip" "$RUNTIME_DIR/npm-global/lib" "$RUNTIME_DIR/pip-cache" "$RUNTIME_DIR/bin" || true
 
-# Fix .runtime ownership for split root/goclaw access.
+# Fix .runtime ownership for split root/zalosclaw access.
 # .runtime stays root-owned so pkg-helper (root) can write apk-packages, but the
-# group (goclaw) needs write access too: the gateway runs as goclaw and must be
+# group (zalosclaw) needs write access too: the gateway runs as zalosclaw and must be
 # able to create the github-package self-update scratch dir (.runtime/tmp) and
 # rewrite the manifest (.runtime/github-packages.json[.tmp], updates-cache.json).
 # 0750 (no group write) makes those updates fail with "permission denied"; 0770
-# keeps root ownership while letting the goclaw group write.
-# Subdirs pip/, npm-global/, pip-cache/ must be goclaw-owned for runtime installs.
-# This also handles upgrades from older images where .runtime was fully goclaw-owned.
+# keeps root ownership while letting the zalosclaw group write.
+# Subdirs pip/, npm-global/, pip-cache/ must be zalosclaw-owned for runtime installs.
+# This also handles upgrades from older images where .runtime was fully zalosclaw-owned.
 if [ "$(id -u)" = "0" ] && [ -d "$RUNTIME_DIR" ]; then
-  chown root:goclaw "$RUNTIME_DIR" 2>/dev/null || true
+  chown root:zalosclaw "$RUNTIME_DIR" 2>/dev/null || true
   chmod 0770 "$RUNTIME_DIR" 2>/dev/null || true
-  chown -R goclaw:goclaw "$RUNTIME_DIR/pip" "$RUNTIME_DIR/npm-global" "$RUNTIME_DIR/pip-cache" "$RUNTIME_DIR/bin" 2>/dev/null || true
+  chown -R zalosclaw:zalosclaw "$RUNTIME_DIR/pip" "$RUNTIME_DIR/npm-global" "$RUNTIME_DIR/pip-cache" "$RUNTIME_DIR/bin" 2>/dev/null || true
 fi
 
 # Fix workspace directory ownership: handle dirs created by root in previous
@@ -29,8 +29,8 @@ fi
 # Security: -type d = real directories only (not symlinks).
 # find default -P mode = never follow symlinks. -maxdepth 5 limits traversal.
 if [ "$(id -u)" = "0" ] && [ -d /app/workspace ]; then
-  find /app/workspace -maxdepth 5 -type d -not -user goclaw \
-    -exec chown goclaw:goclaw {} + 2>/dev/null || true
+  find /app/workspace -maxdepth 5 -type d -not -user zalosclaw \
+    -exec chown zalosclaw:zalosclaw {} + 2>/dev/null || true
 fi
 
 # Python: allow agent to pip install to writable target dir
@@ -50,7 +50,7 @@ export PATH="/app:$RUNTIME_DIR/bin:$RUNTIME_DIR/npm-global/bin:$RUNTIME_DIR/pip/
 APK_LIST="$RUNTIME_DIR/apk-packages"
 if [ "$(id -u)" = "0" ]; then
   touch "$APK_LIST" 2>/dev/null || true
-  chown root:goclaw "$APK_LIST" 2>/dev/null || true
+  chown root:zalosclaw "$APK_LIST" 2>/dev/null || true
   chmod 0640 "$APK_LIST" 2>/dev/null || true
 fi
 if [ -f "$APK_LIST" ] && [ -s "$APK_LIST" ]; then
@@ -86,14 +86,14 @@ if [ -x /app/pkg-helper ] && [ "$(id -u)" = "0" ]; then
   fi
 fi
 
-# Copy Claude CLI credentials from root-owned read-only mount to goclaw-accessible location.
+# Copy Claude CLI credentials from root-owned read-only mount to zalosclaw-accessible location.
 # /app/.claude is a symlink → /app/data/.claude (writable volume, see Dockerfile).
-# Uses su-exec to copy as goclaw user because sandbox overlay's cap_add override
+# Uses su-exec to copy as zalosclaw user because sandbox overlay's cap_add override
 # may remove CHOWN needed by install(1). umask 077 ensures file is created with 600.
 if [ -f /app/.claude-host/.credentials.json ]; then
   (mkdir -p /app/data/.claude \
     && if command -v su-exec >/dev/null 2>&1 && [ "$(id -u)" = "0" ]; then
-         su-exec goclaw sh -c 'umask 077 && cp /app/.claude-host/.credentials.json /app/data/.claude/.credentials.json'
+         su-exec zalosclaw sh -c 'umask 077 && cp /app/.claude-host/.credentials.json /app/data/.claude/.credentials.json'
        else
          ( umask 077 && cp /app/.claude-host/.credentials.json /app/data/.claude/.credentials.json )
        fi \
@@ -106,9 +106,9 @@ if [ -d /app/.claude-host ] && ! command -v claude >/dev/null 2>&1; then
 fi
 
 # Run command with privilege drop (su-exec in Docker, direct otherwise).
-run_as_goclaw() {
+run_as_zalosclaw() {
   if command -v su-exec >/dev/null 2>&1 && [ "$(id -u)" = "0" ]; then
-    exec su-exec goclaw "$@"
+    exec su-exec zalosclaw "$@"
   else
     exec "$@"
   fi
@@ -117,33 +117,33 @@ run_as_goclaw() {
 case "${1:-serve}" in
   serve)
     # Auto-upgrade (schema migrations + data hooks) before starting.
-    if [ -n "$GOCLAW_POSTGRES_DSN" ]; then
+    if [ -n "$ZALOSCLAW_POSTGRES_DSN" ]; then
       echo "Running database upgrade..."
       if command -v su-exec >/dev/null 2>&1 && [ "$(id -u)" = "0" ]; then
-        su-exec goclaw /app/goclaw upgrade || \
+        su-exec zalosclaw /app/zalosclaw upgrade || \
           echo "Upgrade warning (may already be up-to-date)"
       else
-        /app/goclaw upgrade || \
+        /app/zalosclaw upgrade || \
           echo "Upgrade warning (may already be up-to-date)"
       fi
     fi
-    run_as_goclaw /app/goclaw
+    run_as_zalosclaw /app/zalosclaw
     ;;
   upgrade)
     shift
-    run_as_goclaw /app/goclaw upgrade "$@"
+    run_as_zalosclaw /app/zalosclaw upgrade "$@"
     ;;
   migrate)
     shift
-    run_as_goclaw /app/goclaw migrate "$@"
+    run_as_zalosclaw /app/zalosclaw migrate "$@"
     ;;
   onboard)
-    run_as_goclaw /app/goclaw onboard
+    run_as_zalosclaw /app/zalosclaw onboard
     ;;
   version)
-    run_as_goclaw /app/goclaw version
+    run_as_zalosclaw /app/zalosclaw version
     ;;
   *)
-    run_as_goclaw /app/goclaw "$@"
+    run_as_zalosclaw /app/zalosclaw "$@"
     ;;
 esac

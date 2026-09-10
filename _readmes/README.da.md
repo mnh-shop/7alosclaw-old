@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="../_statics/goclaw.png" alt="GoClaw" />
+  <img src="../_statics/zalosclaw.png" alt="ZalosClaw" />
 </p>
 
-<h1 align="center">GoClaw</h1>
+<h1 align="center">ZalosClaw</h1>
 
 <p align="center"><strong>Enterprise AI Agent Platform</strong></p>
 
@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.goclaw.sh">Dokumentation</a> •
-  <a href="https://docs.goclaw.sh/#quick-start">Hurtig Start</a> •
+  <a href="https://docs.zalosclaw.sh">Dokumentation</a> •
+  <a href="https://docs.zalosclaw.sh/#quick-start">Hurtig Start</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -28,7 +28,7 @@ Single binary. Production-tested. Agents that orchestrate for you.
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License: MIT" />
 </p>
 
-**GoClaw** er en multi-agent AI-gateway, der forbinder LLM'er til dine værktøjer, kanaler og data — deployeret som en enkelt Go-binær uden runtime-afhængigheder. Den orkestrerer agent-teams og inter-agent-delegering på tværs af 20+ LLM-udbydere med fuld multi-tenant-isolation.
+**ZalosClaw** er en multi-agent AI-gateway, der forbinder LLM'er til dine værktøjer, kanaler og data — deployeret som en enkelt Go-binær uden runtime-afhængigheder. Den orkestrerer agent-teams og inter-agent-delegering på tværs af 20+ LLM-udbydere med fuld multi-tenant-isolation.
 
 En Go-port af [OpenClaw](https://github.com/openclaw/openclaw) med forbedret sikkerhed, multi-tenant PostgreSQL og produktionsklar observabilitet.
 
@@ -80,7 +80,7 @@ En Go-port af [OpenClaw](https://github.com/openclaw/openclaw) med forbedret sik
 
 ## Claw-økosystemet
 
-|                 | OpenClaw        | ZeroClaw | PicoClaw | **GoClaw**                              |
+|                 | OpenClaw        | ZeroClaw | PicoClaw | **ZalosClaw**                              |
 | --------------- | --------------- | -------- | -------- | --------------------------------------- |
 | Sprog           | TypeScript      | Rust     | Go       | **Go**                                  |
 | Binær størrelse | 28 MB + Node.js | 3.4 MB   | ~8 MB    | **~25 MB** (basis) / **~36 MB** (+ OTel) |
@@ -89,7 +89,7 @@ En Go-port af [OpenClaw](https://github.com/openclaw/openclaw) med forbedret sik
 | Opstart         | > 5 s           | < 10 ms  | < 1 s    | **< 1 s**                               |
 | Målhardware     | $599+ Mac Mini  | $10 edge | $10 edge | **$5 VPS+**                             |
 
-| Funktion                   | OpenClaw                             | ZeroClaw                                     | PicoClaw                              | **GoClaw**                     |
+| Funktion                   | OpenClaw                             | ZeroClaw                                     | PicoClaw                              | **ZalosClaw**                     |
 | -------------------------- | ------------------------------------ | -------------------------------------------- | ------------------------------------- | ------------------------------ |
 | Multi-tenant (PostgreSQL)  | —                                    | —                                            | —                                     | ✅                             |
 | MCP-integration            | — (bruger ACP)                       | —                                            | —                                     | ✅ (stdio/SSE/streamable-http) |
@@ -110,7 +110,7 @@ En Go-port af [OpenClaw](https://github.com/openclaw/openclaw) med forbedret sik
 ## Arkitektur
 
 <p align="center">
-  <img src="../_statics/architecture.jpg" alt="GoClaw Architecture" width="800" />
+  <img src="../_statics/architecture.jpg" alt="ZalosClaw Architecture" width="800" />
 </p>
 
 ## Hurtig Start
@@ -120,10 +120,10 @@ En Go-port af [OpenClaw](https://github.com/openclaw/openclaw) med forbedret sik
 ### Fra Kildekode
 
 ```bash
-git clone https://github.com/nextlevelbuilder/goclaw.git && cd goclaw
+git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
 make build
-./goclaw onboard        # Interaktiv opsætningsguide
-source .env.local && ./goclaw
+./zalosclaw onboard        # Interaktiv opsætningsguide
+source .env.local && ./zalosclaw
 ```
 
 ### Med Docker
@@ -132,20 +132,20 @@ source .env.local && ./goclaw
 # Generer .env med auto-genererede hemmeligheder
 chmod +x prepare-env.sh && ./prepare-env.sh
 
-# Tilføj mindst én GOCLAW_*_API_KEY til .env, derefter:
+# Tilføj mindst én ZALOSCLAW_*_API_KEY til .env, derefter:
 make up
 
 # Web Dashboard på http://localhost:18790
 # Sundhedstjek: curl http://localhost:18790/health
 ```
 
-Når `GOCLAW_*_API_KEY`-miljøvariabler er sat, onboarder gatewayen automatisk uden interaktive prompter — registrerer udbyder, kører migrationer og seeder standarddata.
+Når `ZALOSCLAW_*_API_KEY`-miljøvariabler er sat, onboarder gatewayen automatisk uden interaktive prompter — registrerer udbyder, kører migrationer og seeder standarddata.
 
-> For build-varianter (OTel, Tailscale, Redis), Docker-image-tags og compose-overlays, se [Deployeringsguide](https://docs.goclaw.sh/#deploy-docker-compose).
+> For build-varianter (OTel, Tailscale, Redis), Docker-image-tags og compose-overlays, se [Deployeringsguide](https://docs.zalosclaw.sh/#deploy-docker-compose).
 
 ## Multi-Agent-orkestrering
 
-GoClaw understøtter agent-teams og inter-agent-delegering — hver agent kører med sin egen identitet, værktøjer, LLM-udbyder og kontekstfiler.
+ZalosClaw understøtter agent-teams og inter-agent-delegering — hver agent kører med sin egen identitet, værktøjer, LLM-udbyder og kontekstfiler.
 
 ### Agent-delegering
 
@@ -170,7 +170,7 @@ Agenter kommunikerer via eksplicitte **tilladelseslinks** med retningskontrol (`
 - **Team-postkasse** — Direkte peer-to-peer-beskeder og broadcasts
 - **Værktøjer**: `team_tasks` til opgavestyring, `team_message` til postkassen
 
-> For delegationsdetaljer, tilladelseslinks og samtidige begrænsninger, se [Agent Teams-dokumentationen](https://docs.goclaw.sh/#teams-what-are-teams).
+> For delegationsdetaljer, tilladelseslinks og samtidige begrænsninger, se [Agent Teams-dokumentationen](https://docs.zalosclaw.sh/#teams-what-are-teams).
 
 ## Indbyggede Værktøjer
 
@@ -214,19 +214,19 @@ Agenter kommunikerer via eksplicitte **tilladelseslinks** med retningskontrol (`
 
 ## Dokumentation
 
-Fuld dokumentation på **[docs.goclaw.sh](https://docs.goclaw.sh)** — eller gennemse kilden i [`goclaw-docs/`](https://github.com/nextlevelbuilder/goclaw-docs)
+Fuld dokumentation på **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** — eller gennemse kilden i [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
 
 | Sektion | Emner |
 |---------|-------|
-| [Kom i gang](https://docs.goclaw.sh/#what-is-goclaw) | Installation, Hurtig Start, Konfiguration, Web Dashboard-rundvisning |
-| [Kernebegreber](https://docs.goclaw.sh/#how-goclaw-works) | Agent Loop, Sessioner, Værktøjer, Hukommelse, Multi-Tenancy |
-| [Agenter](https://docs.goclaw.sh/#creating-agents) | Opret agenter, Kontekstfiler, Personlighed, Deling og adgang |
-| [Udbydere](https://docs.goclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 flere |
-| [Kanaler](https://docs.goclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Agent-teams](https://docs.goclaw.sh/#teams-what-are-teams) | Teams, Opgavetavle, Beskeder, Delegering og overdragelse |
-| [Avanceret](https://docs.goclaw.sh/#custom-tools) | Brugerdefinerede værktøjer, MCP, Skills, Cron, Sandkasse, Hooks, RBAC |
-| [Deployering](https://docs.goclaw.sh/#deploy-docker-compose) | Docker Compose, Database, Sikkerhed, Observabilitet, Tailscale |
-| [Reference](https://docs.goclaw.sh/#cli-commands) | CLI-kommandoer, REST API, WebSocket-protokol, Miljøvariabler |
+| [Kom i gang](https://docs.zalosclaw.sh/#what-is-zalosclaw) | Installation, Hurtig Start, Konfiguration, Web Dashboard-rundvisning |
+| [Kernebegreber](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Agent Loop, Sessioner, Værktøjer, Hukommelse, Multi-Tenancy |
+| [Agenter](https://docs.zalosclaw.sh/#creating-agents) | Opret agenter, Kontekstfiler, Personlighed, Deling og adgang |
+| [Udbydere](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 flere |
+| [Kanaler](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Agent-teams](https://docs.zalosclaw.sh/#teams-what-are-teams) | Teams, Opgavetavle, Beskeder, Delegering og overdragelse |
+| [Avanceret](https://docs.zalosclaw.sh/#custom-tools) | Brugerdefinerede værktøjer, MCP, Skills, Cron, Sandkasse, Hooks, RBAC |
+| [Deployering](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, Database, Sikkerhed, Observabilitet, Tailscale |
+| [Reference](https://docs.zalosclaw.sh/#cli-commands) | CLI-kommandoer, REST API, WebSocket-protokol, Miljøvariabler |
 
 ## Test
 
@@ -241,7 +241,7 @@ Se [CHANGELOG.md](CHANGELOG.md) for detaljeret funktionsstatus, herunder hvad de
 
 ## Anerkendelser
 
-GoClaw er bygget på det originale [OpenClaw](https://github.com/openclaw/openclaw)-projekt. Vi er taknemmelige for den arkitektur og vision, der inspirerede denne Go-port.
+ZalosClaw er bygget på det originale [OpenClaw](https://github.com/openclaw/openclaw)-projekt. Vi er taknemmelige for den arkitektur og vision, der inspirerede denne Go-port.
 
 ## Licens
 

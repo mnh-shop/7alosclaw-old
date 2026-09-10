@@ -1,7 +1,7 @@
-# GoClaw Lite (Desktop) installer for Windows
+# ZalosClaw Lite (Desktop) installer for Windows
 #
 # Usage:
-#   irm https://raw.githubusercontent.com/nextlevelbuilder/goclaw/main/scripts/install-lite.ps1 | iex
+#   irm https://raw.githubusercontent.com/nextlevelbuilder/zalosclaw/main/scripts/install-lite.ps1 | iex
 #   .\install-lite.ps1 -Version lite-v0.1.0
 
 param([string]$Version = "")
@@ -16,8 +16,8 @@ function Exit-WithPause {
     try { $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown") } catch { Start-Sleep -Seconds 5 }
     exit $Code
 }
-$Repo = "nextlevelbuilder/goclaw"
-$InstallDir = Join-Path $env:LOCALAPPDATA "GoClaw Lite"
+$Repo = "nextlevelbuilder/zalosclaw"
+$InstallDir = Join-Path $env:LOCALAPPDATA "ZalosClaw Lite"
 
 # ── Resolve version ──
 if (-not $Version) {
@@ -39,10 +39,10 @@ if (-not $Version) {
 }
 
 $Semver = $Version -replace "^lite-v", ""
-Write-Host "-> Installing GoClaw Lite v$Semver..." -ForegroundColor Cyan
+Write-Host "-> Installing ZalosClaw Lite v$Semver..." -ForegroundColor Cyan
 
 # ── Download ──
-$Asset = "goclaw-lite-$Semver-windows-amd64.zip"
+$Asset = "zalosclaw-lite-$Semver-windows-amd64.zip"
 $Url = "https://github.com/$Repo/releases/download/$Version/$Asset"
 $TmpZip = Join-Path $env:TEMP $Asset
 
@@ -62,11 +62,11 @@ Expand-Archive -Path $TmpZip -DestinationPath $InstallDir -Force
 Remove-Item $TmpZip -Force -ErrorAction SilentlyContinue
 
 # ── Create Start Menu shortcut ──
-$ExePath = Join-Path $InstallDir "goclaw-lite.exe"
+$ExePath = Join-Path $InstallDir "zalosclaw-lite.exe"
 if (Test-Path $ExePath) {
     try {
         $StartMenu = [Environment]::GetFolderPath("StartMenu")
-        $ShortcutPath = Join-Path $StartMenu "Programs\GoClaw Lite.lnk"
+        $ShortcutPath = Join-Path $StartMenu "Programs\ZalosClaw Lite.lnk"
         $Shell = New-Object -ComObject WScript.Shell
         $Shortcut = $Shell.CreateShortcut($ShortcutPath)
         $Shortcut.TargetPath = $ExePath
@@ -80,9 +80,9 @@ if (Test-Path $ExePath) {
 
 # ── Done ──
 Write-Host ""
-Write-Host "GoClaw Lite v$Semver installed!" -ForegroundColor Green
+Write-Host "ZalosClaw Lite v$Semver installed!" -ForegroundColor Green
 Write-Host "  Location: $InstallDir" -ForegroundColor Gray
 Write-Host ""
-Write-Host "-> Launching GoClaw Lite..."
+Write-Host "-> Launching ZalosClaw Lite..."
 if (Test-Path $ExePath) { Start-Process $ExePath }
 Exit-WithPause 0

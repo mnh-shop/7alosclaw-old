@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-// TestParseEntityContext_TableDriven covers every chat surface goclaw currently
+// TestParseEntityContext_TableDriven covers every chat surface zalosclaw currently
 // receives from a tamgiac.bitrix24.com portal (verified via raw webhook dumps)
 // plus a handful of malformed-input cases so future Bitrix schema drift does
 // not crash the handler. Each row asserts on the produced metadata map — the
@@ -134,12 +134,12 @@ func TestParseEntityContext_TableDriven(t *testing.T) {
 			params: EventParams{
 				ChatEntityType: "TASKS_TASK",
 				ChatEntityID:   "2794",
-				ChatTitle:      "Tích hợp channel bitrix24 vào goclaw",
+				ChatTitle:      "Tích hợp channel bitrix24 vào zalosclaw",
 				ChatType:       "X",
 			},
 			wantOK: true,
 			wantKeys: map[string]string{
-				MetaKeyChatTitle: "Tích hợp channel bitrix24 vào goclaw",
+				MetaKeyChatTitle: "Tích hợp channel bitrix24 vào zalosclaw",
 				MetaKeyChatType:  "X",
 				MetaKeyTaskID:    "2794",
 			},

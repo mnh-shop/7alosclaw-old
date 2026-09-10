@@ -1,6 +1,6 @@
 package hooks
 
-import "github.com/nextlevelbuilder/goclaw/internal/edition"
+import "github.com/nextlevelbuilder/zalosclaw/internal/edition"
 
 // HookEditionPolicy is a pure-function policy gate applied at BOTH config
 // validation time AND at dispatcher fire time (defense-in-depth).

@@ -17,7 +17,7 @@ Red-team review found the plan was unexecutable as written. Two fabricated API m
 
 ### Shipped contracts
 
-- **POST /v1/webhooks/message**: Send text + media to channel. HMAC-SHA256 auth (X-GoClaw-Signature t=,v1=) + bearer token. Rate limit: per-webhook bucket (token refill 10/sec) + per-tenant global bucket (100/sec). Returns `{webhook_id, call_id}` immediately.
+- **POST /v1/webhooks/message**: Send text + media to channel. HMAC-SHA256 auth (X-ZalosClaw-Signature t=,v1=) + bearer token. Rate limit: per-webhook bucket (token refill 10/sec) + per-tenant global bucket (100/sec). Returns `{webhook_id, call_id}` immediately.
 - **POST /v1/webhooks/llm**: Sync (wait for response, 30s timeout) or async (return call_id, deliver result to callback_url). Request body capped 1 MB; metadata capped 8 KB. HMAC + tenant-admin auth gate.
 - Callback delivery: exponential backoff [30s, 2m, 10m, 1h, 6h] ±10% jitter, 5 attempts max. Outbound headers carry `X-Webhook-Delivery-Id` (stable across retries) for receiver-side dedupe. Claim uses FOR UPDATE SKIP LOCKED (PG) / BEGIN IMMEDIATE (SQLite).
 

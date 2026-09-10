@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/nextlevelbuilder/goclaw/internal/agent"
+	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
 )
 
 // TestAgentChatRunner_Send_UnknownAgent_ReturnsWrappedError exercises the

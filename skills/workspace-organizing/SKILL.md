@@ -1,9 +1,9 @@
 ---
 name: workspace-organizing
 description: Use whenever the agent creates, writes, moves, or renames a file in a team/delegate (shared) workspace, OR when the user asks to organize, clean up, restructure, audit, or find files in any workspace or the Vault, OR when starting a multi-file task or named project. Enforces a purpose-based folder convention (flat mode: notes/, data/, outputs/, scripts/, archive/; project mode: projects/<slug>/{docs,assets,source,reports,research}/), per-agent namespacing under shared/<agent_key>/, and pre-write discovery via memory_search, vault_search, knowledge_graph_search to surface related files and avoid duplicates. Trigger before any write_file or exec at workspace root, when starting a project, generating reports/assets/exports, delegating, or when the user says "messy", "where did I save", "tổ chức lại", "dọn workspace", "tạo report", "find related", "search vault". Do NOT trigger for read-only ops, edits inside an existing project tree (cloned repo), or short-lived files deleted in the same turn.
-license: Proprietary. Part of GoClaw bundled skills.
+license: Proprietary. Part of ZalosClaw bundled skills.
 metadata:
-  author: GoClaw
+  author: ZalosClaw
   version: "1.2.0"
 ---
 
@@ -148,7 +148,7 @@ When the user says "save this to my vault" / "lưu vào vault", interpret it as:
 
 ## Tool Behavior: `deliver` Flag
 
-When the file-write tool exposes a `deliver` boolean (GoClaw filesystem tools):
+When the file-write tool exposes a `deliver` boolean (ZalosClaw filesystem tools):
 
 - `deliver=true` → only for files the user should receive/see. Belongs in `outputs/`, `projects/<slug>/reports/`, or `projects/<slug>/assets/` (when the asset is the deliverable)
 - `deliver=false` → everything in `notes/`, `data/`, `scripts/`, `tmp/`, `logs/`, `research/`, `source/`, `docs/`

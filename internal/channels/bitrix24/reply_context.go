@@ -10,8 +10,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels/media"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/media"
 )
 
 // quotedTextMaxRunes caps how much of a quoted text message we inline into the

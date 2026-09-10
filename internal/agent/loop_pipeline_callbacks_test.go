@@ -10,11 +10,11 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/pipeline"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/pipeline"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 type finalThinkingStreamProvider struct{}
@@ -224,8 +224,8 @@ func TestPromptCacheOptionsHelpers(t *testing.T) {
 	if key1 == key3 {
 		t.Fatal("defaultPromptCacheKey should vary by session")
 	}
-	if !strings.HasPrefix(key1, "goclaw/") {
-		t.Fatalf("defaultPromptCacheKey = %q, want goclaw/ prefix", key1)
+	if !strings.HasPrefix(key1, "zalosclaw/") {
+		t.Fatalf("defaultPromptCacheKey = %q, want zalosclaw/ prefix", key1)
 	}
 
 	opts := map[string]any{}

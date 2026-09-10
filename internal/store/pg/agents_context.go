@@ -12,8 +12,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // --- Agent-level Context Files ---
@@ -219,7 +219,7 @@ func (s *PGAgentStore) MigrateUserDataOnMerge(ctx context.Context, oldUserIDs []
 
 func (s *PGAgentStore) GetOrCreateUserProfile(ctx context.Context, agentID uuid.UUID, userID, workspace, channel string) (bool, string, error) {
 	// Build workspace with channel segment for isolation.
-	// Store in portable ~ form (e.g. "~/.goclaw/agent-ws/telegram").
+	// Store in portable ~ form (e.g. "~/.zalosclaw/agent-ws/telegram").
 	effectiveWs := config.ContractHome(workspace)
 	if channel != "" {
 		effectiveWs = filepath.Join(effectiveWs, channel)

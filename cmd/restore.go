@@ -9,9 +9,9 @@ import (
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/spf13/cobra"
 
-	"github.com/nextlevelbuilder/goclaw/internal/backup"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/store/pg"
+	"github.com/nextlevelbuilder/zalosclaw/internal/backup"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
 )
 
 func restoreCmd() *cobra.Command {
@@ -27,7 +27,7 @@ func restoreCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "restore [archive-path]",
 		Short: "Restore system from a backup archive (database + filesystem)",
-		Long: `Restores GoClaw from a .tar.gz backup archive produced by 'goclaw backup'.
+		Long: `Restores ZalosClaw from a .tar.gz backup archive produced by 'zalosclaw backup'.
 
 WARNING: This is a destructive operation. The database will be overwritten.
 Requires --force flag to proceed. Stop the gateway before restoring.
@@ -139,7 +139,7 @@ Use --from-s3 <key> to download and restore from S3.`,
 			}
 
 			if result.DatabaseRestored {
-				fmt.Println("\nNext steps: run 'goclaw migrate up' if schema version was older than current.")
+				fmt.Println("\nNext steps: run 'zalosclaw migrate up' if schema version was older than current.")
 			}
 			return nil
 		},
@@ -158,7 +158,7 @@ Use --from-s3 <key> to download and restore from S3.`,
 // loadS3Client opens the DB, reads S3 config from config_secrets, and returns a client.
 func loadS3Client(ctx context.Context, cfg *config.Config) (*backup.S3Client, error) {
 	if cfg.Database.PostgresDSN == "" {
-		return nil, fmt.Errorf("postgres DSN not configured; set GOCLAW_POSTGRES_DSN")
+		return nil, fmt.Errorf("postgres DSN not configured; set ZALOSCLAW_POSTGRES_DSN")
 	}
 	db, err := sql.Open("pgx", cfg.Database.PostgresDSN)
 	if err != nil {
@@ -166,7 +166,7 @@ func loadS3Client(ctx context.Context, cfg *config.Config) (*backup.S3Client, er
 	}
 	defer db.Close()
 
-	encKey := os.Getenv("GOCLAW_ENCRYPTION_KEY")
+	encKey := os.Getenv("ZALOSCLAW_ENCRYPTION_KEY")
 	secrets := pg.NewPGConfigSecretsStore(db, encKey)
 
 	s3cfg, err := backup.LoadS3Config(ctx, secrets)
@@ -212,7 +212,7 @@ func downloadFromS3(ctx context.Context, cfg *config.Config, key string) (string
 		return "", err
 	}
 
-	tmp, err := os.CreateTemp("", "goclaw-s3-restore-*.tar.gz")
+	tmp, err := os.CreateTemp("", "zalosclaw-s3-restore-*.tar.gz")
 	if err != nil {
 		return "", fmt.Errorf("create temp file: %w", err)
 	}

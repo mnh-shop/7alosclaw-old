@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func TestAgentLinkMaxConcurrentSchemaIsCompatibilityMetadata(t *testing.T) {
@@ -14,8 +14,8 @@ func TestAgentLinkMaxConcurrentSchemaIsCompatibilityMetadata(t *testing.T) {
 	registerAgentLinkCRUDTools(srv, links)
 
 	for _, toolName := range []string{
-		"goclaw_agent_links_create",
-		"goclaw_agent_links_update",
+		"zalosclaw_agent_links_create",
+		"zalosclaw_agent_links_update",
 	} {
 		registered := srv.GetTool(toolName)
 		if registered == nil {

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // isTransientFailureMessage reports whether an agent run failure string is a

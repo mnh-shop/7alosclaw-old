@@ -38,7 +38,7 @@ Do not add `qwen3.7-plus` to `internal/providers/reasoning_capability.go`: `Open
 1. Add `qwen3.7-plus` near the current Qwen Plus entries in `bailianModels()`.
 2. Add concise inline catalog grouping that records Bailian capabilities for Qwen Plus models.
 3. Update `docs/02-providers.md` Bailian section with the new model and capability row.
-4. Update `docs/12-extended-thinking.md` to clarify Bailian advertises Deep Thinking for `qwen3.7-plus`, but GoClaw does not inject DashScope `enable_thinking` controls for Bailian in this change.
+4. Update `docs/12-extended-thinking.md` to clarify Bailian advertises Deep Thinking for `qwen3.7-plus`, but ZalosClaw does not inject DashScope `enable_thinking` controls for Bailian in this change.
 
 ## Success Criteria
 

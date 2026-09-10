@@ -5,7 +5,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func (h *UsageHandler) aggregateTimeSeriesWithLive(r *http.Request, q store.SnapshotQuery, now time.Time) usageSummary {

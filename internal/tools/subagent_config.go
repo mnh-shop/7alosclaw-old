@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-// DefaultSubagentConfig returns GoClaw's runtime defaults. Per-root admission is
+// DefaultSubagentConfig returns ZalosClaw's runtime defaults. Per-root admission is
 // independent from the Standard/Lite process safety cap.
 func DefaultSubagentConfig() SubagentConfig {
 	return SubagentConfig{

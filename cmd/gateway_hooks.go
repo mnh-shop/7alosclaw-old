@@ -4,16 +4,16 @@ import (
 	"os"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/edition"
-	"github.com/nextlevelbuilder/goclaw/internal/hooks"
-	"github.com/nextlevelbuilder/goclaw/internal/hooks/budget"
-	hookhandlers "github.com/nextlevelbuilder/goclaw/internal/hooks/handlers"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/security"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/store/pg"
-	usagecaps "github.com/nextlevelbuilder/goclaw/internal/usage/caps"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
+	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
+	"github.com/nextlevelbuilder/zalosclaw/internal/hooks/budget"
+	hookhandlers "github.com/nextlevelbuilder/zalosclaw/internal/hooks/handlers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
+	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
 )
 
 // sharedHookHandlers is populated by wireExtras so the gateway.go router
@@ -29,7 +29,7 @@ var sharedHookHandlers map[hooks.HandlerType]hooks.Handler
 // to pg.NewPGHookBudget so token spend is atomically deducted per tenant.
 // When the DB handle is unavailable, budget falls back to nil (Lite desktop).
 func buildHookHandlers(stores *store.Stores, providerReg *providers.Registry, hooksCfg config.HooksConfig, usageCapSvc *usagecaps.Service) map[hooks.HandlerType]hooks.Handler {
-	encryptKey := os.Getenv("GOCLAW_ENCRYPTION_KEY")
+	encryptKey := os.Getenv("ZALOSCLAW_ENCRYPTION_KEY")
 
 	var budgetStore *budget.Store
 	if stores != nil && stores.DB != nil {

@@ -14,7 +14,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
 )
 
 // TestWriteFileDeliverTrue_PopulatesResultMedia asserts that write_file with

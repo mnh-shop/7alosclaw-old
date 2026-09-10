@@ -7,8 +7,8 @@ import (
 	"log/slog"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 const maxTruncRetries = 3

@@ -12,9 +12,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/crypto"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/store/pg"
+	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
 )
 
 // TestGrantEnv_SetAndReveal verifies that UpdateGrantEnv stores encrypted env
@@ -100,7 +100,7 @@ func TestGrantEnv_DenylistRejection(t *testing.T) {
 		{"PATH", true},
 		{"LD_PRELOAD", true},
 		{"DYLD_INSERT_LIBRARIES", true},
-		{"GOCLAW_SECRET", true},
+		{"ZALOSCLAW_SECRET", true},
 		{"MY_TOKEN", false},
 		{"AWS_ACCESS_KEY_ID", false},
 		{"NODE_OPTIONS", true},

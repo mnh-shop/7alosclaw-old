@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/cache"
+	"github.com/nextlevelbuilder/zalosclaw/internal/cache"
 )
 
 // mockContactStore records every UpsertContact call for assertion.

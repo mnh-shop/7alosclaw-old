@@ -74,7 +74,7 @@ func TestExpandHome(t *testing.T) {
 func TestContractHome(t *testing.T) {
 	home, _ := os.UserHomeDir()
 
-	contracted := ContractHome(filepath.Join(home, "projects", "goclaw"))
+	contracted := ContractHome(filepath.Join(home, "projects", "zalosclaw"))
 	if !strings.HasPrefix(contracted, "~") {
 		t.Errorf("ContractHome should start with ~, got %q", contracted)
 	}
@@ -162,8 +162,8 @@ func TestResolveDefaultAgentID_Explicit(t *testing.T) {
 func TestResolveDisplayName_Default(t *testing.T) {
 	cfg := Default()
 	got := cfg.ResolveDisplayName("nonexistent")
-	if got != "GoClaw" {
-		t.Errorf("expected GoClaw fallback, got %q", got)
+	if got != "ZalosClaw" {
+		t.Errorf("expected ZalosClaw fallback, got %q", got)
 	}
 }
 
@@ -357,29 +357,29 @@ func TestSaveLoad_RoundTrip(t *testing.T) {
 
 func TestConfigExtras_CloneAndReplaceFrom(t *testing.T) {
 	src := Default()
-	src.Branding = BrandingConfig{AppName: "Custom GoClaw", ThemeColor: "#123456"}
+	src.Branding = BrandingConfig{AppName: "Custom ZalosClaw", ThemeColor: "#123456"}
 
 	clone := src.Clone()
-	if clone.Branding.AppName != "Custom GoClaw" || clone.Branding.ThemeColor != "#123456" {
+	if clone.Branding.AppName != "Custom ZalosClaw" || clone.Branding.ThemeColor != "#123456" {
 		t.Fatalf("Clone branding = %#v", clone.Branding)
 	}
 
 	dst := Default()
 	dst.ReplaceFrom(src)
-	if dst.Branding.AppName != "Custom GoClaw" || dst.Branding.ThemeColor != "#123456" {
+	if dst.Branding.AppName != "Custom ZalosClaw" || dst.Branding.ThemeColor != "#123456" {
 		t.Fatalf("ReplaceFrom branding = %#v", dst.Branding)
 	}
 }
 
-// --- Env fallback: GOCLAW_PROVIDER / GOCLAW_MODEL only used when config is empty ---
+// --- Env fallback: ZALOSCLAW_PROVIDER / ZALOSCLAW_MODEL only used when config is empty ---
 
 func TestLoad_EnvFallback_OnlyWhenEmpty(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, "cfg.json5")
 	os.WriteFile(path, []byte(`{"agents":{"defaults":{"provider":"anthropic","model":"claude-3-5"}}}`), 0644)
 
-	t.Setenv("GOCLAW_PROVIDER", "openai")
-	t.Setenv("GOCLAW_MODEL", "gpt-4o")
+	t.Setenv("ZALOSCLAW_PROVIDER", "openai")
+	t.Setenv("ZALOSCLAW_MODEL", "gpt-4o")
 
 	cfg, err := Load(path)
 	if err != nil {
@@ -391,32 +391,32 @@ func TestLoad_EnvFallback_OnlyWhenEmpty(t *testing.T) {
 	}
 }
 
-// --- Env override: GOCLAW_DATA_DIR ---
+// --- Env override: ZALOSCLAW_DATA_DIR ---
 
 func TestLoad_DataDirEnvOverride(t *testing.T) {
-	t.Setenv("GOCLAW_DATA_DIR", "/env/data")
+	t.Setenv("ZALOSCLAW_DATA_DIR", "/env/data")
 	cfg, err := Load("/nonexistent/path")
 	if err != nil {
 		t.Fatalf("load error: %v", err)
 	}
 	if cfg.DataDir != "/env/data" {
-		t.Errorf("GOCLAW_DATA_DIR not applied: got %q", cfg.DataDir)
+		t.Errorf("ZALOSCLAW_DATA_DIR not applied: got %q", cfg.DataDir)
 	}
 }
 
 // --- Telemetry env overrides ---
 
 func TestLoad_TelemetryEnvOverrides(t *testing.T) {
-	t.Setenv("GOCLAW_TELEMETRY_ENABLED", "true")
-	t.Setenv("GOCLAW_TELEMETRY_ENDPOINT", "localhost:4317")
-	t.Setenv("GOCLAW_TELEMETRY_PROTOCOL", "grpc")
+	t.Setenv("ZALOSCLAW_TELEMETRY_ENABLED", "true")
+	t.Setenv("ZALOSCLAW_TELEMETRY_ENDPOINT", "localhost:4317")
+	t.Setenv("ZALOSCLAW_TELEMETRY_PROTOCOL", "grpc")
 
 	cfg, err := Load("/nonexistent/path")
 	if err != nil {
 		t.Fatalf("load error: %v", err)
 	}
 	if !cfg.Telemetry.Enabled {
-		t.Error("GOCLAW_TELEMETRY_ENABLED=true should enable telemetry")
+		t.Error("ZALOSCLAW_TELEMETRY_ENABLED=true should enable telemetry")
 	}
 	if cfg.Telemetry.Endpoint != "localhost:4317" {
 		t.Errorf("telemetry endpoint: got %q", cfg.Telemetry.Endpoint)
@@ -426,9 +426,9 @@ func TestLoad_TelemetryEnvOverrides(t *testing.T) {
 // --- Sandbox env overrides ---
 
 func TestLoad_SandboxEnvOverrides(t *testing.T) {
-	t.Setenv("GOCLAW_SANDBOX_MODE", "all")
-	t.Setenv("GOCLAW_SANDBOX_IMAGE", "my-sandbox:latest")
-	t.Setenv("GOCLAW_SANDBOX_MEMORY_MB", "1024")
+	t.Setenv("ZALOSCLAW_SANDBOX_MODE", "all")
+	t.Setenv("ZALOSCLAW_SANDBOX_IMAGE", "my-sandbox:latest")
+	t.Setenv("ZALOSCLAW_SANDBOX_MEMORY_MB", "1024")
 
 	cfg, err := Load("/nonexistent/path")
 	if err != nil {
@@ -492,7 +492,7 @@ func TestSandboxConfig_ToSandboxConfig_AllModes(t *testing.T) {
 // --- Channel auto-enable ---
 
 func TestLoad_ChannelAutoEnable_Telegram(t *testing.T) {
-	t.Setenv("GOCLAW_TELEGRAM_TOKEN", "bot123:abc")
+	t.Setenv("ZALOSCLAW_TELEGRAM_TOKEN", "bot123:abc")
 
 	cfg, err := Load("/nonexistent/path")
 	if err != nil {
@@ -507,8 +507,8 @@ func TestLoad_ChannelAutoEnable_Telegram(t *testing.T) {
 }
 
 func TestLoad_ChannelAutoEnable_Slack(t *testing.T) {
-	t.Setenv("GOCLAW_SLACK_BOT_TOKEN", "xoxb-bot")
-	t.Setenv("GOCLAW_SLACK_APP_TOKEN", "xapp-app")
+	t.Setenv("ZALOSCLAW_SLACK_BOT_TOKEN", "xoxb-bot")
+	t.Setenv("ZALOSCLAW_SLACK_APP_TOKEN", "xapp-app")
 
 	cfg, err := Load("/nonexistent/path")
 	if err != nil {

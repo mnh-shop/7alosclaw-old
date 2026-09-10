@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
 )
 
 // fakeSecretsStore is a minimal in-memory store.ConfigSecretsStore.
@@ -41,7 +41,7 @@ func TestVoicesList_NilCache(t *testing.T) {
 	srv := newTestMCPServer()
 	registerVoicesCRUDTools(srv, nil, nil)
 
-	result := callTool(t, srv, "goclaw_voices_list", map[string]any{})
+	result := callTool(t, srv, "zalosclaw_voices_list", map[string]any{})
 	assert.True(t, toolIsError(result))
 	assert.Contains(t, toolResultText(result), "voice cache not available")
 }
@@ -52,7 +52,7 @@ func TestVoicesList_NoAPIKeyConfigured(t *testing.T) {
 	srv := newTestMCPServer()
 	registerVoicesCRUDTools(srv, cache, secrets)
 
-	result := callTool(t, srv, "goclaw_voices_list", map[string]any{})
+	result := callTool(t, srv, "zalosclaw_voices_list", map[string]any{})
 	assert.True(t, toolIsError(result))
 	assert.Contains(t, toolResultText(result), "API key not found")
 }
@@ -63,7 +63,7 @@ func TestVoicesList_UnsupportedProvider(t *testing.T) {
 	srv := newTestMCPServer()
 	registerVoicesCRUDTools(srv, cache, secrets)
 
-	result := callTool(t, srv, "goclaw_voices_list", map[string]any{"provider": "unsupported-tts"})
+	result := callTool(t, srv, "zalosclaw_voices_list", map[string]any{"provider": "unsupported-tts"})
 	assert.True(t, toolIsError(result))
 	assert.Contains(t, toolResultText(result), "unsupported voice provider")
 }
@@ -72,7 +72,7 @@ func TestVoicesRefresh_NilCache(t *testing.T) {
 	srv := newTestMCPServer()
 	registerVoicesCRUDTools(srv, nil, nil)
 
-	result := callTool(t, srv, "goclaw_voices_refresh", map[string]any{})
+	result := callTool(t, srv, "zalosclaw_voices_refresh", map[string]any{})
 	assert.True(t, toolIsError(result))
 	require.Contains(t, toolResultText(result), "voice cache not available")
 }

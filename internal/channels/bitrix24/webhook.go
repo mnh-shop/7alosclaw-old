@@ -12,8 +12,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/crypto"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // bitrix24LogRawEvent is an opt-in debug switch. When set (env
@@ -179,7 +179,7 @@ func (r *Router) handleInstall(w http.ResponseWriter, req *http.Request) {
 		// without weakening the real-install error path: a POST without
 		// proper params is still a bad install attempt and gets 400.
 		if req.Method == http.MethodGet {
-			renderBitrixPlaceholder(w, "GoClaw — Bitrix24 Install Endpoint",
+			renderBitrixPlaceholder(w, "ZalosClaw — Bitrix24 Install Endpoint",
 				"This URL is invoked by Bitrix24 during application installation.")
 			return
 		}
@@ -641,7 +641,7 @@ func renderBitrixPlaceholder(w http.ResponseWriter, title, body string) {
 }
 
 // handleAppPage serves /bitrix24/handler — the URL Bitrix24 iframe-loads
-// when a user opens the GoClaw app inside their portal interface, AND the
+// when a user opens the ZalosClaw app inside their portal interface, AND the
 // fixed "Application URL" Bitrix redirects to after a Local App user
 // completes (or declines) the OAuth per-user re-authorization flow
 // (oauth_state_codec.go BuildUserAuthorizeURL, handle.go sendOAuthInvite) —
@@ -670,6 +670,6 @@ func (r *Router) handleAppPage(w http.ResponseWriter, req *http.Request) {
 		}
 	}
 	renderBitrixPlaceholder(w,
-		"GoClaw — Bitrix24 Application",
-		"This page is loaded inside Bitrix24 when a user opens the GoClaw bot application.")
+		"ZalosClaw — Bitrix24 Application",
+		"This page is loaded inside Bitrix24 when a user opens the ZalosClaw bot application.")
 }

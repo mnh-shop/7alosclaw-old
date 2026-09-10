@@ -8,8 +8,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/orchestration"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/orchestration"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func TestDrainChildRunsWithRetryReturnsTypedFailure(t *testing.T) {

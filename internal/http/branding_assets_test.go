@@ -12,7 +12,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func brandingMultipartBody(t *testing.T, filename string, content []byte) (*bytes.Buffer, string) {

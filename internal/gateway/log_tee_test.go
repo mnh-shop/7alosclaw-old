@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	runtimelogs "github.com/nextlevelbuilder/goclaw/internal/logs"
+	runtimelogs "github.com/nextlevelbuilder/zalosclaw/internal/logs"
 )
 
 func TestLogTeeAggregateIncludesWithAttrsAndGroupEntries(t *testing.T) {

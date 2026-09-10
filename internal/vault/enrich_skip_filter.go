@@ -26,7 +26,7 @@ func shouldSkipEnrichment(basename string) bool {
 	}
 
 	switch {
-	case strings.HasPrefix(stem, "goclaw_gen_"):
+	case strings.HasPrefix(stem, "zalosclaw_gen_"):
 		slog.Debug("vault.enrich: skip_generated", "file", basename)
 		return true
 	case len(stem) < 3:

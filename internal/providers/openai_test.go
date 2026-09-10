@@ -640,7 +640,7 @@ func TestBuildRequestBody_MistralDBProviderTypeDetected(t *testing.T) {
 
 func TestBuildRequestBody_OllamaDisablesThinkByDefault(t *testing.T) {
 	// Ollama thinking models (qwq, deepseek-r1) have thinking on by default.
-	// goclaw must send think=false unless the user explicitly enables thinking.
+	// zalosclaw must send think=false unless the user explicitly enables thinking.
 	cases := []struct {
 		name     string
 		provider *OpenAIProvider

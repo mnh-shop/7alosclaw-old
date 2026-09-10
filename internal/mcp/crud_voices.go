@@ -9,15 +9,15 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
-	"github.com/nextlevelbuilder/goclaw/internal/audio/elevenlabs"
-	"github.com/nextlevelbuilder/goclaw/internal/audio/minimax"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio/elevenlabs"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio/minimax"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 const voicesRequestTimeoutMS = 15000
 
-// registerVoicesCRUDTools registers goclaw_voices_{list,refresh}, backed by
+// registerVoicesCRUDTools registers zalosclaw_voices_{list,refresh}, backed by
 // the same audio.VoiceCache shared with the gateway's voices.list/refresh WS
 // methods (internal/gateway/methods/voices_list.go) and HTTP endpoints
 // (internal/http/voices.go). Provider resolution mirrors
@@ -26,13 +26,13 @@ const voicesRequestTimeoutMS = 15000
 // importing internal/http here would create a cycle) — resolves a per-tenant
 // API key from secretStore, defaulting to ElevenLabs.
 func registerVoicesCRUDTools(srv *mcpserver.MCPServer, cache *audio.VoiceCache, secretStore store.ConfigSecretsStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_voices_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_voices_list",
 		mcpgo.WithDescription("List available TTS voices for the caller's tenant (cached)."),
 		mcpgo.WithString("provider", mcpgo.Description("\"elevenlabs\" (default) or \"minimax\".")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleVoicesList(cache, secretStore))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_voices_refresh",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_voices_refresh",
 		mcpgo.WithDescription("Invalidate the voice cache and re-fetch from the TTS provider."),
 		mcpgo.WithString("provider", mcpgo.Description("\"elevenlabs\" (default) or \"minimax\".")),
 	), handleVoicesRefresh(cache, secretStore))

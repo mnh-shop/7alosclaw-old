@@ -26,8 +26,8 @@ const (
 // Idle connection pooling, overridable for deployments that raise agent-run
 // concurrency:
 //
-//	GOCLAW_HTTP_MAX_IDLE_CONNS=100
-//	GOCLAW_HTTP_MAX_IDLE_CONNS_PER_HOST=10
+//	ZALOSCLAW_HTTP_MAX_IDLE_CONNS=100
+//	ZALOSCLAW_HTTP_MAX_IDLE_CONNS_PER_HOST=10
 //
 // When nearly all traffic goes to one provider host, the per-host limit is the
 // one that binds: every concurrent request past it gets a fresh TCP+TLS
@@ -70,7 +70,7 @@ func NewDefaultTransport() *http.Transport {
 		// Raised from 180s after live evidence 2026-07-28: a reasoning model
 		// (claude-opus-5-thinking) emits nothing at all while thinking, so with a
 		// ~110k-token prompt it routinely passed 3 minutes before its first byte.
-		// GoClaw killed the connection and reported "http2: timeout awaiting
+		// ZalosClaw killed the connection and reported "http2: timeout awaiting
 		// response headers" while 9router's own usage log showed the upstream
 		// answering fine moments later (promptTokens=77194 → completionTokens=2789).
 		// The request was healthy; only this deadline was too short.
@@ -85,8 +85,8 @@ func NewDefaultTransport() *http.Transport {
 		IdleConnTimeout:       90 * time.Second, // close idle keep-alive connections
 		TLSHandshakeTimeout:   10 * time.Second,
 		ExpectContinueTimeout: 1 * time.Second,
-		MaxIdleConns:          transportEnv("GOCLAW_HTTP_MAX_IDLE_CONNS", defaultMaxIdleConns),
-		MaxIdleConnsPerHost:   transportEnv("GOCLAW_HTTP_MAX_IDLE_CONNS_PER_HOST", defaultMaxIdleConnsPerHost),
+		MaxIdleConns:          transportEnv("ZALOSCLAW_HTTP_MAX_IDLE_CONNS", defaultMaxIdleConns),
+		MaxIdleConnsPerHost:   transportEnv("ZALOSCLAW_HTTP_MAX_IDLE_CONNS_PER_HOST", defaultMaxIdleConnsPerHost),
 	}
 }
 

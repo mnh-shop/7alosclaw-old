@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
 )
 
 func TestMergeChatSendRequestsJoinsContentAndUsesLatestParams(t *testing.T) {

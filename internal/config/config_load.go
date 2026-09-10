@@ -15,7 +15,7 @@ import (
 	"github.com/titanous/json5"
 )
 
-const GatewayAllowInsecureNoAuthEnv = "GOCLAW_ALLOW_INSECURE_NO_AUTH"
+const GatewayAllowInsecureNoAuthEnv = "ZALOSCLAW_ALLOW_INSECURE_NO_AUTH"
 
 // GatewayNoAuthFallbackAllowed reports whether empty-token gateway auth may
 // run in local/dev compatibility mode.
@@ -35,7 +35,7 @@ func ValidateGatewayAuth(g GatewayConfig) error {
 	if strings.TrimSpace(g.Token) != "" || GatewayNoAuthFallbackAllowed(g) {
 		return nil
 	}
-	return fmt.Errorf("gateway token is required when GOCLAW_HOST=%q; set GOCLAW_GATEWAY_TOKEN or explicit %s=1 for local development only", g.Host, GatewayAllowInsecureNoAuthEnv)
+	return fmt.Errorf("gateway token is required when ZALOSCLAW_HOST=%q; set ZALOSCLAW_GATEWAY_TOKEN or explicit %s=1 for local development only", g.Host, GatewayAllowInsecureNoAuthEnv)
 }
 
 func insecureNoAuthOptIn() bool {
@@ -75,10 +75,10 @@ func parseEnvBool(value string) bool {
 // Default returns a Config with sensible defaults.
 func Default() *Config {
 	return &Config{
-		DataDir: "~/.goclaw/data",
+		DataDir: "~/.zalosclaw/data",
 		Agents: AgentsConfig{
 			Defaults: AgentDefaults{
-				Workspace:           "~/.goclaw/workspace",
+				Workspace:           "~/.zalosclaw/workspace",
 				RestrictToWorkspace: true,
 				Provider:            "anthropic",
 				Model:               "claude-sonnet-4-5-20250929",
@@ -155,55 +155,55 @@ func (c *Config) applyEnvOverrides() {
 			*dst = v
 		}
 	}
-	envStr("GOCLAW_ANTHROPIC_API_KEY", &c.Providers.Anthropic.APIKey)
-	envStr("GOCLAW_ANTHROPIC_BASE_URL", &c.Providers.Anthropic.APIBase)
-	envStr("GOCLAW_OPENAI_API_KEY", &c.Providers.OpenAI.APIKey)
-	envStr("GOCLAW_OPENAI_BASE_URL", &c.Providers.OpenAI.APIBase)
-	envStr("GOCLAW_ATLASCLOUD_API_KEY", &c.Providers.AtlasCloud.APIKey)
-	envStr("GOCLAW_ATLASCLOUD_BASE_URL", &c.Providers.AtlasCloud.APIBase)
-	envStr("GOCLAW_OPENROUTER_API_KEY", &c.Providers.OpenRouter.APIKey)
-	envStr("GOCLAW_GROQ_API_KEY", &c.Providers.Groq.APIKey)
-	envStr("GOCLAW_DEEPSEEK_API_KEY", &c.Providers.DeepSeek.APIKey)
-	envStr("GOCLAW_GEMINI_API_KEY", &c.Providers.Gemini.APIKey)
-	envStr("GOCLAW_MISTRAL_API_KEY", &c.Providers.Mistral.APIKey)
-	envStr("GOCLAW_XAI_API_KEY", &c.Providers.XAI.APIKey)
-	envStr("GOCLAW_MINIMAX_API_KEY", &c.Providers.MiniMax.APIKey)
-	envStr("GOCLAW_COHERE_API_KEY", &c.Providers.Cohere.APIKey)
-	envStr("GOCLAW_PERPLEXITY_API_KEY", &c.Providers.Perplexity.APIKey)
-	envStr("GOCLAW_DASHSCOPE_API_KEY", &c.Providers.DashScope.APIKey)
-	envStr("GOCLAW_BAILIAN_API_KEY", &c.Providers.Bailian.APIKey)
-	envStr("GOCLAW_ZAI_API_KEY", &c.Providers.Zai.APIKey)
-	envStr("GOCLAW_ZAI_CODING_API_KEY", &c.Providers.ZaiCoding.APIKey)
-	envStr("GOCLAW_OLLAMA_HOST", &c.Providers.Ollama.Host)
-	envStr("GOCLAW_OLLAMA_CLOUD_API_KEY", &c.Providers.OllamaCloud.APIKey)
-	envStr("GOCLAW_OLLAMA_CLOUD_API_BASE", &c.Providers.OllamaCloud.APIBase)
+	envStr("ZALOSCLAW_ANTHROPIC_API_KEY", &c.Providers.Anthropic.APIKey)
+	envStr("ZALOSCLAW_ANTHROPIC_BASE_URL", &c.Providers.Anthropic.APIBase)
+	envStr("ZALOSCLAW_OPENAI_API_KEY", &c.Providers.OpenAI.APIKey)
+	envStr("ZALOSCLAW_OPENAI_BASE_URL", &c.Providers.OpenAI.APIBase)
+	envStr("ZALOSCLAW_ATLASCLOUD_API_KEY", &c.Providers.AtlasCloud.APIKey)
+	envStr("ZALOSCLAW_ATLASCLOUD_BASE_URL", &c.Providers.AtlasCloud.APIBase)
+	envStr("ZALOSCLAW_OPENROUTER_API_KEY", &c.Providers.OpenRouter.APIKey)
+	envStr("ZALOSCLAW_GROQ_API_KEY", &c.Providers.Groq.APIKey)
+	envStr("ZALOSCLAW_DEEPSEEK_API_KEY", &c.Providers.DeepSeek.APIKey)
+	envStr("ZALOSCLAW_GEMINI_API_KEY", &c.Providers.Gemini.APIKey)
+	envStr("ZALOSCLAW_MISTRAL_API_KEY", &c.Providers.Mistral.APIKey)
+	envStr("ZALOSCLAW_XAI_API_KEY", &c.Providers.XAI.APIKey)
+	envStr("ZALOSCLAW_MINIMAX_API_KEY", &c.Providers.MiniMax.APIKey)
+	envStr("ZALOSCLAW_COHERE_API_KEY", &c.Providers.Cohere.APIKey)
+	envStr("ZALOSCLAW_PERPLEXITY_API_KEY", &c.Providers.Perplexity.APIKey)
+	envStr("ZALOSCLAW_DASHSCOPE_API_KEY", &c.Providers.DashScope.APIKey)
+	envStr("ZALOSCLAW_BAILIAN_API_KEY", &c.Providers.Bailian.APIKey)
+	envStr("ZALOSCLAW_ZAI_API_KEY", &c.Providers.Zai.APIKey)
+	envStr("ZALOSCLAW_ZAI_CODING_API_KEY", &c.Providers.ZaiCoding.APIKey)
+	envStr("ZALOSCLAW_OLLAMA_HOST", &c.Providers.Ollama.Host)
+	envStr("ZALOSCLAW_OLLAMA_CLOUD_API_KEY", &c.Providers.OllamaCloud.APIKey)
+	envStr("ZALOSCLAW_OLLAMA_CLOUD_API_BASE", &c.Providers.OllamaCloud.APIBase)
 	// Google Cloud Vertex AI (OAuth2 service account + ADC).
 	// APIKey may hold inline SA JSON; CredentialsFile is a path to SA JSON.
 	// If both empty, ADC (GOOGLE_APPLICATION_CREDENTIALS / gcloud / GCE metadata) is used.
-	envStr("GOCLAW_VERTEX_API_KEY", &c.Providers.Vertex.APIKey)
-	envStr("GOCLAW_VERTEX_CREDENTIALS_FILE", &c.Providers.Vertex.CredentialsFile)
-	envStr("GOCLAW_VERTEX_PROJECT_ID", &c.Providers.Vertex.ProjectID)
-	envStr("GOCLAW_VERTEX_REGION", &c.Providers.Vertex.Region)
-	envStr("GOCLAW_VERTEX_MODEL", &c.Providers.Vertex.Model)
-	envStr("GOCLAW_GATEWAY_TOKEN", &c.Gateway.Token)
-	envStr("GOCLAW_MCP_SERVER_TOKEN", &c.Gateway.MCPServerToken)
-	envStr("GOCLAW_TELEGRAM_TOKEN", &c.Channels.Telegram.Token)
-	envStr("GOCLAW_DISCORD_TOKEN", &c.Channels.Discord.Token)
-	envStr("GOCLAW_ZALO_TOKEN", &c.Channels.Zalo.Token)
-	envStr("GOCLAW_LARK_APP_ID", &c.Channels.Feishu.AppID)
-	envStr("GOCLAW_LARK_APP_SECRET", &c.Channels.Feishu.AppSecret)
-	envStr("GOCLAW_LARK_ENCRYPT_KEY", &c.Channels.Feishu.EncryptKey)
-	envStr("GOCLAW_LARK_VERIFICATION_TOKEN", &c.Channels.Feishu.VerificationToken)
+	envStr("ZALOSCLAW_VERTEX_API_KEY", &c.Providers.Vertex.APIKey)
+	envStr("ZALOSCLAW_VERTEX_CREDENTIALS_FILE", &c.Providers.Vertex.CredentialsFile)
+	envStr("ZALOSCLAW_VERTEX_PROJECT_ID", &c.Providers.Vertex.ProjectID)
+	envStr("ZALOSCLAW_VERTEX_REGION", &c.Providers.Vertex.Region)
+	envStr("ZALOSCLAW_VERTEX_MODEL", &c.Providers.Vertex.Model)
+	envStr("ZALOSCLAW_GATEWAY_TOKEN", &c.Gateway.Token)
+	envStr("ZALOSCLAW_MCP_SERVER_TOKEN", &c.Gateway.MCPServerToken)
+	envStr("ZALOSCLAW_TELEGRAM_TOKEN", &c.Channels.Telegram.Token)
+	envStr("ZALOSCLAW_DISCORD_TOKEN", &c.Channels.Discord.Token)
+	envStr("ZALOSCLAW_ZALO_TOKEN", &c.Channels.Zalo.Token)
+	envStr("ZALOSCLAW_LARK_APP_ID", &c.Channels.Feishu.AppID)
+	envStr("ZALOSCLAW_LARK_APP_SECRET", &c.Channels.Feishu.AppSecret)
+	envStr("ZALOSCLAW_LARK_ENCRYPT_KEY", &c.Channels.Feishu.EncryptKey)
+	envStr("ZALOSCLAW_LARK_VERIFICATION_TOKEN", &c.Channels.Feishu.VerificationToken)
 	// WhatsApp no longer needs bridge_url — runs natively via whatsmeow.
-	envStr("GOCLAW_SLACK_BOT_TOKEN", &c.Channels.Slack.BotToken)
-	envStr("GOCLAW_SLACK_APP_TOKEN", &c.Channels.Slack.AppToken)
-	envStr("GOCLAW_SLACK_USER_TOKEN", &c.Channels.Slack.UserToken)
+	envStr("ZALOSCLAW_SLACK_BOT_TOKEN", &c.Channels.Slack.BotToken)
+	envStr("ZALOSCLAW_SLACK_APP_TOKEN", &c.Channels.Slack.AppToken)
+	envStr("ZALOSCLAW_SLACK_USER_TOKEN", &c.Channels.Slack.UserToken)
 
 	// TTS secrets
-	envStr("GOCLAW_TTS_OPENAI_API_KEY", &c.Tts.OpenAI.APIKey)
-	envStr("GOCLAW_TTS_ELEVENLABS_API_KEY", &c.Tts.ElevenLabs.APIKey)
-	envStr("GOCLAW_TTS_MINIMAX_API_KEY", &c.Tts.MiniMax.APIKey)
-	envStr("GOCLAW_TTS_MINIMAX_GROUP_ID", &c.Tts.MiniMax.GroupID)
+	envStr("ZALOSCLAW_TTS_OPENAI_API_KEY", &c.Tts.OpenAI.APIKey)
+	envStr("ZALOSCLAW_TTS_ELEVENLABS_API_KEY", &c.Tts.ElevenLabs.APIKey)
+	envStr("ZALOSCLAW_TTS_MINIMAX_API_KEY", &c.Tts.MiniMax.APIKey)
+	envStr("ZALOSCLAW_TTS_MINIMAX_GROUP_ID", &c.Tts.MiniMax.GroupID)
 
 	// Auto-enable channels if credentials are provided via env
 	if c.Channels.Telegram.Token != "" {
@@ -224,9 +224,9 @@ func (c *Config) applyEnvOverrides() {
 	}
 
 	// Claude CLI provider
-	envStr("GOCLAW_CLAUDE_CLI_PATH", &c.Providers.ClaudeCLI.CLIPath)
-	envStr("GOCLAW_CLAUDE_CLI_MODEL", &c.Providers.ClaudeCLI.Model)
-	envStr("GOCLAW_CLAUDE_CLI_WORK_DIR", &c.Providers.ClaudeCLI.BaseWorkDir)
+	envStr("ZALOSCLAW_CLAUDE_CLI_PATH", &c.Providers.ClaudeCLI.CLIPath)
+	envStr("ZALOSCLAW_CLAUDE_CLI_MODEL", &c.Providers.ClaudeCLI.Model)
+	envStr("ZALOSCLAW_CLAUDE_CLI_WORK_DIR", &c.Providers.ClaudeCLI.BaseWorkDir)
 
 	// Default provider/model: env is fallback only (applied when config has no value).
 	// The onboard wizard sets these in .env for initial bootstrap; once the user
@@ -238,33 +238,33 @@ func (c *Config) applyEnvOverrides() {
 			}
 		}
 	}
-	envFallback("GOCLAW_PROVIDER", &c.Agents.Defaults.Provider)
-	envFallback("GOCLAW_MODEL", &c.Agents.Defaults.Model)
+	envFallback("ZALOSCLAW_PROVIDER", &c.Agents.Defaults.Provider)
+	envFallback("ZALOSCLAW_MODEL", &c.Agents.Defaults.Model)
 
 	// Data directory, workspace & sessions
-	envStr("GOCLAW_DATA_DIR", &c.DataDir)
-	envStr("GOCLAW_WORKSPACE", &c.Agents.Defaults.Workspace)
+	envStr("ZALOSCLAW_DATA_DIR", &c.DataDir)
+	envStr("ZALOSCLAW_WORKSPACE", &c.Agents.Defaults.Workspace)
 
 	// Gateway host/port
-	envStr("GOCLAW_HOST", &c.Gateway.Host)
-	if v := os.Getenv("GOCLAW_PORT"); v != "" {
+	envStr("ZALOSCLAW_HOST", &c.Gateway.Host)
+	if v := os.Getenv("ZALOSCLAW_PORT"); v != "" {
 		if port, err := strconv.Atoi(v); err == nil && port > 0 {
 			c.Gateway.Port = port
 		}
 	}
-	if v := os.Getenv("GOCLAW_SKILLS_MAX_UPLOAD_SIZE_MB"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_SKILLS_MAX_UPLOAD_SIZE_MB"); v != "" {
 		if mb, err := strconv.Atoi(v); err == nil {
 			c.Skills.MaxUploadSizeMB = ClampSkillMaxUploadSizeMB(mb)
 		}
 	}
 	// Webhook agent-run timeouts (seconds). Bounds (default 600, cap 3600) are
 	// applied at consumption via webhooks.ResolveTimeoutSec.
-	if v := os.Getenv("GOCLAW_WEBHOOK_ASYNC_TIMEOUT_SEC"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_WEBHOOK_ASYNC_TIMEOUT_SEC"); v != "" {
 		if sec, err := strconv.Atoi(v); err == nil && sec > 0 {
 			c.Gateway.WebhookAsyncTimeoutSec = sec
 		}
 	}
-	if v := os.Getenv("GOCLAW_WEBHOOK_SYNC_TIMEOUT_SEC"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_WEBHOOK_SYNC_TIMEOUT_SEC"); v != "" {
 		if sec, err := strconv.Atoi(v); err == nil && sec > 0 {
 			c.Gateway.WebhookSyncTimeoutSec = sec
 		}
@@ -281,36 +281,36 @@ func (c *Config) applyEnvOverrides() {
 		}
 	}
 	// Webhook internal streaming toggle (default true; nil → on via webhooks.ResolveStream).
-	envBoolPtr("GOCLAW_WEBHOOK_STREAM", &c.Gateway.WebhookStream)
-	envBoolPtr("GOCLAW_SKILLS_SLASH_COMMANDS_ENABLED", &c.Skills.SlashCommands.Enabled)
-	envBoolPtr("GOCLAW_SKILLS_SLASH_COMMANDS_SUGGEST_NOT_FOUND", &c.Skills.SlashCommands.SuggestNotFound)
-	envBool("GOCLAW_SKILLS_SLASH_COMMANDS_PARTIAL_MATCHING", &c.Skills.SlashCommands.PartialMatching)
-	envStr("GOCLAW_SKILLS_SLASH_COMMANDS_PREFIX", &c.Skills.SlashCommands.Prefix)
+	envBoolPtr("ZALOSCLAW_WEBHOOK_STREAM", &c.Gateway.WebhookStream)
+	envBoolPtr("ZALOSCLAW_SKILLS_SLASH_COMMANDS_ENABLED", &c.Skills.SlashCommands.Enabled)
+	envBoolPtr("ZALOSCLAW_SKILLS_SLASH_COMMANDS_SUGGEST_NOT_FOUND", &c.Skills.SlashCommands.SuggestNotFound)
+	envBool("ZALOSCLAW_SKILLS_SLASH_COMMANDS_PARTIAL_MATCHING", &c.Skills.SlashCommands.PartialMatching)
+	envStr("ZALOSCLAW_SKILLS_SLASH_COMMANDS_PREFIX", &c.Skills.SlashCommands.Prefix)
 
 	// Database
-	envStr("GOCLAW_POSTGRES_DSN", &c.Database.PostgresDSN)
-	envStr("GOCLAW_REDIS_DSN", &c.Database.RedisDSN)
-	envStr("GOCLAW_STORAGE_BACKEND", &c.Database.StorageBackend)
-	envStr("GOCLAW_SQLITE_PATH", &c.Database.SQLitePath)
+	envStr("ZALOSCLAW_POSTGRES_DSN", &c.Database.PostgresDSN)
+	envStr("ZALOSCLAW_REDIS_DSN", &c.Database.RedisDSN)
+	envStr("ZALOSCLAW_STORAGE_BACKEND", &c.Database.StorageBackend)
+	envStr("ZALOSCLAW_SQLITE_PATH", &c.Database.SQLitePath)
 
-	// Deprecation warning for GOCLAW_MODE (removed — PostgreSQL is always active)
-	if v := os.Getenv("GOCLAW_MODE"); v != "" {
-		slog.Warn("GOCLAW_MODE is deprecated; managed mode is now the only mode", "value", v)
+	// Deprecation warning for ZALOSCLAW_MODE (removed — PostgreSQL is always active)
+	if v := os.Getenv("ZALOSCLAW_MODE"); v != "" {
+		slog.Warn("ZALOSCLAW_MODE is deprecated; managed mode is now the only mode", "value", v)
 	}
 
 	// Telemetry
-	envStr("GOCLAW_TELEMETRY_ENDPOINT", &c.Telemetry.Endpoint)
-	envStr("GOCLAW_TELEMETRY_PROTOCOL", &c.Telemetry.Protocol)
-	envStr("GOCLAW_TELEMETRY_SERVICE_NAME", &c.Telemetry.ServiceName)
-	if v := os.Getenv("GOCLAW_TELEMETRY_ENABLED"); v != "" {
+	envStr("ZALOSCLAW_TELEMETRY_ENDPOINT", &c.Telemetry.Endpoint)
+	envStr("ZALOSCLAW_TELEMETRY_PROTOCOL", &c.Telemetry.Protocol)
+	envStr("ZALOSCLAW_TELEMETRY_SERVICE_NAME", &c.Telemetry.ServiceName)
+	if v := os.Getenv("ZALOSCLAW_TELEMETRY_ENABLED"); v != "" {
 		c.Telemetry.Enabled = v == "true" || v == "1"
 	}
-	if v := os.Getenv("GOCLAW_TELEMETRY_INSECURE"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_TELEMETRY_INSECURE"); v != "" {
 		c.Telemetry.Insecure = v == "true" || v == "1"
 	}
 
 	// Owner IDs from env (comma-separated, whitespace-trimmed)
-	if v := os.Getenv("GOCLAW_OWNER_IDS"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_OWNER_IDS"); v != "" {
 		var ids []string
 		for id := range strings.SplitSeq(v, ",") {
 			if trimmed := strings.TrimSpace(id); trimmed != "" {
@@ -321,7 +321,7 @@ func (c *Config) applyEnvOverrides() {
 	}
 
 	// Allowed origins from env (comma-separated, whitespace-trimmed)
-	if v := os.Getenv("GOCLAW_ALLOWED_ORIGINS"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_ALLOWED_ORIGINS"); v != "" {
 		var origins []string
 		for origin := range strings.SplitSeq(v, ",") {
 			if trimmed := strings.TrimSpace(origin); trimmed != "" {
@@ -334,7 +334,7 @@ func (c *Config) applyEnvOverrides() {
 	// Trusted MCP server hosts from env (comma-separated, whitespace-trimmed).
 	// These hosts are exempt from the private-IP SSRF block when registering MCP
 	// servers (e.g. self-hosted MCP on a private network).
-	if v := os.Getenv("GOCLAW_MCP_ALLOWED_HOSTS"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_MCP_ALLOWED_HOSTS"); v != "" {
 		var hosts []string
 		for h := range strings.SplitSeq(v, ",") {
 			if trimmed := strings.TrimSpace(h); trimmed != "" {
@@ -345,9 +345,9 @@ func (c *Config) applyEnvOverrides() {
 	}
 
 	// Tailscale (tsnet)
-	envStr("GOCLAW_TSNET_HOSTNAME", &c.Tailscale.Hostname)
-	envStr("GOCLAW_TSNET_AUTH_KEY", &c.Tailscale.AuthKey)
-	envStr("GOCLAW_TSNET_DIR", &c.Tailscale.StateDir)
+	envStr("ZALOSCLAW_TSNET_HOSTNAME", &c.Tailscale.Hostname)
+	envStr("ZALOSCLAW_TSNET_AUTH_KEY", &c.Tailscale.AuthKey)
+	envStr("ZALOSCLAW_TSNET_DIR", &c.Tailscale.StateDir)
 
 	// Sandbox (for Docker-compose sandbox overlay)
 	ensureSandbox := func() {
@@ -355,54 +355,54 @@ func (c *Config) applyEnvOverrides() {
 			c.Agents.Defaults.Sandbox = &SandboxConfig{}
 		}
 	}
-	if v := os.Getenv("GOCLAW_SANDBOX_MODE"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_SANDBOX_MODE"); v != "" {
 		ensureSandbox()
 		c.Agents.Defaults.Sandbox.Mode = v
 	}
-	if v := os.Getenv("GOCLAW_SANDBOX_IMAGE"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_SANDBOX_IMAGE"); v != "" {
 		ensureSandbox()
 		c.Agents.Defaults.Sandbox.Image = v
 	}
-	if v := os.Getenv("GOCLAW_SANDBOX_WORKSPACE_ACCESS"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_SANDBOX_WORKSPACE_ACCESS"); v != "" {
 		ensureSandbox()
 		c.Agents.Defaults.Sandbox.WorkspaceAccess = v
 	}
-	if v := os.Getenv("GOCLAW_SANDBOX_SCOPE"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_SANDBOX_SCOPE"); v != "" {
 		ensureSandbox()
 		c.Agents.Defaults.Sandbox.Scope = v
 	}
-	if v := os.Getenv("GOCLAW_SANDBOX_MEMORY_MB"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_SANDBOX_MEMORY_MB"); v != "" {
 		ensureSandbox()
 		if mb, err := strconv.Atoi(v); err == nil && mb > 0 {
 			c.Agents.Defaults.Sandbox.MemoryMB = mb
 		}
 	}
-	if v := os.Getenv("GOCLAW_SANDBOX_CPUS"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_SANDBOX_CPUS"); v != "" {
 		ensureSandbox()
 		if cpus, err := strconv.ParseFloat(v, 64); err == nil && cpus > 0 {
 			c.Agents.Defaults.Sandbox.CPUs = cpus
 		}
 	}
-	if v := os.Getenv("GOCLAW_SANDBOX_TIMEOUT_SEC"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_SANDBOX_TIMEOUT_SEC"); v != "" {
 		ensureSandbox()
 		if sec, err := strconv.Atoi(v); err == nil && sec > 0 {
 			c.Agents.Defaults.Sandbox.TimeoutSec = sec
 		}
 	}
-	if v := os.Getenv("GOCLAW_SANDBOX_NETWORK"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_SANDBOX_NETWORK"); v != "" {
 		ensureSandbox()
 		c.Agents.Defaults.Sandbox.NetworkEnabled = v == "true" || v == "1"
 	}
 
 	// Browser (for Docker-compose browser sidecar overlay)
-	envStr("GOCLAW_BROWSER_REMOTE_URL", &c.Tools.Browser.RemoteURL)
-	envStr("GOCLAW_BROWSER_BACKEND", &c.Tools.Browser.Backend)
+	envStr("ZALOSCLAW_BROWSER_REMOTE_URL", &c.Tools.Browser.RemoteURL)
+	envStr("ZALOSCLAW_BROWSER_BACKEND", &c.Tools.Browser.Backend)
 	if c.Tools.Browser.RemoteURL != "" {
 		c.Tools.Browser.Enabled = true
 	}
 
 	// Cron job execution
-	envStr("GOCLAW_CRON_JOB_TIMEOUT", &c.Cron.JobTimeout)
+	envStr("ZALOSCLAW_CRON_JOB_TIMEOUT", &c.Cron.JobTimeout)
 }
 
 // Save writes the config to a JSON file.
@@ -439,13 +439,13 @@ func (c *Config) ResolvedDataDir() string {
 	return ExpandHome(c.DataDir)
 }
 
-// ResolvedDataDirFromEnv returns the data dir from GOCLAW_DATA_DIR env or default.
+// ResolvedDataDirFromEnv returns the data dir from ZALOSCLAW_DATA_DIR env or default.
 // Use this in packages that don't have access to a Config instance.
 func ResolvedDataDirFromEnv() string {
-	if v := os.Getenv("GOCLAW_DATA_DIR"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_DATA_DIR"); v != "" {
 		return ExpandHome(v)
 	}
-	return ExpandHome("~/.goclaw/data")
+	return ExpandHome("~/.zalosclaw/data")
 }
 
 // WorkspacePath returns the expanded workspace path.
@@ -513,14 +513,14 @@ func (c *Config) ResolveDefaultAgentID() string {
 }
 
 // ResolveDisplayName returns the display name for an agent.
-// Falls back to "GoClaw" if not configured.
+// Falls back to "ZalosClaw" if not configured.
 func (c *Config) ResolveDisplayName(agentID string) string {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
 	if spec, ok := c.Agents.List[agentID]; ok && spec.DisplayName != "" {
 		return spec.DisplayName
 	}
-	return "GoClaw"
+	return "ZalosClaw"
 }
 
 // ApplyEnvOverrides re-applies environment variable overrides onto the config.

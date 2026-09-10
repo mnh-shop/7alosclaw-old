@@ -57,7 +57,7 @@ Agent loop injects per-agent wait limits into context. The registry calls `WaitT
 5. Add `WaitTool` in `internal/tools/wait.go`.
 6. Register `tools.NewWaitTool()` next to `datetime` in `wireExtraTools`.
 7. Seed `wait` in `builtinToolSeedData` as runtime enabled by default.
-8. Add `wait` to `runtime`, `goclaw`, coding profile if needed, and neutral metadata as appropriate.
+8. Add `wait` to `runtime`, `zalosclaw`, coding profile if needed, and neutral metadata as appropriate.
 9. Mark `wait` neutral in agent tool-loop detection so intentional delay sequences do not count as read-only no-progress loops.
 10. Update Web agent settings types/save path and add compact wait min/max controls under tool policy so UI edits do not drop `tools_config.wait`.
 

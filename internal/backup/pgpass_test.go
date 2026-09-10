@@ -136,8 +136,8 @@ func TestWritePgpass_TempDirCleanup(t *testing.T) {
 
 func TestCleanEnv_NoSecretLeak(t *testing.T) {
 	// Set a fake secret in current env to verify it doesn't leak
-	t.Setenv("GOCLAW_POSTGRES_DSN", "postgres://user:SECRET@localhost/db")
-	t.Setenv("GOCLAW_ENCRYPTION_KEY", "super-secret-key")
+	t.Setenv("ZALOSCLAW_POSTGRES_DSN", "postgres://user:SECRET@localhost/db")
+	t.Setenv("ZALOSCLAW_ENCRYPTION_KEY", "super-secret-key")
 	t.Setenv("AWS_SECRET_ACCESS_KEY", "aws-secret")
 
 	env := CleanEnv("/tmp/test/.pgpass")
@@ -150,7 +150,7 @@ func TestCleanEnv_NoSecretLeak(t *testing.T) {
 	}
 
 	// Must NOT contain any secrets
-	for _, forbidden := range []string{"SECRET", "super-secret", "aws-secret", "GOCLAW_POSTGRES_DSN", "GOCLAW_ENCRYPTION_KEY", "AWS_SECRET"} {
+	for _, forbidden := range []string{"SECRET", "super-secret", "aws-secret", "ZALOSCLAW_POSTGRES_DSN", "ZALOSCLAW_ENCRYPTION_KEY", "AWS_SECRET"} {
 		if strings.Contains(envStr, forbidden) {
 			t.Errorf("secret leaked in clean env: found %q", forbidden)
 		}

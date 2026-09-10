@@ -3,7 +3,7 @@ package pipeline
 import (
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // ContextState: owned by ContextStage, read by ThinkStage.

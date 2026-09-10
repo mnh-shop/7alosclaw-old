@@ -12,8 +12,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/hooks"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // PGHookStore implements hooks.HookStore backed by PostgreSQL.

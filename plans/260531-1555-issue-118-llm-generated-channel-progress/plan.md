@@ -1,7 +1,7 @@
 ---
 title: Issue 118 LLM-Generated Channel Progress
 description: >-
-  TDD plan for digitopvn/goclaw#118: make channel immediate/progress replies
+  TDD plan for digitopvn/zalosclaw#118: make channel immediate/progress replies
   LLM-generated through the existing main-turn block.reply path, with fixed
   quick_ack templates retained only as fallback.
 status: completed
@@ -32,7 +32,7 @@ Decision locked by user:
 - Keep `quick_ack.templates` only as fallback.
 - Do not store progress messages.
 
-Hard product constraint: without a separate LLM call, GoClaw cannot guarantee a natural LLM-generated message before the main model emits content. The generated progress message is available when the main LLM emits assistant content before tool calls; otherwise a configured fixed template fallback may fire after the fallback delay.
+Hard product constraint: without a separate LLM call, ZalosClaw cannot guarantee a natural LLM-generated message before the main model emits content. The generated progress message is available when the main LLM emits assistant content before tool calls; otherwise a configured fixed template fallback may fire after the fallback delay.
 
 Current implementation facts:
 - `QuickAckConfig` has `enabled`, `min_delay_ms`, and `templates` only, so mode/fallback semantics need an additive config field in `internal/config/config_channels.go:11`.
@@ -68,7 +68,7 @@ Explicitly out of scope:
 
 ## Dependencies
 
-- GitHub issue: `digitopvn/goclaw#118`
+- GitHub issue: `digitopvn/zalosclaw#118`
 - Related existing plan: `../260529-1210-human-like-channel-chat-behavior/plan.md`
 - Existing generated-content source: `internal/pipeline/think_stage.go`, `internal/agent/loop_pipeline_adapter.go`, `internal/pipeline/observe_stage.go`
 - Existing channel runtime: `internal/channels/events.go`, `internal/channels/runs.go`, `cmd/gateway_consumer_normal.go`

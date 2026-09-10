@@ -9,7 +9,7 @@ import {
 describe("skill export download helpers", () => {
   it("builds a selected export URL with repeated id params", () => {
     const path = buildSkillExportPath(["skill-a", "skill-b"], "zip");
-    const url = new URL(path, "https://goclaw.test");
+    const url = new URL(path, "https://zalosclaw.test");
 
     expect(url.pathname).toBe("/v1/skills/export");
     expect(url.searchParams.get("format")).toBe("zip");
@@ -27,7 +27,7 @@ describe("skill export download helpers", () => {
   it("names single skill archives by slug and version", () => {
     const name = skillExportDownloadName([{ slug: "my-skill", version: 3 }], "zip");
 
-    expect(name).toBe("goclaw-skill-my-skill-v3.zip");
+    expect(name).toBe("zalosclaw-skill-my-skill-v3.zip");
   });
 
   it("names multi skill archives with selected extension", () => {
@@ -36,6 +36,6 @@ describe("skill export download helpers", () => {
       { slug: "two", version: 2 },
     ], "tar.gz", new Date("2026-05-29T09:30:00Z"));
 
-    expect(name).toBe("goclaw-skills-export-20260529-0930.tar.gz");
+    expect(name).toBe("zalosclaw-skills-export-20260529-0930.tar.gz");
   });
 });

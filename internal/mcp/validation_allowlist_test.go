@@ -3,7 +3,7 @@ package mcp
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/security"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
 )
 
 // The package init() enables the loopback/private bypass for most validation

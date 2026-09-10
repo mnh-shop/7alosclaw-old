@@ -7,7 +7,7 @@ import (
 	"log/slog"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 const embeddingBackfillBatchSize = 50

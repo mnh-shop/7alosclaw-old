@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // callChatVideoGen tries OpenAI-compatible chat completions with video modality.

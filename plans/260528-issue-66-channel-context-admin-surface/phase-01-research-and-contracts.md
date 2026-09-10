@@ -9,7 +9,7 @@ effort: "M"
 
 ## Context Links
 
-- Issue: https://github.com/digitopvn/goclaw/issues/66
+- Issue: https://github.com/digitopvn/zalosclaw/issues/66
 - Current page: `ui/web/src/pages/channels/channel-detail/channel-detail-page.tsx`
 - Current groups tab: `ui/web/src/pages/channels/channel-detail/channel-groups-tab.tsx`
 - Current credentials tab: `ui/web/src/pages/channels/channel-detail/channel-credentials-tab.tsx`

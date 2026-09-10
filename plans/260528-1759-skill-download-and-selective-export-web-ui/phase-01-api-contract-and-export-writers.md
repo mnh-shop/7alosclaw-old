@@ -11,7 +11,7 @@ dependencies: []
 
 ## Context Links
 
-- Issue: `digitopvn/goclaw#80`
+- Issue: `digitopvn/zalosclaw#80`
 - Backend route registration: `internal/http/skills.go`
 - Existing export handler: `internal/http/skills_export.go`
 - Existing export queries: `internal/store/pg/skills_export_queries.go`

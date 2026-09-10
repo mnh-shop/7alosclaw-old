@@ -1,6 +1,6 @@
 {
   "onboarding": {
-    "welcome": "GoClaw Setup",
+    "welcome": "ZalosClaw Setup",
     "welcomeDesc": "Let's get your gateway up and running",
     "providerStep": "Configure Provider",
     "providerStepDesc": "Select an AI provider and enter your credentials.",
@@ -63,7 +63,7 @@
     "teams": "Teams"
   },
   "about": {
-    "title": "GoClaw Lite",
+    "title": "ZalosClaw Lite",
     "subtitle": "Desktop Edition",
     "version": "Version",
     "edition": "Edition",
@@ -151,7 +151,7 @@
     "createFailed": "Failed to create"
   },
   "update": {
-    "available": "GoClaw Lite v{{version}} is available",
+    "available": "ZalosClaw Lite v{{version}} is available",
     "now": "Update Now",
     "downloading": "Downloading update...",
     "ready": "Update installed! Restart to apply.",

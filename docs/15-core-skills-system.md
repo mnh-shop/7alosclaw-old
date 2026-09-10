@@ -6,7 +6,7 @@ How bundled (system) skills are loaded, stored, injected into agents, and manage
 
 ## 1. Overview
 
-GoClaw ships with a set of **core skills** — SKILL.md-based modules bundled with the release under `/app/bundled-skills/` in Docker images, or `skills/` in local development and binary release archives. Unlike custom skills uploaded by users, core skills are:
+ZalosClaw ships with a set of **core skills** — SKILL.md-based modules bundled with the release under `/app/bundled-skills/` in Docker images, or `skills/` in local development and binary release archives. Unlike custom skills uploaded by users, core skills are:
 
 - Seeded automatically on every gateway startup
 - Tracked by content hash (no re-import if file unchanged)
@@ -24,8 +24,8 @@ Current bundled core skills:
 | `xlsx` | Read, create, edit Excel spreadsheets via openpyxl |
 | `skill-creator` | Meta-skill for creating new skills |
 | `workspace-organizing` | Workspace layout and file organization guidance |
-| `goclaw` | Gateway CLI/runtime administration and troubleshooting |
-| `lark-pm` | Lark/Feishu project-management workflows through GoClaw MCP tools |
+| `zalosclaw` | Gateway CLI/runtime administration and troubleshooting |
+| `lark-pm` | Lark/Feishu project-management workflows through ZalosClaw MCP tools |
 | `lark-playbook` | Troubleshooting playbook for failed Lark/Feishu MCP operations |
 
 Shared helper modules live in `skills/_shared/` and are copied alongside each skill but not registered as standalone skills.
@@ -98,7 +98,7 @@ skills/
 │   └── SKILL.md
 ├── lark-playbook/
 │   └── SKILL.md
-└── goclaw/
+└── zalosclaw/
     └── SKILL.md
 ```
 
@@ -113,7 +113,7 @@ Example: `/app/data/skills/pdf/3/`
 ---
 name: pdf
 description: Use this skill whenever the user wants to do anything with PDF files...
-author: GoClaw Team
+author: ZalosClaw Team
 tags: [pdf, document]
 ---
 
@@ -306,7 +306,7 @@ Count ≤ 40 AND tokens ≤ 5000:
   <skill name="xlsx" slug="xlsx">Read, create, edit Excel spreadsheets</skill>
   <skill name="skill-creator" slug="skill-creator">Create new skills</skill>
   <skill name="workspace-organizing" slug="workspace-organizing">Organize shared workspaces</skill>
-  <skill name="goclaw" slug="goclaw">Gateway CLI/runtime administration</skill>
+  <skill name="zalosclaw" slug="zalosclaw">Gateway CLI/runtime administration</skill>
 </available_skills>
 ```
 

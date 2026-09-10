@@ -17,8 +17,8 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
 )
 
 // TestFactory_Valid verifies Factory creates a Channel from valid JSON creds/config.

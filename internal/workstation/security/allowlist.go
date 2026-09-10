@@ -13,12 +13,12 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // blockedEnvKeys is the set of environment variable names that are always rejected.
-// These can be used for privilege escalation, path hijacking, or leaking GoClaw internals.
+// These can be used for privilege escalation, path hijacking, or leaking ZalosClaw internals.
 // Keys are checked after NFKC normalization to prevent Unicode bypass.
 var blockedEnvKeys = map[string]bool{
 	"LD_PRELOAD":            true,
@@ -74,7 +74,7 @@ func (c *AllowlistChecker) Invalidate(workstationID uuid.UUID) {
 //  2. Reject NUL bytes and CRLF in cmd or any arg (unsafe in all contexts)
 //  3. Allowlist match on binary name (default-deny)
 //
-// Env-key validation (LD_PRELOAD, PATH, GOCLAW_*, etc.) is handled
+// Env-key validation (LD_PRELOAD, PATH, ZALOSCLAW_*, etc.) is handled
 // separately by CheckEnv, called in the tool wiring layer.
 func (c *AllowlistChecker) Check(
 	ctx context.Context,
@@ -186,8 +186,8 @@ func isBlockedEnvKey(k string) bool {
 	if blockedEnvKeys[k] {
 		return true
 	}
-	// Block all GOCLAW_* keys to prevent leaking gateway internals.
-	return strings.HasPrefix(k, "GOCLAW_")
+	// Block all ZALOSCLAW_* keys to prevent leaking gateway internals.
+	return strings.HasPrefix(k, "ZALOSCLAW_")
 }
 
 func validateLauncherArgs(binaryName string, args []string) string {

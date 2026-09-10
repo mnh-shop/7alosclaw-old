@@ -9,10 +9,10 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/store/pg"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 // teamImportArchive holds parsed contents of a team export archive.

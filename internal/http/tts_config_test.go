@@ -12,7 +12,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 type validationSystemConfigStore struct {
@@ -123,8 +123,8 @@ func TestTTSConfigRequiresTenantAdminForReadAndWrite(t *testing.T) {
 
 	viewerGet := httptest.NewRequest("GET", "/v1/tts/config", nil)
 	viewerGet.Header.Set("Authorization", "Bearer gateway-token")
-	viewerGet.Header.Set("X-GoClaw-User-Id", "viewer-user")
-	viewerGet.Header.Set("X-GoClaw-Tenant-Id", "acme")
+	viewerGet.Header.Set("X-ZalosClaw-User-Id", "viewer-user")
+	viewerGet.Header.Set("X-ZalosClaw-Tenant-Id", "acme")
 	viewerGetRR := httptest.NewRecorder()
 	mux.ServeHTTP(viewerGetRR, viewerGet)
 	if viewerGetRR.Code != http.StatusForbidden {
@@ -133,8 +133,8 @@ func TestTTSConfigRequiresTenantAdminForReadAndWrite(t *testing.T) {
 
 	viewerPost := httptest.NewRequest("POST", "/v1/tts/config", strings.NewReader(`{"provider":"edge"}`))
 	viewerPost.Header.Set("Authorization", "Bearer gateway-token")
-	viewerPost.Header.Set("X-GoClaw-User-Id", "viewer-user")
-	viewerPost.Header.Set("X-GoClaw-Tenant-Id", "acme")
+	viewerPost.Header.Set("X-ZalosClaw-User-Id", "viewer-user")
+	viewerPost.Header.Set("X-ZalosClaw-Tenant-Id", "acme")
 	viewerPostRR := httptest.NewRecorder()
 	mux.ServeHTTP(viewerPostRR, viewerPost)
 	if viewerPostRR.Code != http.StatusForbidden {
@@ -143,8 +143,8 @@ func TestTTSConfigRequiresTenantAdminForReadAndWrite(t *testing.T) {
 
 	adminPost := httptest.NewRequest("POST", "/v1/tts/config", strings.NewReader(`{"provider":"edge"}`))
 	adminPost.Header.Set("Authorization", "Bearer gateway-token")
-	adminPost.Header.Set("X-GoClaw-User-Id", "admin-user")
-	adminPost.Header.Set("X-GoClaw-Tenant-Id", "acme")
+	adminPost.Header.Set("X-ZalosClaw-User-Id", "admin-user")
+	adminPost.Header.Set("X-ZalosClaw-Tenant-Id", "acme")
 	adminPostRR := httptest.NewRecorder()
 	mux.ServeHTTP(adminPostRR, adminPost)
 	if adminPostRR.Code != http.StatusOK {

@@ -8,11 +8,11 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/channelmemory"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channelmemory"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 func (h *ChannelInstancesHandler) handleMemoryExtractionStatus(w http.ResponseWriter, r *http.Request) {

@@ -1,6 +1,6 @@
 package elevenlabs
 
-import "github.com/nextlevelbuilder/goclaw/internal/audio"
+import "github.com/nextlevelbuilder/zalosclaw/internal/audio"
 
 // elevenLabsModels lists all allowed ElevenLabs TTS model IDs (mirrors AllowedElevenLabsModels).
 var elevenLabsModels = []string{

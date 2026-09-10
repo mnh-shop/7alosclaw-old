@@ -22,7 +22,7 @@ ALTER TABLE vault_documents DROP CONSTRAINT IF EXISTS vault_documents_scope_cons
 -- Two path layouts:
 --   master tenant:     teams/<team_uuid>/<chat>/...
 --   non-master tenant: tenants/<slug>/teams/<team_uuid>/<chat>/...
--- Chat segments starting with '.' (e.g. '.goclaw') are config dirs, not real chats — skip.
+-- Chat segments starting with '.' (e.g. '.zalosclaw') are config dirs, not real chats — skip.
 -- -----------------------------------------------------------------------------
 UPDATE vault_documents vd
 SET chat_id = (regexp_match(vd.path, '^(?:tenants/[^/]+/)?teams/[^/]+/([^/]+)/'))[1]

@@ -13,21 +13,21 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 const apiKeyRawBytes = 32
 
-// registerAPIKeyCRUDTools registers the goclaw_api_keys_* MCP tools backed by
+// registerAPIKeyCRUDTools registers the zalosclaw_api_keys_* MCP tools backed by
 // store.APIKeyStore.
 func registerAPIKeyCRUDTools(srv *mcpserver.MCPServer, apiKeys store.APIKeyStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_api_keys_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_api_keys_list",
 		mcpgo.WithDescription("List API keys visible to the caller."),
 		mcpgo.WithString("owner_id", mcpgo.Description("Filter by owner user ID; empty lists all keys.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleAPIKeysList(apiKeys))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_api_keys_create",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_api_keys_create",
 		mcpgo.WithDescription("Create a new API key. The raw key value is only returned once."),
 		mcpgo.WithString("name", mcpgo.Required(), mcpgo.Description("Descriptive name for the key.")),
 		mcpgo.WithArray("scopes", mcpgo.Required(), mcpgo.Description("Scopes granted to this key (e.g. [\"operator.admin\"]).")),
@@ -35,7 +35,7 @@ func registerAPIKeyCRUDTools(srv *mcpserver.MCPServer, apiKeys store.APIKeyStore
 		mcpgo.WithString("owner_id", mcpgo.Description("User ID this key is bound to.")),
 	), handleAPIKeysCreate(apiKeys))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_api_keys_revoke",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_api_keys_revoke",
 		mcpgo.WithDescription("Revoke an API key."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("API key UUID.")),
 		mcpgo.WithString("owner_id", mcpgo.Description("If set, also enforces owner_id match before revoking.")),

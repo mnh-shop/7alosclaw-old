@@ -68,7 +68,7 @@ func makeTarballWithBinary(t *testing.T, binName string, content []byte) (string
 	tw.Close()
 	gz.Close()
 
-	f, err := os.CreateTemp("", "goclaw-test-exec-*.tar.gz")
+	f, err := os.CreateTemp("", "zalosclaw-test-exec-*.tar.gz")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -251,7 +251,7 @@ func TestGitHubUpdateExecutor_DefaultScratchDirUsesRuntimeDir(t *testing.T) {
 	t.Setenv("RUNTIME_DIR", runtimeDir)
 
 	cfg := &GitHubPackagesConfig{
-		BinDir:       filepath.Join(string(filepath.Separator), "opt", "goclaw", "bin"),
+		BinDir:       filepath.Join(string(filepath.Separator), "opt", "zalosclaw", "bin"),
 		ManifestPath: filepath.Join(t.TempDir(), "manifest.json"),
 	}
 	inst := NewGitHubInstaller(NewGitHubClient(""), cfg)
@@ -286,7 +286,7 @@ func TestGitHubUpdateExecutor_CreateScratchDirFallsBackFromBadConfiguredDir(t *t
 	exec := NewGitHubUpdateExecutor(inst)
 	exec.ScratchDir = blockedPath
 
-	scratch, err := exec.createScratchDir("goclaw", "v0.8.0-beta.2")
+	scratch, err := exec.createScratchDir("zalosclaw", "v0.8.0-beta.2")
 	if err != nil {
 		t.Fatalf("createScratchDir should fall back from bad configured dir: %v", err)
 	}

@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
 )
 
 // ContentHash returns a short SHA256 hex digest of the content (first 16 bytes).

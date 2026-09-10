@@ -25,43 +25,43 @@ func TestDerivePublicURL_TableDriven(t *testing.T) {
 	}{
 		{
 			name:  "https_via_xforwarded_proto",
-			host:  "goclaw.tamgiac.com",
+			host:  "zalosclaw.tamgiac.com",
 			proto: "https",
-			want:  "https://goclaw.tamgiac.com",
+			want:  "https://zalosclaw.tamgiac.com",
 		},
 		{
 			name:   "https_via_r_TLS",
-			host:   "goclaw.tamgiac.com",
+			host:   "zalosclaw.tamgiac.com",
 			hasTLS: true,
-			want:   "https://goclaw.tamgiac.com",
+			want:   "https://zalosclaw.tamgiac.com",
 		},
 		{
 			// No TLS and no forwarded proto → honest http. If a reverse proxy
 			// is terminating TLS, it must set X-Forwarded-Proto; otherwise
 			// imbot.register will (correctly) reject the http URL downstream.
 			name: "http_when_no_tls_and_no_proto_header",
-			host: "goclaw.tamgiac.com",
-			want: "http://goclaw.tamgiac.com",
+			host: "zalosclaw.tamgiac.com",
+			want: "http://zalosclaw.tamgiac.com",
 		},
 		{
 			name:  "http_when_explicit_proto",
-			host:  "goclaw.tamgiac.com",
+			host:  "zalosclaw.tamgiac.com",
 			proto: "http",
-			want:  "http://goclaw.tamgiac.com",
+			want:  "http://zalosclaw.tamgiac.com",
 		},
 		{
 			name:         "xforwarded_host_takes_precedence_over_host",
 			host:         "internal-lb:8080",
-			forwardedFor: "goclaw.tamgiac.com",
+			forwardedFor: "zalosclaw.tamgiac.com",
 			proto:        "https",
-			want:         "https://goclaw.tamgiac.com",
+			want:         "https://zalosclaw.tamgiac.com",
 		},
 		{
 			name:         "xforwarded_host_strips_chain_to_first_hop",
 			host:         "internal-lb",
-			forwardedFor: "goclaw.tamgiac.com, edge.cloudflare.com",
+			forwardedFor: "zalosclaw.tamgiac.com, edge.cloudflare.com",
 			proto:        "https",
-			want:         "https://goclaw.tamgiac.com",
+			want:         "https://zalosclaw.tamgiac.com",
 		},
 		{
 			name:  "keeps_non_standard_port",
@@ -119,15 +119,15 @@ func TestDerivePublicURL_TableDriven(t *testing.T) {
 		},
 		{
 			name:  "websocket_upgrade_wss_normalizes_to_https",
-			host:  "goclaw.tamgiac.com",
+			host:  "zalosclaw.tamgiac.com",
 			proto: "wss",
-			want:  "https://goclaw.tamgiac.com",
+			want:  "https://zalosclaw.tamgiac.com",
 		},
 		{
 			name:  "websocket_upgrade_ws_normalizes_to_http",
-			host:  "goclaw.tamgiac.com",
+			host:  "zalosclaw.tamgiac.com",
 			proto: "ws",
-			want:  "http://goclaw.tamgiac.com",
+			want:  "http://zalosclaw.tamgiac.com",
 		},
 	}
 
@@ -170,7 +170,7 @@ func TestIsPrivateOrLoopback_Hostnames(t *testing.T) {
 		host string
 		want bool
 	}{
-		{"goclaw.tamgiac.com", false},
+		{"zalosclaw.tamgiac.com", false},
 		{"localhost", true},
 		{"app.localhost", true},
 		{"Localhost", true}, // case-insensitive
@@ -192,14 +192,14 @@ func TestIsPrivateOrLoopback_Hostnames(t *testing.T) {
 // would cause a false "changed" comparison on re-install.
 func TestDerivePublicURL_PreservesHostAsReceived(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/bitrix24/install", nil)
-	req.Host = "GoClaw.TamGiac.com" // mixed case
+	req.Host = "ZalosClaw.TamGiac.com" // mixed case
 	req.Header.Set("X-Forwarded-Proto", "https")
 	got, err := derivePublicURL(req)
 	if err != nil {
 		t.Fatalf("err: %v", err)
 	}
 	// Host casing preserved in URL string — only scheme is lowercased.
-	if !strings.HasSuffix(got, "GoClaw.TamGiac.com") {
+	if !strings.HasSuffix(got, "ZalosClaw.TamGiac.com") {
 		t.Errorf("expected host casing preserved, got %q", got)
 	}
 }

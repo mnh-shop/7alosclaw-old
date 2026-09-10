@@ -9,7 +9,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/nextlevelbuilder/goclaw/internal/security"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
 )
 
 // --- In-memory cache (matching TS src/agents/tools/web-shared.ts) ---
@@ -123,7 +123,7 @@ func isPrivateIP(ipStr string) bool {
 	}
 
 	// An operator running behind a TUN/fake-IP proxy can un-block the synthetic
-	// range it hands out (GOCLAW_SSRF_ALLOWED_CIDRS). This check duplicates the
+	// range it hands out (ZALOSCLAW_SSRF_ALLOWED_CIDRS). This check duplicates the
 	// range list in internal/security rather than sharing it, so it has to
 	// consult that setting explicitly — otherwise web_fetch keeps rejecting the
 	// addresses the operator just permitted. Cloud metadata can never be

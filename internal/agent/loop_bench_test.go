@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // BenchmarkLimitHistoryTurns_200Messages_Limit20 benchmarks limiting history to last 20 user turns.

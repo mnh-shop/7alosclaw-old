@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // callMinimaxVideoGen calls the MiniMax video generation API (async with task polling).

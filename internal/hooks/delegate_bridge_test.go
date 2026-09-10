@@ -7,7 +7,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/eventbus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/eventbus"
 )
 
 // --- fakes ---

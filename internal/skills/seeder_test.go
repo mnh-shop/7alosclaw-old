@@ -13,7 +13,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 type customSlugConflictStore struct {
@@ -48,7 +48,7 @@ func TestSeeder_RestoresCustomMetadataWhenBundledSlugConflicts(t *testing.T) {
 	bundledDir := filepath.Join(t.TempDir(), "bundled")
 	managedDir := filepath.Join(t.TempDir(), "managed")
 	slug := "lark-pm"
-	bundledContent := "---\nname: lark-pm\ndescription: Bundled workflow\nlicense: Proprietary. Part of GoClaw bundled skills.\n---\n"
+	bundledContent := "---\nname: lark-pm\ndescription: Bundled workflow\nlicense: Proprietary. Part of ZalosClaw bundled skills.\n---\n"
 	customContent := "---\nname: Lark PM\ndescription: Custom Lark workflow\nversion: 1.0.0\n---\n\n# Custom Lark PM\n"
 
 	for path, content := range map[string]string{
@@ -104,7 +104,7 @@ func TestSeeder_RestoresCustomMetadataWhenBundledSlugConflicts(t *testing.T) {
 	if _, err := os.Stat(filepath.Join(managedDir, slug, "5")); !errors.Is(err, os.ErrNotExist) {
 		t.Fatalf("overwritten numeric directory still exists: %v", err)
 	}
-	quarantineDir := filepath.Join(managedDir, slug, ".goclaw-bundled-5-"+hashSeederContent(bundledContent)[:12])
+	quarantineDir := filepath.Join(managedDir, slug, ".zalosclaw-bundled-5-"+hashSeederContent(bundledContent)[:12])
 	if _, err := os.Stat(filepath.Join(quarantineDir, "SKILL.md")); err != nil {
 		t.Fatalf("quarantined bundled skill missing: %v", err)
 	}
@@ -118,7 +118,7 @@ func TestSeeder_ReportsAmbiguousCustomRecovery(t *testing.T) {
 	bundledDir := filepath.Join(t.TempDir(), "bundled")
 	managedDir := filepath.Join(t.TempDir(), "managed")
 	slug := "lark-pm"
-	bundledContent := "---\nname: lark-pm\ndescription: Bundled workflow\nlicense: Proprietary. Part of GoClaw bundled skills.\n---\n"
+	bundledContent := "---\nname: lark-pm\ndescription: Bundled workflow\nlicense: Proprietary. Part of ZalosClaw bundled skills.\n---\n"
 	priorBundledContent := bundledContent + "\n# Previous bundled body\n"
 	writeSeederSkillFile(t, filepath.Join(bundledDir, slug, "SKILL.md"), bundledContent)
 	writeSeederSkillFile(t, filepath.Join(managedDir, slug, "4", "SKILL.md"), priorBundledContent)
@@ -189,7 +189,7 @@ func TestSeeder_ContinuesRecoveryFromQuarantinedBundledVersion(t *testing.T) {
 	bundledContent := "---\nname: lark-pm\ndescription: Bundled workflow\n---\n"
 	writeSeederSkillFile(t, filepath.Join(bundledDir, slug, "SKILL.md"), bundledContent)
 	writeSeederSkillFile(t, filepath.Join(managedDir, slug, "4", "SKILL.md"), "---\nname: Lark PM\ndescription: Custom workflow\nversion: 1.0.0\n---\n")
-	quarantineDir := filepath.Join(managedDir, slug, ".goclaw-bundled-5-"+hashSeederContent(bundledContent)[:12])
+	quarantineDir := filepath.Join(managedDir, slug, ".zalosclaw-bundled-5-"+hashSeederContent(bundledContent)[:12])
 	writeSeederSkillFile(t, filepath.Join(quarantineDir, "SKILL.md"), bundledContent)
 
 	skillStore := &customSlugConflictStore{

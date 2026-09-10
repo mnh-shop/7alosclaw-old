@@ -6,9 +6,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/sandbox"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/sandbox"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // WriteFileTool writes content to a file, optionally through a sandbox container.
@@ -16,7 +16,7 @@ type WriteFileTool struct {
 	workspace       string
 	restrict        bool
 	allowedPrefixes []string // extra allowed path prefixes (cross-drive on Windows)
-	deniedPrefixes  []string // path prefixes to deny access to (e.g. .goclaw)
+	deniedPrefixes  []string // path prefixes to deny access to (e.g. .zalosclaw)
 	sandboxMgr      sandbox.Manager
 	contextFileIntc *ContextFileInterceptor     // nil = no virtual FS routing
 	memIntc         *MemoryInterceptor          // nil = no memory routing

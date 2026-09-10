@@ -17,7 +17,7 @@ source: skill
 
 ## Overview
 
-Implement `digitopvn/goclaw#70`: when an agent handles a group chat message, system prompt includes a clear current chat context block with platform, chat type, group name when known, group ID, and sender identity.
+Implement `digitopvn/zalosclaw#70`: when an agent handles a group chat message, system prompt includes a clear current chat context block with platform, chat type, group name when known, group ID, and sender identity.
 
 Scope is prompt-only. No group-specific memory, rules engine, DB schema, session-key, or workspace behavior changes.
 
@@ -41,7 +41,7 @@ Scope is prompt-only. No group-specific memory, rules engine, DB schema, session
 
 ## Dependencies
 
-- GitHub issue: `digitopvn/goclaw#70`
+- GitHub issue: `digitopvn/zalosclaw#70`
 - No blocking plan found in this worktree.
 - Preserve existing `<current_reply_target>` behavior and group reply hints.
 

@@ -11,7 +11,7 @@ dependencies: []
 
 ## Context Links
 
-- Issue: `digitopvn/goclaw#64`
+- Issue: `digitopvn/zalosclaw#64`
 - Existing docs: `docs/06-store-data-model.md`, `docs/07-bootstrap-skills-memory.md`, `docs/09-security.md`, `docs/18-http-api.md`
 - Channel buffer: `internal/channels/history.go`, `internal/store/pending_message_store.go`
 - Memory/KG: `internal/consolidation/episodic_worker.go`, `internal/consolidation/semantic_worker.go`

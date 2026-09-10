@@ -112,7 +112,7 @@ export function CliCredentialGitFields({
             type="password"
             // Non-standard name discourages browser password managers from
             // offering to save the PAT into the OS credential store.
-            name="goclaw-cred-token"
+            name="zalosclaw-cred-token"
             autoComplete="off"
             spellCheck={false}
             value={token}

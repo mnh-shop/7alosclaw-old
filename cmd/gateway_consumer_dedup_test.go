@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
 )
 
 // TestConsumerDedupSeedsAlbumSiblings — Rule #4 (Phase 1).

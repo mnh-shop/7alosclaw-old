@@ -8,8 +8,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
-	httphandlers "github.com/nextlevelbuilder/goclaw/internal/http"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
+	httphandlers "github.com/nextlevelbuilder/zalosclaw/internal/http"
 )
 
 // TestTTSCapabilities_ListProviders verifies that the audio manager correctly

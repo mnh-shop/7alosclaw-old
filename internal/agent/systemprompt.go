@@ -6,10 +6,10 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // providerTypeOf extracts the DB provider_type (e.g. "chatgpt_oauth", "codex")
@@ -87,7 +87,7 @@ func resolvePromptMode(runtimeOverride PromptMode, sessionKey string, configMode
 
 // CacheBoundaryMarker separates stable (agent config) from dynamic (per-turn) prompt content.
 // Anthropic provider splits at this marker into 2 system blocks: stable gets cache_control, dynamic doesn't.
-const CacheBoundaryMarker = "<!-- GOCLAW_CACHE_BOUNDARY -->"
+const CacheBoundaryMarker = "<!-- ZALOSCLAW_CACHE_BOUNDARY -->"
 
 // SystemPromptConfig holds all inputs for system prompt construction.
 // Matches the params of TS buildAgentSystemPrompt().

@@ -20,7 +20,7 @@ The typed `git` adapter accepts either a **Personal Access Token (PAT)** or an
 
 | Type      | Use when                                                                        | Limits                                                       |
 | --------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| **PAT**   | GitHub/GitLab/Gitea over HTTPS. You already have a `ghp_…` or `glpat-…` token.  | Token must be unscoped to specific repos, OR cover all repos goclaw will touch. |
+| **PAT**   | GitHub/GitLab/Gitea over HTTPS. You already have a `ghp_…` or `glpat-…` token.  | Token must be unscoped to specific repos, OR cover all repos zalosclaw will touch. |
 | **SSH**   | Self-hosted git over SSH. You manage `~/.ssh/known_hosts` or accept TOFU risk.  | Passphrase-protected keys are NOT supported (see below).     |
 | **Env**   | Legacy path — you have a custom env-var-driven workflow.                        | Loses host-scoped routing; same trust profile as other CLIs. |
 
@@ -112,7 +112,7 @@ SSH), omit the port. If you run on a non-default port, include it.
 
 When no typed PAT/SSH credential is selected, or the selected credential cannot
 match the resolved remote host, adapter-managed remote commands fail closed
-with a GoClaw diagnostic. `git` is not allowed to fall through to an
+with a ZalosClaw diagnostic. `git` is not allowed to fall through to an
 interactive username/password prompt in agent runtime.
 
 ## Security model
@@ -128,22 +128,22 @@ interactive username/password prompt in agent runtime.
 - The raw PAT, base64 payload, and full injected header are all registered with
   the scrubber before tool output is returned to the agent.
 - The injected env vars are scoped to the spawned `git` process only; they are
-  NOT inherited by goclaw, by other tools, or by sibling exec calls.
+  NOT inherited by zalosclaw, by other tools, or by sibling exec calls.
 
 ### SSH path
 
 - The PEM key is written to an `0600`-mode tmpfile in `os.TempDir()` (per-user
-  on POSIX) with a `goclaw-gitkey-*` prefix.
+  on POSIX) with a `zalosclaw-gitkey-*` prefix.
 - `GIT_SSH_COMMAND` is set to
   `ssh -i <tmpfile> -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new`.
-- The tmpfile is removed via `defer` on the exec wrapper. **SIGKILL of goclaw
+- The tmpfile is removed via `defer` on the exec wrapper. **SIGKILL of zalosclaw
   leaves the file orphaned** — see the Operator Notes section below.
 - SSH private keys are validated twice at save time: first with Go's SSH parser,
   then with OpenSSH via `ssh-keygen -y -f <tmpfile>` when `ssh-keygen` is
   available. This catches keys that would otherwise save successfully but fail
   later with OpenSSH diagnostics such as `error in libcrypto`.
 - `StrictHostKeyChecking=accept-new` accepts unknown host keys on first
-  contact (TOFU). A network attacker positioned between goclaw and the git
+  contact (TOFU). A network attacker positioned between zalosclaw and the git
   host CAN capture the SSH session on the first connection. Operators should
   pre-seed `~/.ssh/known_hosts`:
 
@@ -157,7 +157,7 @@ interactive username/password prompt in agent runtime.
 
 The adapter rejects encrypted SSH keys at validation time with `error_key =
 git.cred_ssh_passphrase_unsupported`. Reason: we have no UX or storage slot
-for the passphrase, and ssh-agent forwarding is outside the goclaw security
+for the passphrase, and ssh-agent forwarding is outside the zalosclaw security
 model. Re-export your key without a passphrase, or use a dedicated deploy key.
 
 ### Redaction across output channels
@@ -212,8 +212,8 @@ agent and remove the user override when the override is no longer needed.
   every few minutes:
 
   ```sh
-  find "$TMPDIR" -name 'goclaw-gitkey-*' -mmin +60 -delete
-  find "$TMPDIR" -name 'goclaw-pgpass-*' -mmin +60 -delete
+  find "$TMPDIR" -name 'zalosclaw-gitkey-*' -mmin +60 -delete
+  find "$TMPDIR" -name 'zalosclaw-pgpass-*' -mmin +60 -delete
   ```
 
 - **Pre-seed known_hosts** to defeat TOFU MITM (see SSH path above).
@@ -232,7 +232,7 @@ agent and remove the user override when the override is no longer needed.
 - No passphrase-protected SSH keys.
 - No persistent `known_hosts` per credential (TOFU only).
 - No sandbox support.
-- PAT scope cannot be inspected — goclaw stores the token opaquely.
+- PAT scope cannot be inspected — zalosclaw stores the token opaquely.
 
 ## Future work
 

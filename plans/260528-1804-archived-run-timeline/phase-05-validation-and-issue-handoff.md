@@ -12,8 +12,8 @@ dependencies: [1, 2, 3, 4]
 ## Context Links
 
 - Plan overview: `plans/260528-1804-archived-run-timeline/plan.md`
-- GitHub issue: `digitopvn/goclaw#76`
-- Related issue boundary: `digitopvn/goclaw#67`
+- GitHub issue: `digitopvn/zalosclaw#76`
+- Related issue boundary: `digitopvn/zalosclaw#67`
 
 ## Overview
 

@@ -1,6 +1,6 @@
 # 05 - Channels and Messaging
 
-Channels connect external messaging platforms to the GoClaw agent runtime via a shared message bus. Each channel implementation translates platform-specific events into a unified `InboundMessage`, and converts agent responses into platform-appropriate outbound messages.
+Channels connect external messaging platforms to the ZalosClaw agent runtime via a shared message bus. Each channel implementation translates platform-specific events into a unified `InboundMessage`, and converts agent responses into platform-appropriate outbound messages.
 
 ---
 
@@ -515,7 +515,7 @@ Each update increments a sequence number for ordering. Updates are throttled at 
 
 ### Mention Resolution
 
-Feishu sends content with placeholder tokens (e.g., `@_user_1`) for mentioned users. GoClaw processes these:
+Feishu sends content with placeholder tokens (e.g., `@_user_1`) for mentioned users. ZalosClaw processes these:
 
 - **Bot mentions**: Stripped entirely (just the trigger, not meaningful content)
 - **User mentions**: Replaced with `@DisplayName` from the mention list
@@ -636,9 +636,9 @@ Key conversions: `**bold**` → `*bold*`, `~~strike~~` → `~strike~`, `[text](u
 ### Environment Variables
 
 ```
-GOCLAW_SLACK_BOT_TOKEN   → channels.slack.bot_token
-GOCLAW_SLACK_APP_TOKEN   → channels.slack.app_token
-GOCLAW_SLACK_USER_TOKEN  → channels.slack.user_token (optional)
+ZALOSCLAW_SLACK_BOT_TOKEN   → channels.slack.bot_token
+ZALOSCLAW_SLACK_APP_TOKEN   → channels.slack.app_token
+ZALOSCLAW_SLACK_USER_TOKEN  → channels.slack.user_token (optional)
 ```
 
 Auto-enables when both bot_token and app_token are set.

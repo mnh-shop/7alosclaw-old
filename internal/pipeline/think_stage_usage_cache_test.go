@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // TestThinkStage_AccumulatesCacheTokens guards the pipeline aggregation of cache

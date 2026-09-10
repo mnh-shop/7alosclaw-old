@@ -64,7 +64,7 @@ The `Stores` struct is the top-level container holding all PostgreSQL-backed sto
 | VaultStore | `SQLiteVaultStore` | LIKE search (no tsvector), no vector embedding |
 | AgentLinksStore | `SQLiteAgentLinks` | LIKE search, no vector |
 | SubagentTasksStore | `SQLiteSubagentTasks` | ✓ Parity (json_set for metadata merge) |
-| SecureCLIStore | `SQLiteSecureCLIStore` | ✓ Parity + AES-256-GCM encryption mandatory (GOCLAW_KEY env var required) |
+| SecureCLIStore | `SQLiteSecureCLIStore` | ✓ Parity + AES-256-GCM encryption mandatory (ZALOSCLAW_KEY env var required) |
 | HookStore | `SQLiteHookStore` | ✓ Parity (agent_hooks + hook_executions tables, same schema as PG) |
 
 ---
@@ -205,7 +205,7 @@ flowchart LR
     end
 ```
 
-`GOCLAW_ENCRYPTION_KEY` accepts three formats:
+`ZALOSCLAW_ENCRYPTION_KEY` accepts three formats:
 - **Hex**: 64 characters (decoded to 32 bytes)
 - **Base64**: 44 characters (decoded to 32 bytes)
 - **Raw**: 32 characters (32 bytes direct)
@@ -649,10 +649,10 @@ flowchart TD
 
 | Key | Type | Purpose |
 |-----|------|---------|
-| `goclaw_user_id` | string | External user ID (e.g., Telegram user ID) |
-| `goclaw_agent_id` | uuid.UUID | Agent UUID |
-| `goclaw_agent_type` | string | Agent type: `"open"` or `"predefined"` |
-| `goclaw_sender_id` | string | Original individual sender ID (in group chats, `user_id` is group-scoped but `sender_id` preserves the actual person) |
+| `zalosclaw_user_id` | string | External user ID (e.g., Telegram user ID) |
+| `zalosclaw_agent_id` | uuid.UUID | Agent UUID |
+| `zalosclaw_agent_type` | string | Agent type: `"open"` or `"predefined"` |
+| `zalosclaw_sender_id` | string | Original individual sender ID (in group chats, `user_id` is group-scoped but `sender_id` preserves the actual person) |
 
 ### Tool Context Keys
 
@@ -707,7 +707,7 @@ All "create or update" operations use `INSERT ... ON CONFLICT DO UPDATE`, ensuri
 
 ## 17. V3 Memory & Evolution System (New in v3)
 
-GoClaw v3 introduces a 3-tier memory architecture with event-driven consolidation.
+ZalosClaw v3 introduces a 3-tier memory architecture with event-driven consolidation.
 
 ### 3-Tier Memory Model
 

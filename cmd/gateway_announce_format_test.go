@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // TestBuildMergedAnnounceContent_SingleSuccess tests single completed task announcement.

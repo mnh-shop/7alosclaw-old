@@ -71,7 +71,7 @@ const (
 	// --- HTTP API ---
 	MsgInvalidAuth            = "error.invalid_auth"             // "invalid authentication"
 	MsgMsgsRequired           = "error.messages_required"        // "messages is required"
-	MsgUserIDHeader           = "error.user_id_header"           // "X-GoClaw-User-Id header is required"
+	MsgUserIDHeader           = "error.user_id_header"           // "X-ZalosClaw-User-Id header is required"
 	MsgFileTooLarge           = "error.file_too_large"           // "file too large or invalid multipart form"
 	MsgMissingFileField       = "error.missing_file_field"       // "missing 'file' field"
 	MsgInvalidFilename        = "error.invalid_filename"         // "invalid filename"
@@ -328,7 +328,7 @@ const (
 	MsgWebhookLocalhostOnlyViolation      = "webhook.localhost_only_violation"       // "this webhook is restricted to localhost callers"
 	MsgWebhookMediaChannelUnsupported     = "webhook.media_channel_unsupported"      // "channel does not support media attachments"
 	MsgWebhookIPDenied                    = "webhook.ip_denied"                      // "request origin is not in the IP allowlist"
-	MsgWebhookEncryptionUnavailable       = "webhook.encryption_unavailable"         // "webhook encryption key not configured; set GOCLAW_ENCRYPTION_KEY to enable webhooks"
+	MsgWebhookEncryptionUnavailable       = "webhook.encryption_unavailable"         // "webhook encryption key not configured; set ZALOSCLAW_ENCRYPTION_KEY to enable webhooks"
 	MsgWebhookMessageTestRequiresStandard = "webhook.message_test_requires_standard" // "testing message webhooks requires Standard edition"
 
 	// --- Workstation permissions ---

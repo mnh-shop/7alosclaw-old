@@ -19,10 +19,10 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/store/pg"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
 )
 
 // SetDB injects the raw DB handle needed for export/import direct queries.
@@ -82,7 +82,7 @@ func (h *SkillsHandler) handleSkillsExport(w http.ResponseWriter, r *http.Reques
 			return
 		}
 
-		tmpFile, err := os.CreateTemp("", "goclaw-skills-export-*"+exportReq.Format.Extension)
+		tmpFile, err := os.CreateTemp("", "zalosclaw-skills-export-*"+exportReq.Format.Extension)
 		if err != nil {
 			sendSSE(w, flusher, "error", ProgressEvent{Phase: "init", Status: "error", Detail: "failed to create temp file"})
 			return
@@ -455,7 +455,7 @@ func validateArchivePath(name string) error {
 func skillExportFileName(skills []pg.CustomSkillExport, format skillExportFormat, now time.Time) string {
 	if len(skills) == 1 {
 		sk := skills[0]
-		return fmt.Sprintf("goclaw-skill-%s-v%d%s", sanitizeName(sk.Slug), sk.Version, format.Extension)
+		return fmt.Sprintf("zalosclaw-skill-%s-v%d%s", sanitizeName(sk.Slug), sk.Version, format.Extension)
 	}
-	return fmt.Sprintf("goclaw-skills-export-%s%s", now.Format("20060102-1504"), format.Extension)
+	return fmt.Sprintf("zalosclaw-skills-export-%s%s", now.Format("20060102-1504"), format.Extension)
 }

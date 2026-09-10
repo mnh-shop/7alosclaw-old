@@ -20,9 +20,9 @@ import (
 	"github.com/google/uuid"
 	shellwords "github.com/mattn/go-shellwords"
 
-	"github.com/nextlevelbuilder/goclaw/internal/sandbox"
-	"github.com/nextlevelbuilder/goclaw/internal/skills"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/sandbox"
+	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // maxWrapperDepth is the hard cap on shell-wrapper unwrapping. Commands nested
@@ -469,7 +469,7 @@ func (t *ExecTool) executeCredentialed(ctx context.Context, cred *store.SecureCL
 			return r
 		}
 		// Plant the resolved exec cwd so adapters (e.g. git) can run any
-		// pre-flight sub-exec from the right repo, not goclaw's daemon CWD.
+		// pre-flight sub-exec from the right repo, not zalosclaw's daemon CWD.
 		prepareCtx := WithExecCwd(ctx, cwd)
 		inj, err := adapter.Prepare(prepareCtx, cred, userCred, args)
 		if err != nil {
@@ -776,7 +776,7 @@ func buildCredentialedEnv(envMap map[string]string) []string {
 			"PATH=" + getenvDefault("PATH", pathDefault),
 			"HOME=" + getenvDefault("HOME", homeDefault),
 			"LANG=" + getenvDefault("LANG", "en_US.UTF-8"),
-			"USERNAME=" + getenvDefault("USERNAME", "goclaw"),
+			"USERNAME=" + getenvDefault("USERNAME", "zalosclaw"),
 		}
 		// Pass through Windows runtime vars that native tools expect.
 		// Missing SYSTEMROOT breaks networking/registry in most Win32 programs.
@@ -795,7 +795,7 @@ func buildCredentialedEnv(envMap map[string]string) []string {
 			"PATH=" + getenvDefault("PATH", "/usr/local/bin:/usr/bin:/bin"),
 			"HOME=" + getenvDefault("HOME", "/tmp"),
 			"LANG=" + getenvDefault("LANG", "en_US.UTF-8"),
-			"USER=" + getenvDefault("USER", "goclaw"),
+			"USER=" + getenvDefault("USER", "zalosclaw"),
 		}
 	}
 	for k, v := range envMap {

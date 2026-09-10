@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/eventbus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/eventbus"
 )
 
 // recordingBus captures every published DomainEvent for assertion.

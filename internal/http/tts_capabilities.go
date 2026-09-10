@@ -3,13 +3,13 @@ package http
 import (
 	"net/http"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
-	"github.com/nextlevelbuilder/goclaw/internal/audio/edge"
-	"github.com/nextlevelbuilder/goclaw/internal/audio/elevenlabs"
-	"github.com/nextlevelbuilder/goclaw/internal/audio/gemini"
-	"github.com/nextlevelbuilder/goclaw/internal/audio/minimax"
-	"github.com/nextlevelbuilder/goclaw/internal/audio/openai"
-	"github.com/nextlevelbuilder/goclaw/internal/permissions"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio/edge"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio/elevenlabs"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio/gemini"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio/minimax"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio/openai"
+	"github.com/nextlevelbuilder/zalosclaw/internal/permissions"
 )
 
 // ttsCapabilitiesResponse is the JSON envelope for GET /v1/tts/capabilities.

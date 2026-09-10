@@ -10,9 +10,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/tracing"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tracing"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 func (t *TeamTasksTool) executeCreate(ctx context.Context, args map[string]any) *Result {

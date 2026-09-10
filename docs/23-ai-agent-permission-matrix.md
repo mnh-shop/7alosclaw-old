@@ -8,7 +8,7 @@ This matrix documents the effective authorization layers for agent actions acros
 |-------|-------|-------------|-------|
 | Tenant RBAC | Dashboard, HTTP, WebSocket RPC | `internal/permissions` | Viewer/operator/admin/owner. Admin methods include `config.permissions.*`. |
 | Agent ownership/share | Agent visibility and management | `store.AgentStore.CanAccess` | Controls which agents a dashboard user can manage. |
-| Channel membership | Platform delivery | Channel adapter | Platform can still reject outbound delivery after GoClaw allows it. |
+| Channel membership | Platform delivery | Channel adapter | Platform can still reject outbound delivery after ZalosClaw allows it. |
 | Agent config permissions | Agent config mutations from chat | `agent_config_permissions` | Matches by `agent_id`, `scope`, `config_type`, `user_id`, including wildcard rows. |
 | Workspace file boundary | Filesystem access | tool sandbox/boundary checks | Prevents path escape and unsupported writes. |
 | Context file boundary | Agent identity/context files | `ContextFileInterceptor` | Routes protected files to store and requires group writer permission in group contexts. |
@@ -69,7 +69,7 @@ The Permissions tab should expose a full matrix editor:
 - Synthetic senders remain denied for group file/context writes. This avoids system turns inheriting permissions from no real user.
 - Permission-store errors fail closed for group mutation boundaries.
 - Backend validation rejects unknown config types and permissions before writing rules.
-- Platform send permissions are still separate from GoClaw permissions; a channel adapter may reject delivery even when GoClaw allows the agent action.
+- Platform send permissions are still separate from ZalosClaw permissions; a channel adapter may reject delivery even when ZalosClaw allows the agent action.
 
 ## Channel context capabilities
 

@@ -499,7 +499,7 @@ func (i *GitHubInstaller) Install(ctx context.Context, spec string) (*GitHubPack
 
 	// Pass the repo name as the fallback logical name so raw (non-archive)
 	// ELF assets don't end up recorded under the temp filename
-	// "goclaw-gh-asset-XXXX.bin".
+	// "zalosclaw-gh-asset-XXXX.bin".
 	files, err := ExtractArchiveAs(tmpPath, parsed.Repo, 2*maxBytes)
 	if err != nil {
 		return nil, err

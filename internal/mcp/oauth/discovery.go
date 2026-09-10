@@ -15,7 +15,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/security"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
 )
 
 const discoveryCacheTTL = 5 * time.Minute

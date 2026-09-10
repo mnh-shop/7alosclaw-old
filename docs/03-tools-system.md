@@ -114,7 +114,7 @@ Memory layers: L1 (`memory_search`) returns ranked abstracts; L2 (`memory_expand
 | `session_status` | Get current session status |
 | `spawn` | Spawn a subagent or delegate to another session |
 
-### Knowledge & Vault (`group:knowledge` / `group:goclaw`)
+### Knowledge & Vault (`group:knowledge` / `group:zalosclaw`)
 
 | Tool | Description |
 |---|---|
@@ -380,7 +380,7 @@ flowchart TD
 | `automation` | `cron` |
 | `messaging` | `message`, `create_forum_topic`, `list_group_members` |
 | `team` | `team_tasks` |
-| `goclaw` | All native built-in tools (composite) |
+| `zalosclaw` | All native built-in tools (composite) |
 
 MCP groups (`mcp`, `mcp:{serverName}`) are registered dynamically at connection time.
 
@@ -528,7 +528,7 @@ Current adopters: `exec`, `web_search`, `web_fetch`, `tts`, `create_image`, `rea
 
 ## 10. MCP Integration
 
-GoClaw integrates with Model Context Protocol (MCP) servers. The MCP Manager connects to external tool servers and registers their tools in the tool registry with a configurable prefix (e.g. `mcp_servername_toolname`).
+ZalosClaw integrates with Model Context Protocol (MCP) servers. The MCP Manager connects to external tool servers and registers their tools in the tool registry with a configurable prefix (e.g. `mcp_servername_toolname`).
 
 **Transports:**
 
@@ -658,7 +658,7 @@ cannot satisfy the lookup.
 
 Terminal persistence uses per-attempt database deadlines and a longer bounded
 retry window than announcement delivery. If the database remains unavailable
-for the entire window, GoClaw does not falsely mark the announcement as
+for the entire window, ZalosClaw does not falsely mark the announcement as
 delivered; a live announcement is still attempted. On the next startup that
 can reach the database, every non-terminal completion row left by the previous
 process is marked `failed` with an interruption reason, so it cannot remain

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/nextlevelbuilder/goclaw/internal/eventbus"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/eventbus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // dedupWorker handles entity.upserted events → runs dedup checks on new entities.

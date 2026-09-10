@@ -12,7 +12,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/upgrade"
+	"github.com/nextlevelbuilder/zalosclaw/internal/upgrade"
 )
 
 // RestoreOptions configures a system restore run.
@@ -107,7 +107,7 @@ func Restore(ctx context.Context, opts RestoreOptions) (*RestoreResult, error) {
 	if err := json.Unmarshal(manifestData, &manifest); err != nil {
 		return nil, fmt.Errorf("parse manifest: %w", err)
 	}
-	if manifest.Format != "goclaw-system-backup" {
+	if manifest.Format != "zalosclaw-system-backup" {
 		return nil, fmt.Errorf("unsupported archive format: %q", manifest.Format)
 	}
 
@@ -119,12 +119,12 @@ func Restore(ctx context.Context, opts RestoreOptions) (*RestoreResult, error) {
 	// Schema version check.
 	currentSchema := int(upgrade.RequiredSchemaVersion)
 	if manifest.SchemaVersion > currentSchema {
-		return nil, fmt.Errorf("backup schema version %d is newer than current %d; upgrade GoClaw first",
+		return nil, fmt.Errorf("backup schema version %d is newer than current %d; upgrade ZalosClaw first",
 			manifest.SchemaVersion, currentSchema)
 	}
 	if manifest.SchemaVersion < currentSchema {
 		result.Warnings = append(result.Warnings,
-			fmt.Sprintf("backup schema version %d is older than current %d; run 'goclaw migrate up' after restore",
+			fmt.Sprintf("backup schema version %d is older than current %d; run 'zalosclaw migrate up' after restore",
 				manifest.SchemaVersion, currentSchema))
 	}
 

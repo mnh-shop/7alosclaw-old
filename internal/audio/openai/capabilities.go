@@ -1,6 +1,6 @@
 package openai
 
-import "github.com/nextlevelbuilder/goclaw/internal/audio"
+import "github.com/nextlevelbuilder/zalosclaw/internal/audio"
 
 // openAIModels is the static allowlist of supported OpenAI TTS models.
 var openAIModels = []string{

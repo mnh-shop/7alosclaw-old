@@ -1,6 +1,6 @@
 package agent
 
-import "github.com/nextlevelbuilder/goclaw/internal/memory"
+import "github.com/nextlevelbuilder/zalosclaw/internal/memory"
 
 // PromptConfig controls which template sections to include in the system prompt.
 // Each bool field maps to a named template block.

@@ -1,6 +1,6 @@
 # Google Workspace CLI Integration
 
-GoClaw supports Google Workspace CLI through the `gws` binary from `@googleworkspace/cli`.
+ZalosClaw supports Google Workspace CLI through the `gws` binary from `@googleworkspace/cli`.
 
 ## Runtime availability
 
@@ -84,5 +84,5 @@ Do not mark live Google Workspace validation complete unless all three authentic
 ## Limitations
 
 - Google Workspace auth and scopes are controlled by the configured Google account, OAuth app, token, or credentials file.
-- Domain-wide delegation and account impersonation are not represented by a GoClaw preset env var. Configure those in Google Workspace and the credential file if needed.
+- Domain-wide delegation and account impersonation are not represented by a ZalosClaw preset env var. Configure those in Google Workspace and the credential file if needed.
 - Write commands can modify Workspace data. Keep the default preset read-oriented, and create a separate reviewed SecureCLI config for approved write workflows.

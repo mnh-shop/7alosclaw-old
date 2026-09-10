@@ -11,7 +11,7 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // remarshalInto converts a generic decoded-JSON map into a typed struct via
@@ -26,8 +26,8 @@ func remarshalInto(src map[string]any, dst any) error {
 	return json.Unmarshal(raw, dst)
 }
 
-// registerAgentExportCRUDTools registers goclaw_agents_export/
-// goclaw_agents_import, partially closing the `goclaw export agent`/`import
+// registerAgentExportCRUDTools registers zalosclaw_agents_export/
+// zalosclaw_agents_import, partially closing the `zalosclaw export agent`/`import
 // agent` CLI-vs-MCP coverage gap. Scoped to agent config + context files
 // (SOUL.md, IDENTITY.md, etc.) as a JSON payload — the CLI's full export is
 // a multi-section tar archive (config, context files, knowledge graph
@@ -37,17 +37,17 @@ func remarshalInto(src map[string]any, dst any) error {
 // the commonly-needed portable subset (an agent's "brain"); KG/workspace
 // portability is not covered here.
 func registerAgentExportCRUDTools(srv *mcpserver.MCPServer, agents store.AgentStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_agents_export",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agents_export",
 		mcpgo.WithDescription("Export an agent's config and context files (SOUL.md, IDENTITY.md, etc.) as a JSON snapshot. Does not include knowledge graph or workspace files — see tool description for the full CLI export's scope."),
 		mcpgo.WithString("id", mcpgo.Description("Agent UUID.")),
 		mcpgo.WithString("agent_key", mcpgo.Description("Agent key/slug, used when id is not known.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleAgentsExport(agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_agents_import",
-		mcpgo.WithDescription("Create a new agent from a goclaw_agents_export snapshot. Always creates a new agent (never overwrites) — pass a new agent_key to avoid collision, or omit to auto-dedup the exported key."),
-		mcpgo.WithObject("config", mcpgo.Required(), mcpgo.Description("The \"config\" object from a goclaw_agents_export snapshot.")),
-		mcpgo.WithObject("context_files", mcpgo.Description("The \"context_files\" object from a goclaw_agents_export snapshot (file name -> content).")),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agents_import",
+		mcpgo.WithDescription("Create a new agent from a zalosclaw_agents_export snapshot. Always creates a new agent (never overwrites) — pass a new agent_key to avoid collision, or omit to auto-dedup the exported key."),
+		mcpgo.WithObject("config", mcpgo.Required(), mcpgo.Description("The \"config\" object from a zalosclaw_agents_export snapshot.")),
+		mcpgo.WithObject("context_files", mcpgo.Description("The \"context_files\" object from a zalosclaw_agents_export snapshot (file name -> content).")),
 		mcpgo.WithString("agent_key", mcpgo.Description("Override agent_key for the new agent; defaults to the exported agent_key.")),
 		mcpgo.WithString("owner_id", mcpgo.Description("Owner user ID; defaults to \"system\".")),
 	), handleAgentsImport(agents))

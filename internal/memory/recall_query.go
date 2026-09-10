@@ -10,7 +10,7 @@ import "strings"
 // either way). Tuning knob; change only if recall quality metrics show a
 // clear trend in either direction.
 //
-// Unit is runes, not bytes, because GoClaw supports vi/zh locales: a
+// Unit is runes, not bytes, because ZalosClaw supports vi/zh locales: a
 // byte-wise tail-clip would slice a multi-byte rune in half and emit invalid
 // UTF-8 to the embedding model.
 const maxRecallContextRunes = 400

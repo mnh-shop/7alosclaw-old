@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // psqlAdapter is the framework-validation stub adapter (Phase 2b).

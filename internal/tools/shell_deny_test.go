@@ -189,8 +189,8 @@ func TestPathExemptions(t *testing.T) {
 		workspace: workspace,
 		restrict:  false,
 	}
-	tool.DenyPaths(dataDir, ".goclaw/")
-	tool.AllowPathExemptions(".goclaw/skills-store/", filepath.Join(dataDir, "skills-store")+"/")
+	tool.DenyPaths(dataDir, ".zalosclaw/")
+	tool.AllowPathExemptions(".zalosclaw/skills-store/", filepath.Join(dataDir, "skills-store")+"/")
 
 	cases := []struct {
 		name  string
@@ -200,7 +200,7 @@ func TestPathExemptions(t *testing.T) {
 		// --- Exempted commands ---
 		{
 			"relative_skills_store",
-			"python3 .goclaw/skills-store/ck-ui/scripts/search.py --query test",
+			"python3 .zalosclaw/skills-store/ck-ui/scripts/search.py --query test",
 			true,
 		},
 		{
@@ -220,7 +220,7 @@ func TestPathExemptions(t *testing.T) {
 		},
 		{
 			"quoted_double_relative",
-			`python3 ".goclaw/skills-store/tool.py"`,
+			`python3 ".zalosclaw/skills-store/tool.py"`,
 			true,
 		},
 
@@ -232,17 +232,17 @@ func TestPathExemptions(t *testing.T) {
 		},
 		{
 			"datadir_db",
-			"cp /app/data/goclaw.db /tmp/",
+			"cp /app/data/zalosclaw.db /tmp/",
 			false,
 		},
 		{
-			"dotgoclaw_root",
-			"ls .goclaw/",
+			"dotzalosclaw_root",
+			"ls .zalosclaw/",
 			false,
 		},
 		{
-			"dotgoclaw_secrets",
-			"cat .goclaw/secrets.json",
+			"dotzalosclaw_secrets",
+			"cat .zalosclaw/secrets.json",
 			false,
 		},
 
@@ -254,7 +254,7 @@ func TestPathExemptions(t *testing.T) {
 		},
 		{
 			"traversal_relative",
-			"cat .goclaw/skills-store/../secrets.json",
+			"cat .zalosclaw/skills-store/../secrets.json",
 			false,
 		},
 		{
@@ -271,7 +271,7 @@ func TestPathExemptions(t *testing.T) {
 		// --- Comment/pipe bypass attempts (denied by per-field matching) ---
 		{
 			"comment_with_exempt_path",
-			"cat /app/data/config.json # .goclaw/skills-store/legit",
+			"cat /app/data/config.json # .zalosclaw/skills-store/legit",
 			false, // /app/data/config.json matches deny and is NOT exempt
 		},
 
@@ -495,22 +495,22 @@ func TestExecute_DoesNotExemptOtherDataDirPaths(t *testing.T) {
 	}
 }
 
-func TestExecute_DoesNotExemptWorkspaceLocalDotGoclawPaths(t *testing.T) {
+func TestExecute_DoesNotExemptWorkspaceLocalDotZalosclawPaths(t *testing.T) {
 	dataDir := t.TempDir()
 	workspace := filepath.Join(dataDir, "teams", "team-123")
 	if err := os.MkdirAll(workspace, 0755); err != nil {
 		t.Fatalf("MkdirAll() error = %v", err)
 	}
 	tool := NewExecTool("/workspace", false)
-	tool.DenyPaths(dataDir, ".goclaw/")
+	tool.DenyPaths(dataDir, ".zalosclaw/")
 
 	ctx := WithToolWorkspace(context.Background(), workspace)
 	result := tool.Execute(ctx, map[string]any{
-		"command": "printf '%s' " + filepath.Join(workspace, ".goclaw", "secrets.json"),
+		"command": "printf '%s' " + filepath.Join(workspace, ".zalosclaw", "secrets.json"),
 	})
 
 	if !strings.Contains(result.ForLLM, "command denied by safety policy") {
-		t.Fatalf("expected workspace-local .goclaw path to remain denied, got: %s", result.ForLLM)
+		t.Fatalf("expected workspace-local .zalosclaw path to remain denied, got: %s", result.ForLLM)
 	}
 }
 
@@ -581,7 +581,7 @@ func TestExecute_DoesNotExemptSymlinkEscapeInsideTeamWorkspace(t *testing.T) {
 
 func TestExecute_AllowsLegacyWorkspaceUploadsLayout(t *testing.T) {
 	dataDir := t.TempDir()
-	workspace := filepath.Join(dataDir, ".goclaw", "goclaw-workspace", "ws", "system")
+	workspace := filepath.Join(dataDir, ".zalosclaw", "zalosclaw-workspace", "ws", "system")
 	legacyUploads := filepath.Join(workspace, "uploads")
 	if err := os.MkdirAll(legacyUploads, 0755); err != nil {
 		t.Fatalf("MkdirAll() error = %v", err)
@@ -593,7 +593,7 @@ func TestExecute_AllowsLegacyWorkspaceUploadsLayout(t *testing.T) {
 	commandTarget := filepath.ToSlash(target)
 
 	tool := NewExecTool("/workspace", false)
-	tool.DenyPaths(dataDir, ".goclaw/")
+	tool.DenyPaths(dataDir, ".zalosclaw/")
 
 	ctx := WithToolWorkspace(context.Background(), workspace)
 	result := tool.Execute(ctx, map[string]any{
@@ -607,16 +607,16 @@ func TestExecute_AllowsLegacyWorkspaceUploadsLayout(t *testing.T) {
 
 func TestPathAliasVariants_AppWorkspaceMirror(t *testing.T) {
 	got := pathAliasVariants("/app/workspace/glm-thuc-bo/ws/user/.uploads")
-	want := "/app/.goclaw/glm-thuc-bo/ws/user/.uploads"
+	want := "/app/.zalosclaw/glm-thuc-bo/ws/user/.uploads"
 	if !slices.Contains(got, want) {
 		t.Fatalf("expected mirror variant %q in %v", want, got)
 	}
 }
 
-func TestIsNestedUnderDeniedRoot_RelativeDotGoclaw(t *testing.T) {
-	tool := &ExecTool{pathDenyRoots: []string{".goclaw/"}}
-	if !tool.isNestedUnderDeniedRoot("/app/.goclaw/glm-thuc-bo/ws/user/.uploads") {
-		t.Fatal("expected absolute .goclaw path to be treated as nested under relative deny root")
+func TestIsNestedUnderDeniedRoot_RelativeDotZalosclaw(t *testing.T) {
+	tool := &ExecTool{pathDenyRoots: []string{".zalosclaw/"}}
+	if !tool.isNestedUnderDeniedRoot("/app/.zalosclaw/glm-thuc-bo/ws/user/.uploads") {
+		t.Fatal("expected absolute .zalosclaw path to be treated as nested under relative deny root")
 	}
 }
 

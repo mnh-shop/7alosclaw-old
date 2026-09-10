@@ -4,7 +4,7 @@
 #   docker compose -f docker-compose.yml -f docker-compose.postgres.yml -f docker-compose.browser.yml up -d --build
 #
 # The Chrome sidecar exposes CDP (Chrome DevTools Protocol) on port 9222.
-# GoClaw connects to it automatically via GOCLAW_BROWSER_REMOTE_URL.
+# ZalosClaw connects to it automatically via ZALOSCLAW_BROWSER_REMOTE_URL.
 
 services:
   chrome:
@@ -17,7 +17,7 @@ services:
     # and --remote-debugging-port=9223, and fronts it with socat on :9222.
     # Re-specifying those flags here duplicates them and causes Chrome to
     # fail with "bind() failed: Address already in use". Pass only the
-    # goclaw-specific tweaks (headless mode, origin allowlist, GPU off).
+    # zalosclaw-specific tweaks (headless mode, origin allowlist, GPU off).
     command:
       - --no-sandbox
       # New headless (Chrome 112+) is required for --load-extension to work.
@@ -42,9 +42,9 @@ services:
           cpus: '2.0'
     restart: unless-stopped
 
-  goclaw:
+  zalosclaw:
     environment:
-      - GOCLAW_BROWSER_REMOTE_URL=ws://chrome:9222
+      - ZALOSCLAW_BROWSER_REMOTE_URL=ws://chrome:9222
     depends_on:
       chrome:
         condition: service_healthy

@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
 )
 
 const asyncCompletionAttempts = 3

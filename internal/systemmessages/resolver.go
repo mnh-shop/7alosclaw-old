@@ -1,12 +1,12 @@
-// Package systemmessages renders configurable messages that GoClaw sends
+// Package systemmessages renders configurable messages that ZalosClaw sends
 // directly, outside normal LLM output.
 package systemmessages
 
 import (
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
 )
 
 const (
@@ -17,7 +17,7 @@ const (
 	KeyPairingApproved              = "pairing.approved"
 )
 
-const defaultAppName = "GoClaw"
+const defaultAppName = "ZalosClaw"
 
 // Vars are {{name}} template variables used when rendering a system message.
 type Vars map[string]string
@@ -238,7 +238,7 @@ func (r *Resolver) withDefaults(vars Vars) Vars {
 		out["app_name"] = r.appName()
 	}
 	if strings.TrimSpace(out["approve_command"]) == "" && strings.TrimSpace(out["code"]) != "" {
-		out["approve_command"] = "goclaw pairing approve " + out["code"]
+		out["approve_command"] = "zalosclaw pairing approve " + out["code"]
 	}
 	return out
 }

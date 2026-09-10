@@ -1,6 +1,6 @@
 package pipeline
 
-import "github.com/nextlevelbuilder/goclaw/internal/providers"
+import "github.com/nextlevelbuilder/zalosclaw/internal/providers"
 
 // InputContextTokens returns the provider-reported input occupancy for one
 // request. Anthropic-style usage reports cached segments separately, while

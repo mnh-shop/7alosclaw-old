@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // ── mock KG store ──────────────────────────────────────────────────
@@ -146,7 +146,7 @@ func kgContext() context.Context {
 
 // setupBaseGraph creates the shared test graph:
 //
-//	A(Viettx) →[owns]→ B(GoClaw) →[implements]→ C(Dầu thô) →[related_to]→ D(Kuwait)
+//	A(Viettx) →[owns]→ B(ZalosClaw) →[implements]→ C(Dầu thô) →[related_to]→ D(Kuwait)
 //	A(Viettx) →[manages]→ C(Dầu thô)
 //	E(Chiến sự Trung Đông) — isolated, no relations
 func setupBaseGraph() (*mockKGStore, map[string]string) {
@@ -161,7 +161,7 @@ func setupBaseGraph() (*mockKGStore, map[string]string) {
 
 	entities := []store.Entity{
 		{ID: ids["A"], AgentID: testAgentID.String(), UserID: testUserID, Name: "Viettx", EntityType: "person"},
-		{ID: ids["B"], AgentID: testAgentID.String(), UserID: testUserID, Name: "GoClaw", EntityType: "project"},
+		{ID: ids["B"], AgentID: testAgentID.String(), UserID: testUserID, Name: "ZalosClaw", EntityType: "project"},
 		{ID: ids["C"], AgentID: testAgentID.String(), UserID: testUserID, Name: "Dầu thô", EntityType: "concept"},
 		{ID: ids["D"], AgentID: testAgentID.String(), UserID: testUserID, Name: "Kuwait", EntityType: "location"},
 		{ID: ids["E"], AgentID: testAgentID.String(), UserID: testUserID, Name: "Chiến sự Trung Đông", EntityType: "event"},
@@ -180,7 +180,7 @@ func setupBaseGraph() (*mockKGStore, map[string]string) {
 	// Pre-compute traversal results (mock outgoing-only behavior)
 	// A → B, C (outgoing from A)
 	ms.traversal[ids["A"]] = []store.TraversalResult{
-		{Entity: entities[1], Depth: 1, Via: "owns"},    // B=GoClaw
+		{Entity: entities[1], Depth: 1, Via: "owns"},    // B=ZalosClaw
 		{Entity: entities[2], Depth: 1, Via: "manages"}, // C=Dầu thô
 	}
 	// B → C (outgoing from B)
@@ -208,8 +208,8 @@ func TestKGTraversal_Tier1_OutgoingEdges(t *testing.T) {
 	result := tool.executeTraversal(ctx, testAgentID.String(), testUserID, ids["A"], 2, "Viettx")
 	text := result.ForLLM
 
-	if !strings.Contains(text, "GoClaw") {
-		t.Error("expected result to contain 'GoClaw'")
+	if !strings.Contains(text, "ZalosClaw") {
+		t.Error("expected result to contain 'ZalosClaw'")
 	}
 	if !strings.Contains(text, "Dầu thô") {
 		t.Error("expected result to contain 'Dầu thô'")
@@ -312,8 +312,8 @@ func TestKGTraversal_Tier1_SkipsTier2WhenTraversalHasResults(t *testing.T) {
 	tool.SetKGStore(ms)
 
 	ctx := kgContext()
-	// B=GoClaw has 1 outgoing (B→C) and 1 incoming (A→B)
-	result := tool.executeTraversal(ctx, testAgentID.String(), testUserID, ids["B"], 2, "GoClaw")
+	// B=ZalosClaw has 1 outgoing (B→C) and 1 incoming (A→B)
+	result := tool.executeTraversal(ctx, testAgentID.String(), testUserID, ids["B"], 2, "ZalosClaw")
 	text := result.ForLLM
 
 	if !strings.Contains(text, "Dầu thô") {

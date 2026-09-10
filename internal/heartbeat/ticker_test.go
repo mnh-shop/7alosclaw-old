@@ -3,7 +3,7 @@ package heartbeat
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // Test pure functions with table-driven tests

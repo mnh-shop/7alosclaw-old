@@ -9,7 +9,7 @@ import (
 	"go.mau.fi/whatsmeow"
 	"go.mau.fi/whatsmeow/types/events"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channels/media"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/media"
 )
 
 // downloadMedia downloads media attachments from a WhatsApp message.
@@ -62,7 +62,7 @@ func (c *Channel) downloadMedia(evt *events.Message) []media.MediaInfo {
 		}
 
 		ext := mimeToExt(item.mimetype)
-		tmpFile, err := os.CreateTemp("", "goclaw_wa_*"+ext)
+		tmpFile, err := os.CreateTemp("", "zalosclaw_wa_*"+ext)
 		if err != nil {
 			slog.Warn("whatsapp: temp file creation failed", "error", err)
 			continue

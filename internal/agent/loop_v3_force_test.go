@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // TestRunLoop_Removed verifies that the v2 runLoop method no longer exists.

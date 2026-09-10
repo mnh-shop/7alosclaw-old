@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // mockResolver is a test double that returns pre-configured resolutions.

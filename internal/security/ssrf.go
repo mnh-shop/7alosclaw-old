@@ -106,10 +106,10 @@ func isExemptable(ip net.IP) bool {
 
 // SSRFAllowedCIDRsEnv names the operator escape hatch for deployments where a
 // transparent proxy makes DNS resolution stop describing the real destination.
-const SSRFAllowedCIDRsEnv = "GOCLAW_SSRF_ALLOWED_CIDRS"
+const SSRFAllowedCIDRsEnv = "ZALOSCLAW_SSRF_ALLOWED_CIDRS"
 
 // operatorAllowedCIDRs are ranges an operator has explicitly un-blocked via
-// GOCLAW_SSRF_ALLOWED_CIDRS (comma-separated). Empty by default, which leaves
+// ZALOSCLAW_SSRF_ALLOWED_CIDRS (comma-separated). Empty by default, which leaves
 // the block list exactly as it ships.
 //
 // The case this exists for: a TUN/fake-IP proxy answers every DNS query with a
@@ -222,7 +222,7 @@ func isOperatorAllowed(ip net.IP) bool {
 }
 
 // IsOperatorAllowed reports whether an operator has explicitly un-blocked ip's
-// range via GOCLAW_SSRF_ALLOWED_CIDRS.
+// range via ZALOSCLAW_SSRF_ALLOWED_CIDRS.
 //
 // Exported for the separate SSRF check in internal/tools, which carries its own
 // private-range list. Both gates have to honour the same operator setting, or

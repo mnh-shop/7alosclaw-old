@@ -10,9 +10,9 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/store/pg"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
 )
 
 // writeExportArchive builds a tar.gz archive into w, calling progressFn after each section.
@@ -24,7 +24,7 @@ func (h *AgentsHandler) writeExportArchive(ctx context.Context, w io.Writer, ag 
 
 	manifest := &ExportManifest{
 		Version:    1,
-		Format:     "goclaw-agent-export",
+		Format:     "zalosclaw-agent-export",
 		ExportedAt: time.Now().UTC().Format(time.RFC3339),
 		ExportedBy: store.UserIDFromContext(ctx),
 		AgentKey:   ag.AgentKey,

@@ -11,8 +11,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/security"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // mockOAuthStore is a minimal in-memory implementation of store.MCPOAuthTokenStore.

@@ -1,6 +1,6 @@
 # Browser Backends
 
-Goclaw's browser automation tool (`pkg/browser/`) connects to any CDP-compatible browser. Two backends are supported:
+Zalosclaw's browser automation tool (`pkg/browser/`) connects to any CDP-compatible browser. Two backends are supported:
 
 | Backend | Image | Overlay | Status |
 |---|---|---|---|
@@ -9,7 +9,7 @@ Goclaw's browser automation tool (`pkg/browser/`) connects to any CDP-compatible
 
 ## Switching backends
 
-Both overlays set `GOCLAW_BROWSER_REMOTE_URL` to their respective sidecar. Only one should be active at a time.
+Both overlays set `ZALOSCLAW_BROWSER_REMOTE_URL` to their respective sidecar. Only one should be active at a time.
 
 ```bash
 # Chrome (default)
@@ -19,7 +19,7 @@ docker compose -f docker-compose.yml -f docker-compose.postgres.yml -f docker-co
 docker compose -f docker-compose.yml -f docker-compose.postgres.yml -f docker-compose.lightpanda.yml up -d
 ```
 
-Set `GOCLAW_BROWSER_BACKEND=chrome|lightpanda` to pick the backend explicitly. If unset, goclaw probes `/json/version` on the remote and auto-detects from the `Browser` field.
+Set `ZALOSCLAW_BROWSER_BACKEND=chrome|lightpanda` to pick the backend explicitly. If unset, zalosclaw probes `/json/version` on the remote and auto-detects from the `Browser` field.
 
 ## Compatibility matrix
 
@@ -31,11 +31,11 @@ Set `GOCLAW_BROWSER_BACKEND=chrome|lightpanda` to pick the backend explicitly. I
 | Wait (text / URL / stable) | ✅ | ✅ | |
 | Evaluate JS | ✅ | ✅ | go-rod's `Page.Eval` requires a function form (`() => document.title`), not a bare expression — same on both backends |
 | Screenshot (`Page.captureScreenshot`) | ✅ | ❌ | Lightpanda returns a placeholder image. The tool returns an error on Lightpanda directing the agent to use `snapshot` instead |
-| Multiple tabs per connection | ✅ | ❌ | Lightpanda: 1 CDP connection = 1 tab. Goclaw opens a fresh connection per tab transparently |
+| Multiple tabs per connection | ✅ | ❌ | Lightpanda: 1 CDP connection = 1 tab. Zalosclaw opens a fresh connection per tab transparently |
 | Browser contexts / incognito | ✅ | Implicit | On Lightpanda every connection is already a fresh browser — isolation is automatic, no `Target.createBrowserContext` multiplexing |
 | Cookies / localStorage shared across tabs | ✅ within a context | ❌ | Lightpanda: each tab is a fresh browser. A login on one tab is not visible to another |
-| List open tabs from server | ✅ | ❌ | Lightpanda: no `/json/list`. Goclaw tracks tabs in its local map (URL/title cached at OpenTab time, since `page.Info()` is also unreliable post-open) |
-| Auto-reconnect on WS drop | ✅ | ❌ | Lightpanda: connection death = that tab is gone server-side. Goclaw drops the tab from the map and surfaces a clear error |
+| List open tabs from server | ✅ | ❌ | Lightpanda: no `/json/list`. Zalosclaw tracks tabs in its local map (URL/title cached at OpenTab time, since `page.Info()` is also unreliable post-open) |
+| Auto-reconnect on WS drop | ✅ | ❌ | Lightpanda: connection death = that tab is gone server-side. Zalosclaw drops the tab from the map and surfaces a clear error |
 
 ## Minimum Lightpanda version
 
@@ -58,4 +58,4 @@ The AX-tree (`Accessibility.getFullAXTree`) snapshot path requires Lightpanda wi
 
 - Lightpanda: https://lightpanda.io
 - Lightpanda + go-rod demos: https://github.com/lightpanda-io/demo/tree/main/rod
-- Tracking issue: https://github.com/nextlevelbuilder/goclaw/issues/223
+- Tracking issue: https://github.com/nextlevelbuilder/zalosclaw/issues/223

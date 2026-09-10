@@ -7,8 +7,8 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // ollamaTagsHandler returns an httptest.Handler that serves /api/tags with the

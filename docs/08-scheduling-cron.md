@@ -51,10 +51,10 @@ flowchart TD
 
 | Lane | Concurrency | Env Override | Purpose |
 |------|:-----------:|-------------|---------|
-| `main` | 30 | `GOCLAW_LANE_MAIN` | Primary user chat sessions |
-| `subagent` | 50 | `GOCLAW_LANE_SUBAGENT` | Sub-agents spawned by the main agent |
-| `team` | 100 | `GOCLAW_LANE_TEAM` | Agent team/delegation executions |
-| `cron` | 30 | `GOCLAW_LANE_CRON` | Scheduled cron jobs (per-session serialization prevents same-job races) |
+| `main` | 30 | `ZALOSCLAW_LANE_MAIN` | Primary user chat sessions |
+| `subagent` | 50 | `ZALOSCLAW_LANE_SUBAGENT` | Sub-agents spawned by the main agent |
+| `team` | 100 | `ZALOSCLAW_LANE_TEAM` | Agent team/delegation executions |
+| `cron` | 30 | `ZALOSCLAW_LANE_CRON` | Scheduled cron jobs (per-session serialization prevents same-job races) |
 
 `GetOrCreate()` allows creating new lanes on demand with custom concurrency. All lane concurrency values are configurable via environment variables.
 
@@ -245,10 +245,10 @@ When disabled, both the RPC (`cron.create`) and the agent `cron` tool reject com
 Via the CLI (operator):
 
 ```bash
-goclaw cron create --name disk-probe --cron '*/15 * * * *' \
+zalosclaw cron create --name disk-probe --cron '*/15 * * * *' \
   --command 'df -h /' --deliver --channel telegram --to '-100123'
 
-goclaw cron create --name nightly-backup --at 2026-07-01T18:00:00Z \
+zalosclaw cron create --name nightly-backup --at 2026-07-01T18:00:00Z \
   --argv '["/opt/backup.sh","--full"]' --timeout 5m
 ```
 

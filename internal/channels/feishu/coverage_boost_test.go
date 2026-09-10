@@ -7,7 +7,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
 )
 
 // --- sendText error path ---

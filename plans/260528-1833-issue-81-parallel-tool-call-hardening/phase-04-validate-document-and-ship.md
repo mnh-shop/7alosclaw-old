@@ -13,7 +13,7 @@ dependencies: [3]
 
 - Project docs: `docs/03-tools-system.md`, `docs/01-agent-loop.md`, `docs/10-tracing-observability.md`
 - Post-implementation checklist: `CLAUDE.md`
-- GitHub issue: digitopvn/goclaw#81
+- GitHub issue: digitopvn/zalosclaw#81
 
 ## Overview
 

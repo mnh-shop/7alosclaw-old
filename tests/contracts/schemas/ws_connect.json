@@ -13,7 +13,7 @@
       "type": "object",
       "required": ["name", "version"],
       "properties": {
-        "name": { "type": "string", "const": "goclaw" },
+        "name": { "type": "string", "const": "zalosclaw" },
         "version": { "type": "string" }
       }
     }

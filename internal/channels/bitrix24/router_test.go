@@ -15,7 +15,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // ---------------------------------------------------------------------------
@@ -225,7 +225,7 @@ func TestRouter_HandleInstall_CapturesPublicURL(t *testing.T) {
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	// Simulate Cloudflare Tunnel forwarding the original public host + scheme.
 	req.Host = "internal-lb"
-	req.Header.Set("X-Forwarded-Host", "goclaw.tamgiac.com")
+	req.Header.Set("X-Forwarded-Host", "zalosclaw.tamgiac.com")
 	req.Header.Set("X-Forwarded-Proto", "https")
 
 	rec := httptest.NewRecorder()
@@ -234,8 +234,8 @@ func TestRouter_HandleInstall_CapturesPublicURL(t *testing.T) {
 	if rec.Code != http.StatusOK {
 		t.Fatalf("status = %d, want 200", rec.Code)
 	}
-	if got := portal.PublicURL(); got != "https://goclaw.tamgiac.com" {
-		t.Fatalf("PublicURL = %q, want %q", got, "https://goclaw.tamgiac.com")
+	if got := portal.PublicURL(); got != "https://zalosclaw.tamgiac.com" {
+		t.Fatalf("PublicURL = %q, want %q", got, "https://zalosclaw.tamgiac.com")
 	}
 }
 

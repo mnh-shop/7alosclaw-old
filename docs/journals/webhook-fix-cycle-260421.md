@@ -14,7 +14,7 @@ Post-ship code review (Stage 2 + Stage 3: quality + adversarial) on commit 19e0c
 This is the grind part of shipping features at scale. The original implementation was *architecturally sound* but *operationally fragile*. Ten issues surfaced not because the design was wrong, but because:
 - **Stub stores hide real bugs.** Unit tests passed with fake stores; actual PG + SQLite layers rejected data or behaved differently.
 - **Dual-DB testing is non-negotiable.** Developer tested on SQLite (local), which silently accepted data PG would reject. Production would have 100% failure.
-- **Security-by-assumption kills in production.** Encryption code had a fail-open path: if `GOCLAW_ENCRYPTION_KEY` unset, new rows stored plaintext with zero operator signal.
+- **Security-by-assumption kills in production.** Encryption code had a fail-open path: if `ZALOSCLAW_ENCRYPTION_KEY` unset, new rows stored plaintext with zero operator signal.
 - **Race conditions hide in "99.9% of the time works."** Slow receiver being re-claimed during send created duplicate delivery. CAS fixed it, but the gap existed because optimistic concurrency wasn't paranoid enough about lease semantics.
 
 The frustrating part: all of this was *discoverable before ship* if we'd run Stage 2/3 reviews before commit. Instead, we shipped first, fixed second. Cost: 6 hours of emergency triage + review cycles. Won't repeat.
@@ -33,7 +33,7 @@ The frustrating part: all of this was *discoverable before ship* if we'd run Sta
 
 **K5 (High):** Slow receiver in flight when `reclaimStale` fired (90s window): row marked `stale`, reclaim reset to `queued`, but original delivery still in progress. Delivered twice. Fix: Added `lease_token` UUID column + WHERE lease_token matches on UpdateStatus. Only lease holder can transition state.
 
-**K6 (High — re-audit gap):** `crypto.Encrypt("")` returns plaintext unchanged (side effect of AES-256-GCM no-op optimization). If `GOCLAW_ENCRYPTION_KEY` unset at startup, new webhook rows silently stored `encrypted_secret` as raw value. Operator had zero signal. HMAC still worked (doesn't care about value), so feature appeared functional. Fix: Skip-mount webhook routes during startup if key empty + throw 503 in admin handlers until key configured.
+**K6 (High — re-audit gap):** `crypto.Encrypt("")` returns plaintext unchanged (side effect of AES-256-GCM no-op optimization). If `ZALOSCLAW_ENCRYPTION_KEY` unset at startup, new webhook rows silently stored `encrypted_secret` as raw value. Operator had zero signal. HMAC still worked (doesn't care about value), so feature appeared functional. Fix: Skip-mount webhook routes during startup if key empty + throw 503 in admin handlers until key configured.
 
 **K7 (High):** Tenant semaphore TTL eviction race: evicted semaphore while outstanding callbacks still lease-bound to it. New tenant gets fresh semaphore, old callbacks block on freed semaphore. Fix: Changed eviction to lazy-drop (mark invalid) instead of immediate removal; stale entries become no-op acquires.
 

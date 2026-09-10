@@ -48,10 +48,10 @@ func (m onboardTUIModel) View() string {
 		return tuiMutedStyle.Render("Onboard cancelled.\n")
 	}
 	if m.done {
-		return tuiSuccessStyle.Render("Onboard complete! Run 'goclaw setup' next.\n")
+		return tuiSuccessStyle.Render("Onboard complete! Run 'zalosclaw setup' next.\n")
 	}
 
-	s := tuiHeader("GoClaw — Onboard", m.currentStep, len(m.steps))
+	s := tuiHeader("ZalosClaw — Onboard", m.currentStep, len(m.steps))
 	s += "\n"
 
 	for i, step := range m.steps {

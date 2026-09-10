@@ -7,7 +7,7 @@ import (
 
 	"github.com/google/uuid"
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // makeBridgeTool creates a minimal BridgeTool for testing without a real MCP connection.

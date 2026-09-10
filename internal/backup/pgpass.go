@@ -1,4 +1,4 @@
-// Package backup provides system-level backup and restore for GoClaw.
+// Package backup provides system-level backup and restore for ZalosClaw.
 package backup
 
 import (
@@ -67,7 +67,7 @@ func ParseDSN(dsn string) (*PGCredentials, error) {
 // Returns the temp directory path (caller must defer os.RemoveAll).
 // The .pgpass file path is returned as second value.
 func WritePgpass(creds *PGCredentials) (tempDir, pgpassPath string, err error) {
-	tempDir, err = os.MkdirTemp("", "goclaw-backup-*")
+	tempDir, err = os.MkdirTemp("", "zalosclaw-backup-*")
 	if err != nil {
 		return "", "", fmt.Errorf("create temp dir: %w", err)
 	}

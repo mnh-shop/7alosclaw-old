@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/nextlevelbuilder/goclaw/internal/backup"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/backup"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 // handleRestore accepts a multipart tar.gz upload and restores a tenant via SSE.
@@ -60,7 +60,7 @@ func (h *TenantBackupHandler) handleRestore(w http.ResponseWriter, r *http.Reque
 	}
 	defer file.Close()
 
-	tmp, err := os.CreateTemp("", "goclaw-tenant-restore-*.tar.gz")
+	tmp, err := os.CreateTemp("", "zalosclaw-tenant-restore-*.tar.gz")
 	if err != nil {
 		writeError(w, http.StatusInternalServerError, protocol.ErrInternal,
 			i18n.T(locale, i18n.MsgInternalError))

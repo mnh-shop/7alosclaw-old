@@ -9,7 +9,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func seedSQLiteLinkAgent(t *testing.T, db *sql.DB, tenantID uuid.UUID, key string) uuid.UUID {

@@ -14,7 +14,7 @@ import (
 
 	tiktoken "github.com/pkoukk/tiktoken-go"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 const (
@@ -27,7 +27,7 @@ const (
 var budgetEncodingData []byte
 
 // BudgetCounter counts the complete input side of a model request with one
-// fixed, bundled GoClaw encoding. Its API intentionally has no model or provider
+// fixed, bundled ZalosClaw encoding. Its API intentionally has no model or provider
 // parameter: agent configuration is the only request-budget authority.
 type BudgetCounter interface {
 	CountText(text string) (int, error)
@@ -42,7 +42,7 @@ type fixedBudgetCounter struct {
 	err     error
 }
 
-// NewBudgetCounter returns GoClaw's fixed local complete-input counter.
+// NewBudgetCounter returns ZalosClaw's fixed local complete-input counter.
 func NewBudgetCounter() BudgetCounter { return &fixedBudgetCounter{} }
 
 func (c *fixedBudgetCounter) CountText(text string) (int, error) {
@@ -170,7 +170,7 @@ func buildBudgetEncoder(compressed []byte) (*tiktoken.Tiktoken, error) {
 		return nil, fmt.Errorf("build bundled budget encoding: %w", err)
 	}
 	encoding := &tiktoken.Encoding{
-		Name:           "goclaw_budget_cl100k",
+		Name:           "zalosclaw_budget_cl100k",
 		PatStr:         budgetEncodingPattern,
 		MergeableRanks: ranks,
 		SpecialTokens:  special,

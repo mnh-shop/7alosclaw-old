@@ -8,10 +8,10 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
-	geminiPkg "github.com/nextlevelbuilder/goclaw/internal/audio/gemini"
-	"github.com/nextlevelbuilder/goclaw/internal/crypto"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
+	geminiPkg "github.com/nextlevelbuilder/zalosclaw/internal/audio/gemini"
+	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // TestTestConnection_MissingProvider verifies 400 when provider field is missing.

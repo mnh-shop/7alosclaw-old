@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // bytePlusVideoRunEndpoint derives the Seedance video generation submit endpoint.

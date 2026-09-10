@@ -147,7 +147,7 @@ Significant changes, features, and fixes in reverse chronological order.
 
 **Added**
 
-- Added bundled `lark-pm` and `lark-playbook` skills so GoClaw agents handle
+- Added bundled `lark-pm` and `lark-playbook` skills so ZalosClaw agents handle
   Lark/Feishu PM operations through MCP only.
 - Documented schema-first LarkBase writes, writable field checks, person-field
   payload shape, per-record updates, and canonical user ID verification.
@@ -252,11 +252,11 @@ Significant changes, features, and fixes in reverse chronological order.
 - Added regression coverage proving `Stop()` waits for a blocked in-flight job
   before returning.
 
-### Bundled GoClaw gateway administration skill (issue #175)
+### Bundled ZalosClaw gateway administration skill (issue #175)
 
 **Changes**
 
-- Added a bundled `goclaw` system skill for version-aware GoClaw CLI/runtime
+- Added a bundled `zalosclaw` system skill for version-aware ZalosClaw CLI/runtime
   discovery, read-only-first diagnostics, gateway administration workflows, and
   troubleshooting playbooks.
 - Documented safety guidance for credentials, destructive actions,
@@ -307,7 +307,7 @@ Significant changes, features, and fixes in reverse chronological order.
 
 **Changes**
 
-- Added first-class `goclaw traces` operator commands to the main binary:
+- Added first-class `zalosclaw traces` operator commands to the main binary:
   `list`, `get`, `export`, `follow`, and `timeline`.
 - Added remote client overrides with `--server` and `--token`; trace commands
   support trace-scoped output selection via `--output` / `-o`.
@@ -749,7 +749,7 @@ document analysis when local binaries are available.
 **Requirements**
 
 - Requires `pdftotext` and `pandoc` on PATH for local extraction. Present in:
-  - Docker `full` variant (`ghcr.io/nextlevelbuilder/goclaw:vX.Y.Z-full`)
+  - Docker `full` variant (`ghcr.io/nextlevelbuilder/zalosclaw:vX.Y.Z-full`)
   - Builds with `-tags "" -X main.enableFullSkills=true` (when available)
 - Desktop Lite edition: local extraction wired but not user-configurable
   (remains in code for future mobile/CLI usage; server/Docker only now).
@@ -828,7 +828,7 @@ document analysis when local binaries are available.
 **Fixes**
 
 - Added a built-in `rapidapi` SecureCLI preset with required `RAPIDAPI_KEY`, 60s timeout, and verbose/debug flag denials.
-- Credentialed exec now validates required preset env keys before binary resolution, so missing RapidAPI credentials return a GoClaw diagnostic instead of downstream `RAPIDAPI_KEY required`.
+- Credentialed exec now validates required preset env keys before binary resolution, so missing RapidAPI credentials return a ZalosClaw diagnostic instead of downstream `RAPIDAPI_KEY required`.
 - Added safe SecureCLI env diagnostics that log env key names/count context only, never credential values.
 - Added `RAPIDAPI_KEY` to fall-through exec env scrubbing.
 
@@ -992,12 +992,12 @@ bit-for-bit.
 
 **Fixes**
 
-- Patched `/usr/local/bin/goclaw-deploy` on zuey to survive a self-loop `/opt/goclaw/current` symlink (`readlink -f` now `2>/dev/null || true`, with a warning when `previous` is empty). Without this, `set -euo pipefail` aborted before `ln -sfn` could overwrite the symlink, silently failing every `deploy_zuey_beta` CI run.
+- Patched `/usr/local/bin/zalosclaw-deploy` on zuey to survive a self-loop `/opt/zalosclaw/current` symlink (`readlink -f` now `2>/dev/null || true`, with a warning when `previous` is empty). Without this, `set -euo pipefail` aborted before `ln -sfn` could overwrite the symlink, silently failing every `deploy_zuey_beta` CI run.
 
 **Changes**
 
-- Moved `scripts/goclaw-upgrade-release.sh` → `scripts/zuey/goclaw-upgrade-release.sh`.
-- Added `scripts/zuey/goclaw-deploy.sh` (canonical source for the on-host `/usr/local/bin/goclaw-deploy`).
+- Moved `scripts/zalosclaw-upgrade-release.sh` → `scripts/zuey/zalosclaw-upgrade-release.sh`.
+- Added `scripts/zuey/zalosclaw-deploy.sh` (canonical source for the on-host `/usr/local/bin/zalosclaw-deploy`).
 - Wired `Sync zuey ops scripts to VPS` step in `.github/workflows/dev-beta-release.yaml` to `scp + sudo install` both scripts before triggering the gateway upgrade endpoint on every beta release. Requires new repository secrets `ZUEY_SSH_PRIVATE_KEY_B64` (base64-encoded private key, single line) and `ZUEY_SUDO_PASS`; step skips with a warning if either is unset.
 - Updated `docs/deployment-guide.md` with the self-loop guard rationale, manual sync recipe, and required-secrets table.
 
@@ -1157,7 +1157,7 @@ bit-for-bit.
 
 - Updated the host release-upgrade script to support beta asset filenames with a leading `v`.
 - Added checksum fallback to GitHub release asset SHA256 digests when beta releases do not publish `CHECKSUMS.sha256`.
-- Detached gateway-triggered upgrades into a transient `systemd-run` unit so stopping `goclaw` during deploy no longer kills the upgrade job.
+- Detached gateway-triggered upgrades into a transient `systemd-run` unit so stopping `zalosclaw` during deploy no longer kills the upgrade job.
 - Allowed stale upgrade `running` status records to be superseded after timeout and made the zuey deploy wait loop tolerate transient 502s during restart.
 
 **Tests**
@@ -1194,7 +1194,7 @@ bit-for-bit.
 **Fixes**
 
 - Fixed memory API `{agentID}` handling so agent keys are resolved before storage access and invalid IDs return structured client errors instead of leaking UUID parse failures as HTTP 500.
-- Allowed system/admin API-key automation to list agents and sessions without an extra `X-GoClaw-User-Id` header while preserving user filtering for non-admin callers.
+- Allowed system/admin API-key automation to list agents and sessions without an extra `X-ZalosClaw-User-Id` header while preserving user filtering for non-admin callers.
 - Added structured `/v1/*` not-found responses and a read-only `GET /v1/sessions` compatibility endpoint for automation clients.
 
 **Tests**
@@ -1210,7 +1210,7 @@ bit-for-bit.
 **Fixes**
 
 - Fixed GitHub Releases package installs on bare-metal gateways by defaulting the GitHub binary directory to `{runtimeDir}/bin` instead of Docker-only `/app/data/.runtime/bin`.
-- The fix covers installs such as `github:nextlevelbuilder/goclaw-cli@v0.4.1` on the VPS, where `/app` is not writable or present.
+- The fix covers installs such as `github:nextlevelbuilder/zalosclaw-cli@v0.4.1` on the VPS, where `/app` is not writable or present.
 
 **Tests**
 
@@ -1248,8 +1248,8 @@ bit-for-bit.
 
 **Fixes**
 
-- Fixed agent-controlled Codex CLI auth on the VPS by ensuring the `goclaw` systemd service user has the ChatGPT login auth file under `/var/lib/goclaw/.codex/auth.json`.
-- Documented the required service-user check: `sudo -u goclaw -H codex login status`.
+- Fixed agent-controlled Codex CLI auth on the VPS by ensuring the `zalosclaw` systemd service user has the ChatGPT login auth file under `/var/lib/zalosclaw/.codex/auth.json`.
+- Documented the required service-user check: `sudo -u zalosclaw -H codex login status`.
 
 ---
 
@@ -1258,7 +1258,7 @@ bit-for-bit.
 **Fixes**
 
 - Fixed Node package installs for registry packages published with `workspace:` dependency ranges, such as `@agenttasks/cli`.
-- GoClaw now retries npm `EUNSUPPORTEDPROTOCOL workspace:` failures by packing the registry tarball, rewriting workspace dependency ranges to published package versions, and installing the sanitized package folder.
+- ZalosClaw now retries npm `EUNSUPPORTEDPROTOCOL workspace:` failures by packing the registry tarball, rewriting workspace dependency ranges to published package versions, and installing the sanitized package folder.
 
 **Tests**
 
@@ -1298,21 +1298,21 @@ bit-for-bit.
 
 ---
 
-### Deployment: VPS hybrid GoClaw setup
+### Deployment: VPS hybrid ZalosClaw setup
 
 **Operations**
 
-- Deployed GoClaw to a VPS using bare-metal `systemd` gateway plus Dockerized PostgreSQL 18 pgvector.
+- Deployed ZalosClaw to a VPS using bare-metal `systemd` gateway plus Dockerized PostgreSQL 18 pgvector.
 - Restored the latest private PostgreSQL backup, then upgraded schema from `57` to `65`.
 - Installed Node.js 22 and Codex CLI on the host; interactive `codex --login` remains manual.
 - Configured Cloudflare-proxied deployment domain and issued SSL through Certbot/Nginx.
-- Added `goclaw-backup-r2.timer` to dump PostgreSQL every 6 hours, upload to private Cloudflare R2 storage, and retain the latest 20 backups.
+- Added `zalosclaw-backup-r2.timer` to dump PostgreSQL every 6 hours, upload to private Cloudflare R2 storage, and retain the latest 20 backups.
 - Added deployment runbook in `docs/deployment-guide.md`.
 
 **Features**
 
 - Added a protected gateway upgrade HTTP API that triggers the fixed host-local upgrade script asynchronously.
-- Added `scripts/goclaw-upgrade-release.sh` and installed the VPS copy at `/usr/local/bin/goclaw-upgrade-release`; dry-run verifies the latest stable server release asset and checksum before deploy.
+- Added `scripts/zalosclaw-upgrade-release.sh` and installed the VPS copy at `/usr/local/bin/zalosclaw-upgrade-release`; dry-run verifies the latest stable server release asset and checksum before deploy.
 
 ---
 
@@ -1403,9 +1403,9 @@ bit-for-bit.
 
 ### Fixes
 
-- **`goclaw providers verify`** — empty body now triggers ping mode (provider registered/reachable check) and returns `{valid:true}` for registered providers. New `--model <alias>` flag for chat-verify against a specific model. CLI response parser switched from stale `{success, models}` to `{valid, error}`. Onboard auto-verify path fixed identically (was silently printing "FAILED" on every successful provider creation). (#1034)
-- **`goclaw providers delete`** — succeeds when referenced by `agent_heartbeats`. FK changed to `ON DELETE SET NULL`; `DeleteProvider` (PG + SQLite) now wraps in a transaction that also disables affected heartbeats so the next scheduler tick cannot fire stale config. `slog.Warn("heartbeat.provider_cleared")` emitted with the disabled count. (#1034)
-- **`goclaw doctor`** — provider rows with empty `display_name` now render the canonical `name` instead of a blank line. Query switched from `COALESCE(display_name, name)` to `COALESCE(NULLIF(display_name, ''), name)`. (#1034)
+- **`zalosclaw providers verify`** — empty body now triggers ping mode (provider registered/reachable check) and returns `{valid:true}` for registered providers. New `--model <alias>` flag for chat-verify against a specific model. CLI response parser switched from stale `{success, models}` to `{valid, error}`. Onboard auto-verify path fixed identically (was silently printing "FAILED" on every successful provider creation). (#1034)
+- **`zalosclaw providers delete`** — succeeds when referenced by `agent_heartbeats`. FK changed to `ON DELETE SET NULL`; `DeleteProvider` (PG + SQLite) now wraps in a transaction that also disables affected heartbeats so the next scheduler tick cannot fire stale config. `slog.Warn("heartbeat.provider_cleared")` emitted with the disabled count. (#1034)
+- **`zalosclaw doctor`** — provider rows with empty `display_name` now render the canonical `name` instead of a blank line. Query switched from `COALESCE(display_name, name)` to `COALESCE(NULLIF(display_name, ''), name)`. (#1034)
 
 ### Migrations
 
@@ -1414,8 +1414,8 @@ bit-for-bit.
 
 ### Upgrade notes
 
-- **Docker users:** MUST pull the new image (`ghcr.io/nextlevelbuilder/goclaw:v3.11.3`) AND run `goclaw upgrade` (or `goclaw migrate up`). Stale images on v3.11.2 will fail boot with `schema version mismatch: required 57, current 56` after the migration runs.
-- **Bare-metal users:** rebuild and run `./goclaw upgrade`.
+- **Docker users:** MUST pull the new image (`ghcr.io/nextlevelbuilder/zalosclaw:v3.11.3`) AND run `zalosclaw upgrade` (or `zalosclaw migrate up`). Stale images on v3.11.2 will fail boot with `schema version mismatch: required 57, current 56` after the migration runs.
+- **Bare-metal users:** rebuild and run `./zalosclaw upgrade`.
 
 ### OpenAPI
 
@@ -1453,7 +1453,7 @@ bit-for-bit.
 - **Codex native track:** `CodexProvider` now attaches the `image_generation` tool object to `POST /codex/responses` when the agent permits it. Streams `response.image_generation_call.partial_image` intermediate frames + `response.output_item.done` (type `image_generation_call`) final images; non-stream path walks `response.output[]`. Deduped per `item_id`, partial frames emitted as `ImageContent{Partial:true}` for UI progressive render.
 - **OpenAI-compat track:** `tools[]` serializer passes `{type:"image_generation"}` entries through natively; response parser reads `choices[0].message.images[]` / `choices[0].delta.images[]` (data URLs) into `ChatResponse.Images`.
 - **Media persistence:** `internal/agent/media.go` `persistAssistantImages()` writes final images to `{workspace}/media/{sha256}.{ext}`, returns `MediaRef` entries, clears inline base64. Idempotent on hash. Wired via `pipeline.Deps.PersistAssistantImages` callback from `FinalizeStage`. Partial frames skipped.
-- **Capabilities + gate:** `ProviderCapabilities.ImageGeneration` flag, set true on Codex provider. Tri-level gate in agent loop: provider capability AND `AgentConfig.AllowImageGeneration` (read from `other_config.allow_image_generation`, default true) AND request not opted-out via `x-goclaw-no-image-gen` header.
+- **Capabilities + gate:** `ProviderCapabilities.ImageGeneration` flag, set true on Codex provider. Tri-level gate in agent loop: provider capability AND `AgentConfig.AllowImageGeneration` (read from `other_config.allow_image_generation`, default true) AND request not opted-out via `x-zalosclaw-no-image-gen` header.
 - **Web UI:** Composer "Images" toggle chip (visible only when provider supports image gen, per-agent persistence in localStorage). Streaming placeholder skeleton in `ActiveRunZone` while partials arrive. `MediaGallery` assigns `generated-{timestamp}.png` filename for assistant-generated PNGs.
 
 **Wire format**
@@ -1470,7 +1470,7 @@ Implementation is evidence-backed against the native ChatGPT Responses API event
 
 **Internal docs**
 
-- `plans/260422-1349-goclaw-chatgpt-image-gen/` — plan + phase files.
+- `plans/260422-1349-zalosclaw-chatgpt-image-gen/` — plan + phase files.
 - `plans/reports/researcher-260422-1414-codex-native-image-events.md` — native event schema.
 
 ## 2026-04-20
@@ -1563,7 +1563,7 @@ Implementation is evidence-backed against the native ChatGPT Responses API event
 - **K9: Invariant test column fix** — Webhook tenant isolation test now references correct schema columns (`encrypted_secret`, `lease_token`).
 - **K4: Worker slot drain** — Fixed channel leak in webhook worker that prevented slot release on successful claims. Concurrency now scales properly under load.
 - **K5: Lease-token CAS on UpdateStatus** — Stale webhook receivers can no longer overwrite delivery status. Status updates use optimistic concurrency on `lease_token` (UUID), ensuring only the owning worker can mark the call done. Prevents duplicate delivery from slow receivers.
-- **K6: HMAC signing key encryption** — Raw secret (from which `hmac_signing_key = hex(SHA-256(secret))` is derived) is now encrypted at rest via AES-256-GCM using `GOCLAW_ENCRYPTION_KEY`. Database compromise no longer = HMAC key compromise. Clients receive plaintext secret once (create/rotate response) and must store securely.
+- **K6: HMAC signing key encryption** — Raw secret (from which `hmac_signing_key = hex(SHA-256(secret))` is derived) is now encrypted at rest via AES-256-GCM using `ZALOSCLAW_ENCRYPTION_KEY`. Database compromise no longer = HMAC key compromise. Clients receive plaintext secret once (create/rotate response) and must store securely.
 - **K10: Shared rate limiter instance** — Fixed duplicate `webhookLimiter` instantiation causing doubled RPM enforcement. Single limiter now shared across all webhook endpoints.
 
 **Migrations**
@@ -1578,7 +1578,7 @@ Implementation is evidence-backed against the native ChatGPT Responses API event
 
 **Environment**
 
-- `GOCLAW_ENCRYPTION_KEY` is now **required** for webhook HMAC auth. Same key also encrypts LLM provider credentials.
+- `ZALOSCLAW_ENCRYPTION_KEY` is now **required** for webhook HMAC auth. Same key also encrypts LLM provider credentials.
 
 ---
 

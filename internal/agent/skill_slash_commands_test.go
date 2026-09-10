@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/skills"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
 )
 
 func TestResolveSkillSlashCommandExactSlug(t *testing.T) {
@@ -118,7 +118,7 @@ func boolPtr(v bool) *bool {
 
 func newSlashTestLoader(t *testing.T) *skills.Loader {
 	t.Helper()
-	t.Setenv("GOCLAW_DISABLE_PERSONAL_SKILLS", "1")
+	t.Setenv("ZALOSCLAW_DISABLE_PERSONAL_SKILLS", "1")
 	root := t.TempDir()
 	writeSkill(t, root, "frontend-design", "Frontend Design", "Create polished UI layouts.", "Use responsive components.")
 	writeSkill(t, root, "git-helper", "Git Helper", "Handle git workflows.", "Use clean commits.")

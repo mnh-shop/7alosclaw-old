@@ -2,7 +2,7 @@
 
 ## Overview
 
-Extended thinking allows LLM providers to "think out loud" before producing a final response. When enabled, the model generates internal reasoning tokens that improve response quality for complex tasks at the cost of additional token usage and latency. GoClaw now supports both the legacy coarse `thinking_level` setting and a provider-first reasoning policy for capability-aware GPT-5/Codex control.
+Extended thinking allows LLM providers to "think out loud" before producing a final response. When enabled, the model generates internal reasoning tokens that improve response quality for complex tasks at the cost of additional token usage and latency. ZalosClaw now supports both the legacy coarse `thinking_level` setting and a provider-first reasoning policy for capability-aware GPT-5/Codex control.
 
 ---
 
@@ -63,7 +63,7 @@ Rules:
 - `reasoning_config.fallback` accepts `downgrade|off|provider_default`.
 - Existing legacy `other_config.reasoning` payloads without `override_mode` are treated as custom overrides for backward compatibility.
 - Read path resolves provider defaults first, then applies agent inherit/custom semantics, then falls back to legacy `thinking_level`.
-- Write path keeps a derived coarse `thinking_level` only for custom agent overrides so rollback to older GoClaw builds stays safe.
+- Write path keeps a derived coarse `thinking_level` only for custom agent overrides so rollback to older ZalosClaw builds stays safe.
 
 ---
 
@@ -216,7 +216,7 @@ flowchart TD
 
 ### Anthropic Thinking Block Preservation
 
-Anthropic requires thinking blocks (including their cryptographic signatures) to be echoed back in subsequent turns. GoClaw handles this through `RawAssistantContent`:
+Anthropic requires thinking blocks (including their cryptographic signatures) to be echoed back in subsequent turns. ZalosClaw handles this through `RawAssistantContent`:
 
 1. During streaming, raw content blocks are accumulated — including `thinking` type blocks with their `signature` fields
 2. When the assistant message is appended to history, the raw blocks are preserved
@@ -239,13 +239,13 @@ OpenAI-compatible providers handle thinking/reasoning content as metadata. The `
 | Anthropic | Temperature parameter stripped when thinking is enabled |
 | All | Thinking tokens count against the context window budget |
 | All | Thinking increases latency and cost proportional to the budget level |
-| GPT-5/Codex unknown models | GoClaw allows explicit effort passthrough but does not claim a capability contract |
+| GPT-5/Codex unknown models | ZalosClaw allows explicit effort passthrough but does not claim a capability contract |
 
 ---
 
 ## 6. Reasoning Content Stripping (Phase 6 — OpenClaw TS port)
 
-Some models emit chain-of-thought reasoning tokens even when `effort="off"` is specified. To prevent that raw CoT from reaching end users, GoClaw supports a `StripThinking` flag on `ReasoningDecision`.
+Some models emit chain-of-thought reasoning tokens even when `effort="off"` is specified. To prevent that raw CoT from reaching end users, ZalosClaw supports a `StripThinking` flag on `ReasoningDecision`.
 
 ### Models Known to Leak CoT
 

@@ -11,7 +11,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func (s *SQLiteCronStore) RunJob(ctx context.Context, jobID string, force bool) (bool, string, error) {

@@ -6,7 +6,7 @@ import {
   Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog";
 
-const LS_KEY = "goclaw:hooks:beta-card-collapsed";
+const LS_KEY = "zalosclaw:hooks:beta-card-collapsed";
 
 function loadCollapsed(): boolean {
   try {

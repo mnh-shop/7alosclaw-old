@@ -1,6 +1,6 @@
 # 18 — HTTP REST API
 
-GoClaw exposes a comprehensive HTTP REST API alongside the WebSocket RPC protocol. All endpoints are served from the same gateway server and share authentication, rate limiting, and i18n infrastructure.
+ZalosClaw exposes a comprehensive HTTP REST API alongside the WebSocket RPC protocol. All endpoints are served from the same gateway server and share authentication, rate limiting, and i18n infrastructure.
 
 Interactive documentation is available at `/docs` (Swagger UI) and the raw OpenAPI 3.0 spec at `/v1/openapi.json`.
 
@@ -19,7 +19,7 @@ Two token types are accepted:
 | Type | Format | Scope |
 |------|--------|-------|
 | Gateway token | Configured in `config.json` | Full admin access |
-| API key | `goclaw_` + 32 hex chars | Scoped by key permissions |
+| API key | `zalosclaw_` + 32 hex chars | Scoped by key permissions |
 
 API keys are hashed with SHA-256 before lookup — the raw key is never stored. See [20 — API Keys & Auth](20-api-keys-auth.md) for details.
 
@@ -30,9 +30,9 @@ API keys are hashed with SHA-256 before lookup — the raw key is never stored. 
 | Header | Purpose |
 |--------|---------|
 | `Authorization` | Bearer token for authentication |
-| `X-GoClaw-User-Id` | External user ID for multi-tenant context |
-| `X-GoClaw-Agent-Id` | Agent identifier for scoped operations |
-| `X-GoClaw-Tenant-Id` | Tenant scope — UUID or slug (gateway token / cross-tenant API keys) |
+| `X-ZalosClaw-User-Id` | External user ID for multi-tenant context |
+| `X-ZalosClaw-Agent-Id` | Agent identifier for scoped operations |
+| `X-ZalosClaw-Tenant-Id` | Tenant scope — UUID or slug (gateway token / cross-tenant API keys) |
 | `Accept-Language` | Locale (`en`, `vi`, `zh`) for i18n error messages |
 | `Content-Type` | `application/json` for request bodies |
 
@@ -40,7 +40,7 @@ API keys are hashed with SHA-256 before lookup — the raw key is never stored. 
 
 ## Browser Cookie Sync
 
-Selected-cookie sync stores user-approved browser cookies for server-side browser automation. Endpoints require operator auth and `X-GoClaw-User-Id`; the request body cannot set `tenant_id` or `user_id`.
+Selected-cookie sync stores user-approved browser cookies for server-side browser automation. Endpoints require operator auth and `X-ZalosClaw-User-Id`; the request body cannot set `tenant_id` or `user_id`.
 
 | Method | Path | Description |
 |--------|------|-------------|
@@ -79,7 +79,7 @@ OpenAI-compatible chat API for programmatic access to agents.
 
 ```json
 {
-  "model": "goclaw:agent-id-or-key",
+  "model": "zalosclaw:agent-id-or-key",
   "messages": [
     {"role": "user", "content": "Hello"}
   ],
@@ -119,7 +119,7 @@ Alternative response-based protocol (compatible with OpenAI Responses API). Acce
 
 ## 4. Agents
 
-CRUD operations for agent management. Requires `X-GoClaw-User-Id` header for multi-tenant context.
+CRUD operations for agent management. Requires `X-ZalosClaw-User-Id` header for multi-tenant context.
 
 | Method | Path | Description | Auth |
 |--------|------|-------------|------|
@@ -364,7 +364,7 @@ write a new versioned directory and `skill_versions` record when applied.
 Skill upload size is enforced per ZIP file. The effective limit resolves in this order:
 tenant `system_configs["skills.max_upload_size_mb"]`, then `SKILL.md` frontmatter
 `max_upload_size_mb`, then config/env `skills.max_upload_size_mb` /
-`GOCLAW_SKILLS_MAX_UPLOAD_SIZE_MB`, then the default 20 MB. Values are clamped
+`ZALOSCLAW_SKILLS_MAX_UPLOAD_SIZE_MB`, then the default 20 MB. Values are clamped
 to 1-500 MB.
 
 Skill slash-command behavior is configured through tenant `system_configs`:
@@ -692,7 +692,7 @@ Read-only session listing is available over HTTP for automation clients.
 | `POST` | `/v1/chat/sessions/{key}/branch` | Branch an existing chat session at `up_to_index` |
 | `GET` | `/v1/chat/sessions/{key}/history/follow` | Poll session history after an index cursor |
 
-Admins and system-level admin API keys can list all sessions within the resolved tenant. Non-admin callers must have an effective `X-GoClaw-User-Id` context and are filtered to their own sessions.
+Admins and system-level admin API keys can list all sessions within the resolved tenant. Non-admin callers must have an effective `X-ZalosClaw-User-Id` context and are filtered to their own sessions.
 
 Session branch request:
 
@@ -1330,7 +1330,7 @@ higher runtime precedence than channel/context and agent credentials.
 
 ## 21. Runtime & Packages Management
 
-Manage system (apk), Python (pip), and Node (npm) package installation in the GoClaw runtime container. These endpoints do not inspect host-level runtimes. Requires authentication. Empty-token admin access is limited to loopback local development or explicit `GOCLAW_ALLOW_INSECURE_NO_AUTH=1`; external binds require `GOCLAW_GATEWAY_TOKEN`.
+Manage system (apk), Python (pip), and Node (npm) package installation in the ZalosClaw runtime container. These endpoints do not inspect host-level runtimes. Requires authentication. Empty-token admin access is limited to loopback local development or explicit `ZALOSCLAW_ALLOW_INSECURE_NO_AUTH=1`; external binds require `ZALOSCLAW_GATEWAY_TOKEN`.
 
 ### List Installed Packages
 
@@ -1406,7 +1406,7 @@ Same format as install. System packages are removed from persist file and contai
 GET /v1/packages/runtimes
 ```
 
-Check which prerequisite runtimes are available inside the active GoClaw runtime container. Host-installed runtimes and shell-profile-managed binaries (for example `nvm`) are not included in this result.
+Check which prerequisite runtimes are available inside the active ZalosClaw runtime container. Host-installed runtimes and shell-profile-managed binaries (for example `nvm`) are not included in this result.
 
 **Response:**
 
@@ -1429,7 +1429,7 @@ Check which prerequisite runtimes are available inside the active GoClaw runtime
 GET /v1/packages/github-releases
 ```
 
-Lists available GoClaw GitHub release versions for the update checker.
+Lists available ZalosClaw GitHub release versions for the update checker.
 
 ### Shell Deny Groups
 
@@ -1493,21 +1493,21 @@ Follow response:
 Main binary operator commands wrap the same endpoints:
 
 ```bash
-goclaw traces list --query "provider fail" --status error
-goclaw traces get <trace-id> -o json
-goclaw traces export <trace-id> --file trace.json.gz
-goclaw traces follow --session <session-key>
-goclaw traces timeline <trace-id>
+zalosclaw traces list --query "provider fail" --status error
+zalosclaw traces get <trace-id> -o json
+zalosclaw traces export <trace-id> --file trace.json.gz
+zalosclaw traces follow --session <session-key>
+zalosclaw traces timeline <trace-id>
 ```
 
 Remote gateways use the shared client overrides:
 
 ```bash
-goclaw --server https://goclaw.example.com --token "$GOCLAW_GATEWAY_TOKEN" traces list -o json
+zalosclaw --server https://zalosclaw.example.com --token "$ZALOSCLAW_GATEWAY_TOKEN" traces list -o json
 ```
 
 The same `--server` / `--token` resolver is shared with WebSocket/RPC-backed
-admin commands. `GOCLAW_SERVER` or `GOCLAW_GATEWAY_URL` can provide the base URL
+admin commands. `ZALOSCLAW_SERVER` or `ZALOSCLAW_GATEWAY_URL` can provide the base URL
 when the flag is omitted.
 
 ### Run Timeline
@@ -1515,7 +1515,7 @@ when the flag is omitted.
 `GET /v1/runs/{runID}/timeline` returns display-safe archive entries for one
 agent run. Optional query params: `session_key`, `limit` (default 200, max 500),
 and `offset`. Non-admin callers only receive entries owned by their effective
-`X-GoClaw-User-Id`.
+`X-ZalosClaw-User-Id`.
 
 Timeline items are ordered by run sequence for `run_id` reads and include only
 safe previews for tool arguments/results. Raw thinking is not persisted.
@@ -1716,8 +1716,8 @@ Admin-only endpoints for managing gateway API keys. See [20 — API Keys & Auth]
 {
   "id": "01961234-...",
   "name": "ci-deploy",
-  "prefix": "goclaw_a1b2c3d4",
-  "key": "goclaw_a1b2c3d4e5f6...full-key",
+  "prefix": "zalosclaw_a1b2c3d4",
+  "key": "zalosclaw_a1b2c3d4e5f6...full-key",
   "scopes": ["operator.read", "operator.write"],
   "expires_at": "2026-04-14T12:00:00Z",
   "created_at": "2026-03-15T12:00:00Z"
@@ -1899,7 +1899,7 @@ System-level backup/restore endpoints (admin only). Stream progress via SSE.
 
 ## 37. MCP Bridge
 
-Exposes GoClaw tools to Claude CLI via streamable HTTP at `/mcp/bridge`. Only listens on localhost. Protected by gateway token with HMAC-signed context headers.
+Exposes ZalosClaw tools to Claude CLI via streamable HTTP at `/mcp/bridge`. Only listens on localhost. Protected by gateway token with HMAC-signed context headers.
 
 | Header | Purpose |
 |--------|---------|

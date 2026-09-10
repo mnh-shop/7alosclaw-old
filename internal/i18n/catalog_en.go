@@ -28,9 +28,9 @@ func init() {
 		MsgGatewayOperatorEligibilityFailed:    "Agent was created, but gateway operator access could not verify first-agent eligibility.",
 		MsgGatewayOperatorNotFirstAgent:        "Gateway operator access was not granted because this is not the first agent.",
 		MsgGatewayOperatorTokenMissing:         "Gateway operator access was skipped because the gateway token is not configured.",
-		MsgGatewayOperatorBinaryMissing:        "Gateway operator access was skipped because the goclaw binary could not be discovered.",
-		MsgGatewayOperatorExistingReview:       "Gateway operator access was skipped because an existing goclaw CLI credential requires manual review.",
-		MsgGatewayOperatorRegisterFailed:       "Gateway operator access was skipped because the goclaw CLI credential could not be registered.",
+		MsgGatewayOperatorBinaryMissing:        "Gateway operator access was skipped because the zalosclaw binary could not be discovered.",
+		MsgGatewayOperatorExistingReview:       "Gateway operator access was skipped because an existing zalosclaw CLI credential requires manual review.",
+		MsgGatewayOperatorRegisterFailed:       "Gateway operator access was skipped because the zalosclaw CLI credential could not be registered.",
 		MsgGatewayOperatorCredentialFailed:     "Gateway operator access was skipped because credentials could not be stored.",
 
 		// Chat
@@ -70,7 +70,7 @@ func init() {
 		// HTTP API
 		MsgInvalidAuth:            "invalid authentication",
 		MsgMsgsRequired:           "messages is required",
-		MsgUserIDHeader:           "X-GoClaw-User-Id header is required",
+		MsgUserIDHeader:           "X-ZalosClaw-User-Id header is required",
 		MsgFileTooLarge:           "file too large or invalid multipart form",
 		MsgMissingFileField:       "missing 'file' field",
 		MsgInvalidFilename:        "invalid filename",
@@ -292,7 +292,7 @@ func init() {
 		MsgWebhookLocalhostOnlyViolation:      "this webhook is restricted to localhost callers",
 		MsgWebhookMediaChannelUnsupported:     "channel does not support media attachments",
 		MsgWebhookIPDenied:                    "request origin is not in the IP allowlist",
-		MsgWebhookEncryptionUnavailable:       "webhook encryption key not configured; set GOCLAW_ENCRYPTION_KEY to enable webhooks",
+		MsgWebhookEncryptionUnavailable:       "webhook encryption key not configured; set ZALOSCLAW_ENCRYPTION_KEY to enable webhooks",
 		MsgWebhookMessageTestRequiresStandard: "testing message webhooks requires Standard edition",
 
 		// Hooks

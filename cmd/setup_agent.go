@@ -31,7 +31,7 @@ func setupAgentStep() {
 	} else {
 		fmt.Println("  No agents yet. Let's create your first one.")
 		fmt.Println()
-		grant, err := promptConfirm("Grant this first agent local gateway operator access via the goclaw CLI?", false)
+		grant, err := promptConfirm("Grant this first agent local gateway operator access via the zalosclaw CLI?", false)
 		if err != nil {
 			return
 		}
@@ -133,7 +133,7 @@ func printGatewayOperatorBootstrapResult(result *gatewayOperatorBootstrapRespons
 	}
 	switch result.Status {
 	case "granted":
-		fmt.Println("  Gateway operator access granted. Try: goclaw agent list")
+		fmt.Println("  Gateway operator access granted. Try: zalosclaw agent list")
 	case "warning", "skipped":
 		if result.Warning != "" {
 			fmt.Printf("  Warning: %s\n", result.Warning)

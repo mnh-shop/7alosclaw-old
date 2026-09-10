@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
 )
 
 const workspaceNormalizeHookName = "072_normalize_agent_workspaces"
@@ -26,8 +26,8 @@ const workspaceNormalizeHookName = "072_normalize_agent_workspaces"
 //
 // Stale rows are rewritten to `{configured_base}/{agent_key}`, where the
 // base is read with the same precedence used by the gateway:
-// `GOCLAW_WORKSPACE` env > config file `Agents.Defaults.Workspace` >
-// default `~/.goclaw/workspace` (with tilde expansion).
+// `ZALOSCLAW_WORKSPACE` env > config file `Agents.Defaults.Workspace` >
+// default `~/.zalosclaw/workspace` (with tilde expansion).
 //
 // Idempotent: rows already at the proposed value are skipped.
 // Conservative: absolute, non-stale paths are left untouched so operators
@@ -109,10 +109,10 @@ func isStaleWorkspace(ws string) bool {
 // Matches the gateway's precedence so the hook normalizes to whatever the
 // next startup will use.
 func resolveWorkspaceBase() string {
-	if v := strings.TrimSpace(os.Getenv("GOCLAW_WORKSPACE")); v != "" {
+	if v := strings.TrimSpace(os.Getenv("ZALOSCLAW_WORKSPACE")); v != "" {
 		return strings.TrimRight(config.ExpandHome(v), "/")
 	}
-	cfgPath := os.Getenv("GOCLAW_CONFIG")
+	cfgPath := os.Getenv("ZALOSCLAW_CONFIG")
 	if cfgPath == "" {
 		cfgPath = "config.json"
 	}
@@ -120,7 +120,7 @@ func resolveWorkspaceBase() string {
 	if err != nil {
 		slog.Warn("workspace normalization: load config failed, using default",
 			"path", cfgPath, "error", err)
-		return strings.TrimRight(config.ExpandHome("~/.goclaw/workspace"), "/")
+		return strings.TrimRight(config.ExpandHome("~/.zalosclaw/workspace"), "/")
 	}
 	return strings.TrimRight(cfg.WorkspacePath(), "/")
 }

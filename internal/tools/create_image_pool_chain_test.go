@@ -17,9 +17,9 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/providers/providertest"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers/providertest"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // poolImageSSE returns a minimal SSE body that parseNativeImageSSE accepts.

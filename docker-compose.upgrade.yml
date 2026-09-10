@@ -10,13 +10,13 @@
 #   # Check status:
 #   docker compose -f docker-compose.yml -f docker-compose.postgres.yml -f docker-compose.upgrade.yml run --rm upgrade --status
 #
-# The upgrade service runs goclaw upgrade and exits. Use --rm to auto-remove the container.
+# The upgrade service runs zalosclaw upgrade and exits. Use --rm to auto-remove the container.
 
 services:
   upgrade:
-    image: ghcr.io/nextlevelbuilder/goclaw:latest
+    image: ghcr.io/nextlevelbuilder/zalosclaw:latest
     build:
-      context: ${GOCLAW_DIR:-.}
+      context: ${ZALOSCLAW_DIR:-.}
       dockerfile: Dockerfile
       args:
         ENABLE_OTEL: "false"
@@ -24,15 +24,15 @@ services:
       - path: .env
         required: false
     environment:
-      - GOCLAW_POSTGRES_DSN=postgres://${POSTGRES_USER:-goclaw}:${POSTGRES_PASSWORD:-goclaw}@postgres:5432/${POSTGRES_DB:-goclaw}?sslmode=disable
-      - GOCLAW_CONFIG=/app/data/config.json
-      - GOCLAW_MIGRATIONS_DIR=/app/migrations
-      - GOCLAW_ENCRYPTION_KEY=${GOCLAW_ENCRYPTION_KEY:-}
+      - ZALOSCLAW_POSTGRES_DSN=postgres://${POSTGRES_USER:-zalosclaw}:${POSTGRES_PASSWORD:-zalosclaw}@postgres:5432/${POSTGRES_DB:-zalosclaw}?sslmode=disable
+      - ZALOSCLAW_CONFIG=/app/data/config.json
+      - ZALOSCLAW_MIGRATIONS_DIR=/app/migrations
+      - ZALOSCLAW_ENCRYPTION_KEY=${ZALOSCLAW_ENCRYPTION_KEY:-}
     volumes:
-      - goclaw-data:/app/data
+      - zalosclaw-data:/app/data
     depends_on:
       postgres:
         condition: service_healthy
-    entrypoint: ["/app/goclaw"]
+    entrypoint: ["/app/zalosclaw"]
     command: ["upgrade"]
     restart: "no"

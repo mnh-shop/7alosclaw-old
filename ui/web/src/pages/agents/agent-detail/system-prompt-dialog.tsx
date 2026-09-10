@@ -27,7 +27,7 @@ interface SystemPromptDialogProps {
 }
 
 /** Cache boundary marker — highlighted in the preview output. */
-const CACHE_BOUNDARY = "<!-- GOCLAW_CACHE_BOUNDARY -->";
+const CACHE_BOUNDARY = "<!-- ZALOSCLAW_CACHE_BOUNDARY -->";
 
 /** Replaces cache boundary HTML comment with a visible markdown separator. */
 function insertCacheBoundary(prompt: string): string {

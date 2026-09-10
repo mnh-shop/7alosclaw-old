@@ -45,7 +45,7 @@ type InstalledPackages struct {
 const listTimeout = 15 * time.Second
 
 // ListInstalledPackages queries system, pip3, and npm for installed packages.
-// System packages are limited to packages installed through GoClaw.
+// System packages are limited to packages installed through ZalosClaw.
 func ListInstalledPackages(ctx context.Context) *InstalledPackages {
 	ctx, cancel := context.WithTimeout(ctx, listTimeout)
 	defer cancel()

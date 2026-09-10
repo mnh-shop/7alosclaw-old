@@ -7,9 +7,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/hooks"
-	"github.com/nextlevelbuilder/goclaw/internal/hooks/handlers"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
+	"github.com/nextlevelbuilder/zalosclaw/internal/hooks/handlers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // Adversarial inputs inside tool_input must NEVER escape the sanitization

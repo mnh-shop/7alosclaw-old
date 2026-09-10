@@ -8,7 +8,7 @@ import (
 // A reasoning model emits nothing while thinking, so ResponseHeaderTimeout —
 // not any streaming timeout — is what decides whether its answer is reachable.
 // At 180s, claude-opus-5-thinking with a ~110k-token prompt routinely lost the
-// race: GoClaw reported "http2: timeout awaiting response headers" while
+// race: ZalosClaw reported "http2: timeout awaiting response headers" while
 // 9router's usage log showed the same request answering fine
 // (promptTokens=77194 → completionTokens=2789). Live 2026-07-28.
 func TestResponseHeaderTimeoutAccommodatesReasoningModels(t *testing.T) {

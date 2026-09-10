@@ -9,29 +9,29 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerProvidersCRUDTools registers the goclaw_providers_* MCP tools
+// registerProvidersCRUDTools registers the zalosclaw_providers_* MCP tools
 // backed by store.ProviderStore — closes a CLI-vs-MCP coverage gap (the
-// `goclaw providers create/list/models/verify-embedding` commands had no
+// `zalosclaw providers create/list/models/verify-embedding` commands had no
 // MCP equivalent for basic CRUD). deps.Providers was already threaded
 // through CRUDDeps for heartbeat.set's provider-name resolution; this
 // reuses the same store reference.
 func registerProvidersCRUDTools(srv *mcpserver.MCPServer, providers store.ProviderStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_providers_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_providers_list",
 		mcpgo.WithDescription("List all LLM providers (API keys masked)."),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleProvidersList(providers))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_providers_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_providers_get",
 		mcpgo.WithDescription("Get a single LLM provider by UUID or name (API key masked)."),
 		mcpgo.WithString("id", mcpgo.Description("Provider UUID.")),
 		mcpgo.WithString("name", mcpgo.Description("Provider name, used when id is not known.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleProvidersGet(providers))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_providers_create",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_providers_create",
 		mcpgo.WithDescription("Register a new LLM provider. The API key is encrypted at rest and never echoed back."),
 		mcpgo.WithString("name", mcpgo.Required(), mcpgo.Description("Provider name (unique per tenant).")),
 		mcpgo.WithString("provider_type", mcpgo.Required(), mcpgo.Description("Provider type (e.g. \"anthropic\", \"openai\", \"dashscope\").")),
@@ -41,7 +41,7 @@ func registerProvidersCRUDTools(srv *mcpserver.MCPServer, providers store.Provid
 		mcpgo.WithBoolean("enabled", mcpgo.Description("Enabled state; defaults to true.")),
 	), handleProvidersCreate(providers))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_providers_update",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_providers_update",
 		mcpgo.WithDescription("Apply a partial update to an existing LLM provider."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("Provider UUID.")),
 		mcpgo.WithString("display_name", mcpgo.Description("New display name.")),
@@ -50,7 +50,7 @@ func registerProvidersCRUDTools(srv *mcpserver.MCPServer, providers store.Provid
 		mcpgo.WithBoolean("enabled", mcpgo.Description("New enabled state.")),
 	), handleProvidersUpdate(providers))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_providers_delete",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_providers_delete",
 		mcpgo.WithDescription("Delete an LLM provider by UUID."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("Provider UUID.")),
 		mcpgo.WithDestructiveHintAnnotation(true),

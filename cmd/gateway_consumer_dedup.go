@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
 )
 
 // dedupKeyFor builds the inbound-message dedup key.

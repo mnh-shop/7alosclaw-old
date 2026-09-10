@@ -89,7 +89,7 @@ type PathDenyable interface {
 }
 ```
 
-All four filesystem tools (`read_file`, `write_file`, `list_files`, `edit`) implement `PathDenyable`. The agent loop calls `DenyPaths(".goclaw")` at startup to prevent agents from accessing internal data directories. `list_files` additionally filters denied directories from output entirely -- the agent does not see denied paths in directory listings.
+All four filesystem tools (`read_file`, `write_file`, `list_files`, `edit`) implement `PathDenyable`. The agent loop calls `DenyPaths(".zalosclaw")` at startup to prevent agents from accessing internal data directories. `list_files` additionally filters denied directories from output entirely -- the agent does not see denied paths in directory listings.
 
 #### Credentialed Exec Security
 
@@ -147,7 +147,7 @@ bodies.
 
 | Level | Scope | Directory Pattern |
 |-------|-------|------------------|
-| Per-agent | Each agent gets its own base directory | `~/.goclaw/{agent-key}-workspace/` |
+| Per-agent | Each agent gets its own base directory | `~/.zalosclaw/{agent-key}-workspace/` |
 | Per-user | Each user gets a subdirectory within the agent workspace | `{agent-workspace}/user_{sanitized_id}/` |
 
 The workspace is injected into tools via `WithToolWorkspace(ctx)` context injection. Tools read the workspace from context at execution time (fallback to the struct field for backward compatibility). User IDs are sanitized: anything outside `[a-zA-Z0-9_-]` becomes an underscore (`group:telegram:-1001234` → `group_telegram_-1001234`).
@@ -156,10 +156,10 @@ The workspace is injected into tools via `WithToolWorkspace(ctx)` context inject
 
 | Component | User | Scope | Socket |
 |-----------|------|-------|--------|
-| Main app | goclaw (1000) | All operations except system packages | N/A |
-| pkg-helper | root | System package (apk) install/uninstall only | `/tmp/pkg.sock` (0660 root:goclaw) |
+| Main app | zalosclaw (1000) | All operations except system packages | N/A |
+| pkg-helper | root | System package (apk) install/uninstall only | `/tmp/pkg.sock` (0660 root:zalosclaw) |
 
-The pkg-helper is started in `docker-entrypoint.sh` *before* privileges are dropped to goclaw. The main app connects to the Unix socket to request apk operations. System packages are persisted to `/app/data/.runtime/apk-packages` so they survive container recreation. Python and npm packages are installed directly by the goclaw user to writable runtime directories (`$PIP_TARGET`, `$NPM_CONFIG_PREFIX`).
+The pkg-helper is started in `docker-entrypoint.sh` *before* privileges are dropped to zalosclaw. The main app connects to the Unix socket to request apk operations. System packages are persisted to `/app/data/.runtime/apk-packages` so they survive container recreation. Python and npm packages are installed directly by the zalosclaw user to writable runtime directories (`$PIP_TARGET`, `$NPM_CONFIG_PREFIX`).
 
 **Docker sandbox** -- Container-based isolation for shell command execution:
 
@@ -180,15 +180,15 @@ The pkg-helper is started in `docker-entrypoint.sh` *before* privileges are drop
 
 ## 2. Docker Entrypoint & Runtime Configuration
 
-GoClaw runs in a non-root container with three privilege levels:
+ZalosClaw runs in a non-root container with three privilege levels:
 
 **Phase 1: Root (docker-entrypoint.sh)**
 - Re-install persisted system packages from `/app/data/.runtime/apk-packages`
 - Start `pkg-helper` (root-privileged service listening on `/tmp/pkg.sock`)
 - Set up Python and Node.js runtime directories with proper env vars
 
-**Phase 2: Drop to goclaw user (su-exec)**
-- Main app runs as `goclaw` (UID 1000) via `su-exec goclaw /app/goclaw`
+**Phase 2: Drop to zalosclaw user (su-exec)**
+- Main app runs as `zalosclaw` (UID 1000) via `su-exec zalosclaw /app/zalosclaw`
 - All agent operations execute in this context
 - System package requests are delegated to pkg-helper via Unix socket
 
@@ -217,16 +217,16 @@ Docker-compose.yml mounts data volume at `/app/data`, which contains:
 | Path | Owner | Purpose |
 |------|-------|---------|
 | `/app/data/.runtime/apk-packages` | 0666 (rw-rw-rw-) | Persisted apk package list, written by pkg-helper |
-| `/app/data/.runtime/pip` | goclaw | Python packages installed via pip install --target |
-| `/app/data/.runtime/npm-global` | goclaw | npm packages installed globally to prefix |
-| `/app/data/.runtime/pip-cache` | goclaw | pip cache directory |
-| `/tmp/pkg.sock` | 0660 (rw-rw----) | Unix socket: owner root, group goclaw |
+| `/app/data/.runtime/pip` | zalosclaw | Python packages installed via pip install --target |
+| `/app/data/.runtime/npm-global` | zalosclaw | npm packages installed globally to prefix |
+| `/app/data/.runtime/pip-cache` | zalosclaw | pip cache directory |
+| `/tmp/pkg.sock` | 0660 (rw-rw----) | Unix socket: owner root, group zalosclaw |
 
 ---
 
 ## 3. Encryption
 
-AES-256-GCM encryption for secrets stored in PostgreSQL. Key provided via `GOCLAW_ENCRYPTION_KEY` environment variable.
+AES-256-GCM encryption for secrets stored in PostgreSQL. Key provided via `ZALOSCLAW_ENCRYPTION_KEY` environment variable.
 
 | What's Encrypted | Table | Column |
 |-----------------|-------|--------|
@@ -239,7 +239,7 @@ AES-256-GCM encryption for secrets stored in PostgreSQL. Key provided via `GOCLA
 
 Backward compatible: values without the `aes-gcm:` prefix are returned as plaintext (for migration from unencrypted data).
 
-Credentialed CLI env entries have a separate visibility kind inside the encrypted JSON blob when `GOCLAW_ENCRYPTION_KEY` is configured. `sensitive` entries are masked in normal API/UI responses and never returned raw except through the explicit audited grant reveal flow. `value` entries use the same at-rest storage path but are returned to authorized admins for operational review.
+Credentialed CLI env entries have a separate visibility kind inside the encrypted JSON blob when `ZALOSCLAW_ENCRYPTION_KEY` is configured. `sensitive` entries are masked in normal API/UI responses and never returned raw except through the explicit audited grant reveal flow. `value` entries use the same at-rest storage path but are returned to authorized admins for operational review.
 
 ---
 
@@ -371,7 +371,7 @@ API keys are generated and stored securely.
 
 | Mechanism | Detail |
 |-----------|--------|
-| Format | `goclaw_<32 hex chars>` (48 chars total) |
+| Format | `zalosclaw_<32 hex chars>` (48 chars total) |
 | Key generation | 16 random bytes → hex-encoded, generated via `crypto.GenerateAPIKey()` |
 | Storage | SHA-256 hash stored in database (`api_keys.hash`), never the raw key. Raw key shown once at creation. |
 | Comparison | Timing-safe comparison via `crypto/subtle.ConstantTimeCompare` (not standard `==`) prevents timing attacks. Display prefix: first 8 hex chars of random part (e.g., `1a2b3c4d...`) |
@@ -453,7 +453,7 @@ Browser pairing allows web UI clients to authenticate without full admin credent
 | Code TTL | 60 minutes; expired codes are auto-pruned from database |
 | Paired device TTL | 30 days; provides defense-in-depth expiry (paired devices auto-cleaned if unused) |
 | Pending limit | Max 3 pending pairing requests per account; prevents spam/enumeration |
-| HTTP access | Paired browsers access HTTP APIs via `X-GoClaw-Sender-Id` header (requires `channel=browser`). Fail-closed: `IsPaired()` check blocks unpaired sessions. Logs failed HTTP pairing auth attempts for security monitoring. |
+| HTTP access | Paired browsers access HTTP APIs via `X-ZalosClaw-Sender-Id` header (requires `channel=browser`). Fail-closed: `IsPaired()` check blocks unpaired sessions. Logs failed HTTP pairing auth attempts for security monitoring. |
 | Approval flow | Requires WebSocket `device.pair.approve` method from authenticated admin session, triggered by `pairing.approve` command. Admin approval adds sender to `paired_devices` table with `paired_by` audit field. |
 | Stale session fix | Uses `useRef` (not `useState`) for senderID in browser pairing form to prevent stale closure. Auto-kick after pairing: `RequireAuth` now accepts senderID for paired browser sessions (skips logout). |
 
@@ -486,8 +486,8 @@ The `pkg-helper` sidecar is the only root-privileged component of the gateway.
 | Boundary | Detail |
 |----------|--------|
 | Socket path | `/tmp/pkg.sock` |
-| Permissions | 0600 — owner `root`, accessible only to `goclaw` uid 1000 |
-| Gateway process | Runs as uid 1000 (goclaw); never calls `apk` directly |
+| Permissions | 0600 — owner `root`, accessible only to `zalosclaw` uid 1000 |
+| Gateway process | Runs as uid 1000 (zalosclaw); never calls `apk` directly |
 | Helper process | Runs as root inside the container; started by `docker-entrypoint.sh` before privilege drop |
 
 Package name validation is defense-in-depth at three layers:
@@ -498,7 +498,7 @@ Package name validation is defense-in-depth at three layers:
 ### pkg-helper v2 (Phase 2b)
 
 - **Trust boundary unchanged from v1:** `/tmp/pkg.sock` 0600 owned by `root`,
-  group-readable by `goclaw`.
+  group-readable by `zalosclaw`.
 - **New actions** (`upgrade`, `update-index`, `list-outdated`) run under the same
   root privilege as v1 `install`/`uninstall`. No privilege escalation; same exec
   path, new action names.
@@ -566,7 +566,7 @@ the test and operator-facing log-search recipes.
 | `host_scope_hash` | string | SHA-256 first 8 hex chars of normalized host_scope, or `"none"` |
 
 **Plaintext hostname is intentionally omitted** to keep audit logs PII-safe
-when goclaw is deployed inside a regulated tenant. Operators wanting to grep
+when zalosclaw is deployed inside a regulated tenant. Operators wanting to grep
 for activity against a specific host pre-compute the hash:
 
 ```sh
@@ -574,14 +574,14 @@ echo -n "github.com" | sha256sum | cut -c1-8
 ```
 
 Routing: `slog.Warn` writes to whatever the host runtime captures — for the
-default goclaw deployment that's stderr → systemd/journald or Docker logs.
+default zalosclaw deployment that's stderr → systemd/journald or Docker logs.
 There is **no dedicated audit table** in v1 (see future work below).
 
 ### SSH TOFU MITM caveat
 
 The git adapter's SSH path sets `StrictHostKeyChecking=accept-new`, which
 accepts unknown host keys on first contact. A network attacker positioned
-between goclaw and the git host CAN capture the SSH session on the first
+between zalosclaw and the git host CAN capture the SSH session on the first
 connection.
 
 Operators should pre-seed `~/.ssh/known_hosts` at deployment time:
@@ -602,14 +602,14 @@ Ephemeral filesystem credentials (SSH key tmpfiles, `.pgpass` tmpfiles, future
 KUBECONFIG/DOCKER_CONFIG tmpfiles) rely on `defer cleanup()` to remove
 themselves after exec returns.
 
-`SIGKILL` of the goclaw process leaves these 0600 files in `os.TempDir()`. On
-POSIX, `os.TempDir()` is per-user, so exposure is limited to the goclaw uid.
+`SIGKILL` of the zalosclaw process leaves these 0600 files in `os.TempDir()`. On
+POSIX, `os.TempDir()` is per-user, so exposure is limited to the zalosclaw uid.
 
 High-security deployments should run a periodic sweep:
 
 ```sh
-find "$TMPDIR" -name 'goclaw-gitkey-*' -mmin +60 -delete
-find "$TMPDIR" -name 'goclaw-pgpass-*' -mmin +60 -delete
+find "$TMPDIR" -name 'zalosclaw-gitkey-*' -mmin +60 -delete
+find "$TMPDIR" -name 'zalosclaw-pgpass-*' -mmin +60 -delete
 ```
 
 ### Open future work

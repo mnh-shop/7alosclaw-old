@@ -15,7 +15,7 @@ func TestBuildQuoteMediaTag(t *testing.T) {
 		want  string
 	}{
 		{"no paths", nil, ""},
-		{"single image", []string{"/tmp/goclaw_zca_abc123.jpg"}, "<media:image>"},
+		{"single image", []string{"/tmp/zalosclaw_zca_abc123.jpg"}, "<media:image>"},
 		{"multiple images", []string{"/tmp/a.jpg", "/tmp/b.png"}, "<media:image>\n<media:image>"},
 	}
 	for _, tt := range tests {

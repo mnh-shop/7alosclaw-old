@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/crypto"
+	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
 )
 
 // oauthStateTTL bounds how long a signed authorize-URL state stays valid.
@@ -40,7 +40,7 @@ type oauthStatePayload struct {
 }
 
 // encodeOAuthState serializes payload to base64url(json) + "." + hex(HMAC-SHA256).
-// key comes from crypto.DeriveKey(GOCLAW_ENCRYPTION_KEY) — same key already used
+// key comes from crypto.DeriveKey(ZALOSCLAW_ENCRYPTION_KEY) — same key already used
 // for AES-256-GCM elsewhere in this codebase (no second secret introduced).
 func encodeOAuthState(p oauthStatePayload, key []byte) (string, error) {
 	body, err := json.Marshal(p)

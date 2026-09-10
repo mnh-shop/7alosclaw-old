@@ -1,6 +1,6 @@
 # 20 — API Keys & Authentication
 
-GoClaw supports two authentication mechanisms: a single gateway token (configured at startup) and multiple API keys with fine-grained RBAC scopes. Both work across HTTP REST and WebSocket RPC.
+ZalosClaw supports two authentication mechanisms: a single gateway token (configured at startup) and multiple API keys with fine-grained RBAC scopes. Both work across HTTP REST and WebSocket RPC.
 
 ---
 
@@ -32,12 +32,12 @@ Or in WebSocket `connect`:
 
 The gateway token is compared using **constant-time comparison** (`crypto/subtle.ConstantTimeCompare`) in both HTTP and WebSocket auth paths to prevent timing attacks. The comparison reveals no information about where the provided token first differs from the expected token.
 
-Externally reachable deployments must configure a gateway token. If `gateway.token` / `GOCLAW_GATEWAY_TOKEN` is empty while the gateway binds to `0.0.0.0`, `::`, or a non-loopback address, startup fails before the health endpoint reports ready.
+Externally reachable deployments must configure a gateway token. If `gateway.token` / `ZALOSCLAW_GATEWAY_TOKEN` is empty while the gateway binds to `0.0.0.0`, `::`, or a non-loopback address, startup fails before the health endpoint reports ready.
 
 Empty-token compatibility is only for local development:
 
-- bind `GOCLAW_HOST` to loopback (`127.0.0.1`, `localhost`, or `::1`), or
-- set `GOCLAW_ALLOW_INSECURE_NO_AUTH=1` explicitly.
+- bind `ZALOSCLAW_HOST` to loopback (`127.0.0.1`, `localhost`, or `::1`), or
+- set `ZALOSCLAW_ALLOW_INSECURE_NO_AUTH=1` explicitly.
 
 The explicit opt-in applies to both HTTP and WebSocket. Do not use it on shared hosts, Docker ports exposed outside the machine, or production deployments.
 
@@ -50,12 +50,12 @@ API keys provide scoped, revocable access for CI/CD, integrations, and third-par
 ### Key Format
 
 ```
-goclaw_a1b2c3d4e5f6789012345678901234567890abcdef
+zalosclaw_a1b2c3d4e5f6789012345678901234567890abcdef
 ```
 
-- **Prefix:** `goclaw_` (6 chars)
+- **Prefix:** `zalosclaw_` (6 chars)
 - **Random:** 32 hex characters (128 bits of entropy)
-- **Display prefix:** `goclaw_` + first 8 hex chars (shown in UI after creation)
+- **Display prefix:** `zalosclaw_` + first 8 hex chars (shown in UI after creation)
 
 ### Security Model
 
@@ -104,11 +104,11 @@ The derived role is then used by the `PolicyEngine.CanAccess()` method to gate R
 
 ### Prioritized Auth Paths
 
-GoClaw tries authentication methods in this priority order:
+ZalosClaw tries authentication methods in this priority order:
 
 1. **Gateway token** (exact match via constant-time comparison) → `RoleAdmin` or `RoleOwner` for configured owner IDs
 2. **API key** (SHA-256 hash lookup in `api_keys` table) → role from scopes
-3. **Browser pairing** (sender ID must be paired with "browser" device type) → `RoleOperator` (HTTP only; requires `X-GoClaw-Sender-Id` header)
+3. **Browser pairing** (sender ID must be paired with "browser" device type) → `RoleOperator` (HTTP only; requires `X-ZalosClaw-Sender-Id` header)
 4. **No auth configured and local/dev mode explicitly allowed** → full-access dev mode
 5. **No valid auth found** → `401 Unauthorized`
 
@@ -117,7 +117,7 @@ GoClaw tries authentication methods in this priority order:
 ```mermaid
 flowchart TD
     A[Incoming HTTP request] --> B{Authorization header?}
-    B -->|No| C{X-GoClaw-Sender-Id header?}
+    B -->|No| C{X-ZalosClaw-Sender-Id header?}
     B -->|Yes, extract Bearer token| D{Match gateway token?}
     D -->|Yes| E[RoleAdmin]
     D -->|No| F[Hash token + lookup in api_keys]
@@ -160,24 +160,24 @@ On successful API key authentication, `last_used_at` is updated asynchronously (
 ### HTTP Request Headers
 
 - **Bearer token**: `Authorization: Bearer <token>` — checked first for gateway token or API key
-- **User ID**: `X-GoClaw-User-Id: <user-id>` — optional external user identifier (max 255 chars)
-- **Browser pairing**: `X-GoClaw-Sender-Id: <sender-id>` — identifies a previously-paired browser device
-- **Tenant scope**: `X-GoClaw-Tenant-Id: <tenant-uuid-or-slug>` — owner/system-key scope narrowing; non-owner gateway token and browser-pairing callers must already belong to the requested tenant
+- **User ID**: `X-ZalosClaw-User-Id: <user-id>` — optional external user identifier (max 255 chars)
+- **Browser pairing**: `X-ZalosClaw-Sender-Id: <sender-id>` — identifies a previously-paired browser device
+- **Tenant scope**: `X-ZalosClaw-Tenant-Id: <tenant-uuid-or-slug>` — owner/system-key scope narrowing; non-owner gateway token and browser-pairing callers must already belong to the requested tenant
 - **Locale**: `Accept-Language` — user's preferred language (en, vi, zh; default: en)
 
-User context is still required for user-scoped read paths. Admin API keys without an `owner_id` can call tenant-scoped admin list endpoints such as `GET /v1/agents` and `GET /v1/sessions` without `X-GoClaw-User-Id`; non-admin keys without an effective user receive a structured `INVALID_REQUEST`. User-bound API keys always force the stored `owner_id` and ignore spoofed user headers.
+User context is still required for user-scoped read paths. Admin API keys without an `owner_id` can call tenant-scoped admin list endpoints such as `GET /v1/agents` and `GET /v1/sessions` without `X-ZalosClaw-User-Id`; non-admin keys without an effective user receive a structured `INVALID_REQUEST`. User-bound API keys always force the stored `owner_id` and ignore spoofed user headers.
 
 ### Tenant Scope Rules
 
-- **Gateway token + owner user ID**: may narrow to any tenant via `X-GoClaw-Tenant-Id`
-- **Gateway token + non-owner user ID**: may only use `X-GoClaw-Tenant-Id` for a tenant where that user already has membership; otherwise auth fails
+- **Gateway token + owner user ID**: may narrow to any tenant via `X-ZalosClaw-Tenant-Id`
+- **Gateway token + non-owner user ID**: may only use `X-ZalosClaw-Tenant-Id` for a tenant where that user already has membership; otherwise auth fails
 - **Browser pairing**: same tenant-membership rule as non-owner gateway-token HTTP requests
 - **Tenant-bound API key**: always stays bound to its stored `tenant_id`; request headers cannot move it
-- **System-level API key** (`tenant_id = NULL`): keeps its scope-derived role (`admin`, `operator`, or `viewer`) and may narrow requests to a tenant via `X-GoClaw-Tenant-Id`, but it does **not** become `owner`
+- **System-level API key** (`tenant_id = NULL`): keeps its scope-derived role (`admin`, `operator`, or `viewer`) and may narrow requests to a tenant via `X-ZalosClaw-Tenant-Id`, but it does **not** become `owner`
 
 ### Backward Compatibility
 
-If no gateway token is configured (`gateway.token` is empty in `config.json`), unauthenticated requests run in backward-compatibility full-access mode only for loopback local development or when `GOCLAW_ALLOW_INSECURE_NO_AUTH=1` is set. Once a gateway token is configured, all requests must authenticate or use browser pairing.
+If no gateway token is configured (`gateway.token` is empty in `config.json`), unauthenticated requests run in backward-compatibility full-access mode only for loopback local development or when `ZALOSCLAW_ALLOW_INSECURE_NO_AUTH=1` is set. Once a gateway token is configured, all requests must authenticate or use browser pairing.
 
 ---
 
@@ -251,8 +251,8 @@ All API key management operations require admin access (gateway token or API key
 {
   "id": "01961234-5678-7abc-def0-123456789012",
   "name": "ci-deploy",
-  "prefix": "goclaw_a1b2c3d4",
-  "key": "goclaw_a1b2c3d4e5f6789012345678901234567890abcdef",
+  "prefix": "zalosclaw_a1b2c3d4",
+  "key": "zalosclaw_a1b2c3d4e5f6789012345678901234567890abcdef",
   "scopes": ["operator.read", "operator.write"],
   "expires_at": "2026-04-14T12:00:00Z",
   "created_at": "2026-03-15T12:00:00Z"
@@ -266,7 +266,7 @@ All API key management operations require admin access (gateway token or API key
   {
     "id": "01961234-...",
     "name": "ci-deploy",
-    "prefix": "goclaw_a1b2c3d4",
+    "prefix": "zalosclaw_a1b2c3d4",
     "scopes": ["operator.read", "operator.write"],
     "expires_at": "2026-04-14T12:00:00Z",
     "last_used_at": "2026-03-15T14:30:00Z",
@@ -295,7 +295,7 @@ The gateway token continues to work exactly as before. API keys are an additiona
 
 ## 8. SecureCLI — CLI Credential Injection
 
-SecureCLI is a feature that allows GoClaw to automatically inject credentials into CLI tools (e.g., `gh`, `gcloud`, `aws`) without requiring the agent to handle plaintext secrets. Credentials are stored encrypted at rest and injected at process startup.
+SecureCLI is a feature that allows ZalosClaw to automatically inject credentials into CLI tools (e.g., `gh`, `gcloud`, `aws`) without requiring the agent to handle plaintext secrets. Credentials are stored encrypted at rest and injected at process startup.
 
 ### Use Case
 
@@ -342,7 +342,7 @@ CREATE TABLE secure_cli_binaries (
 
 ### Google Workspace CLI preset
 
-The `gws` preset is intended for server-side Google Workspace reads and reviewed admin workflows. It blocks interactive credential commands (`gws auth setup`, `gws auth login`, `gws auth export`, `gws auth logout`) because those flows can create, expose, or clear credentials outside GoClaw's encrypted store.
+The `gws` preset is intended for server-side Google Workspace reads and reviewed admin workflows. It blocks interactive credential commands (`gws auth setup`, `gws auth login`, `gws auth export`, `gws auth logout`) because those flows can create, expose, or clear credentials outside ZalosClaw's encrypted store.
 
 Credential options:
 
@@ -398,13 +398,13 @@ Features:
 
 ```bash
 # List agents (read scope required)
-curl -H "Authorization: Bearer goclaw_a1b2c3d4..." \
+curl -H "Authorization: Bearer zalosclaw_a1b2c3d4..." \
      http://localhost:9090/v1/agents
 
 # Send chat message (write scope required)
-curl -X POST -H "Authorization: Bearer goclaw_a1b2c3d4..." \
+curl -X POST -H "Authorization: Bearer zalosclaw_a1b2c3d4..." \
      -H "Content-Type: application/json" \
-     -d '{"model":"goclaw:my-agent","messages":[{"role":"user","content":"Hello"}]}' \
+     -d '{"model":"zalosclaw:my-agent","messages":[{"role":"user","content":"Hello"}]}' \
      http://localhost:9090/v1/chat/completions
 ```
 
@@ -412,7 +412,7 @@ curl -X POST -H "Authorization: Bearer goclaw_a1b2c3d4..." \
 
 ```json
 {"id": 1, "method": "connect", "params": {
-  "token": "goclaw_a1b2c3d4e5f6...",
+  "token": "zalosclaw_a1b2c3d4e5f6...",
   "user_id": "ci-bot"
 }}
 ```

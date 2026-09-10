@@ -11,10 +11,10 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	gohttp "github.com/nextlevelbuilder/goclaw/internal/http"
-	mcpoauth "github.com/nextlevelbuilder/goclaw/internal/mcp/oauth"
-	"github.com/nextlevelbuilder/goclaw/internal/security"
-	pgstore "github.com/nextlevelbuilder/goclaw/internal/store/pg"
+	gohttp "github.com/nextlevelbuilder/zalosclaw/internal/http"
+	mcpoauth "github.com/nextlevelbuilder/zalosclaw/internal/mcp/oauth"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
+	pgstore "github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
 )
 
 // flowTestHandler builds a real MCPOAuthHandler wired to real PG stores,

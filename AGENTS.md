@@ -1,4 +1,4 @@
-# GoClaw Gateway
+# ZalosClaw Gateway
 
 PostgreSQL multi-tenant AI agent gateway with WebSocket RPC + HTTP API.
 
@@ -86,7 +86,7 @@ ui/desktop/                   Wails v2 desktop app (React frontend + embedded ga
 - **Self-evolution:** Metrics → suggestions → auto-adapt. 3 progressive stages: metrics collection, suggestion analysis, guardrail-protected apply/rollback
 - **Orchestration:** Delegate tool for inter-agent task delegation with agent_links, 3 delegation modes (auto/explicit/manual), token-aware work distribution. BatchQueue[T] generic for result aggregation
 - **WebSocket protocol:** Frame types `req`/`res`/`event`. First request must be `connect`
-- **Config:** JSON5 at `GOCLAW_CONFIG` env. Secrets in `.env.local` or env vars, never in config.json
+- **Config:** JSON5 at `ZALOSCLAW_CONFIG` env. Secrets in `.env.local` or env vars, never in config.json
 - **Security:** Rate limiting, input guard (detection-only), CORS, shell deny patterns, SSRF protection, path traversal prevention, AES-256-GCM encryption. All security logs: `slog.Warn("security.*")`
 - **Telegram formatting:** LLM output → `SanitizeAssistantContent()` → `markdownToTelegramHTML()` → `chunkHTML()` → `sendHTML()`. Tables rendered as ASCII in `<pre>` tags
 - **i18n:** Web UI uses `i18next` with namespace-split locale files in `ui/web/src/i18n/locales/{lang}/`. Backend uses `internal/i18n` message catalog with `i18n.T(locale, key, args...)`. Locale propagated via `store.WithLocale(ctx)` — WS `connect` param `locale`, HTTP `Accept-Language` header. Supported: en (default), vi, zh. New user-facing strings: add key to `internal/i18n/keys.go`, add translations to all 3 catalog files. New UI strings: add key to all 3 locale dirs. Bootstrap templates (SOUL.md, etc.) stay English-only (LLM consumption).
@@ -105,11 +105,11 @@ Do not ship a backend-only change when the web UI, CLI/runtime package, or API c
 ## Running
 
 ```bash
-go build -o goclaw . && ./goclaw onboard && source .env.local && ./goclaw
-./goclaw migrate up                 # DB migrations
+go build -o zalosclaw . && ./zalosclaw onboard && source .env.local && ./zalosclaw
+./zalosclaw migrate up                 # DB migrations
 # Integration tests (requires pgvector pg18 on port 5433)
-docker run -d --name pgtest -p 5433:5432 -e POSTGRES_PASSWORD=test -e POSTGRES_DB=goclaw_test pgvector/pgvector:pg18
-TEST_DATABASE_URL="postgres://postgres:test@localhost:5433/goclaw_test?sslmode=disable" \
+docker run -d --name pgtest -p 5433:5432 -e POSTGRES_PASSWORD=test -e POSTGRES_DB=zalosclaw_test pgvector/pgvector:pg18
+TEST_DATABASE_URL="postgres://postgres:test@localhost:5433/zalosclaw_test?sslmode=disable" \
   go test -v -tags integration ./tests/integration/
 
 # Layered tests
@@ -159,7 +159,7 @@ git tag lite-v1.1.0-beta.1 && git push origin lite-v1.1.0-beta.1  # beta (prerel
 
 ### Docker Images
 
-Published to GHCR (`ghcr.io/nextlevelbuilder/goclaw`) and Docker Hub (`digitop/goclaw`).
+Published to GHCR (`ghcr.io/nextlevelbuilder/zalosclaw`) and Docker Hub (`digitop/zalosclaw`).
 
 | Variant | Tag | Contents |
 |---------|-----|----------|
@@ -183,10 +183,10 @@ OTel and Tailscale variants are not pre-built — build from source with the app
 - **Build tag:** `//go:build sqliteonly` — desktop binary includes only SQLite, no PostgreSQL
 - **Edition system:** `internal/edition/edition.go` — `Lite` preset auto-selected for SQLite backend. Check `edition.Current()` for feature limits
 - **Entry point:** `ui/desktop/main.go` + `ui/desktop/app.go` — Wails bindings, embedded gateway
-- **Secrets:** OS keyring (`go-keyring`) with file fallback at `~/.goclaw/secrets/`
-- **Data dir:** `~/.goclaw/data/` (SQLite DB, configs)
-- **Workspace:** `~/.goclaw/workspace/` (agent files, team workspace)
-- **Port:** 18790 (localhost only), configurable via `GOCLAW_PORT`
+- **Secrets:** OS keyring (`go-keyring`) with file fallback at `~/.zalosclaw/secrets/`
+- **Data dir:** `~/.zalosclaw/data/` (SQLite DB, configs)
+- **Workspace:** `~/.zalosclaw/workspace/` (agent files, team workspace)
+- **Port:** 18790 (localhost only), configurable via `ZALOSCLAW_PORT`
 - **WS params:** All WS method params use **camelCase** (`teamId`, `taskId`, `sessionKey`) — match Go struct `json:"..."` tags
 - **Version:** `cmd.Version` set via `-ldflags` at build time. Frontend calls `wails.getVersion()`
 - **Auto-update:** `internal/updater/updater.go` checks GitHub Releases for `lite-v*` tags. Frontend `UpdateBanner` shows notification

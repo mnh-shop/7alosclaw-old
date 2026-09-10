@@ -13,7 +13,7 @@ import (
 //
 // Purpose: features that need to advertise URLs back to external systems
 // (e.g. Bitrix24 portal install links) don't want to require operators to
-// configure GOCLAW_PUBLIC_URL by hand. The gateway already sees the public
+// configure ZALOSCLAW_PUBLIC_URL by hand. The gateway already sees the public
 // URL on every admin request — Cloudflare Tunnel / nginx forward the public
 // Host header — so we just snapshot it.
 //
@@ -72,7 +72,7 @@ func (s *PublicURLSnapshot) SetIfPublic(rawURL string) bool {
 }
 
 // hostFromURL extracts the lowercase host (no port) from a URL like
-// "https://goclaw.tamgiac.com:8443". Returns "" when not parseable.
+// "https://zalosclaw.tamgiac.com:8443". Returns "" when not parseable.
 func hostFromURL(rawURL string) string {
 	u, err := url.Parse(strings.TrimSpace(rawURL))
 	if err != nil || u.Host == "" {

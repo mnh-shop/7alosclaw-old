@@ -13,9 +13,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/hooks"
-	hookhandlers "github.com/nextlevelbuilder/goclaw/internal/hooks/handlers"
-	"github.com/nextlevelbuilder/goclaw/internal/store/pg"
+	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
+	hookhandlers "github.com/nextlevelbuilder/zalosclaw/internal/hooks/handlers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
 )
 
 // TestHooksChaos_HTTPHandler_ProviderDown verifies the HTTP handler fails

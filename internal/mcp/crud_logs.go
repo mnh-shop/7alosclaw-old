@@ -7,7 +7,7 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	runtimelogs "github.com/nextlevelbuilder/goclaw/internal/logs"
+	runtimelogs "github.com/nextlevelbuilder/zalosclaw/internal/logs"
 )
 
 // RuntimeLogSnapshotter returns a bounded, in-memory aggregate of recent
@@ -22,7 +22,7 @@ type RuntimeLogSnapshotter interface {
 	AggregateRuntimeLogs(opts runtimelogs.RuntimeAggregateOpts) runtimelogs.RuntimeAggregateResult
 }
 
-// registerLogsCRUDTool registers goclaw_logs_tail. Unlike the WS logs.tail
+// registerLogsCRUDTool registers zalosclaw_logs_tail. Unlike the WS logs.tail
 // RPC method — which starts/stops a live push subscription over the
 // connection's own WebSocket — this MCP surface is a stateless HTTP server
 // (mcpserver.WithStateLess(true), see crud_server.go) with no persistent
@@ -35,7 +35,7 @@ type RuntimeLogSnapshotter interface {
 // for naming parity with the WS method but only "start" (or empty) produces
 // a snapshot; "stop" is a no-op success (nothing was subscribed).
 func registerLogsCRUDTool(srv *mcpserver.MCPServer, snapshotter RuntimeLogSnapshotter) {
-	srv.AddTool(mcpgo.NewTool("goclaw_logs_tail",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_logs_tail",
 		mcpgo.WithDescription("Return a snapshot aggregate of recent runtime log entries (grouped by level or source). This is a point-in-time read, not a live push subscription: MCP tool calls are stateless request/response, so there is no channel to stream log lines to the caller as they occur."),
 		mcpgo.WithString("action", mcpgo.Description("\"start\" (default) returns a snapshot; \"stop\" is a no-op success.")),
 		mcpgo.WithString("group_by", mcpgo.Description("\"level\" (default) or \"source\".")),

@@ -13,9 +13,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/media"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/media"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // mediaWorkspaceDiskWarnThreshold is the size in bytes at which a warn-level

@@ -11,17 +11,17 @@
 # Dashboard via nginx: http://localhost:3000
 
 services:
-  goclaw-ui:
-    image: ghcr.io/nextlevelbuilder/goclaw-web:latest
+  zalosclaw-ui:
+    image: ghcr.io/nextlevelbuilder/zalosclaw-web:latest
     build:
-      context: ${GOCLAW_DIR:-.}/ui/web
+      context: ${ZALOSCLAW_DIR:-.}/ui/web
       dockerfile: Dockerfile
     ports:
-      - "${GOCLAW_UI_PORT:-3000}:80"
+      - "${ZALOSCLAW_UI_PORT:-3000}:80"
     networks:
       - default
-      - goclaw-net
+      - zalosclaw-net
     depends_on:
-      - goclaw
+      - zalosclaw
     restart: unless-stopped
     stop_signal: SIGTERM

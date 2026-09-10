@@ -31,8 +31,8 @@ Broader cron credential context is already fixed by storing `payload.credentialU
 
 ## Dependencies
 
-- GitHub issue: `digitopvn/goclaw#74`
-- Related closed issue: `digitopvn/goclaw#54`
+- GitHub issue: `digitopvn/zalosclaw#74`
+- Related closed issue: `digitopvn/zalosclaw#54`
 - Cron context path: `cmd/gateway_cron.go`, `internal/store/cron_store.go`, `internal/gateway/methods/cron.go`
 - SecureCLI path: `internal/tools/credentialed_exec.go`, `internal/tools/credential_presets.go`, `internal/store/secure_cli_store.go`
 - Docs to update if behavior changes: `docs/project-changelog.md`, `docs/03-tools-system.md`

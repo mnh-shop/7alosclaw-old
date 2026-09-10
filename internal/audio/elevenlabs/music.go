@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
 )
 
 // musicDefaultTimeoutMs is the timeout for music generation — longer than TTS/SFX

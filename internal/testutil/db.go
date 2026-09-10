@@ -23,7 +23,7 @@ import (
 )
 
 // defaultTestDSN matches the pgvector test container in the README.
-const defaultTestDSN = "postgres://postgres:test@localhost:5433/goclaw_test?sslmode=disable"
+const defaultTestDSN = "postgres://postgres:test@localhost:5433/zalosclaw_test?sslmode=disable"
 
 var (
 	sharedDB     *sql.DB

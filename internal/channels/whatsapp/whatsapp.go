@@ -14,11 +14,11 @@ import (
 	"go.mau.fi/whatsmeow/types"
 	"go.mau.fi/whatsmeow/types/events"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 const (
@@ -28,7 +28,7 @@ const (
 
 func init() {
 	// Set device name shown in WhatsApp's "Linked Devices" screen (once at package init).
-	wastore.DeviceProps.Os = new("GoClaw")
+	wastore.DeviceProps.Os = new("ZalosClaw")
 }
 
 // Channel connects directly to WhatsApp via go.mau.fi/whatsmeow.

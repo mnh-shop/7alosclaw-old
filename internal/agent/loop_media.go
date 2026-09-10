@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // parseMediaResult extracts a MediaResult from a tool result string containing "MEDIA:" prefix.

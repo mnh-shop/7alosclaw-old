@@ -11,8 +11,8 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // BridgeToolNames is the LEGACY conservative tool set, kept as the fallback
@@ -120,7 +120,7 @@ func newBridgeToolFilter(reg *tools.Registry, policyEngine *tools.PolicyEngine) 
 // All MCP bridge traffic originates from the Claude CLI subprocess.
 const bridgeProviderName = "claude-cli"
 
-// NewBridgeServer creates a StreamableHTTPServer that exposes GoClaw tools as MCP tools.
+// NewBridgeServer creates a StreamableHTTPServer that exposes ZalosClaw tools as MCP tools.
 // It reads tools from the registry, filters to BridgeToolNames, and serves them
 // over streamable-http transport (stateless mode).
 // msgBus is optional; when non-nil, tools that produce media (deliver:true) will
@@ -132,7 +132,7 @@ const bridgeProviderName = "claude-cli"
 // policy denies it. When nil, only the static BridgeToolNames set applies
 // (legacy behavior).
 func NewBridgeServer(reg *tools.Registry, version string, msgBus *bus.MessageBus, policyEngine *tools.PolicyEngine) *mcpserver.StreamableHTTPServer {
-	srv := mcpserver.NewMCPServer("goclaw-bridge", version,
+	srv := mcpserver.NewMCPServer("zalosclaw-bridge", version,
 		mcpserver.WithToolCapabilities(false),
 		// Per-caller list filtering: each agent only sees its callable surface.
 		mcpserver.WithToolFilter(newBridgeToolFilter(reg, policyEngine)),
@@ -161,7 +161,7 @@ func NewBridgeServer(reg *tools.Registry, version string, msgBus *bus.MessageBus
 	)
 }
 
-// convertToMCPTool converts a GoClaw tools.Tool into an mcp-go Tool.
+// convertToMCPTool converts a ZalosClaw tools.Tool into an mcp-go Tool.
 func convertToMCPTool(t tools.Tool) mcpgo.Tool {
 	schema, err := json.Marshal(t.Parameters())
 	if err != nil {
@@ -171,7 +171,7 @@ func convertToMCPTool(t tools.Tool) mcpgo.Tool {
 	return mcpgo.NewToolWithRawSchema(t.Name(), t.Description(), schema)
 }
 
-// makeToolHandler creates a ToolHandlerFunc that delegates to the GoClaw tool registry.
+// makeToolHandler creates a ToolHandlerFunc that delegates to the ZalosClaw tool registry.
 // When msgBus is non-nil and a tool result contains Media paths, the handler publishes
 // them as outbound media attachments so files reach the user (e.g. Telegram document).
 func makeToolHandler(reg *tools.Registry, toolName string, msgBus *bus.MessageBus, policyEngine *tools.PolicyEngine) mcpserver.ToolHandlerFunc {
@@ -211,7 +211,7 @@ func makeToolHandler(reg *tools.Registry, toolName string, msgBus *bus.MessageBu
 
 		// Forward media files to the outbound bus so they reach the user as attachments.
 		// This is necessary because Claude CLI processes tool results internally —
-		// GoClaw's agent loop never sees result.Media from bridge tool calls.
+		// ZalosClaw's agent loop never sees result.Media from bridge tool calls.
 		forwardMediaToOutbound(ctx, msgBus, toolName, result)
 
 		return mcpgo.NewToolResultText(result.ForLLM), nil

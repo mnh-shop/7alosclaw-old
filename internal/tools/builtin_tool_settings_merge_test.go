@@ -5,7 +5,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // ---- BuiltinToolSettingsFromCtx merge semantics (4-tier overlay) ----

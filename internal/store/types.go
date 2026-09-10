@@ -35,7 +35,7 @@ type StoreConfig struct {
 	// Workspace is the default agent workspace path.
 	Workspace string
 
-	// GlobalSkillsDir is the global skills directory (e.g. ~/.goclaw/skills).
+	// GlobalSkillsDir is the global skills directory (e.g. ~/.zalosclaw/skills).
 	GlobalSkillsDir string
 
 	// BuiltinSkillsDir is the builtin skills directory (bundled with binary).

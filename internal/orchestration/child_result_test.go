@@ -4,9 +4,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/agent"
-	plpkg "github.com/nextlevelbuilder/goclaw/internal/pipeline"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
+	plpkg "github.com/nextlevelbuilder/zalosclaw/internal/pipeline"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 func TestCaptureFromRunResult_Nil(t *testing.T) {

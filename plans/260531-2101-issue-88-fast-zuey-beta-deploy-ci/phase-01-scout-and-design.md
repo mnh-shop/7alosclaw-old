@@ -26,7 +26,7 @@ Fast path target: `go/web -> beta_version -> build_zuey_binary -> publish_releas
 
 ## Implementation Steps
 
-1. Read `README.md`, `CLAUDE.md`, `.github/workflows/dev-beta-release.yaml`, and `scripts/zuey/goclaw-upgrade-release.sh`.
+1. Read `README.md`, `CLAUDE.md`, `.github/workflows/dev-beta-release.yaml`, and `scripts/zuey/zalosclaw-upgrade-release.sh`.
 2. Check issue #88 and recent workflow job timings with `gh`.
 3. Check unfinished plans for overlapping CI release work.
 4. Verify zuey only requires linux amd64 release tarball and checksum/digest.

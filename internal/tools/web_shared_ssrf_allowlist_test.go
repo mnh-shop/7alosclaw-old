@@ -3,7 +3,7 @@ package tools
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/security"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
 )
 
 // withOperatorAllowlist installs an operator allowlist for the duration of t.

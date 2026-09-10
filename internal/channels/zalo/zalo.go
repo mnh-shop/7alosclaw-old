@@ -17,11 +17,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/systemmessages"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/systemmessages"
 )
 
 const (
@@ -366,7 +366,7 @@ func (c *Channel) downloadMedia(url string) (string, error) {
 		ext = ".webp"
 	}
 
-	f, err := os.CreateTemp("", "goclaw_zalo_*"+ext)
+	f, err := os.CreateTemp("", "zalosclaw_zalo_*"+ext)
 	if err != nil {
 		return "", fmt.Errorf("create temp: %w", err)
 	}

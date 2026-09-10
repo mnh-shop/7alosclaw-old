@@ -6,8 +6,8 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/eventbus"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/eventbus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // PruneStage runs every iteration. 2-phase pruning:

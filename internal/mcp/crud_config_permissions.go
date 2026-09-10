@@ -9,13 +9,13 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerConfigPermissionCRUDTools registers the goclaw_config_permissions_*
+// registerConfigPermissionCRUDTools registers the zalosclaw_config_permissions_*
 // MCP tools backed by store.ConfigPermissionStore.
 func registerConfigPermissionCRUDTools(srv *mcpserver.MCPServer, perms store.ConfigPermissionStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_config_permissions_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_config_permissions_list",
 		mcpgo.WithDescription("List config permissions for an agent."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent UUID.")),
 		mcpgo.WithString("config_type", mcpgo.Description("Config type to filter by (\"file_writer\", \"heartbeat\", \"cron\", \"context_files\", or \"*\").")),
@@ -23,7 +23,7 @@ func registerConfigPermissionCRUDTools(srv *mcpserver.MCPServer, perms store.Con
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleConfigPermissionsList(perms))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_config_permissions_check",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_config_permissions_check",
 		mcpgo.WithDescription("Check a config permission decision for an agent/scope/user."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent UUID.")),
 		mcpgo.WithString("scope", mcpgo.Required(), mcpgo.Description("Permission scope.")),
@@ -32,7 +32,7 @@ func registerConfigPermissionCRUDTools(srv *mcpserver.MCPServer, perms store.Con
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleConfigPermissionsCheck(perms))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_config_permissions_grant",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_config_permissions_grant",
 		mcpgo.WithDescription("Grant a config permission."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent UUID.")),
 		mcpgo.WithString("scope", mcpgo.Required(), mcpgo.Description("Permission scope.")),
@@ -42,7 +42,7 @@ func registerConfigPermissionCRUDTools(srv *mcpserver.MCPServer, perms store.Con
 		mcpgo.WithString("granted_by", mcpgo.Description("User ID recorded as the granter.")),
 	), handleConfigPermissionsGrant(perms))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_config_permissions_revoke",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_config_permissions_revoke",
 		mcpgo.WithDescription("Revoke a config permission."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent UUID.")),
 		mcpgo.WithString("scope", mcpgo.Required(), mcpgo.Description("Permission scope.")),

@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
 )
 
 func TestFactory_BareCallReturnsError(t *testing.T) {
@@ -58,7 +58,7 @@ func TestFactoryWithPortalStore_AppliesDefaults(t *testing.T) {
 	fn := FactoryWithPortalStore(fs, "")
 
 	ch, err := fn("b1", nil,
-		json.RawMessage(`{"portal":"acme","bot_code":"goclaw","bot_name":"GoClaw Bot"}`),
+		json.RawMessage(`{"portal":"acme","bot_code":"zalosclaw","bot_name":"ZalosClaw Bot"}`),
 		&bus.MessageBus{}, nil)
 	if err != nil {
 		t.Fatalf("factory: %v", err)

@@ -10,14 +10,14 @@ import (
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 
-	"github.com/nextlevelbuilder/goclaw/internal/backup"
-	"github.com/nextlevelbuilder/goclaw/internal/store/pg"
+	"github.com/nextlevelbuilder/zalosclaw/internal/backup"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
 )
 
 // TestBackup_CheckActiveConnections_ExcludesGatewayPool is a regression test for
 // issue #1338: restoring on a fresh server failed with "N active DB connection(s)
 // detected" because the gateway's own pool connections were counted as active
-// clients. Gateway pool connections are tagged application_name='goclaw' and must
+// clients. Gateway pool connections are tagged application_name='zalosclaw' and must
 // be excluded; genuinely external connections must still be counted.
 func TestBackup_CheckActiveConnections_ExcludesGatewayPool(t *testing.T) {
 	testDB(t) // skips if PG unavailable

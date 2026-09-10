@@ -31,7 +31,7 @@ jobs:
         image: pgvector/pgvector:pg18
         env:
           POSTGRES_PASSWORD: test
-          POSTGRES_DB: goclaw_test
+          POSTGRES_DB: zalosclaw_test
         ports:
           - 5432:5432
         options: >-
@@ -43,7 +43,7 @@ jobs:
       # tests/integration/v3_test_helper.go reads TEST_DATABASE_URL and runs
       # migrations once via golang-migrate. Uses port 5432 (CI-clean) vs 5433
       # for local dev (avoids clash with desktop Postgres installs).
-      TEST_DATABASE_URL: postgres://postgres:test@localhost:5432/goclaw_test?sslmode=disable
+      TEST_DATABASE_URL: postgres://postgres:test@localhost:5432/zalosclaw_test?sslmode=disable
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5

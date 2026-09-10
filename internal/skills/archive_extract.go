@@ -57,7 +57,7 @@ func ExtractArchive(path string, maxUncompressed int64) ([]ArchiveFile, error) {
 
 // ExtractArchiveAs is ExtractArchive with a caller-supplied fallbackName for
 // raw (non-archive) binary inputs. This matters when `path` is a temp file
-// like `/tmp/goclaw-gh-asset-XXXX.bin` — without a logical name the resulting
+// like `/tmp/zalosclaw-gh-asset-XXXX.bin` — without a logical name the resulting
 // ArchiveFile.Name leaks the temp filename into downstream install logic.
 // Empty fallbackName falls back to filepath.Base(path).
 func ExtractArchiveAs(path, fallbackName string, maxUncompressed int64) ([]ArchiveFile, error) {

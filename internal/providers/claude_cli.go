@@ -44,17 +44,17 @@ const OptTenantID = "tenant_id"
 // OptLocalKey passes the composite local key (e.g. "-100123:topic:42") for forum topic routing.
 const OptLocalKey = "local_key"
 
-// OptAllowedToolNames passes the agent's policy-filtered canonical GoClaw tool
+// OptAllowedToolNames passes the agent's policy-filtered canonical ZalosClaw tool
 // names ([]string) for the current turn. Used to derive --disallowedTools for
 // the Claude CLI subprocess so native CLI tools (Bash, Edit, Write, Read,
-// WebFetch, WebSearch) are only permitted when their GoClaw equivalent is
+// WebFetch, WebSearch) are only permitted when their ZalosClaw equivalent is
 // allowed by the agent's tool policy. A nil/absent value is treated as "no
 // tools allowed" (fail closed).
 const OptAllowedToolNames = "allowed_tool_names"
 
 // ClaudeCLIProvider implements Provider by shelling out to the `claude` CLI binary.
 // It acts as a thin proxy: CLI manages session history, tool execution, and context.
-// GoClaw only forwards the latest user message and streams back the response.
+// ZalosClaw only forwards the latest user message and streams back the response.
 type ClaudeCLIProvider struct {
 	name                       string         // provider name (default: "claude-cli")
 	cliPath                    string         // path to claude binary (default: "claude")
@@ -117,7 +117,7 @@ func WithClaudeCLIPermMode(mode string) ClaudeCLIOption {
 	}
 }
 
-// WithClaudeCLISecurityHooks enables GoClaw security hooks for CLI tool calls.
+// WithClaudeCLISecurityHooks enables ZalosClaw security hooks for CLI tool calls.
 // Generates a settings file with PreToolUse hooks that enforce shell deny patterns
 // and workspace path restrictions.
 func WithClaudeCLISecurityHooks(workspace string, restrictToWorkspace bool, denyPatternSets ...[]*regexp.Regexp) ClaudeCLIOption {

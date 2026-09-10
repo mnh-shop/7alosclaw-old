@@ -9,8 +9,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/mymmrac/telego"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // triggerFakeStore implements just the two AgentStore methods agentTriggerWords

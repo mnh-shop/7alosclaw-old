@@ -9,15 +9,15 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/agent"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/cronexec"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/scheduler"
-	"github.com/nextlevelbuilder/goclaw/internal/sessions"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/cronexec"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/scheduler"
+	"github.com/nextlevelbuilder/zalosclaw/internal/sessions"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // makeCronJobHandler creates a cron job handler that routes through the scheduler's cron lane.
@@ -128,7 +128,7 @@ func makeCronJobHandler(sched *scheduler.Scheduler, msgBus *bus.MessageBus, cfg 
 		// Reset the session before each STATELESS cron run so the run starts fresh:
 		// no carried-over history (the whole point of stateless — saves tokens) and
 		// no tool errors from a previous run polluting the context (#294). Clear BOTH
-		// layers — the goclaw session store AND the Claude CLI's own on-disk session —
+		// layers — the zalosclaw session store AND the Claude CLI's own on-disk session —
 		// because a claude-cli agent resumes its .jsonl by a deterministic per-key
 		// UUID and would otherwise replay the full accumulated history every run
 		// regardless of this flag (i.e. "stateless" had no effect on what the model

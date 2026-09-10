@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="../_statics/goclaw.png" alt="GoClaw" />
+  <img src="../_statics/zalosclaw.png" alt="ZalosClaw" />
 </p>
 
-<h1 align="center">GoClaw</h1>
+<h1 align="center">ZalosClaw</h1>
 
 <p align="center"><strong>Enterprise AI Agent Platform</strong></p>
 
@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.goclaw.sh">दस्तावेज़ीकरण</a> •
-  <a href="https://docs.goclaw.sh/#quick-start">त्वरित प्रारंभ</a> •
+  <a href="https://docs.zalosclaw.sh">दस्तावेज़ीकरण</a> •
+  <a href="https://docs.zalosclaw.sh/#quick-start">त्वरित प्रारंभ</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -28,7 +28,7 @@ Single binary. Production-tested. Agents that orchestrate for you.
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License: MIT" />
 </p>
 
-**GoClaw** एक मल्टी-एजेंट AI गेटवे है जो LLMs को आपके टूल्स, चैनलों और डेटा से जोड़ता है — एक सिंगल Go बाइनरी के रूप में तैनात, बिना किसी रनटाइम निर्भरता के। यह 20+ LLM प्रदाताओं के साथ पूर्ण मल्टी-टेनेंट आइसोलेशन के साथ एजेंट टीमों और इंटर-एजेंट डेलीगेशन को ऑर्केस्ट्रेट करता है।
+**ZalosClaw** एक मल्टी-एजेंट AI गेटवे है जो LLMs को आपके टूल्स, चैनलों और डेटा से जोड़ता है — एक सिंगल Go बाइनरी के रूप में तैनात, बिना किसी रनटाइम निर्भरता के। यह 20+ LLM प्रदाताओं के साथ पूर्ण मल्टी-टेनेंट आइसोलेशन के साथ एजेंट टीमों और इंटर-एजेंट डेलीगेशन को ऑर्केस्ट्रेट करता है।
 
 [OpenClaw](https://github.com/openclaw/openclaw) का एक Go पोर्ट, जिसमें उन्नत सुरक्षा, मल्टी-टेनेंट PostgreSQL और प्रोडक्शन-ग्रेड ऑब्ज़र्वेबिलिटी है।
 
@@ -80,7 +80,7 @@ Single binary. Production-tested. Agents that orchestrate for you.
 
 ## Claw इकोसिस्टम
 
-|                 | OpenClaw        | ZeroClaw | PicoClaw | **GoClaw**                              |
+|                 | OpenClaw        | ZeroClaw | PicoClaw | **ZalosClaw**                              |
 | --------------- | --------------- | -------- | -------- | --------------------------------------- |
 | भाषा            | TypeScript      | Rust     | Go       | **Go**                                  |
 | बाइनरी आकार     | 28 MB + Node.js | 3.4 MB   | ~8 MB    | **~25 MB** (base) / **~36 MB** (+ OTel) |
@@ -89,7 +89,7 @@ Single binary. Production-tested. Agents that orchestrate for you.
 | स्टार्टअप       | > 5 s           | < 10 ms  | < 1 s    | **< 1 s**                               |
 | लक्ष्य हार्डवेयर | $599+ Mac Mini  | $10 edge | $10 edge | **$5 VPS+**                             |
 
-| फीचर                       | OpenClaw                             | ZeroClaw                                     | PicoClaw                              | **GoClaw**                     |
+| फीचर                       | OpenClaw                             | ZeroClaw                                     | PicoClaw                              | **ZalosClaw**                     |
 | -------------------------- | ------------------------------------ | -------------------------------------------- | ------------------------------------- | ------------------------------ |
 | मल्टी-टेनेंट (PostgreSQL)  | —                                    | —                                            | —                                     | ✅                             |
 | MCP इंटीग्रेशन             | — (uses ACP)                         | —                                            | —                                     | ✅ (stdio/SSE/streamable-http) |
@@ -110,7 +110,7 @@ Single binary. Production-tested. Agents that orchestrate for you.
 ## आर्किटेक्चर
 
 <p align="center">
-  <img src="../_statics/architecture.jpg" alt="GoClaw Architecture" width="800" />
+  <img src="../_statics/architecture.jpg" alt="ZalosClaw Architecture" width="800" />
 </p>
 
 ## त्वरित प्रारंभ
@@ -120,10 +120,10 @@ Single binary. Production-tested. Agents that orchestrate for you.
 ### सोर्स से
 
 ```bash
-git clone https://github.com/nextlevelbuilder/goclaw.git && cd goclaw
+git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
 make build
-./goclaw onboard        # Interactive setup wizard
-source .env.local && ./goclaw
+./zalosclaw onboard        # Interactive setup wizard
+source .env.local && ./zalosclaw
 ```
 
 ### Docker के साथ
@@ -132,20 +132,20 @@ source .env.local && ./goclaw
 # Generate .env with auto-generated secrets
 chmod +x prepare-env.sh && ./prepare-env.sh
 
-# Add at least one GOCLAW_*_API_KEY to .env, then:
+# Add at least one ZALOSCLAW_*_API_KEY to .env, then:
 make up
 
 # Web Dashboard at http://localhost:18790
 # Health check: curl http://localhost:18790/health
 ```
 
-जब `GOCLAW_*_API_KEY` एनवायरनमेंट वेरिएबल सेट हों, तो गेटवे इंटरएक्टिव प्रॉम्प्ट के बिना स्वत: ऑनबोर्ड हो जाता है — प्रदाता का पता लगाता है, माइग्रेशन चलाता है, और डिफ़ॉल्ट डेटा सीड करता है।
+जब `ZALOSCLAW_*_API_KEY` एनवायरनमेंट वेरिएबल सेट हों, तो गेटवे इंटरएक्टिव प्रॉम्प्ट के बिना स्वत: ऑनबोर्ड हो जाता है — प्रदाता का पता लगाता है, माइग्रेशन चलाता है, और डिफ़ॉल्ट डेटा सीड करता है।
 
-> बिल्ड वेरिएंट (OTel, Tailscale, Redis), Docker इमेज टैग, और compose ओवरले के लिए, [Deployment Guide](https://docs.goclaw.sh/#deploy-docker-compose) देखें।
+> बिल्ड वेरिएंट (OTel, Tailscale, Redis), Docker इमेज टैग, और compose ओवरले के लिए, [Deployment Guide](https://docs.zalosclaw.sh/#deploy-docker-compose) देखें।
 
 ## मल्टी-एजेंट ऑर्केस्ट्रेशन
 
-GoClaw एजेंट टीमों और इंटर-एजेंट डेलीगेशन का समर्थन करता है — प्रत्येक एजेंट अपनी पहचान, टूल्स, LLM प्रदाता, और कॉन्टेक्स्ट फ़ाइलों के साथ चलता है।
+ZalosClaw एजेंट टीमों और इंटर-एजेंट डेलीगेशन का समर्थन करता है — प्रत्येक एजेंट अपनी पहचान, टूल्स, LLM प्रदाता, और कॉन्टेक्स्ट फ़ाइलों के साथ चलता है।
 
 ### एजेंट डेलीगेशन
 
@@ -170,7 +170,7 @@ GoClaw एजेंट टीमों और इंटर-एजेंट ड�
 - **टीम मेलबॉक्स** — सीधे पीयर-टू-पीयर मैसेजिंग और ब्रॉडकास्ट
 - **टूल्स**: टास्क मैनेजमेंट के लिए `team_tasks`, मेलबॉक्स के लिए `team_message`
 
-> डेलीगेशन विवरण, परमिशन लिंक, और कंकरेंसी कंट्रोल के लिए, [Agent Teams docs](https://docs.goclaw.sh/#teams-what-are-teams) देखें।
+> डेलीगेशन विवरण, परमिशन लिंक, और कंकरेंसी कंट्रोल के लिए, [Agent Teams docs](https://docs.zalosclaw.sh/#teams-what-are-teams) देखें।
 
 ## बिल्ट-इन टूल्स
 
@@ -214,19 +214,19 @@ GoClaw एजेंट टीमों और इंटर-एजेंट ड�
 
 ## दस्तावेज़ीकरण
 
-पूर्ण दस्तावेज़ीकरण **[docs.goclaw.sh](https://docs.goclaw.sh)** पर — या [`goclaw-docs/`](https://github.com/nextlevelbuilder/goclaw-docs) में सोर्स ब्राउज़ करें।
+पूर्ण दस्तावेज़ीकरण **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** पर — या [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs) में सोर्स ब्राउज़ करें।
 
 | अनुभाग | विषय |
 |---------|--------|
-| [Getting Started](https://docs.goclaw.sh/#what-is-goclaw) | इंस्टॉलेशन, त्वरित प्रारंभ, कॉन्फ़िगरेशन, Web Dashboard टूर |
-| [Core Concepts](https://docs.goclaw.sh/#how-goclaw-works) | एजेंट लूप, सेशन, टूल्स, मेमोरी, मल्टी-टेनेंसी |
-| [Agents](https://docs.goclaw.sh/#creating-agents) | एजेंट बनाना, कॉन्टेक्स्ट फ़ाइलें, व्यक्तित्व, शेयरिंग और एक्सेस |
-| [Providers](https://docs.goclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 और |
-| [Channels](https://docs.goclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Agent Teams](https://docs.goclaw.sh/#teams-what-are-teams) | टीमें, टास्क बोर्ड, मैसेजिंग, डेलीगेशन और हैंडऑफ |
-| [Advanced](https://docs.goclaw.sh/#custom-tools) | कस्टम टूल्स, MCP, स्किल्स, Cron, सैंडबॉक्स, हुक, RBAC |
-| [Deployment](https://docs.goclaw.sh/#deploy-docker-compose) | Docker Compose, डेटाबेस, सुरक्षा, ऑब्ज़र्वेबिलिटी, Tailscale |
-| [Reference](https://docs.goclaw.sh/#cli-commands) | CLI कमांड, REST API, WebSocket प्रोटोकॉल, एनवायरनमेंट वेरिएबल |
+| [Getting Started](https://docs.zalosclaw.sh/#what-is-zalosclaw) | इंस्टॉलेशन, त्वरित प्रारंभ, कॉन्फ़िगरेशन, Web Dashboard टूर |
+| [Core Concepts](https://docs.zalosclaw.sh/#how-zalosclaw-works) | एजेंट लूप, सेशन, टूल्स, मेमोरी, मल्टी-टेनेंसी |
+| [Agents](https://docs.zalosclaw.sh/#creating-agents) | एजेंट बनाना, कॉन्टेक्स्ट फ़ाइलें, व्यक्तित्व, शेयरिंग और एक्सेस |
+| [Providers](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 और |
+| [Channels](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Agent Teams](https://docs.zalosclaw.sh/#teams-what-are-teams) | टीमें, टास्क बोर्ड, मैसेजिंग, डेलीगेशन और हैंडऑफ |
+| [Advanced](https://docs.zalosclaw.sh/#custom-tools) | कस्टम टूल्स, MCP, स्किल्स, Cron, सैंडबॉक्स, हुक, RBAC |
+| [Deployment](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, डेटाबेस, सुरक्षा, ऑब्ज़र्वेबिलिटी, Tailscale |
+| [Reference](https://docs.zalosclaw.sh/#cli-commands) | CLI कमांड, REST API, WebSocket प्रोटोकॉल, एनवायरनमेंट वेरिएबल |
 
 ## परीक्षण
 
@@ -241,7 +241,7 @@ go test -v ./tests/integration/ -timeout 120s    # Integration tests (requires r
 
 ## आभार
 
-GoClaw मूल [OpenClaw](https://github.com/openclaw/openclaw) प्रोजेक्ट पर निर्मित है। हम उस आर्किटेक्चर और दृष्टिकोण के आभारी हैं जिसने इस Go पोर्ट को प्रेरित किया।
+ZalosClaw मूल [OpenClaw](https://github.com/openclaw/openclaw) प्रोजेक्ट पर निर्मित है। हम उस आर्किटेक्चर और दृष्टिकोण के आभारी हैं जिसने इस Go पोर्ट को प्रेरित किया।
 
 ## लाइसेंस
 

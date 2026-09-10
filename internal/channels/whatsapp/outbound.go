@@ -13,7 +13,7 @@ import (
 	"go.mau.fi/whatsmeow/types"
 	"google.golang.org/protobuf/proto"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
 )
 
 // Send delivers an outbound message to WhatsApp via whatsmeow.

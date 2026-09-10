@@ -6,7 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio/elevenlabs"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio/elevenlabs"
 )
 
 func TestListVoices_HappyPath(t *testing.T) {

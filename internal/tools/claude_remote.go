@@ -5,7 +5,7 @@ import (
 	"crypto/sha256"
 	"fmt"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // ClaudeRemoteTool runs Claude Code CLI on a remote workstation by composing a
@@ -86,7 +86,7 @@ func (t *ClaudeRemoteTool) Execute(ctx context.Context, args map[string]any) *Re
 	scopeInput := sessionKey + "-" + agentID
 	rawHash := sha256.Sum256([]byte(scopeInput))
 	scopeHash := fmt.Sprintf("%x", rawHash[:6]) // 6 bytes = 12 hex chars
-	claudeConfigDir := "/tmp/goclaw-claude-" + scopeHash
+	claudeConfigDir := "/tmp/zalosclaw-claude-" + scopeHash
 
 	// Pass through to WorkstationExecTool with injected env and forwarded workstation_id.
 	passthrough := map[string]any{

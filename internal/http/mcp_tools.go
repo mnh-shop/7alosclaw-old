@@ -7,9 +7,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	mcpbridge "github.com/nextlevelbuilder/goclaw/internal/mcp"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	mcpbridge "github.com/nextlevelbuilder/zalosclaw/internal/mcp"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // handleTestConnection tests an MCP server connection without saving it.

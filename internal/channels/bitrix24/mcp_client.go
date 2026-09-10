@@ -88,7 +88,7 @@ type autoOnboardRequest struct {
 // autoOnboardResponse is what we expect back from the MCP server (rev4).
 //
 // APIKey is the per-user MCP credential we cache in mcp_user_credentials
-// (the goclaw_user_id key on our side is the Bitrix senderID — we do NOT
+// (the zalosclaw_user_id key on our side is the Bitrix senderID — we do NOT
 // use UserID from the response, that's the MCP internal user row id).
 // UserID + TenantID are echoed for observability / debugging. Created
 // distinguishes the fresh-insert path from the token-refresh path.
@@ -211,7 +211,7 @@ func truncateMCPBody(s string, n int) string {
 // mcpTokenRedactRe scrubs OAuth secrets from an MCP response body. The POST we
 // send carries access_token / refresh_token (the Bitrix→MCP onboarding bridge);
 // a naive MCP server that echoes the request back in its 4xx/5xx error body
-// would otherwise leak those tokens into goclaw logs, breaking the package's
+// would otherwise leak those tokens into zalosclaw logs, breaking the package's
 // "log token lengths, never values" discipline.
 var mcpTokenRedactRe = regexp.MustCompile(`(?i)("(?:access_token|refresh_token|client_secret)"\s*:\s*")[^"]*(")`)
 

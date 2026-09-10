@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/audio/minimax"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio/minimax"
 )
 
 func TestListVoices_RequestShape(t *testing.T) {

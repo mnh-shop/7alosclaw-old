@@ -10,7 +10,7 @@ permissions:
 
 env:
   GHCR_IMAGE: ghcr.io/${{ github.repository }}
-  DOCKERHUB_IMAGE: digitop/goclaw
+  DOCKERHUB_IMAGE: digitop/zalosclaw
   INITIAL_VERSION: 3.11.3
   PRERELEASE_ID: beta
 
@@ -22,7 +22,7 @@ jobs:
         image: pgvector/pgvector:pg18
         env:
           POSTGRES_PASSWORD: test
-          POSTGRES_DB: goclaw_test
+          POSTGRES_DB: zalosclaw_test
         ports:
           - 5432:5432
         options: >-
@@ -31,7 +31,7 @@ jobs:
           --health-timeout 3s
           --health-retries 10
     env:
-      TEST_DATABASE_URL: postgres://postgres:test@localhost:5432/goclaw_test?sslmode=disable
+      TEST_DATABASE_URL: postgres://postgres:test@localhost:5432/zalosclaw_test?sslmode=disable
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
@@ -93,7 +93,7 @@ jobs:
       - name: Release workflow tests
         run: node --test scripts/ci/semantic-beta-version.test.mjs scripts/ci/dev-beta-release-workflow.test.mjs
       - name: Fetch upstream release tags
-        run: git fetch --force --tags https://github.com/nextlevelbuilder/goclaw.git "refs/tags/v*:refs/tags/v*"
+        run: git fetch --force --tags https://github.com/nextlevelbuilder/zalosclaw.git "refs/tags/v*:refs/tags/v*"
       - name: Compute semantic beta version
         id: version
         run: node scripts/ci/semantic-beta-version.mjs
@@ -149,15 +149,15 @@ jobs:
           VERSION: ${{ needs.beta_version.outputs.tag }}
         run: |
           CGO_ENABLED=0 go build -tags embedui \
-            -ldflags="-s -w -X github.com/nextlevelbuilder/goclaw/cmd.Version=${VERSION}" \
-            -o goclaw .
-          tar -czf "goclaw-${VERSION}-linux-amd64.tar.gz" goclaw migrations/ skills/
+            -ldflags="-s -w -X github.com/nextlevelbuilder/zalosclaw/cmd.Version=${VERSION}" \
+            -o zalosclaw .
+          tar -czf "zalosclaw-${VERSION}-linux-amd64.tar.gz" zalosclaw migrations/ skills/
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: binary-linux-amd64
-          path: goclaw-*.tar.gz
+          path: zalosclaw-*.tar.gz
 
   build_remaining_binaries:
     needs: beta_version
@@ -197,15 +197,15 @@ jobs:
           VERSION: ${{ needs.beta_version.outputs.tag }}
         run: |
           CGO_ENABLED=0 go build -tags embedui \
-            -ldflags="-s -w -X github.com/nextlevelbuilder/goclaw/cmd.Version=${VERSION}" \
-            -o goclaw .
-          tar -czf "goclaw-${VERSION}-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz" goclaw migrations/ skills/
+            -ldflags="-s -w -X github.com/nextlevelbuilder/zalosclaw/cmd.Version=${VERSION}" \
+            -o zalosclaw .
+          tar -czf "zalosclaw-${VERSION}-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz" zalosclaw migrations/ skills/
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: binary-${{ matrix.goos }}-${{ matrix.goarch }}
-          path: goclaw-*.tar.gz
+          path: zalosclaw-*.tar.gz
 
   publish_release:
     needs: [beta_version, build_zuey_binary]
@@ -232,15 +232,15 @@ jobs:
           GH_REPO: ${{ github.repository }}
           TAG: ${{ needs.beta_version.outputs.tag }}
         run: |
-          (cd artifacts && sha256sum goclaw-*.tar.gz > CHECKSUMS.sha256)
+          (cd artifacts && sha256sum zalosclaw-*.tar.gz > CHECKSUMS.sha256)
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release edit "$TAG" \
-              --title "GoClaw $TAG" \
+              --title "ZalosClaw $TAG" \
               --notes-file release-notes/release-notes.md \
               --prerelease
           else
             gh release create "$TAG" \
-              --title "GoClaw $TAG" \
+              --title "ZalosClaw $TAG" \
               --notes-file release-notes/release-notes.md \
               --prerelease
           fi
@@ -266,7 +266,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
           TAG: ${{ needs.beta_version.outputs.tag }}
         run: |
-          (cd artifacts && sha256sum goclaw-*.tar.gz > CHECKSUMS.sha256)
+          (cd artifacts && sha256sum zalosclaw-*.tar.gz > CHECKSUMS.sha256)
           gh release upload "$TAG" artifacts/* --clobber
 
   docker_images:
@@ -423,7 +423,7 @@ jobs:
 
   deploy_zuey_beta:
     needs: [beta_version, publish_release]
-    if: needs.beta_version.outputs.released == 'true' && github.repository == 'digitopvn/goclaw' && github.repository != 'nextlevelbuilder/goclaw'
+    if: needs.beta_version.outputs.released == 'true' && github.repository == 'digitopvn/zalosclaw' && github.repository != 'nextlevelbuilder/zalosclaw'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     concurrency:
@@ -432,10 +432,10 @@ jobs:
     permissions:
       contents: read
     env:
-      GOCLAW_DEPLOY_URL: ${{ secrets.ZUEY_GOCLAW_URL }}
-      GOCLAW_GATEWAY_TOKEN: ${{ secrets.ZUEY_GOCLAW_GATEWAY_TOKEN }}
-      GOCLAW_UPGRADE_TOKEN: ${{ secrets.ZUEY_GOCLAW_UPGRADE_TOKEN }}
-      GOCLAW_DEPLOY_USER_ID: ${{ vars.ZUEY_GOCLAW_USER_ID || 'system' }}
+      ZALOSCLAW_DEPLOY_URL: ${{ secrets.ZUEY_ZALOSCLAW_URL }}
+      ZALOSCLAW_GATEWAY_TOKEN: ${{ secrets.ZUEY_ZALOSCLAW_GATEWAY_TOKEN }}
+      ZALOSCLAW_UPGRADE_TOKEN: ${{ secrets.ZUEY_ZALOSCLAW_UPGRADE_TOKEN }}
+      ZALOSCLAW_DEPLOY_USER_ID: ${{ vars.ZUEY_ZALOSCLAW_USER_ID || 'system' }}
       TAG: ${{ needs.beta_version.outputs.tag }}
       ZUEY_SSH_HOST: ${{ vars.ZUEY_SSH_HOST || '82.197.71.246' }}
       ZUEY_SSH_PORT: ${{ vars.ZUEY_SSH_PORT || '2233' }}
@@ -467,7 +467,7 @@ jobs:
         if: steps.beta_freshness.outputs.current == 'true'
         run: |
           missing=0
-          for name in GOCLAW_DEPLOY_URL GOCLAW_GATEWAY_TOKEN GOCLAW_UPGRADE_TOKEN TAG; do
+          for name in ZALOSCLAW_DEPLOY_URL ZALOSCLAW_GATEWAY_TOKEN ZALOSCLAW_UPGRADE_TOKEN TAG; do
             if [[ -z "${!name}" ]]; then
               echo "::error::${name} is not configured"
               missing=1
@@ -489,12 +489,12 @@ jobs:
         run: |
           set -euo pipefail
           if [[ -z "${ZUEY_SSH_PRIVATE_KEY_B64:-}" || -z "${ZUEY_SUDO_PASS:-}" ]]; then
-            echo "::warning::ZUEY_SSH_PRIVATE_KEY_B64 or ZUEY_SUDO_PASS not configured; skipping VPS script sync. Store the private key as base64 (\`base64 -w0 < /path/to/key\`) in the ZUEY_SSH_PRIVATE_KEY_B64 secret to keep /usr/local/bin/goclaw-deploy and /usr/local/bin/goclaw-upgrade-release in sync with the repo on every beta deploy."
+            echo "::warning::ZUEY_SSH_PRIVATE_KEY_B64 or ZUEY_SUDO_PASS not configured; skipping VPS script sync. Store the private key as base64 (\`base64 -w0 < /path/to/key\`) in the ZUEY_SSH_PRIVATE_KEY_B64 secret to keep /usr/local/bin/zalosclaw-deploy and /usr/local/bin/zalosclaw-upgrade-release in sync with the repo on every beta deploy."
             exit 0
           fi
 
           # Verify the two scripts exist in the checked-out tag
-          for f in scripts/zuey/goclaw-deploy.sh scripts/zuey/goclaw-upgrade-release.sh; do
+          for f in scripts/zuey/zalosclaw-deploy.sh scripts/zuey/zalosclaw-upgrade-release.sh; do
             test -f "$f" || { echo "::error::$f missing in repo"; exit 1; }
             bash -n "$f" || { echo "::error::$f has syntax error"; exit 1; }
           done
@@ -522,8 +522,8 @@ jobs:
           # Upload (-O selects legacy scp protocol; OpenSSH 9.x defaults to sftp
           # which is fine here, but -O is portable across runner image versions)
           scp -O -P "$ZUEY_SSH_PORT" "${SSH_BASE[@]}" \
-            scripts/zuey/goclaw-deploy.sh \
-            scripts/zuey/goclaw-upgrade-release.sh \
+            scripts/zuey/zalosclaw-deploy.sh \
+            scripts/zuey/zalosclaw-upgrade-release.sh \
             "${ZUEY_SSH_USER}@${ZUEY_SSH_HOST}:/tmp/"
 
           # Install on host: backup-if-changed → install (root:root 0755) →
@@ -536,7 +536,7 @@ jobs:
             "SUDOPASS=$quoted_pass bash -s" <<'REMOTE'
           set -euo pipefail
           ts=$(date +%Y%m%d-%H%M%S)
-          for name in goclaw-deploy goclaw-upgrade-release; do
+          for name in zalosclaw-deploy zalosclaw-upgrade-release; do
             src="/tmp/${name}.sh"
             dst="/usr/local/bin/${name}"
             if [ ! -f "$src" ]; then echo "::error::missing $src"; exit 1; fi
@@ -561,16 +561,16 @@ jobs:
       - name: Trigger zuey gateway upgrade
         if: steps.beta_freshness.outputs.current == 'true'
         run: |
-          base_url="${GOCLAW_DEPLOY_URL%/}"
+          base_url="${ZALOSCLAW_DEPLOY_URL%/}"
           body="$(mktemp)"
           payload="$(printf '{"tag":"%s"}' "$TAG")"
           status_code="$(curl -sS --retry 3 --retry-delay 2 \
             -o "$body" \
             -w "%{http_code}" \
             -X POST "${base_url}/v1/system/gateway/upgrade" \
-            -H "Authorization: Bearer ${GOCLAW_GATEWAY_TOKEN}" \
-            -H "X-GoClaw-Upgrade-Token: ${GOCLAW_UPGRADE_TOKEN}" \
-            -H "X-GoClaw-User-Id: ${GOCLAW_DEPLOY_USER_ID}" \
+            -H "Authorization: Bearer ${ZALOSCLAW_GATEWAY_TOKEN}" \
+            -H "X-ZalosClaw-Upgrade-Token: ${ZALOSCLAW_UPGRADE_TOKEN}" \
+            -H "X-ZalosClaw-User-Id: ${ZALOSCLAW_DEPLOY_USER_ID}" \
             -H "Content-Type: application/json" \
             --data "$payload")"
           if [[ "$status_code" != "202" ]]; then
@@ -583,13 +583,13 @@ jobs:
       - name: Wait for zuey gateway upgrade
         if: steps.beta_freshness.outputs.current == 'true'
         run: |
-          base_url="${GOCLAW_DEPLOY_URL%/}"
+          base_url="${ZALOSCLAW_DEPLOY_URL%/}"
           for attempt in {1..90}; do
             status_err="$(mktemp)"
             status_json="$(curl -fsS --retry 3 --retry-delay 2 \
-              -H "Authorization: Bearer ${GOCLAW_GATEWAY_TOKEN}" \
-              -H "X-GoClaw-Upgrade-Token: ${GOCLAW_UPGRADE_TOKEN}" \
-              -H "X-GoClaw-User-Id: ${GOCLAW_DEPLOY_USER_ID}" \
+              -H "Authorization: Bearer ${ZALOSCLAW_GATEWAY_TOKEN}" \
+              -H "X-ZalosClaw-Upgrade-Token: ${ZALOSCLAW_UPGRADE_TOKEN}" \
+              -H "X-ZalosClaw-User-Id: ${ZALOSCLAW_DEPLOY_USER_ID}" \
               "${base_url}/v1/system/gateway/upgrade/status" 2>"$status_err" || true)"
             if [[ -z "$status_json" ]]; then
               echo "upgrade status unavailable; attempt ${attempt}/90"
@@ -618,7 +618,7 @@ jobs:
       - name: Verify public health
         if: steps.beta_freshness.outputs.current == 'true'
         run: |
-          base_url="${GOCLAW_DEPLOY_URL%/}"
+          base_url="${ZALOSCLAW_DEPLOY_URL%/}"
           health_json="$(curl -fsS --retry 5 --retry-delay 3 "${base_url}/health")"
           status="$(python3 -c 'import json,sys; print(json.load(sys.stdin).get("status", ""))' <<< "$health_json")"
           if [[ "$status" != "ok" ]]; then

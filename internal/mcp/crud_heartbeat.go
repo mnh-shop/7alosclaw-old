@@ -12,7 +12,7 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // minHeartbeatIntervalSec mirrors internal/gateway/methods/heartbeat.go's
@@ -23,19 +23,19 @@ const minHeartbeatIntervalSec = 300
 // "maxRetries must be 0-10" check.
 const maxHeartbeatRetries = 10
 
-// registerHeartbeatCRUDTools registers the goclaw_heartbeat_* MCP tools
+// registerHeartbeatCRUDTools registers the zalosclaw_heartbeat_* MCP tools
 // backed by store.HeartbeatStore. Mirrors internal/gateway/methods/heartbeat.go
 // minus heartbeat.test (no wake function is available on this standalone MCP
 // surface — see final report) and minus the cache-invalidation/audit-event
 // side effects (WS-only concerns).
 func registerHeartbeatCRUDTools(srv *mcpserver.MCPServer, hb store.HeartbeatStore, agents store.AgentStore, providers store.ProviderStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_heartbeat_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_heartbeat_get",
 		mcpgo.WithDescription("Get an agent's heartbeat configuration."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent key or UUID.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleHeartbeatGet(hb, agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_heartbeat_set",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_heartbeat_set",
 		mcpgo.WithDescription("Create or update an agent's heartbeat configuration."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent key or UUID.")),
 		mcpgo.WithBoolean("enabled", mcpgo.Description("Enabled state.")),
@@ -54,18 +54,18 @@ func registerHeartbeatCRUDTools(srv *mcpserver.MCPServer, hb store.HeartbeatStor
 		mcpgo.WithString("chat_id", mcpgo.Description("Delivery chat ID override.")),
 	), handleHeartbeatSet(hb, agents, providers))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_heartbeat_toggle",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_heartbeat_toggle",
 		mcpgo.WithDescription("Enable or disable an agent's heartbeat."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent key or UUID.")),
 		mcpgo.WithBoolean("enabled", mcpgo.Required(), mcpgo.Description("Desired enabled state.")),
 	), handleHeartbeatToggle(hb, agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_heartbeat_test",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_heartbeat_test",
 		mcpgo.WithDescription("Trigger an immediate heartbeat run. NOTE: not available on this MCP surface — no heartbeat ticker wake function is wired here (see internal/gateway/methods/heartbeat.go's SetWakeFn, only attached to the WS RPC surface); always returns an error."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent key or UUID.")),
 	), handleHeartbeatTest())
 
-	srv.AddTool(mcpgo.NewTool("goclaw_heartbeat_logs",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_heartbeat_logs",
 		mcpgo.WithDescription("List heartbeat run log entries for an agent."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent key or UUID.")),
 		mcpgo.WithNumber("limit", mcpgo.Description("Maximum entries to return.")),
@@ -73,19 +73,19 @@ func registerHeartbeatCRUDTools(srv *mcpserver.MCPServer, hb store.HeartbeatStor
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleHeartbeatLogs(hb, agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_heartbeat_checklist_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_heartbeat_checklist_get",
 		mcpgo.WithDescription("Read an agent's HEARTBEAT.md checklist content."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent key or UUID.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleHeartbeatChecklistGet(agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_heartbeat_checklist_set",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_heartbeat_checklist_set",
 		mcpgo.WithDescription("Write an agent's HEARTBEAT.md checklist content."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent key or UUID.")),
 		mcpgo.WithString("content", mcpgo.Required(), mcpgo.Description("New HEARTBEAT.md content.")),
 	), handleHeartbeatChecklistSet(agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_heartbeat_targets",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_heartbeat_targets",
 		mcpgo.WithDescription("List known (channel, chatID) delivery targets for the current tenant."),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleHeartbeatTargets(hb))

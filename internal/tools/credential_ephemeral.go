@@ -26,7 +26,7 @@ import (
 // On Windows the explicit Chmod is a no-op (POSIX-only modes). ACL hardening
 // is deferred to v2 with a documented limitation.
 func materializeEphemeral(_ context.Context, content []byte, prefix string) (string, func() error, error) {
-	f, err := os.CreateTemp("", "goclaw-"+prefix+"-*")
+	f, err := os.CreateTemp("", "zalosclaw-"+prefix+"-*")
 	if err != nil {
 		return "", nil, fmt.Errorf("create ephemeral file: %w", err)
 	}

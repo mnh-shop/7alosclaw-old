@@ -145,7 +145,7 @@ func TestDisallowedCLITools_NoStaleToolNames(t *testing.T) {
 	}
 	for _, required := range []string{"TodoWrite", "NotebookEdit", "Glob", "Grep"} {
 		if !got[required] {
-			t.Errorf("disallowedCLITools missing %q — native tool without GoClaw equivalent must stay blocked", required)
+			t.Errorf("disallowedCLITools missing %q — native tool without ZalosClaw equivalent must stay blocked", required)
 		}
 	}
 }

@@ -6,10 +6,10 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
-// Version is set at build time via -ldflags "-X github.com/nextlevelbuilder/goclaw/cmd.Version=v1.0.0"
+// Version is set at build time via -ldflags "-X github.com/nextlevelbuilder/zalosclaw/cmd.Version=v1.0.0"
 var Version = "dev"
 
 var (
@@ -22,16 +22,16 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "goclaw",
-	Short: "GoClaw — AI agent gateway",
-	Long:  "GoClaw: multi-agent AI platform with WebSocket RPC, tool execution, and channel integration. A Go port of OpenClaw with enhanced security and multi-tenant support.",
+	Use:   "zalosclaw",
+	Short: "ZalosClaw — AI agent gateway",
+	Long:  "ZalosClaw: multi-agent AI platform with WebSocket RPC, tool execution, and channel integration. A Go port of OpenClaw with enhanced security and multi-tenant support.",
 	Run: func(cmd *cobra.Command, args []string) {
 		runGateway()
 	},
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default: config.json or $GOCLAW_CONFIG)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default: config.json or $ZALOSCLAW_CONFIG)")
 	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "enable debug logging")
 	rootCmd.PersistentFlags().StringVar(&gatewayServerOverride, "server", "", "gateway server URL override")
 	rootCmd.PersistentFlags().StringVar(&gatewayTokenOverride, "token", "", "gateway bearer token override")
@@ -64,7 +64,7 @@ func versionCmd() *cobra.Command {
 		Use:   "version",
 		Short: "Print version information",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Printf("goclaw %s (protocol %d)\n", Version, protocol.ProtocolVersion)
+			fmt.Printf("zalosclaw %s (protocol %d)\n", Version, protocol.ProtocolVersion)
 		},
 	}
 }
@@ -73,7 +73,7 @@ func resolveConfigPath() string {
 	if cfgFile != "" {
 		return cfgFile
 	}
-	if v := os.Getenv("GOCLAW_CONFIG"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_CONFIG"); v != "" {
 		return v
 	}
 	return "config.json"

@@ -46,7 +46,7 @@ Hard boundary: no realtime per-message extraction, no default enablement, no per
 
 ## Dependencies
 
-- GitHub issue: `digitopvn/goclaw#64`
+- GitHub issue: `digitopvn/zalosclaw#64`
 - Existing group pending-message persistence must stay intact for channel context.
 - Existing Memory/KG workers must keep session behavior unchanged.
 - Standard edition only for channels. Lite has no channels, so SQLite migrations still must compile/apply, but UI should naturally hide channel surfaces through existing edition gates.

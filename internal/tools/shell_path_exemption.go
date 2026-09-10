@@ -49,7 +49,7 @@ func (t *ExecTool) dynamicPathExemptions(ctx context.Context) []string {
 }
 
 // pathAliasVariants returns the path plus any known runtime alias mappings.
-// On the claw server, /app/workspace is symlinked to /app/.goclaw at runtime,
+// On the claw server, /app/workspace is symlinked to /app/.zalosclaw at runtime,
 // so both forms may appear in LLM-generated commands for the same physical path.
 func pathAliasVariants(path string) []string {
 	variants := make([]string, 0, 3)
@@ -67,8 +67,8 @@ func pathAliasVariants(path string) []string {
 	appendVariant(path)
 	pathSlash := filepath.ToSlash(path)
 	for _, mapping := range [][2]string{
-		{"/app/workspace", "/app/.goclaw"},
-		{"/app/.goclaw", "/app/workspace"},
+		{"/app/workspace", "/app/.zalosclaw"},
+		{"/app/.zalosclaw", "/app/workspace"},
 	} {
 		from, to := mapping[0], mapping[1]
 		var mapped string
@@ -88,7 +88,7 @@ func pathAliasVariants(path string) []string {
 
 // isNestedUnderDeniedRoot checks whether path sits inside any of the configured
 // deny roots. Supports both absolute roots (prefix match) and relative roots
-// (e.g. ".goclaw/" — checked as a path component marker anywhere in path).
+// (e.g. ".zalosclaw/" — checked as a path component marker anywhere in path).
 func (t *ExecTool) isNestedUnderDeniedRoot(path string) bool {
 	pathClean := filepath.ToSlash(filepath.Clean(path))
 	pathWithBoundary := "/" + strings.Trim(pathClean, "/") + "/"
@@ -272,7 +272,7 @@ func looksLikePathCandidate(s string) bool {
 	return strings.HasPrefix(s, "./") ||
 		strings.HasPrefix(s, "../") ||
 		strings.HasPrefix(s, ".uploads/") ||
-		strings.HasPrefix(s, ".goclaw/") ||
+		strings.HasPrefix(s, ".zalosclaw/") ||
 		strings.HasPrefix(s, "teams/") ||
 		strings.HasPrefix(s, "tenants/") ||
 		strings.HasPrefix(s, "~/") ||

@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // seedSQLiteAgent inserts an agent into an existing tenant in the SQLite test DB.

@@ -169,7 +169,7 @@ func (s *toolLoopState) recordMutation(toolName string, args map[string]any) {
 	}
 	// exec/bash: ambiguous (could be ls or rm).
 	// wait: intentional delay, neither progress nor read-only scanning.
-	// mcp_*: user-defined external tools — GoClaw cannot determine read vs write.
+	// mcp_*: user-defined external tools — ZalosClaw cannot determine read vs write.
 	// Neither reset nor increment the read-only streak.
 	if toolName == "exec" || toolName == "bash" || toolName == "wait" || strings.HasPrefix(toolName, "mcp_") {
 		return

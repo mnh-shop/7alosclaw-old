@@ -8,12 +8,12 @@ import (
 	"os"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/backup"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/permissions"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/backup"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/permissions"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 // TenantBackupHandler handles tenant-scoped backup/restore endpoints.
@@ -85,7 +85,7 @@ func (h *TenantBackupHandler) handleBackup(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	tmpFile, err := os.CreateTemp("", "goclaw-tenant-backup-*.tar.gz")
+	tmpFile, err := os.CreateTemp("", "zalosclaw-tenant-backup-*.tar.gz")
 	if err != nil {
 		sendSSE(w, flusher, "error", ProgressEvent{Phase: "init", Status: "error", Detail: "failed to create temp file"})
 		return

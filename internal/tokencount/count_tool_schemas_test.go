@@ -3,8 +3,8 @@ package tokencount_test
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/tokencount"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tokencount"
 )
 
 const testModel = "claude-sonnet-4-5-20250929"

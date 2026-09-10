@@ -3,8 +3,8 @@ package heartbeat
 import (
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // ProviderResolver resolves LLM providers by tenant and name.

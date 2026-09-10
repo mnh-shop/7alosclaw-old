@@ -10,10 +10,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/edition"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // FilesHandler serves files over HTTP with Bearer token auth.
@@ -366,7 +366,7 @@ func (h *FilesHandler) findInWorkspace(workspace, basename string) string {
 			if path == workspace {
 				return nil
 			}
-			// Allow direct children of workspace root (agent workspace dirs like "quill", "goclaw")
+			// Allow direct children of workspace root (agent workspace dirs like "quill", "zalosclaw")
 			if filepath.Dir(path) == workspace {
 				return nil
 			}

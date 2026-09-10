@@ -80,7 +80,7 @@ func TestTokenMatch_EmptyProvided_ReturnsFalse(t *testing.T) {
 
 func TestExtractUserID_ValidHeader(t *testing.T) {
 	r := httptest.NewRequest("GET", "/", nil)
-	r.Header.Set("X-GoClaw-User-Id", "user-abc-123")
+	r.Header.Set("X-ZalosClaw-User-Id", "user-abc-123")
 	if got := extractUserID(r); got != "user-abc-123" {
 		t.Errorf("extractUserID = %q, want %q", got, "user-abc-123")
 	}
@@ -97,7 +97,7 @@ func TestExtractUserID_TooLongID_ReturnsEmpty(t *testing.T) {
 	// MaxUserIDLength is 255 — send 256 chars
 	longID := strings.Repeat("a", 256)
 	r := httptest.NewRequest("GET", "/", nil)
-	r.Header.Set("X-GoClaw-User-Id", longID)
+	r.Header.Set("X-ZalosClaw-User-Id", longID)
 	if got := extractUserID(r); got != "" {
 		t.Errorf("extractUserID with too-long ID = %q, want empty (security rejection)", got)
 	}
@@ -105,10 +105,10 @@ func TestExtractUserID_TooLongID_ReturnsEmpty(t *testing.T) {
 
 // ---- extractAgentID ----
 
-func TestExtractAgentID_FromModelPrefix_Goclaw(t *testing.T) {
-	got := extractAgentID(httptest.NewRequest("GET", "/", nil), "goclaw:my-agent")
+func TestExtractAgentID_FromModelPrefix_Zalosclaw(t *testing.T) {
+	got := extractAgentID(httptest.NewRequest("GET", "/", nil), "zalosclaw:my-agent")
 	if got != "my-agent" {
-		t.Errorf("extractAgentID goclaw: prefix = %q, want %q", got, "my-agent")
+		t.Errorf("extractAgentID zalosclaw: prefix = %q, want %q", got, "my-agent")
 	}
 }
 
@@ -119,21 +119,21 @@ func TestExtractAgentID_FromModelPrefix_Agent(t *testing.T) {
 	}
 }
 
-func TestExtractAgentID_FromHeader_XGoClawAgentId(t *testing.T) {
+func TestExtractAgentID_FromHeader_XZalosClawAgentId(t *testing.T) {
 	r := httptest.NewRequest("GET", "/", nil)
-	r.Header.Set("X-GoClaw-Agent-Id", "header-agent")
+	r.Header.Set("X-ZalosClaw-Agent-Id", "header-agent")
 	got := extractAgentID(r, "some-other-model")
 	if got != "header-agent" {
-		t.Errorf("extractAgentID from X-GoClaw-Agent-Id = %q, want %q", got, "header-agent")
+		t.Errorf("extractAgentID from X-ZalosClaw-Agent-Id = %q, want %q", got, "header-agent")
 	}
 }
 
-func TestExtractAgentID_FromHeader_XGoClawAgent(t *testing.T) {
+func TestExtractAgentID_FromHeader_XZalosClawAgent(t *testing.T) {
 	r := httptest.NewRequest("GET", "/", nil)
-	r.Header.Set("X-GoClaw-Agent", "legacy-agent")
+	r.Header.Set("X-ZalosClaw-Agent", "legacy-agent")
 	got := extractAgentID(r, "")
 	if got != "legacy-agent" {
-		t.Errorf("extractAgentID from X-GoClaw-Agent = %q, want %q", got, "legacy-agent")
+		t.Errorf("extractAgentID from X-ZalosClaw-Agent = %q, want %q", got, "legacy-agent")
 	}
 }
 
@@ -147,8 +147,8 @@ func TestExtractAgentID_DefaultsToDefault(t *testing.T) {
 
 func TestExtractAgentID_ModelPrefixTakesPriorityOverHeader(t *testing.T) {
 	r := httptest.NewRequest("GET", "/", nil)
-	r.Header.Set("X-GoClaw-Agent-Id", "header-agent")
-	got := extractAgentID(r, "goclaw:model-agent")
+	r.Header.Set("X-ZalosClaw-Agent-Id", "header-agent")
+	got := extractAgentID(r, "zalosclaw:model-agent")
 	if got != "model-agent" {
 		t.Errorf("extractAgentID model prefix should take priority, got %q", got)
 	}

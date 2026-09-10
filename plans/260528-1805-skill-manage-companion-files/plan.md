@@ -16,7 +16,7 @@ source: skill
 
 ## Overview
 
-Fix `digitopvn/goclaw#72` by extending the agent-facing `skill_manage` tool so agents with manage access can add or overwrite companion files while creating a new immutable managed-skill version.
+Fix `digitopvn/zalosclaw#72` by extending the agent-facing `skill_manage` tool so agents with manage access can add or overwrite companion files while creating a new immutable managed-skill version.
 
 Scope is intentionally narrow:
 - PostgreSQL Standard only for this round.
@@ -43,7 +43,7 @@ Approved contract:
 
 ## Dependencies
 
-- Related issue: https://github.com/digitopvn/goclaw/issues/72
+- Related issue: https://github.com/digitopvn/zalosclaw/issues/72
 - Existing tool surface: `internal/tools/skill_manage.go`
 - Existing directory publish behavior: `internal/tools/publish_skill.go`
 - Existing runtime readback: `internal/http/skills_versions.go`

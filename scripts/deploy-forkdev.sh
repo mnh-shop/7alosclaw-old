@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# deploy-forkdev.sh — build & run goclaw from a fresh "fork-dev" integration
+# deploy-forkdev.sh — build & run zalosclaw from a fresh "fork-dev" integration
 # branch, independent of any published image or your current checkout.
 #
 # What it does, every run (idempotent):
@@ -11,8 +11,8 @@
 #        - feat/telegram-wake-words  (Telegram trigger-words + edit/topic)
 #        - the Russian-locale delta   (whatever local `dev` has over upstream)
 #   4. (optional) Push the result to YOUR fork's dev branch so you can see both
-#      features in skensell201/goclaw:dev  (PUSH_FORK=1, on by default).
-#   5. Build a local image `goclaw:forkdev` from that merged tree.
+#      features in skensell201/zalosclaw:dev  (PUSH_FORK=1, on by default).
+#   5. Build a local image `zalosclaw:forkdev` from that merged tree.
 #   6. Bring the stack up with that image.
 #
 # Re-run any time to pull fresh upstream + re-merge + redeploy. On a merge
@@ -23,7 +23,7 @@
 #   FEATURE_BRANCHES   space-separated feature branches to merge
 #                      (default: "feat/telegram-wake-words")
 #   RU_FROM            ref carrying the ru-locale work (default: "dev" = local dev)
-#   WT_DIR             integration worktree path (default: ../.goclaw-forkdev)
+#   WT_DIR             integration worktree path (default: ../.zalosclaw-forkdev)
 #   NO_BUILD=1         skip docker build/up (just prepare + push the branch)
 #
 set -euo pipefail
@@ -34,7 +34,7 @@ ROOT="$(pwd)"
 INT_BRANCH="local/fork-dev"
 FORK_REMOTE="fork"
 UPSTREAM_REMOTE="origin"
-WT_DIR="${WT_DIR:-${ROOT}/../.goclaw-forkdev}"
+WT_DIR="${WT_DIR:-${ROOT}/../.zalosclaw-forkdev}"
 # Normalize to an absolute, ..-free path so the worktree-exists check matches
 # `git worktree list --porcelain` output (which is always absolute + resolved).
 WT_DIR="$(cd "$(dirname "${WT_DIR}")" && pwd)/$(basename "${WT_DIR}")"
@@ -100,11 +100,11 @@ if [ "${NO_BUILD:-0}" = "1" ]; then
 fi
 
 # ---- build local image from the merged tree & deploy -----------------------
-say "Building goclaw:forkdev from ${WT_DIR}"
-GOCLAW_DIR="${WT_DIR}" docker compose "${COMPOSE[@]}" build goclaw
+say "Building zalosclaw:forkdev from ${WT_DIR}"
+ZALOSCLAW_DIR="${WT_DIR}" docker compose "${COMPOSE[@]}" build zalosclaw
 
 say "Deploying"
-GOCLAW_DIR="${WT_DIR}" docker compose "${COMPOSE[@]}" up -d
+ZALOSCLAW_DIR="${WT_DIR}" docker compose "${COMPOSE[@]}" up -d
 
 say "Done. Follow logs with:"
-printf '    docker compose %s logs -f goclaw\n' "${COMPOSE[*]}"
+printf '    docker compose %s logs -f zalosclaw\n' "${COMPOSE[*]}"

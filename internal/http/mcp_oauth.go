@@ -13,13 +13,13 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	mcpoauth "github.com/nextlevelbuilder/goclaw/internal/mcp/oauth"
-	"github.com/nextlevelbuilder/goclaw/internal/permissions"
-	"github.com/nextlevelbuilder/goclaw/internal/security"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	mcpoauth "github.com/nextlevelbuilder/zalosclaw/internal/mcp/oauth"
+	"github.com/nextlevelbuilder/zalosclaw/internal/permissions"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 // MCPOAuthHandler exposes OAuth endpoints for MCP server authentication.
@@ -30,7 +30,7 @@ type MCPOAuthHandler struct {
 	flowMgr    *mcpoauth.FlowManager
 	refresher  *mcpoauth.Refresher
 	eventBus   bus.EventPublisher
-	publicURL  string // e.g. "https://goclaw.example.com"
+	publicURL  string // e.g. "https://zalosclaw.example.com"
 	port       int
 	evictor    MCPPoolEvictor
 	// tenantStore gates tenant-scoped writes (token mint/revoke/admin status) with a
@@ -154,7 +154,7 @@ type startOAuthResp struct {
 // dropboxOfflineAuthParam returns the authorization-request parameter Dropbox
 // requires to issue a refresh token. Dropbox's default is an online-only token
 // (expires ~4h, cannot be refreshed), so every Dropbox authorize URL must carry
-// token_access_type=offline for goclaw's auto-refresh to work. Returns nil for
+// token_access_type=offline for zalosclaw's auto-refresh to work. Returns nil for
 // every other authorization server — unknown params could break stricter ASes.
 func dropboxOfflineAuthParam(authEndpoint string) url.Values {
 	u, err := url.Parse(authEndpoint)

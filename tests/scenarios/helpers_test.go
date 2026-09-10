@@ -14,7 +14,7 @@ import (
 
 	"github.com/gorilla/websocket"
 
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 var (

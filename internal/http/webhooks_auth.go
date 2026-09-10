@@ -19,9 +19,9 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/crypto"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 const (
@@ -228,14 +228,14 @@ var (
 // The second return value is the resolved HMAC signature hex (empty for bearer).
 //
 // Auth mode detection:
-//   - HMAC mode: X-GoClaw-Signature header present → resolveByHMAC.
+//   - HMAC mode: X-ZalosClaw-Signature header present → resolveByHMAC.
 //   - Bearer mode: Authorization: Bearer wh_* → resolveByBearer.
 //   - Neither → 401 (errWebhookNotFound used as catch-all).
 //
 // K1: uses unscoped store lookups — tenant is NOT required in ctx here.
 // Tenant is injected by the caller (WebhookAuthMiddleware step 8) after resolution.
 func resolveWebhook(r *http.Request, body []byte, ws store.WebhookStore, nonces *webhookNonceCache, encKey string) (*store.WebhookData, string, error) {
-	sigHeader := r.Header.Get("X-GoClaw-Signature")
+	sigHeader := r.Header.Get("X-ZalosClaw-Signature")
 	authHeader := r.Header.Get("Authorization")
 
 	if sigHeader != "" {
@@ -281,7 +281,7 @@ func resolveByBearer(r *http.Request, rawSecret string, ws store.WebhookStore) (
 	return webhook, nil
 }
 
-// resolveByHMAC parses the X-GoClaw-Signature header, validates clock skew,
+// resolveByHMAC parses the X-ZalosClaw-Signature header, validates clock skew,
 // looks up the webhook row by UUID using an unscoped query (K1 fix), verifies
 // the HMAC, and checks the replay-nonce cache (K8).
 //

@@ -6,8 +6,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // builtinToolGroups is const-like seed data for per-Registry tool groups.
@@ -23,8 +23,8 @@ var builtinToolGroups = map[string][]string{
 	"messaging":  {"message", "create_forum_topic", "list_group_members", "zalo_list_groups"},
 	"team":       {"team_tasks"},
 	"vault":      {"vault_search", "vault_read"},
-	// Composite group: all goclaw native tools (excludes MCP/custom plugins).
-	"goclaw": {
+	// Composite group: all zalosclaw native tools (excludes MCP/custom plugins).
+	"zalosclaw": {
 		"read_file", "write_file", "list_files", "edit", "exec", "wait",
 		"web_search", "web_fetch", "browser",
 		"memory_search", "memory_get", "memory_expand",

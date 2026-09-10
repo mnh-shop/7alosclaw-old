@@ -4,11 +4,11 @@ import (
 	"math"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // Scoring constants. Chosen to match the plan's 4-component formula (plan has
-// 6 components but GoClaw lacks per-episode conceptual + consolidation data).
+// 6 components but ZalosClaw lacks per-episode conceptual + consolidation data).
 //
 //	score = 0.30*frequency + 0.35*relevance + 0.20*recency + 0.15*freshness
 //
@@ -27,7 +27,7 @@ const (
 
 // recallThresholds holds the minimum scoring cutoffs applied to
 // ListUnpromotedScored results before LLM synthesis. Chosen well below the
-// TS reference (0.75 / 3) because GoClaw boots with zero recall data —
+// TS reference (0.75 / 3) because ZalosClaw boots with zero recall data —
 // early-life agents must still reach synthesis via the freshness component.
 type recallThresholds struct {
 	MinScore       float64

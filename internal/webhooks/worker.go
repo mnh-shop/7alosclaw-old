@@ -23,11 +23,11 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/agent"
-	"github.com/nextlevelbuilder/goclaw/internal/crypto"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/security"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
+	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 const (
@@ -174,7 +174,7 @@ type WebhookWorker struct {
 	limiter  *CallbackLimiter
 	cfg      WorkerConfig
 	// encKey is the AES-256-GCM key used to decrypt webhook.encrypted_secret at HMAC sign time.
-	// Sourced from GOCLAW_ENCRYPTION_KEY env var. Empty string disables outbound HMAC signing.
+	// Sourced from ZALOSCLAW_ENCRYPTION_KEY env var. Empty string disables outbound HMAC signing.
 	encKey string
 
 	// inFlight tracks active delivery goroutines for graceful drain.
@@ -499,7 +499,7 @@ func (w *WebhookWorker) execute(ctx context.Context, call *store.WebhookCallData
 		return
 	}
 	httpReq.Header.Set("Content-Type", "application/json")
-	httpReq.Header.Set("User-Agent", "goclaw-webhook/1")
+	httpReq.Header.Set("User-Agent", "zalosclaw-webhook/1")
 	httpReq.Header.Set("X-Webhook-Delivery-Id", call.DeliveryID.String())
 	if sigHeader != "" {
 		httpReq.Header.Set("X-Webhook-Signature", sigHeader)

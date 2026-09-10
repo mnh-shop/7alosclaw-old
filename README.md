@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="_statics/goclaw-logo.svg" alt="7alosclaw" height="200" />
+  <img src="_statics/zalosclaw-logo.svg" alt="7alosclaw" height="200" />
 </p>
 
-<p align="center"><strong>7alosclaw</strong> — multi-tenant AI agent runtime (7alos fork of goclaw)</p>
+<p align="center"><strong>7alosclaw</strong> — multi-tenant AI agent runtime (7alos fork of zalosclaw)</p>
 
 <p align="center">
 Multi-agent AI gateway built in Go. 20+ LLM providers. 7 channels. Multi-tenant PostgreSQL.<br/>
@@ -10,8 +10,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.goclaw.sh">Documentation</a> •
-  <a href="https://docs.goclaw.sh/#quick-start">Quick Start</a> •
+  <a href="https://docs.zalosclaw.sh">Documentation</a> •
+  <a href="https://docs.zalosclaw.sh/#quick-start">Quick Start</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -73,18 +73,18 @@ Single binary. Production-tested. Agents that orchestrate for you.
 - **Single Binary** — ~25 MB static Go binary, no Node.js runtime, <1s startup, runs on a $5 VPS
 - **Observability** — Built-in LLM call tracing with spans and prompt cache metrics, optional OpenTelemetry OTLP export
 
-## Desktop Edition (GoClaw Lite)
+## Desktop Edition (ZalosClaw Lite)
 
 A native desktop app for local AI agents — no Docker, no PostgreSQL, no infrastructure.
 
 **macOS:**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/nextlevelbuilder/goclaw/main/scripts/install-lite.sh | bash
+curl -fsSL https://raw.githubusercontent.com/nextlevelbuilder/zalosclaw/main/scripts/install-lite.sh | bash
 ```
 
 **Windows (PowerShell):**
 ```powershell
-irm https://raw.githubusercontent.com/nextlevelbuilder/goclaw/main/scripts/install-lite.ps1 | iex
+irm https://raw.githubusercontent.com/nextlevelbuilder/zalosclaw/main/scripts/install-lite.ps1 | iex
 ```
 
 ### What's Included
@@ -149,10 +149,10 @@ git tag lite-v0.1.0 && git push origin lite-v0.1.0
 ### From Source
 
 ```bash
-git clone -b main https://github.com/nextlevelbuilder/goclaw.git && cd goclaw
+git clone -b main https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
 make build
-./goclaw onboard        # Interactive setup wizard
-source .env.local && ./goclaw
+./zalosclaw onboard        # Interactive setup wizard
+source .env.local && ./zalosclaw
 ```
 
 > **Note:** The default branch is `dev` (active development). Use `-b main` to clone the stable release branch.
@@ -163,7 +163,7 @@ source .env.local && ./goclaw
 # Generate .env with auto-generated secrets
 chmod +x prepare-env.sh && ./prepare-env.sh
 
-# Add at least one GOCLAW_*_API_KEY to .env, then:
+# Add at least one ZALOSCLAW_*_API_KEY to .env, then:
 make up
 
 # If Postgres fails to start ("port 5432 already allocated"), set another host
@@ -183,18 +183,18 @@ make up
 ```bash
 make up                # Start all services (build + migrate)
 make down              # Stop all services
-make logs              # Tail logs (goclaw service)
+make logs              # Tail logs (zalosclaw service)
 make reset             # Wipe volumes and rebuild from scratch
 ```
 
 **Operator CLI:**
 
-The main `goclaw` binary can also inspect local or remote gateways:
+The main `zalosclaw` binary can also inspect local or remote gateways:
 
 ```bash
-goclaw traces list --status error
-goclaw traces get <trace-id> -o json
-goclaw --server https://goclaw.example.com --token "$GOCLAW_GATEWAY_TOKEN" traces follow --session <session-key>
+zalosclaw traces list --status error
+zalosclaw traces get <trace-id> -o json
+zalosclaw --server https://zalosclaw.example.com --token "$ZALOSCLAW_GATEWAY_TOKEN" traces follow --session <session-key>
 ```
 
 **Optional services** — enable with `WITH_*` flags:
@@ -217,7 +217,7 @@ make up WITH_BROWSER=1 WITH_OTEL=1
 make down WITH_BROWSER=1 WITH_OTEL=1
 ```
 
-When `GOCLAW_*_API_KEY` environment variables are set, the gateway auto-onboards without interactive prompts — detects provider, runs migrations, and seeds default data.
+When `ZALOSCLAW_*_API_KEY` environment variables are set, the gateway auto-onboards without interactive prompts — detects provider, runs migrations, and seeds default data.
 
 > **Docker image variants:**
 > | Image | Description |
@@ -226,10 +226,10 @@ When `GOCLAW_*_API_KEY` environment variables are set, the gateway auto-onboards
 > | `latest-base` | Backend API-only, no web UI, no runtimes |
 > | `latest-full` | All runtimes + skill dependencies pre-installed |
 > | `latest-otel` | Latest + OpenTelemetry tracing |
-> | `goclaw-web` | Standalone nginx + React SPA (for custom reverse proxy) |
+> | `zalosclaw-web` | Standalone nginx + React SPA (for custom reverse proxy) |
 >
 > For custom builds (Tailscale, Redis): `docker build --build-arg ENABLE_TSNET=true ...`
-> See the [Deployment Guide](https://docs.goclaw.sh/#deploy-docker-compose) for details.
+> See the [Deployment Guide](https://docs.zalosclaw.sh/#deploy-docker-compose) for details.
 
 ## Updating
 
@@ -240,7 +240,7 @@ docker compose pull && docker compose up -d
 
 ### Binary (with embedded web UI)
 ```bash
-goclaw update --apply    # Downloads, verifies SHA256, swaps binary, restarts
+zalosclaw update --apply    # Downloads, verifies SHA256, swaps binary, restarts
 ```
 
 ### Web Dashboard
@@ -258,7 +258,7 @@ Delegation can run synchronously or asynchronously and exchanges files through
 an isolated delegation workspace; validated outputs are published back under
 the caller's `.delegations/<delegation-id>/` directory.
 
-> Details: [Agent Teams docs](https://docs.goclaw.sh/#teams-what-are-teams)
+> Details: [Agent Teams docs](https://docs.zalosclaw.sh/#teams-what-are-teams)
 
 ## Knowledge Vault
 
@@ -307,7 +307,7 @@ Typed domain events power the consolidation pipeline — session summaries, know
 | **Teams** | `team_tasks`, `spawn`, `delegate`, `message` | Task board + orchestration + messaging |
 | **Automation** | `cron`, `heartbeat`, `sessions_*` | Scheduling + session management |
 
-> Full tool reference at [docs.goclaw.sh](https://docs.goclaw.sh/#custom-tools)
+> Full tool reference at [docs.zalosclaw.sh](https://docs.zalosclaw.sh/#custom-tools)
 
 ## Webhook API
 
@@ -327,7 +327,7 @@ SIG=$(echo -n "${TS}.${BODY}" | openssl dgst -sha256 -mac HMAC \
 curl -X POST https://example.com/v1/webhooks/llm \
   -H "Content-Type: application/json" \
   -H "X-Webhook-Id: ${WEBHOOK_ID}" \
-  -H "X-GoClaw-Signature: t=${TS},v1=${SIG}" \
+  -H "X-ZalosClaw-Signature: t=${TS},v1=${SIG}" \
   -d "$BODY"
 ```
 
@@ -335,19 +335,19 @@ See **[docs/webhooks.md](docs/webhooks.md)** for the full reference: auth, async
 
 ## Documentation
 
-Full documentation at **[docs.goclaw.sh](https://docs.goclaw.sh)** — or browse the source in [`goclaw-docs/`](https://github.com/nextlevelbuilder/goclaw-docs)
+Full documentation at **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** — or browse the source in [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
 
 | Section | Topics |
 |---------|--------|
-| [Getting Started](https://docs.goclaw.sh/#what-is-goclaw) | Installation, Quick Start, Configuration, Web Dashboard Tour |
-| [Core Concepts](https://docs.goclaw.sh/#how-goclaw-works) | Agent Loop, Sessions, Tools, Memory, Multi-Tenancy |
-| [Agents](https://docs.goclaw.sh/#creating-agents) | Creating Agents, Context Files, Personality, Sharing & Access |
-| [Providers](https://docs.goclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 more |
-| [Channels](https://docs.goclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Agent Teams](https://docs.goclaw.sh/#teams-what-are-teams) | Teams, Task Board, Messaging, Delegation & Handoff |
-| [Advanced](https://docs.goclaw.sh/#custom-tools) | Custom Tools, MCP, Skills, Cron, Sandbox, Hooks, RBAC |
-| [Deployment](https://docs.goclaw.sh/#deploy-docker-compose) | Docker Compose, Database, Security, Observability, Tailscale |
-| [Reference](https://docs.goclaw.sh/#cli-commands) | CLI Commands, REST API, WebSocket Protocol, Environment Variables |
+| [Getting Started](https://docs.zalosclaw.sh/#what-is-zalosclaw) | Installation, Quick Start, Configuration, Web Dashboard Tour |
+| [Core Concepts](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Agent Loop, Sessions, Tools, Memory, Multi-Tenancy |
+| [Agents](https://docs.zalosclaw.sh/#creating-agents) | Creating Agents, Context Files, Personality, Sharing & Access |
+| [Providers](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 more |
+| [Channels](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Agent Teams](https://docs.zalosclaw.sh/#teams-what-are-teams) | Teams, Task Board, Messaging, Delegation & Handoff |
+| [Advanced](https://docs.zalosclaw.sh/#custom-tools) | Custom Tools, MCP, Skills, Cron, Sandbox, Hooks, RBAC |
+| [Deployment](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, Database, Security, Observability, Tailscale |
+| [Reference](https://docs.zalosclaw.sh/#cli-commands) | CLI Commands, REST API, WebSocket Protocol, Environment Variables |
 
 ## Testing
 
@@ -362,7 +362,7 @@ See [CHANGELOG.md](CHANGELOG.md) for detailed feature status including what's be
 
 ## Acknowledgments
 
-GoClaw was originally inspired by the [OpenClaw](https://github.com/openclaw/openclaw) project architecture.
+ZalosClaw was originally inspired by the [OpenClaw](https://github.com/openclaw/openclaw) project architecture.
 
 ## License
 
@@ -370,10 +370,10 @@ GoClaw was originally inspired by the [OpenClaw](https://github.com/openclaw/ope
 
 ## Star History
 
-<a href="https://star-history.dera.page/#nextlevelbuilder/goclaw&type=date&legend=top-left">
+<a href="https://star-history.dera.page/#nextlevelbuilder/zalosclaw&type=date&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=nextlevelbuilder/goclaw&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=nextlevelbuilder/goclaw&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=nextlevelbuilder/goclaw&type=date&legend=top-left" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=nextlevelbuilder/zalosclaw&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=nextlevelbuilder/zalosclaw&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=nextlevelbuilder/zalosclaw&type=date&legend=top-left" />
  </picture>
 </a>

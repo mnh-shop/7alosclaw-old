@@ -13,16 +13,16 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/agent"
-	"github.com/nextlevelbuilder/goclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/permissions"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/permissions"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 // AgentsHandler handles agent CRUD and sharing endpoints.
@@ -47,8 +47,8 @@ type AgentsHandler struct {
 	secureCLI                 store.SecureCLIStore
 	secureCLIGrants           store.SecureCLIAgentGrantStore
 	secureCLIAgentCreds       store.SecureCLIAgentCredentialStore
-	defaultWorkspace          string // default workspace path template (e.g. "~/.goclaw/workspace")
-	dataDir                   string // resolved data directory (e.g. "~/.goclaw/data") — for team workspace export
+	defaultWorkspace          string // default workspace path template (e.g. "~/.zalosclaw/workspace")
+	dataDir                   string // resolved data directory (e.g. "~/.zalosclaw/data") — for team workspace export
 	gatewayAddr               string
 	msgBus                    *bus.MessageBus   // for cache invalidation events (nil = no events)
 	summoner                  *AgentSummoner    // LLM-based agent setup (nil = disabled)
@@ -57,7 +57,7 @@ type AgentsHandler struct {
 }
 
 // NewAgentsHandler creates a handler for agent management endpoints.
-// isOwner is a function that checks if a user ID is in GOCLAW_OWNER_IDS (nil = disabled).
+// isOwner is a function that checks if a user ID is in ZALOSCLAW_OWNER_IDS (nil = disabled).
 func NewAgentsHandler(agents store.AgentStore, providers store.ProviderStore, providerReg *providers.Registry, db *sql.DB, tracing store.TracingStore, defaultWorkspace string, msgBus *bus.MessageBus, summoner *AgentSummoner, isOwner func(string) bool) *AgentsHandler {
 	return &AgentsHandler{
 		agents:           agents,

@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
 )
 
 // newBridgeTestCfg builds a minimal config with optional channel STT URLs.

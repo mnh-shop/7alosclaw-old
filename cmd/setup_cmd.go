@@ -21,7 +21,7 @@ func setupCmd() *cobra.Command {
 func runSetup() {
 	fmt.Println()
 	fmt.Println("╭──────────────────────────────────╮")
-	fmt.Println("│     GoClaw — Setup Wizard        │")
+	fmt.Println("│     ZalosClaw — Setup Wizard        │")
 	fmt.Println("╰──────────────────────────────────╯")
 	fmt.Println()
 
@@ -65,5 +65,5 @@ func printSetupSummary() {
 	base := resolveGatewayBaseURL()
 	fmt.Printf("  Dashboard: %s\n", base)
 	fmt.Println()
-	fmt.Println("Run 'goclaw setup' again anytime to add more.")
+	fmt.Println("Run 'zalosclaw setup' again anytime to add more.")
 }

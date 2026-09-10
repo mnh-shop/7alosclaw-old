@@ -31,7 +31,7 @@ Non-goals: no global Discord group/channel history backfill, no schema migration
 
 ## Dependencies
 
-- GitHub issue: https://github.com/digitopvn/goclaw/issues/69
+- GitHub issue: https://github.com/digitopvn/zalosclaw/issues/69
 - Discord docs: `GET /channels/{channel.id}/messages` returns newest-to-oldest messages, `limit` 1-100, with `before/after/around`; guild channels need `VIEW_CHANNEL`, and missing `READ_MESSAGE_HISTORY` returns no messages.
 - Discord attachment docs: fetched message payload attachment URLs are signed CDN URLs valid when received, so history attachments must be downloaded immediately.
 - Existing Discord handler: `internal/channels/discord/handler.go`

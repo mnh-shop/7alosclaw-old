@@ -9,7 +9,7 @@ effort: ''
 
 ## Context Links
 
-- Issue: https://github.com/digitopvn/goclaw/issues/117
+- Issue: https://github.com/digitopvn/zalosclaw/issues/117
 - Current user ID resolver: `internal/agent/user_identity_resolver.go:40`
 - Tool execution context injection: `internal/agent/loop_pipeline_tool_callbacks.go:47`
 - Secure CLI store contract: `internal/store/secure_cli_store.go:120`

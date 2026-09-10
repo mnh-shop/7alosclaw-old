@@ -8,9 +8,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/edition"
-	"github.com/nextlevelbuilder/goclaw/internal/gateway/methods"
-	"github.com/nextlevelbuilder/goclaw/internal/hooks"
+	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
+	"github.com/nextlevelbuilder/zalosclaw/internal/gateway/methods"
+	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
 )
 
 // fakeStore is a minimal in-memory HookStore for handler-level tests.

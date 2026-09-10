@@ -12,9 +12,9 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
 )
 
 func TestDiscordThreadBackfillPrependsPriorMessages(t *testing.T) {

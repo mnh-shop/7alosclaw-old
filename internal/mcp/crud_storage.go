@@ -9,13 +9,13 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/skills"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerStorageCRUDTools registers the goclaw_storage_* MCP tools, closing
-// the `goclaw storage` CLI-vs-MCP coverage gap. Path validation (traversal,
+// registerStorageCRUDTools registers the zalosclaw_storage_* MCP tools, closing
+// the `zalosclaw storage` CLI-vs-MCP coverage gap. Path validation (traversal,
 // symlink escape, tenant-isolation hiding, protected top-level dirs) mirrors
 // internal/http/storage.go's handleList/handleSize/handleDelete/handleMove
 // and their isHiddenPath/validateExistingStoragePath/validateStorageParent
@@ -24,26 +24,26 @@ import (
 // would cycle). delete/move refuse to touch protectedDirs (skills,
 // skills-store, media, tenants) same as the HTTP handler.
 func registerStorageCRUDTools(srv *mcpserver.MCPServer, cfg *config.Config) {
-	srv.AddTool(mcpgo.NewTool("goclaw_storage_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_storage_list",
 		mcpgo.WithDescription("List files and directories under the tenant's data directory."),
 		mcpgo.WithString("path", mcpgo.Description("Subpath to scope the listing to; empty lists the data dir root.")),
 		mcpgo.WithNumber("depth", mcpgo.Description("Max depth to walk (1-20, default 3).")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleStorageList(cfg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_storage_size",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_storage_size",
 		mcpgo.WithDescription("Compute total size and file count under the tenant's data directory (or a subpath)."),
 		mcpgo.WithString("path", mcpgo.Description("Subpath to scope the calculation to; empty sizes the whole data dir.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleStorageSize(cfg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_storage_delete",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_storage_delete",
 		mcpgo.WithDescription("Delete a file or directory under the tenant's data directory. Refuses protected top-level dirs (skills, skills-store, media, tenants)."),
 		mcpgo.WithString("path", mcpgo.Required(), mcpgo.Description("Path to delete, relative to the data dir root.")),
 		mcpgo.WithDestructiveHintAnnotation(true),
 	), handleStorageDelete(cfg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_storage_move",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_storage_move",
 		mcpgo.WithDescription("Move/rename a file or directory within the tenant's data directory. Refuses protected top-level dirs and existing destinations."),
 		mcpgo.WithString("from", mcpgo.Required(), mcpgo.Description("Source path, relative to the data dir root.")),
 		mcpgo.WithString("to", mcpgo.Required(), mcpgo.Description("Destination path, relative to the data dir root.")),

@@ -1,6 +1,6 @@
 ---
 title: "Human-Like Channel Chat Behavior MVP"
-description: "TDD plan for digitopvn/goclaw#67: quick acknowledgement and safe final multi-message splitting for non-streaming channel delivery, with global gateway plus per-channel config only."
+description: "TDD plan for digitopvn/zalosclaw#67: quick acknowledgement and safe final multi-message splitting for non-streaming channel delivery, with global gateway plus per-channel config only."
 status: completed
 priority: P2
 branch: "codex/issue-67-human-like-chat-behavior"
@@ -46,8 +46,8 @@ Recommended architecture: resolve behavior config into `RunContext` at run regis
 
 ## Dependencies
 
-- GitHub issue: `digitopvn/goclaw#67`
-- Related non-overlap issue: `digitopvn/goclaw#76`
+- GitHub issue: `digitopvn/zalosclaw#67`
+- Related non-overlap issue: `digitopvn/zalosclaw#76`
 - Brainstorm report: `../reports/260529-1210-issue-67-human-like-chat-behavior-brainstorm.md`
 - Existing event/run surfaces: `internal/channels/runs.go`, `internal/channels/events.go`, `internal/agent/loop_run.go`
 - Existing block reply path: `internal/pipeline/think_stage.go`, `internal/agent/loop_pipeline_adapter.go`
@@ -67,10 +67,10 @@ Recommended architecture: resolve behavior config into `RunContext` at run regis
 
 ## Completion Evidence
 
-- GitHub issue `digitopvn/goclaw#67` is closed.
-- Beta implementation shipped via `digitopvn/goclaw#99`.
+- GitHub issue `digitopvn/zalosclaw#67` is closed.
+- Beta implementation shipped via `digitopvn/zalosclaw#99`.
 - Project changelog records the human-like channel delivery MVP.
-- Follow-up channel behavior fixes passed GitHub CI in `digitopvn/goclaw#135` and `digitopvn/goclaw#139`.
+- Follow-up channel behavior fixes passed GitHub CI in `digitopvn/zalosclaw#135` and `digitopvn/zalosclaw#139`.
 
 ## Validation Commands
 

@@ -13,8 +13,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // fakeMCPStore implements store.MCPServerStore for provisioner tests.
@@ -570,7 +570,7 @@ func attachTestPortal(t *testing.T, bc *Channel, oauthSrv *httptest.Server) {
 	bc.encKey = testOAuthEncKey
 	portalFS := newFakeStore()
 	portal := newTestPortal(t, oauthSrv, portalFS, bc.TenantID(), "p",
-		store.BitrixPortalState{PublicURL: "https://goclaw.example.com"})
+		store.BitrixPortalState{PublicURL: "https://zalosclaw.example.com"})
 	bc.startMu.Lock()
 	bc.portal = portal
 	bc.startMu.Unlock()

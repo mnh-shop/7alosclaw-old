@@ -10,8 +10,8 @@ import (
 	"os/exec"
 	"runtime"
 
-	"github.com/nextlevelbuilder/goclaw/internal/edition"
-	"github.com/nextlevelbuilder/goclaw/internal/hooks"
+	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
+	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
 )
 
 // CommandHandler executes a local shell command with event data on stdin.

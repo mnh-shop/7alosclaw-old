@@ -7,7 +7,7 @@
 
 ## What Happened
 
-This beta ship started from PR #14, which added per-agent skill manage grants so an authorized agent can edit/delete skills even when `owner_id` no longer matches its current actor identity. The review caught the ugly part: the grant path could mutate skill visibility or grant records across tenant boundaries, and the UI/API exposed `owner_id` in skill responses where clients did not need it. Issue digitopvn/goclaw#15 tracks the hardening fallout.
+This beta ship started from PR #14, which added per-agent skill manage grants so an authorized agent can edit/delete skills even when `owner_id` no longer matches its current actor identity. The review caught the ugly part: the grant path could mutate skill visibility or grant records across tenant boundaries, and the UI/API exposed `owner_id` in skill responses where clients did not need it. Issue digitopvn/zalosclaw#15 tracks the hardening fallout.
 
 ## The Brutal Truth
 
@@ -37,7 +37,7 @@ Grant writes must prove both sides of the relationship: the skill and the agent.
 
 ## Next Steps
 
-- Owner: maintainers. Monitor digitopvn/goclaw#15 through beta.
+- Owner: maintainers. Monitor digitopvn/zalosclaw#15 through beta.
 - Owner: release lead. Verify beta users receive migration `000067` and no stale cross-tenant rows survive upgrade.
 - Owner: reviewers. Treat future grant/import/export changes as tenant-scope sensitive by default.
 - Tests/build are passing for this ship; keep PG, SQLite, and Web UI build checks required before promoting beyond beta.

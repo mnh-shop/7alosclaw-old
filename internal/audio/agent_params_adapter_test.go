@@ -3,10 +3,10 @@ package audio_test
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
-	"github.com/nextlevelbuilder/goclaw/internal/audio/elevenlabs"
-	"github.com/nextlevelbuilder/goclaw/internal/audio/minimax"
-	oaiprovider "github.com/nextlevelbuilder/goclaw/internal/audio/openai"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio/elevenlabs"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio/minimax"
+	oaiprovider "github.com/nextlevelbuilder/zalosclaw/internal/audio/openai"
 )
 
 // TestAdaptAgentParams_TableDriven covers all 5 providers × 3 generic keys

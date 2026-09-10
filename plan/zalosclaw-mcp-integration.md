@@ -1,6 +1,6 @@
-# GoClaw × mcp-bx-syn Integration Plan
+# ZalosClaw × mcp-bx-syn Integration Plan
 
-> Kế hoạch tích hợp MCP `mcp-bx-syn` với GoClaw chatbot để enforce per-user ACL khi user chat với bot Bitrix24.
+> Kế hoạch tích hợp MCP `mcp-bx-syn` với ZalosClaw chatbot để enforce per-user ACL khi user chat với bot Bitrix24.
 >
 > **Status**: ✅ Both sides implemented. "Bitrix24 OAuth → existing `mcp_user_credentials` bridge" (auto-onboard via access_token as auth anchor — Bitrix-specific glue, not a generic MCP architecture pattern) shipped end-to-end. Remaining work is operational (backfill, marketplace rollout, Phase E shared-credential support for Open Channel).
 >
@@ -11,11 +11,11 @@
 
 ## 1. Mục tiêu & phạm vi
 
-**Mục tiêu**: Mỗi user trong Bitrix chat với bot GoClaw → MCP `mcp-bx-syn` gọi Bitrix REST với token của **chính user đó** (enforce ACL tự nhiên). Triển khai an toàn ở quy mô marketplace: mỗi portal cài app độc lập, không có shared secret giữa MCP và GoClaw.
+**Mục tiêu**: Mỗi user trong Bitrix chat với bot ZalosClaw → MCP `mcp-bx-syn` gọi Bitrix REST với token của **chính user đó** (enforce ACL tự nhiên). Triển khai an toàn ở quy mô marketplace: mỗi portal cài app độc lập, không có shared secret giữa MCP và ZalosClaw.
 
 **Phạm vi (đã triển khai)**:
 - Endpoint `POST /api/auto-onboard` trên MCP (mcp_user_credentials bridge — xác thực bằng Bitrix `access_token` thay vì `ADMIN_TOKEN`)
-- Lazy provisioning hook trong custom Bitrix24 channel của GoClaw
+- Lazy provisioning hook trong custom Bitrix24 channel của ZalosClaw
 - Persist per-user OAuth tokens vào MCPUserCredentials để MCP proxy gọi REST API theo user
 - Rate limit + audit log trên endpoint
 - Debounce (60s) chống webhook retry storm, debounce (5 phút) cho user-facing degradation notice
@@ -27,7 +27,7 @@
 
 **Ngoài phạm vi (theo Phase E/F)**:
 - Shared-credential fallback cho Open Channel bot (bot `TYPE=O`)
-- UI quản lý auto-created `goclaw-bot` keys
+- UI quản lý auto-created `zalosclaw-bot` keys
 - Metrics / dashboard telemetry
 - Credential refresh / rotation path (hiện tại dựa vào hourly re-verify trong `token-manager.ts`)
 
@@ -35,14 +35,14 @@
 
 ## 2. Quyết định đã chốt (Rev5)
 
-- ✅ **mcp_user_credentials bridge**: MCP xác thực mỗi call `/api/auto-onboard` bằng cách gọi Bitrix `profile` với `access_token` do caller supply, so khớp `profile.ID` với `bitrix_user_id`. Không cần `ADMIN_TOKEN` shared giữa GoClaw và MCP.
-  - Đổi so với Rev4 (dùng `ADMIN_TOKEN` Bearer) vì không scale cho marketplace: mỗi portal chạy GoClaw riêng không thể share 1 secret với MCP worker.
+- ✅ **mcp_user_credentials bridge**: MCP xác thực mỗi call `/api/auto-onboard` bằng cách gọi Bitrix `profile` với `access_token` do caller supply, so khớp `profile.ID` với `bitrix_user_id`. Không cần `ADMIN_TOKEN` shared giữa ZalosClaw và MCP.
+  - Đổi so với Rev4 (dùng `ADMIN_TOKEN` Bearer) vì không scale cho marketplace: mỗi portal chạy ZalosClaw riêng không thể share 1 secret với MCP worker.
 - ✅ **Reject 404 `tenant_not_installed`** nếu portal chưa cài MCP app.
 - ✅ **Idempotent theo `(tenant.domain, bitrix_user_id)`** — lần 2 refresh tokens, trả cùng USR_.
-- ✅ **Label `"goclaw-bot"`** cho auto-created api_keys (phân biệt với `"default"` từ `/oauth/join`).
+- ✅ **Label `"zalosclaw-bot"`** cho auto-created api_keys (phân biệt với `"default"` từ `/oauth/join`).
 - ✅ **Tenant key = `domain`** (đã có `tenants.domain UNIQUE` trong MCP schema).
-- ✅ **Forward OAuth tokens**: event Bitrix mang sẵn `auth[access_token/refresh_token/expires_in]` → GoClaw forward nguyên — MCP lưu vào `users` row và `users.access_token` được dùng cho mọi REST call sau đó.
-- ✅ **KHÔNG thêm bảng mapping riêng phía GoClaw**: reuse `mcp_user_credentials` (partner store) — khoá `(mcp_server_id, user_id)` đủ để cache. Giảm surface ~300 LOC (store interface + 2 impl + migration + SchemaVersion bump).
+- ✅ **Forward OAuth tokens**: event Bitrix mang sẵn `auth[access_token/refresh_token/expires_in]` → ZalosClaw forward nguyên — MCP lưu vào `users` row và `users.access_token` được dùng cho mọi REST call sau đó.
+- ✅ **KHÔNG thêm bảng mapping riêng phía ZalosClaw**: reuse `mcp_user_credentials` (partner store) — khoá `(mcp_server_id, user_id)` đủ để cache. Giảm surface ~300 LOC (store interface + 2 impl + migration + SchemaVersion bump).
 - ✅ **KHÔNG migration MCP side**: `users.bitrix_user_id TEXT` + `UNIQUE(tenant_id, bitrix_user_id)` đã có trong schema gốc.
 - ✅ **Debounce hai cấp độ**:
   - `mcpProvisionDebounceTTL = 60s` theo `(serverID, userID)` — chống webhook retry storm.
@@ -62,10 +62,10 @@ User chat với bot trong Bitrix
 Bitrix gửi ONIMBOTMESSAGEADD
   - auth[domain]=tamgiac.bitrix24.com
   - auth[access_token], auth[refresh_token], auth[expires_in]=3600
-  - data[PARAMS][FROM_USER_ID]=62  ← senderID / bitrix_user_id (GoClaw chỉ đọc chỗ này)
+  - data[PARAMS][FROM_USER_ID]=62  ← senderID / bitrix_user_id (ZalosClaw chỉ đọc chỗ này)
   - data[USER][NAME]=...           ← optional (thường không có trong webhook)
          ↓
-GoClaw Channel.DispatchEvent → handleMessage (internal/channels/bitrix24/handle.go)
+ZalosClaw Channel.DispatchEvent → handleMessage (internal/channels/bitrix24/handle.go)
          ↓
 (policy gate, mention strip, contact enrich) → c.provisionIfMissing(ctx, senderID, evt.Auth)
          ↓
@@ -114,8 +114,8 @@ Agent gọi MCP tool → Manager.resolveServerCredentials() inject
 | `bitrix_user_id` = `EventParams.FromUserID` (EventAuth struct KHÔNG có `UserID` field) | ✅ | `events.go:44-55`, `handle.go:122` |
 | MCP `profile` (không `user.get`) vì không yêu cầu `user` scope | ✅ | `src/auth/bitrix-user-verify.ts` |
 | `ensureFreshToken` re-verify hourly + dismiss khi fail | ✅ | `src/auth/token-manager.ts` |
-| GoClaw KHÔNG còn phụ thuộc ADMIN_TOKEN | ✅ | commit `07b48ef0` (goclaw-deploy/dev) |
-| GoClaw channel đã wire mcp_user_credentials bridge từ commit phase C | ✅ | commit `ea09c1ba` (goclaw-deploy/dev) |
+| ZalosClaw KHÔNG còn phụ thuộc ADMIN_TOKEN | ✅ | commit `07b48ef0` (zalosclaw-deploy/dev) |
+| ZalosClaw channel đã wire mcp_user_credentials bridge từ commit phase C | ✅ | commit `ea09c1ba` (zalosclaw-deploy/dev) |
 
 ---
 
@@ -130,19 +130,19 @@ Schema gốc đã đủ. Các bảng mcp_user_credentials bridge dùng:
 | `tenants` | `domain UNIQUE` | `findTenantByDomain` — 404 gate |
 | `users` | `tenant_id`, `bitrix_user_id TEXT`, `UNIQUE(tenant_id, bitrix_user_id)`, `access_token`, `refresh_token`, `token_expires_at`, `token_version` | Upsert theo (tenant, bitrix_user_id); lưu OAuth tokens để proxy Bitrix REST |
 | `users` (Phase 04 columns, reuse) | `user_status` (`active`/`dismissed`), `last_verified_at` (unix seconds) | Đã có từ Phase 04; mcp_user_credentials bridge reuse cho `ensureFreshToken` re-verify + dismiss flow |
-| `api_keys` | `user_id`, `key`, `label`, `active` | Mint USR_ label `"goclaw-bot"`; `deactivateUserApiKeys` set `active=0` khi dismiss |
+| `api_keys` | `user_id`, `key`, `label`, `active` | Mint USR_ label `"zalosclaw-bot"`; `deactivateUserApiKeys` set `active=0` khi dismiss |
 | `auto_onboard_audit` (mới — mcp_user_credentials bridge) | `id`, `domain`, `bitrix_user_id`, `event`, `actor`, `metadata`, `created_at` | Audit trail cho `/api/auto-onboard` — mọi call (success + fail) ghi 1 row. Event taxonomy: `success`/`rate_limited`/`invalid_bitrix_user`/`bitrix_unreachable`/`tenant_not_installed`/`bad_request` |
 
-### 4.2 GoClaw side — schema (KHÔNG migration mới) ✅
+### 4.2 ZalosClaw side — schema (KHÔNG migration mới) ✅
 
-**Rev4 dự kiến** một bảng `bitrix_mcp_user_mapping` riêng để cache (tenant, domain, bitrix_user_id, goclaw_user_id, mcp_server_id). **Rev5 bỏ** vì partner's `mcp_user_credentials` đã đủ:
+**Rev4 dự kiến** một bảng `bitrix_mcp_user_mapping` riêng để cache (tenant, domain, bitrix_user_id, zalosclaw_user_id, mcp_server_id). **Rev5 bỏ** vì partner's `mcp_user_credentials` đã đủ:
 
 - `mcpStore.GetUserCredentials(ctx, serverID, userID)` key trên `(mcp_server_id, user_id)` — đúng thứ provisioner cần kiểm tra "đã mint chưa".
-- GoClaw chỉ cần 1 lookup thay vì 2 (mapping table → user_credentials).
+- ZalosClaw chỉ cần 1 lookup thay vì 2 (mapping table → user_credentials).
 - Giảm ~300 LOC: interface `BitrixMappingStore`, 2 impl (PG + SQLite), migration `000057`, SchemaVersion bump, upgrade/version.go bump.
 - Idempotency ở phía MCP vẫn đảm bảo bởi `UNIQUE(tenant_id, bitrix_user_id)` trên `users`.
 
-**Kết quả**: GoClaw Phase C ship với migration counter vẫn là `000056_bitrix_portals`, không đụng tới upgrade version.
+**Kết quả**: ZalosClaw Phase C ship với migration counter vẫn là `000056_bitrix_portals`, không đụng tới upgrade version.
 
 ---
 
@@ -174,7 +174,7 @@ Content-Type: application/json
 | Field | Required | Type | Nguồn từ event |
 |---|---|---|---|
 | `domain` | ✅ | string | `auth[domain]` |
-| `bitrix_user_id` | ✅ | string (MCP coerces number→string) | `data[PARAMS][FROM_USER_ID]` (GoClaw gửi raw; `EventAuth` không có `UserID` field để fallback) |
+| `bitrix_user_id` | ✅ | string (MCP coerces number→string) | `data[PARAMS][FROM_USER_ID]` (ZalosClaw gửi raw; `EventAuth` không có `UserID` field để fallback) |
 | `access_token` | ✅ | string | `auth[access_token]` |
 | `refresh_token` | ✅ | string | `auth[refresh_token]` |
 | `expires_in` | optional (default 3600) | number (seconds) | `auth[expires_in]` |
@@ -215,8 +215,8 @@ Content-Type: application/json
 4. findTenantByDomain(domain)                          → 404 nếu thiếu
 5. Upsert user:
    - existing → updateUserTokens + optional display_name
-                → findOrCreateGoclawBotKey → 200 created: false
-   - new      → createUser(...tokens) → createApiKey(label="goclaw-bot")
+                → findOrCreateZalosclawBotKey → 200 created: false
+   - new      → createUser(...tokens) → createApiKey(label="zalosclaw-bot")
                 → 200 created: true
 6. Mọi bước ghi audit vào auto_onboard_audit (swallow errors)
 ```
@@ -248,7 +248,7 @@ Kết quả: user bị xoá khỏi Bitrix → trong vòng 1h MCP key của họ 
 
 ---
 
-## 6. GoClaw side — custom Bitrix24 channel hook
+## 6. ZalosClaw side — custom Bitrix24 channel hook
 
 ### 6.0 Channel struct (shipped — `internal/channels/bitrix24/channel.go`)
 
@@ -381,9 +381,9 @@ BITRIX_EXPIRES_AT    = now + auth.ExpiresIn (RFC3339)
 Lý do KHÔNG dùng Headers:
 - `Headers` được inject vào HTTP call MCP (client → server) — dùng cho thông tin cần xuất hiện trên wire.
 - Env dùng để backfill data vào `users` row khi MCP gọi Bitrix REST. Tokens là per-user state, không phải HTTP contract.
-- Giữ Env cho phép future: rotate tokens phía MCP mà không cần GoClaw re-onboard (Phase E/F).
+- Giữ Env cho phép future: rotate tokens phía MCP mà không cần ZalosClaw re-onboard (Phase E/F).
 
-Trên MCP side, các biến này hiện chưa đọc (MCP dùng `users.access_token` từ DB — ghi vào lúc `createUser`/`updateUserTokens`). Env GoClaw ghi là redundant nhưng rẻ — giữ cho an toàn nếu MCP muốn đọc credentials thay cho DB row ở Phase E (multi-token per user).
+Trên MCP side, các biến này hiện chưa đọc (MCP dùng `users.access_token` từ DB — ghi vào lúc `createUser`/`updateUserTokens`). Env ZalosClaw ghi là redundant nhưng rẻ — giữ cho an toàn nếu MCP muốn đọc credentials thay cho DB row ở Phase E (multi-token per user).
 
 ### 6.5 User-facing degradation notice
 
@@ -399,7 +399,7 @@ Debounce 5 phút per `userID` (không phải dialogID — 1 user có thể DM bo
 
 Không đụng health state — channel vẫn Green vì routing vẫn work.
 
-### 6.6 Files changed (GoClaw side, rev5 snapshot)
+### 6.6 Files changed (ZalosClaw side, rev5 snapshot)
 
 | File | Action | Commit |
 |---|---|---|
@@ -419,9 +419,9 @@ Không đụng health state — channel vẫn Green vì routing vẫn work.
 - ~~`internal/upgrade/version.go` bump~~
 - ~~SchemaVersion bump~~
 
-### 6.7 Cấu hình MCP server trong GoClaw UI (shipped)
+### 6.7 Cấu hình MCP server trong ZalosClaw UI (shipped)
 
-1. **Add MCP Server** qua GoClaw UI:
+1. **Add MCP Server** qua ZalosClaw UI:
    - Name: `mcp-bx-syn` (hoặc gì đó khớp với `mcp_server_name` trong channel config)
    - URL: `https://mcp-bx-syn.<account>.workers.dev/mcp`
    - Transport: `streamable_http`
@@ -433,7 +433,7 @@ Không đụng health state — channel vẫn Green vì routing vẫn work.
    {
      "portal": "main",
      "bot_code": "assistant",
-     "bot_name": "GoClaw",
+     "bot_name": "ZalosClaw",
      "mcp_server_name": "mcp-bx-syn",
      "mcp_base_url": "https://mcp-bx-syn.<account>.workers.dev"
    }
@@ -456,7 +456,7 @@ Không đụng health state — channel vẫn Green vì routing vẫn work.
 | `ENCRYPTION_KEY` | D1 field encryption | Giữ nguyên |
 | KV binding `RATE_LIMIT_KV` | Rate limit `/api/auto-onboard` | **Mới** |
 
-### 7.2 GoClaw side
+### 7.2 ZalosClaw side
 
 Không cần env var riêng cho MCP integration. Tất cả config sống trong DB:
 
@@ -464,7 +464,7 @@ Không cần env var riêng cho MCP integration. Tất cả config sống trong 
 - `channel_instances.credentials` (BYTEA AES-GCM): **để trống**
 - `mcp_servers` row: operator thêm qua UI 1 lần
 
-**Khác với Rev4**: bỏ `GOCLAW_BITRIX_MCP_ADMIN_TOKEN` env + `mcp_admin_token` credential (commit `07b48ef0`).
+**Khác với Rev4**: bỏ `ZALOSCLAW_BITRIX_MCP_ADMIN_TOKEN` env + `mcp_admin_token` credential (commit `07b48ef0`).
 
 ---
 
@@ -481,7 +481,7 @@ Không cần env var riêng cho MCP integration. Tất cả config sống trong 
 7. `profile` trả 5xx → 503 `bitrix_unreachable` + audit `bitrix_unreachable`
 8. `profile` network fail → 503 `bitrix_unreachable`
 9. `profile` OK + ID khớp + domain chưa cài → 404 `tenant_not_installed` + audit
-10. User mới → 200 `created:true`, `api_key` prefix `USR_`, label `"goclaw-bot"`, audit `success`
+10. User mới → 200 `created:true`, `api_key` prefix `USR_`, label `"zalosclaw-bot"`, audit `success`
 11. User đã có → 200 `created:false`, tokens được update, cùng USR_, audit `success`
 12. **Idempotency stampede**: 5 goroutine song song cùng `(domain, bitrix_user_id)` → tất cả trả cùng USR_, không vi phạm `UNIQUE(tenant_id, bitrix_user_id)`
 
@@ -493,7 +493,7 @@ Không cần env var riêng cho MCP integration. Tất cả config sống trong 
 4. `ensureFreshToken` với profile unreachable → fail-open, last_verified_at không update
 5. Feature flag `FEATURE_VERIFY_BITRIX_ACTIVE="0"` → skip verify hoàn toàn
 
-### 8.3 Unit test GoClaw side
+### 8.3 Unit test ZalosClaw side
 
 1. `provisionIfMissing` với Open Channel bot (`TYPE=O`) → `ErrProvisionSkippedOpenChannel`, không call MCP
 2. `provisionIfMissing` với mcpStore nil → `ErrProvisionDisabled`, không call MCP
@@ -509,8 +509,8 @@ Không cần env var riêng cho MCP integration. Tất cả config sống trong 
 ### 8.4 Integration test end-to-end
 
 1. Install MCP app lên Bitrix portal test (OAuth dance hoàn tất → 1 row trong `tenants`)
-2. User#62 gửi tin nhắn cho bot GoClaw
-3. Verify: GoClaw log `bitrix24 mcp: provisioned user credentials` — `created:true`
+2. User#62 gửi tin nhắn cho bot ZalosClaw
+3. Verify: ZalosClaw log `bitrix24 mcp: provisioned user credentials` — `created:true`
 4. Verify: MCP audit `auto_onboard_audit` có 1 row `event:"success"` cho user#62
 5. Agent gọi tool `search` → MCP inject `Authorization: Bearer USR_xxx` → MCP resolve USR_ → gọi Bitrix REST với `access_token` của user#62
 6. Bitrix trả về dữ liệu theo ACL của user#62 (verify: data chỉ user#62 thấy được)
@@ -539,7 +539,7 @@ Không cần env var riêng cho MCP integration. Tất cả config sống trong 
 - [x] Hook `verifyBitrixActive` vào `ensureFreshToken` (re-verify hourly — cơ chế hourly đã có Phase 04, chỉ đổi backend verify)
 - [x] Deploy + smoke test (end-to-end user#62)
 
-### ✅ Phase B — GoClaw channel integration shipped (commit `ea09c1ba`)
+### ✅ Phase B — ZalosClaw channel integration shipped (commit `ea09c1ba`)
 - [x] Channel struct + Factory MCP variant
 - [x] `mcp_client.go` + `provisioner.go` + `contact_enrich.go`
 - [x] Hook `provisionIfMissing` trước `HandleMessage`
@@ -588,7 +588,7 @@ Không cần env var riêng cho MCP integration. Tất cả config sống trong 
 - `ensureFreshToken` chạy trên mỗi MCP call. Nếu user bị dismiss khỏi Bitrix → trong vòng 1h (`VERIFY_STALE_MS`) MCP call tiếp theo sẽ verify lại → fail → `user_status='dismissed'` + `deactivateUserApiKeys` → tất cả USR_ của user đó die.
 - Không có cơ chế "revoke on user-delete" realtime (không subscribe Bitrix event user.delete). 1h delay là tradeoff giữa độ trễ revoke và load lên Bitrix `profile`.
 
-### 10.5 Cross-tenant isolation (GoClaw side)
+### 10.5 Cross-tenant isolation (ZalosClaw side)
 
 - `provisionIfMissing` gọi `mcpStore.SetUserCredentials(ctx, serverID, userID, creds)`. PG impl dùng `tenantIDForInsert(ctx)` → nếu ctx không có tenant_id sẽ ghi vào tenant sai / nil.
 - Tenant injection xảy ra **ở webhook handler**, không phải ở channel: `webhook.go:436` wrap `ctx := store.WithTenantID(context.WithoutCancel(req.Context()), portal.TenantID())` trước khi dispatch event. Ctx này propagates qua `DispatchEvent` → `handleMessage` → `provisionIfMissing` → `SetUserCredentials`, nên tenant luôn đúng với portal khớp `auth[domain]`.
@@ -598,7 +598,7 @@ Không cần env var riêng cho MCP integration. Tất cả config sống trong 
 
 - OAuth tokens (access/refresh) lưu 2 chỗ:
   1. MCP D1 `users.access_token`/`refresh_token` — plaintext trong D1 (xem xét field encryption Phase F nếu cần)
-  2. GoClaw `mcp_user_credentials.env_json` — AES-GCM encrypted by partner store
+  2. ZalosClaw `mcp_user_credentials.env_json` — AES-GCM encrypted by partner store
 - Log: KHÔNG log full USR_ hoặc access_token. `mcp_client.go` redact body trong error message tới 500 ký tự và chỉ trong error path.
 
 ---
@@ -607,9 +607,9 @@ Không cần env var riêng cho MCP integration. Tất cả config sống trong 
 
 1. **Phase D migration `"62.0" → "62"`**: bao nhiêu row bị ảnh hưởng trong D1 production? Cần query trước rồi script UPDATE một lần, hay đợi tự nhiên qua token refresh cycle? → đang nghiêng về script một lần vì idempotency không gặp vấn đề (bitrix_user_id là TEXT — `"62"` và `"62.0"` là 2 row khác nhau → user gửi lần kế tiếp sẽ tạo row mới, row cũ mồ côi). Cần schedule sớm.
 2. **Phase E Open Channel shared creds**: một bot có thể gắn vào nhiều Open Channel queue khác nhau. 1 USR_ per bot đủ, hay cần 1 USR_ per (bot, queue)? Phụ thuộc use case — nếu permissions per queue khác nhau thì cần (bot, queue) key.
-3. **Field encryption cho `users.access_token` trong D1**: hiện plaintext. Cloudflare D1 hỗ trợ at-rest encryption ở storage layer, nhưng không phải application-level. Nếu compliance yêu cầu → thêm field-level AES-GCM tương tự partner store của GoClaw. Chưa urgent — D1 access đã bị throttle qua Worker RBAC + Cloudflare account access.
+3. **Field encryption cho `users.access_token` trong D1**: hiện plaintext. Cloudflare D1 hỗ trợ at-rest encryption ở storage layer, nhưng không phải application-level. Nếu compliance yêu cầu → thêm field-level AES-GCM tương tự partner store của ZalosClaw. Chưa urgent — D1 access đã bị throttle qua Worker RBAC + Cloudflare account access.
 4. **Webhook uninstall → revoke users**: khi admin uninstall MCP app khỏi portal, tenant row bị xoá, users của portal đó mồ côi. Hiện `users.tenant_id REFERENCES tenants(id)` **không có** `ON DELETE CASCADE` (verified trong schema.sql) — chỉ `idempotency_keys` có. Mitigation: (a) thêm CASCADE trên `users.tenant_id` + `api_keys.user_id` hoặc (b) hook webhook uninstall → explicit deactivate keys. (a) đơn giản hơn nhưng breaking với audit (xoá users = mất trace), (b) giữ row chỉ set `active=0`.
-5. **`display_name` enrichment**: Bitrix webhook không carry `USER[NAME]` — GoClaw `contact_enrich.go` lazy `user.get` tại channel, nhưng MCP `createUser` không nhận display_name từ webhook → user rows có `display_name = NULL` trong MCP. Không critical (không ai hiển thị MCP user list ở UI hiện tại) nhưng nếu cần, GoClaw có thể forward `display_name` từ cache khi gọi `/api/auto-onboard`.
+5. **`display_name` enrichment**: Bitrix webhook không carry `USER[NAME]` — ZalosClaw `contact_enrich.go` lazy `user.get` tại channel, nhưng MCP `createUser` không nhận display_name từ webhook → user rows có `display_name = NULL` trong MCP. Không critical (không ai hiển thị MCP user list ở UI hiện tại) nhưng nếu cần, ZalosClaw có thể forward `display_name` từ cache khi gọi `/api/auto-onboard`.
 6. **Latency đo thực tế**: tin nhắn đầu của mỗi user onboard + verify = 2 Bitrix REST call (profile) + 1 D1 insert ≈ 300-600ms. Cache miss mỗi user chỉ 1 lần (lifetime). Nếu đo thấy spike khó chịu ở tin đầu → pre-warm khi bot được add vào chat (`handleJoin`), nhưng Bot Join event không có user_id của tất cả member → chỉ pre-warm được người add bot. Giữ lazy cho đơn giản.
 
 ---
@@ -618,16 +618,16 @@ Không cần env var riêng cho MCP integration. Tất cả config sống trong 
 
 - **2026-04-23 (rev5)**: mcp_user_credentials bridge shipped end-to-end. Bỏ ADMIN_TOKEN.
   - MCP side: `/api/auto-onboard` rewrite dùng `verifyBitrixActive(profile)` làm auth anchor thay vì Bearer ADMIN_TOKEN. Thêm rate limit KV (600/min IP + 120/min domain), audit log `auto_onboard_audit`. Hourly re-verify trong `ensureFreshToken` để revoke USR_ của user bị dismiss khỏi Bitrix.
-  - GoClaw side: `mcpClient` bỏ `adminToken` field + Authorization header. `provisioner.go` bỏ `resolveMCPAdminToken` + 2 env consts (`GOCLAW_BITRIX_MCP_ADMIN_TOKEN`, `BITRIX_MCP_ADMIN_TOKEN`). `bitrixCreds` chuyển về empty struct. UI form drop `mcp_admin_token` field. (commit `07b48ef0`)
+  - ZalosClaw side: `mcpClient` bỏ `adminToken` field + Authorization header. `provisioner.go` bỏ `resolveMCPAdminToken` + 2 env consts (`ZALOSCLAW_BITRIX_MCP_ADMIN_TOKEN`, `BITRIX_MCP_ADMIN_TOKEN`). `bitrixCreds` chuyển về empty struct. UI form drop `mcp_admin_token` field. (commit `07b48ef0`)
   - Bỏ bảng mapping `bitrix_mcp_user_mapping` khỏi plan — reuse partner's `mcp_user_credentials` store. Tiết kiệm ~300 LOC: interface + 2 store impls + migration + SchemaVersion bump.
   - Thêm user-facing degradation notice (`notifyUserOfMCPIssueOnce`) với 5-phút debounce per-user khi MCP fail ngoài sentinel.
-  - Status summary: MCP side ✅ deployed; GoClaw phase C ✅ landed (commit `ea09c1ba`); GoClaw ADMIN_TOKEN cleanup ✅ on local `dev` (commit `07b48ef0`, pending push).
+  - Status summary: MCP side ✅ deployed; ZalosClaw phase C ✅ landed (commit `ea09c1ba`); ZalosClaw ADMIN_TOKEN cleanup ✅ on local `dev` (commit `07b48ef0`, pending push).
 - **2026-04-22 (rev4)**: MCP side implemented. Đồng bộ plan với MCP schema thật + live event payload:
   - Tenant key đổi từ `member_id` → `domain` (MCP schema có `tenants.domain UNIQUE`, không có `member_id`)
   - Contract body bổ sung `access_token`, `refresh_token`, `expires_in` — forward từ `auth[...]` của Bitrix bot event (cần thiết vì `users.access_token NOT NULL` trong `createUser`)
   - `bitrix_user_id` lưu dạng `TEXT` (khớp schema) — handler coerces number → string
   - Migration 4.1 **skipped** (`users.bitrix_user_id` + `UNIQUE(tenant_id, bitrix_user_id)` đã tồn tại)
-  - GoClaw mapping table đổi `bitrix_member_id` → `bitrix_domain`, `bitrix_user_id BIGINT` → `TEXT`
+  - ZalosClaw mapping table đổi `bitrix_member_id` → `bitrix_domain`, `bitrix_user_id BIGINT` → `TEXT`
   - `AutoOnboardReq` Go struct cập nhật 6 field (Domain, BitrixUserID string, AccessToken, RefreshToken, ExpiresIn, DisplayName)
   - `ensureMCPCredentials` đọc thêm `evt.Auth.{Domain,UserID,AccessToken,RefreshToken,ExpiresIn}` — fallback `evt.Params.FromUserID` nếu `Auth.UserID` vắng
   - Files changed: `src/api/auto-onboard.ts` (new), `src/api/api-router.ts` (route), `wrangler.toml` (comment)
@@ -637,7 +637,7 @@ Không cần env var riêng cho MCP integration. Tất cả config sống trong 
   - Key theo `dialogID` (chat room), không phải `senderID`, để 10 user trong cùng 1 group = 1 reply
   - Thêm field `mcpErrorMu, mcpErrorLast map[string]time.Time` vào Channel struct
   - Thêm 3 test case unit (§8.2 #8-10)
-- **2026-04-22 (rev2)**: Rewrite sau khi verify plan với live source `goclaw-deploy/goclaw/`. Sửa:
+- **2026-04-22 (rev2)**: Rewrite sau khi verify plan với live source `zalosclaw-deploy/zalosclaw/`. Sửa:
   - `event.Auth.UserID` không tồn tại → dùng `evt.Params.FromUserID` + `strconv.Atoi`
   - Bỏ `event.User.Email` (Event không có field này)
   - Thêm section 6.0 plumbing Channel fields + factory signature

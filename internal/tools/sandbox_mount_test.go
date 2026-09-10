@@ -11,8 +11,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/sandbox"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/sandbox"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 type recordingSandboxManager struct {
@@ -54,8 +54,8 @@ func (s *recordingSandbox) Destroy(context.Context) error { return nil }
 func (s *recordingSandbox) ID() string                    { return "recording-sandbox" }
 
 func TestEffectiveSandboxWorkspacePrefersTenantWorkspace(t *testing.T) {
-	globalWorkspace := "/srv/goclaw/workspace"
-	tenantWorkspace := "/srv/goclaw/workspace/tenants/acme/sessions/direct"
+	globalWorkspace := "/srv/zalosclaw/workspace"
+	tenantWorkspace := "/srv/zalosclaw/workspace/tenants/acme/sessions/direct"
 
 	got, err := effectiveSandboxWorkspace(WithToolWorkspace(context.Background(), tenantWorkspace), globalWorkspace)
 	if err != nil {
@@ -69,13 +69,13 @@ func TestEffectiveSandboxWorkspacePrefersTenantWorkspace(t *testing.T) {
 func TestEffectiveSandboxWorkspaceFailsClosedWithoutTenantWorkspace(t *testing.T) {
 	ctx := store.WithTenantID(context.Background(), uuid.New())
 
-	if got, err := effectiveSandboxWorkspace(ctx, "/srv/goclaw/workspace"); err == nil {
+	if got, err := effectiveSandboxWorkspace(ctx, "/srv/zalosclaw/workspace"); err == nil {
 		t.Fatalf("effectiveSandboxWorkspace = %q, want fail-closed error for tenant context without workspace", got)
 	}
 }
 
 func TestEffectiveSandboxWorkspaceAllowsMasterFallback(t *testing.T) {
-	globalWorkspace := "/srv/goclaw/workspace"
+	globalWorkspace := "/srv/zalosclaw/workspace"
 	ctx := store.WithTenantID(context.Background(), store.MasterTenantID)
 
 	got, err := effectiveSandboxWorkspace(ctx, globalWorkspace)
@@ -88,7 +88,7 @@ func TestEffectiveSandboxWorkspaceAllowsMasterFallback(t *testing.T) {
 }
 
 func TestSandboxCwdForHostPathMapsMountRootToWorkspace(t *testing.T) {
-	mountWorkspace := "/srv/goclaw/workspace/tenants/acme"
+	mountWorkspace := "/srv/zalosclaw/workspace/tenants/acme"
 
 	got, err := sandboxCwdForHostPath(mountWorkspace, mountWorkspace, sandbox.DefaultContainerWorkdir)
 	if err != nil {
@@ -100,8 +100,8 @@ func TestSandboxCwdForHostPathMapsMountRootToWorkspace(t *testing.T) {
 }
 
 func TestSandboxCwdForHostPathMapsChildPathUnderWorkspace(t *testing.T) {
-	mountWorkspace := "/srv/goclaw/workspace/tenants/acme"
-	cwd := "/srv/goclaw/workspace/tenants/acme/project"
+	mountWorkspace := "/srv/zalosclaw/workspace/tenants/acme"
+	cwd := "/srv/zalosclaw/workspace/tenants/acme/project"
 
 	got, err := sandboxCwdForHostPath(cwd, mountWorkspace, sandbox.DefaultContainerWorkdir)
 	if err != nil {
@@ -113,8 +113,8 @@ func TestSandboxCwdForHostPathMapsChildPathUnderWorkspace(t *testing.T) {
 }
 
 func TestSandboxCwdForHostPathRejectsWorkspaceEscape(t *testing.T) {
-	mountWorkspace := "/srv/goclaw/workspace/tenants/acme"
-	cwd := "/srv/goclaw/workspace/tenants/other"
+	mountWorkspace := "/srv/zalosclaw/workspace/tenants/acme"
+	cwd := "/srv/zalosclaw/workspace/tenants/other"
 
 	if got, err := sandboxCwdForHostPath(cwd, mountWorkspace, sandbox.DefaultContainerWorkdir); err == nil {
 		t.Fatalf("sandboxCwdForHostPath = %q, want escape error", got)
@@ -122,8 +122,8 @@ func TestSandboxCwdForHostPathRejectsWorkspaceEscape(t *testing.T) {
 }
 
 func TestExecSandboxUsesEffectiveWorkspaceMountAndContainerCwd(t *testing.T) {
-	globalWorkspace := "/srv/goclaw/workspace"
-	tenantWorkspace := "/srv/goclaw/workspace/tenants/acme"
+	globalWorkspace := "/srv/zalosclaw/workspace"
+	tenantWorkspace := "/srv/zalosclaw/workspace/tenants/acme"
 	mgr := &recordingSandboxManager{}
 	tool := NewSandboxedExecTool(globalWorkspace, true, mgr)
 
@@ -140,12 +140,12 @@ func TestExecSandboxUsesEffectiveWorkspaceMountAndContainerCwd(t *testing.T) {
 }
 
 func TestCredentialedExecSandboxUsesEffectiveWorkspaceMountAndContainerCwd(t *testing.T) {
-	globalWorkspace := "/srv/goclaw/workspace"
-	tenantWorkspace := "/srv/goclaw/workspace/tenants/acme"
+	globalWorkspace := "/srv/zalosclaw/workspace"
+	tenantWorkspace := "/srv/zalosclaw/workspace/tenants/acme"
 	mgr := &recordingSandboxManager{}
 	tool := NewSandboxedExecTool(globalWorkspace, true, mgr)
 
-	result := tool.executeCredentialedSandbox(WithToolWorkspace(context.Background(), tenantWorkspace), "/usr/bin/gh", []string{"api", "user"}, tenantWorkspace, "session-1", map[string]string{"GOCLAW_TEST_ENV": "value"}, 30*time.Second)
+	result := tool.executeCredentialedSandbox(WithToolWorkspace(context.Background(), tenantWorkspace), "/usr/bin/gh", []string{"api", "user"}, tenantWorkspace, "session-1", map[string]string{"ZALOSCLAW_TEST_ENV": "value"}, 30*time.Second)
 	if result.IsError {
 		t.Fatalf("executeCredentialedSandbox returned error: %s", result.ForLLM)
 	}
@@ -235,8 +235,8 @@ func TestCredentialedExecSandboxWorkingDirResolvesInsideTenantWorkspace(t *testi
 }
 
 func TestSandboxFileToolsUseEffectiveWorkspaceMount(t *testing.T) {
-	globalWorkspace := "/srv/goclaw/workspace"
-	tenantWorkspace := "/srv/goclaw/workspace/tenants/acme"
+	globalWorkspace := "/srv/zalosclaw/workspace"
+	tenantWorkspace := "/srv/zalosclaw/workspace/tenants/acme"
 	ctx := WithToolWorkspace(context.Background(), tenantWorkspace)
 
 	tests := []struct {
@@ -419,7 +419,7 @@ func (s *sandboxMountSecureCLIStore) ListUserCredentials(context.Context, uuid.U
 }
 
 func TestExecSandboxFailsClosedWhenTenantWorkspaceMissing(t *testing.T) {
-	globalWorkspace := "/srv/goclaw/workspace"
+	globalWorkspace := "/srv/zalosclaw/workspace"
 	mgr := &recordingSandboxManager{}
 	tool := NewSandboxedExecTool(globalWorkspace, true, mgr)
 	ctx := store.WithTenantID(context.Background(), uuid.New())

@@ -74,7 +74,7 @@ func TestFsBridgeWriteFileDoesNotInvokeShell(t *testing.T) {
 	installFakeDocker(t, tmp, logPath, stdinPath)
 
 	bridge := NewFsBridge("container-id", "/workspace")
-	maliciousPath := `nested/evil$(touch /tmp/goclaw-fsbridge-pwned);name.txt`
+	maliciousPath := `nested/evil$(touch /tmp/zalosclaw-fsbridge-pwned);name.txt`
 	content := "safe content"
 
 	if err := bridge.WriteFile(context.Background(), maliciousPath, content, false); err != nil {

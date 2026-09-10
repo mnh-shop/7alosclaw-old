@@ -7,7 +7,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func TestVaultClassify_DeleteDocLinksByTypes_SingleType(t *testing.T) {

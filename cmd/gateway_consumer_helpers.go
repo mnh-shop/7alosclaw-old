@@ -9,13 +9,13 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/agent"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/sessions"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/sessions"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // resolveAgentRoute determines which agent should handle a message
@@ -193,7 +193,7 @@ func mediaToMarkdown(media []agent.MediaResult, cfg *config.Config) string {
 	var parts []string
 	for _, mr := range media {
 		cleanPath := filepath.Clean(mr.Path)
-		// Strip leading "/" so URL path is /v1/files/app/.goclaw/...
+		// Strip leading "/" so URL path is /v1/files/app/.zalosclaw/...
 		urlPath := strings.TrimPrefix(cleanPath, "/")
 		if urlPath == "" {
 			continue

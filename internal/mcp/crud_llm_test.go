@@ -7,11 +7,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// fakeProvider is a minimal providers.Provider for goclaw_llm_complete tests.
+// fakeProvider is a minimal providers.Provider for zalosclaw_llm_complete tests.
 type fakeProvider struct {
 	name    string
 	model   string
@@ -45,7 +45,7 @@ func TestLLMComplete_HappyPath(t *testing.T) {
 	srv := newTestMCPServer()
 	registerLLMCRUDTool(srv, reg, LLMDefaults{})
 
-	result := callTool(t, srv, "goclaw_llm_complete", map[string]any{
+	result := callTool(t, srv, "zalosclaw_llm_complete", map[string]any{
 		"messages": []any{
 			map[string]any{"role": "user", "content": "what is 6*7?"},
 		},
@@ -60,7 +60,7 @@ func TestLLMComplete_RequiresMessages(t *testing.T) {
 	srv := newTestMCPServer()
 	registerLLMCRUDTool(srv, reg, LLMDefaults{})
 
-	result := callTool(t, srv, "goclaw_llm_complete", map[string]any{"messages": []any{}})
+	result := callTool(t, srv, "zalosclaw_llm_complete", map[string]any{"messages": []any{}})
 	assert.True(t, toolIsError(result))
 }
 
@@ -70,7 +70,7 @@ func TestLLMComplete_UnknownProvider(t *testing.T) {
 	srv := newTestMCPServer()
 	registerLLMCRUDTool(srv, reg, LLMDefaults{})
 
-	result := callTool(t, srv, "goclaw_llm_complete", map[string]any{
+	result := callTool(t, srv, "zalosclaw_llm_complete", map[string]any{
 		"provider": "does-not-exist",
 		"messages": []any{map[string]any{"role": "user", "content": "hi"}},
 	})
@@ -81,7 +81,7 @@ func TestLLMComplete_NilRegistry(t *testing.T) {
 	srv := newTestMCPServer()
 	registerLLMCRUDTool(srv, nil, LLMDefaults{})
 
-	result := callTool(t, srv, "goclaw_llm_complete", map[string]any{
+	result := callTool(t, srv, "zalosclaw_llm_complete", map[string]any{
 		"messages": []any{map[string]any{"role": "user", "content": "hi"}},
 	})
 	assert.True(t, toolIsError(result))

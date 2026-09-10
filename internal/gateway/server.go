@@ -17,20 +17,20 @@ import (
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 
-	"github.com/nextlevelbuilder/goclaw/internal/agent"
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/hooks"
-	httpapi "github.com/nextlevelbuilder/goclaw/internal/http"
-	mcpbridge "github.com/nextlevelbuilder/goclaw/internal/mcp"
-	"github.com/nextlevelbuilder/goclaw/internal/permissions"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
-	"github.com/nextlevelbuilder/goclaw/internal/webui"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
+	httpapi "github.com/nextlevelbuilder/zalosclaw/internal/http"
+	mcpbridge "github.com/nextlevelbuilder/zalosclaw/internal/mcp"
+	"github.com/nextlevelbuilder/zalosclaw/internal/permissions"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/webui"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 // Server is the main gateway server handling WebSocket and HTTP connections.
@@ -76,7 +76,7 @@ type Server struct {
 	execApprovalMgr  *tools.ExecApprovalManager
 	quotaChecker     *channels.QuotaChecker
 	sqlDB            *sql.DB           // for the CRUD MCP server's quota usage tool (today's trace summary)
-	tenantStore      store.TenantStore // for the CRUD MCP server's "X-GoClaw-Tenant-Id" header resolution
+	tenantStore      store.TenantStore // for the CRUD MCP server's "X-ZalosClaw-Tenant-Id" header resolution
 	memoryStore      store.MemoryStore
 	kgStore          store.KnowledgeGraphStore
 	tracingStore     store.TracingStore
@@ -239,7 +239,7 @@ func (s *Server) BuildMux() *http.ServeMux {
 
 	httpapi.RegisterAPINotFoundRoute(mux)
 
-	// MCP bridge: expose GoClaw tools to Claude CLI via streamable-http.
+	// MCP bridge: expose ZalosClaw tools to Claude CLI via streamable-http.
 	// Only listens on localhost (CLI runs on the same machine).
 	// Protected by gateway token; disabled when no token is configured to
 	// prevent unauthenticated tool invocations if port is exposed.
@@ -254,16 +254,16 @@ func (s *Server) BuildMux() *http.ServeMux {
 			mux.HandleFunc("/mcp/bridge", func(w http.ResponseWriter, _ *http.Request) {
 				w.Header().Set("Content-Type", "application/json")
 				w.WriteHeader(http.StatusForbidden)
-				_, _ = w.Write([]byte(`{"error":"mcp bridge disabled: set GOCLAW_GATEWAY_TOKEN to enable"}`))
+				_, _ = w.Write([]byte(`{"error":"mcp bridge disabled: set ZALOSCLAW_GATEWAY_TOKEN to enable"}`))
 			})
 		}
 	}
 
-	// CRUD MCP server: exposes goclaw's agents/sessions/skills/cron/config
+	// CRUD MCP server: exposes zalosclaw's agents/sessions/skills/cron/config
 	// resource management as MCP tools, backed directly by the real stores.
 	// Distinct from /mcp/bridge (agent tool bridge for Claude CLI) above —
 	// this one is meant for external automation/admin clients. Gated by its
-	// own bearer token (gateway.mcp_server_token / GOCLAW_MCP_SERVER_TOKEN),
+	// own bearer token (gateway.mcp_server_token / ZALOSCLAW_MCP_SERVER_TOKEN),
 	// independent from the general gateway token, so it can be rotated or
 	// disabled separately. When unset, the server is not constructed and the
 	// route is not mounted at all (no 403 handler either) — the endpoint
@@ -542,7 +542,7 @@ func (s *Server) Start(ctx context.Context) error {
 
 	// Wrap with CORS for desktop dev mode (Wails serves frontend on different port).
 	var handler http.Handler = mux
-	if os.Getenv("GOCLAW_DESKTOP") == "1" {
+	if os.Getenv("ZALOSCLAW_DESKTOP") == "1" {
 		handler = desktopCORS(mux)
 	}
 	// NOTE: The public-URL snapshot is intentionally NOT updated by a global
@@ -621,7 +621,7 @@ func (s *Server) handleIndex(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w,
-		`{"service":"goclaw","status":"ok","protocol":%d,`+
+		`{"service":"zalosclaw","status":"ok","protocol":%d,`+
 			`"endpoints":["/health","/v1/chat/completions","/v1/responses","/v1/tools/invoke","/ws"]}`,
 		protocol.ProtocolVersion)
 }
@@ -925,43 +925,43 @@ func (s *Server) SetHeartbeatStore(hb store.HeartbeatStore) { s.heartbeatStore =
 func (s *Server) SetProviderStore(ps store.ProviderStore) { s.providerStore = ps }
 
 // SetTenantStore sets the tenant store, used by the CRUD MCP server (see
-// internal/mcp/crud_server.go) to resolve the optional "X-GoClaw-Tenant-Id"
+// internal/mcp/crud_server.go) to resolve the optional "X-ZalosClaw-Tenant-Id"
 // request header (UUID or slug) to a concrete tenant for every CRUD MCP call.
 func (s *Server) SetTenantStore(ts store.TenantStore) { s.tenantStore = ts }
 
 // SetMemoryStore sets the memory store, used by the CRUD MCP server (see
-// internal/mcp/crud_server.go) to expose goclaw_memory_* tools.
+// internal/mcp/crud_server.go) to expose zalosclaw_memory_* tools.
 func (s *Server) SetMemoryStore(ms store.MemoryStore) { s.memoryStore = ms }
 
 // SetKnowledgeGraphStore sets the knowledge graph store, used by the CRUD
-// MCP server (see internal/mcp/crud_server.go) to expose goclaw_kg_* tools.
+// MCP server (see internal/mcp/crud_server.go) to expose zalosclaw_kg_* tools.
 func (s *Server) SetKnowledgeGraphStore(kg store.KnowledgeGraphStore) { s.kgStore = kg }
 
 // SetTracingStore sets the LLM call tracing store, used by the CRUD MCP
-// server (see internal/mcp/crud_server.go) to expose goclaw_traces_* tools.
+// server (see internal/mcp/crud_server.go) to expose zalosclaw_traces_* tools.
 func (s *Server) SetTracingStore(ts store.TracingStore) { s.tracingStore = ts }
 
 // SetContactStore sets the channel contact store, used by the CRUD MCP
-// server (see internal/mcp/crud_server.go) to expose goclaw_contacts_* tools.
+// server (see internal/mcp/crud_server.go) to expose zalosclaw_contacts_* tools.
 func (s *Server) SetContactStore(cs store.ContactStore) { s.contactStore = cs }
 
 // SetPendingMessageStore sets the pending-message store, used by the CRUD
 // MCP server (see internal/mcp/crud_server.go) to expose
-// goclaw_pending_messages_* tools.
+// zalosclaw_pending_messages_* tools.
 func (s *Server) SetPendingMessageStore(pm store.PendingMessageStore) { s.pendingMsgStore = pm }
 
 // SetActivityStore sets the audit-log store, used by the CRUD MCP server
-// (see internal/mcp/crud_server.go) to expose goclaw_activity_list.
+// (see internal/mcp/crud_server.go) to expose zalosclaw_activity_list.
 func (s *Server) SetActivityStore(as store.ActivityStore) { s.activityStore = as }
 
 // SetSystemConfigStore sets the system config store, used by the CRUD MCP
-// server (see internal/mcp/crud_server.go) to expose goclaw_system_config_*
+// server (see internal/mcp/crud_server.go) to expose zalosclaw_system_config_*
 // tools.
 func (s *Server) SetSystemConfigStore(sc store.SystemConfigStore) { s.systemCfgStore = sc }
 
 // SetSecureCLIStore sets the secure-CLI binary registry store, used by the
 // CRUD MCP server (see internal/mcp/crud_server.go) to expose
-// goclaw_secure_cli_binaries_* tools.
+// zalosclaw_secure_cli_binaries_* tools.
 func (s *Server) SetSecureCLIStore(sc store.SecureCLIStore) { s.secureCLIStore = sc }
 
 // SetExecApprovalManager sets the exec approval manager, used by the CRUD MCP
@@ -979,7 +979,7 @@ func (s *Server) SetSQLDB(db *sql.DB) { s.sqlDB = db }
 
 // SetLLMProviders sets the provider registry and background provider/model
 // fallback used by the CRUD MCP server (see internal/mcp/crud_server.go) to
-// expose goclaw_llm_complete, mirroring internal/gateway/methods/llm.go.
+// expose zalosclaw_llm_complete, mirroring internal/gateway/methods/llm.go.
 func (s *Server) SetLLMProviders(reg *providers.Registry, defaultProvider, defaultModel string) {
 	s.llmProviders = reg
 	s.llmDefaults = mcpbridge.LLMDefaults{Provider: defaultProvider, Model: defaultModel}
@@ -987,7 +987,7 @@ func (s *Server) SetLLMProviders(reg *providers.Registry, defaultProvider, defau
 
 // SetVoiceCache sets the shared TTS voice cache and per-tenant secrets store,
 // used by the CRUD MCP server (see internal/mcp/crud_server.go) to expose
-// goclaw_voices_{list,refresh}, mirroring internal/http/voices.go.
+// zalosclaw_voices_{list,refresh}, mirroring internal/http/voices.go.
 func (s *Server) SetVoiceCache(cache *audio.VoiceCache, secretStore store.ConfigSecretsStore) {
 	s.voiceCache = cache
 	s.voiceSecretsStore = secretStore
@@ -1137,12 +1137,12 @@ func StartTestServer(s *Server, ctx context.Context) (addr string, start func())
 }
 
 // desktopCORS wraps a handler with permissive CORS headers for desktop dev mode.
-// Only active when GOCLAW_DESKTOP=1 (set by desktop app.go).
+// Only active when ZALOSCLAW_DESKTOP=1 (set by desktop app.go).
 func desktopCORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type, X-GoClaw-Tenant-Id, X-GoClaw-User-Id")
+		w.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type, X-ZalosClaw-Tenant-Id, X-ZalosClaw-User-Id")
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusNoContent)
 			return

@@ -6,14 +6,14 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // TestNewCRUDServer_NoDeps_RegistersOnlyQuota verifies the "degrade
 // gracefully" contract documented on CRUDDeps: with a completely empty
 // CRUDDeps, no store-backed tool family is registered — only the
-// unconditional goclaw_quota_* family (which tolerates nil Quota/DB), so a
+// unconditional zalosclaw_quota_* family (which tolerates nil Quota/DB), so a
 // deployment with nothing wired still produces a server that constructs
 // without panicking and exposes no dangling/broken tools.
 func TestNewCRUDServer_NoDeps_RegistersOnlyQuota(t *testing.T) {
@@ -36,16 +36,16 @@ func TestNewCRUDServer_AgentsOnly_RegistersAgentToolsNotSessions(t *testing.T) {
 	srv := newTestMCPServer()
 	registerAgentCRUDTools(srv, agents)
 
-	if tool := srv.GetTool("goclaw_agents_list"); tool == nil {
-		t.Error("expected goclaw_agents_list to be registered when Agents is set")
+	if tool := srv.GetTool("zalosclaw_agents_list"); tool == nil {
+		t.Error("expected zalosclaw_agents_list to be registered when Agents is set")
 	}
-	if tool := srv.GetTool("goclaw_sessions_list"); tool != nil {
-		t.Error("expected goclaw_sessions_list to NOT be registered when Sessions was never registered")
+	if tool := srv.GetTool("zalosclaw_sessions_list"); tool != nil {
+		t.Error("expected zalosclaw_sessions_list to NOT be registered when Sessions was never registered")
 	}
 }
 
 // TestNewCRUDServer_SkillManageStore_RegistersUpdateToolOnlyWhenSupported
-// verifies goclaw_skills_update is only registered when the skill store also
+// verifies zalosclaw_skills_update is only registered when the skill store also
 // implements store.SkillManageStore (crud_server.go's type-assertion gate).
 func TestNewCRUDServer_SkillManageStore_RegistersUpdateToolOnlyWhenSupported(t *testing.T) {
 	// Plain SkillStore (no manage capability): registerSkillCRUDTools alone,
@@ -53,8 +53,8 @@ func TestNewCRUDServer_SkillManageStore_RegistersUpdateToolOnlyWhenSupported(t *
 	srv := newTestMCPServer()
 	skills := newFakeSkillStore()
 	registerSkillCRUDTools(srv, skills)
-	if tool := srv.GetTool("goclaw_skills_update"); tool != nil {
-		t.Error("expected goclaw_skills_update to NOT be registered for a plain SkillStore")
+	if tool := srv.GetTool("zalosclaw_skills_update"); tool != nil {
+		t.Error("expected zalosclaw_skills_update to NOT be registered for a plain SkillStore")
 	}
 
 	// SkillManageStore-capable store: both list/get and update should be
@@ -63,8 +63,8 @@ func TestNewCRUDServer_SkillManageStore_RegistersUpdateToolOnlyWhenSupported(t *
 	manage := newFakeSkillManageStore()
 	registerSkillCRUDTools(srv2, manage)
 	registerSkillUpdateCRUDTool(srv2, manage, manage)
-	if tool := srv2.GetTool("goclaw_skills_update"); tool == nil {
-		t.Error("expected goclaw_skills_update to be registered for a SkillManageStore-capable store")
+	if tool := srv2.GetTool("zalosclaw_skills_update"); tool == nil {
+		t.Error("expected zalosclaw_skills_update to be registered for a SkillManageStore-capable store")
 	}
 }
 
@@ -80,7 +80,7 @@ func TestNewCRUDServer_ConfigOnly_Constructs(t *testing.T) {
 }
 
 // TestResolveMCPTenantID_HeaderPresentAndValid_ScopesToThatTenant verifies
-// that a valid "X-GoClaw-Tenant-Id" header (UUID form) resolves to the
+// that a valid "X-ZalosClaw-Tenant-Id" header (UUID form) resolves to the
 // matching tenant.
 func TestResolveMCPTenantID_HeaderPresentAndValid_ScopesToThatTenant(t *testing.T) {
 	tenants := newFakeTenantStore()

@@ -28,9 +28,9 @@ func init() {
 		MsgGatewayOperatorEligibilityFailed:    "Agent đã được tạo, nhưng không thể xác minh đây là agent đầu tiên để cấp quyền gateway operator.",
 		MsgGatewayOperatorNotFirstAgent:        "Không cấp quyền gateway operator vì đây không phải agent đầu tiên.",
 		MsgGatewayOperatorTokenMissing:         "Đã bỏ qua quyền gateway operator vì gateway token chưa được cấu hình.",
-		MsgGatewayOperatorBinaryMissing:        "Đã bỏ qua quyền gateway operator vì không tìm thấy binary goclaw.",
-		MsgGatewayOperatorExistingReview:       "Đã bỏ qua quyền gateway operator vì credential CLI goclaw hiện có cần kiểm tra thủ công.",
-		MsgGatewayOperatorRegisterFailed:       "Đã bỏ qua quyền gateway operator vì không thể đăng ký credential CLI goclaw.",
+		MsgGatewayOperatorBinaryMissing:        "Đã bỏ qua quyền gateway operator vì không tìm thấy binary zalosclaw.",
+		MsgGatewayOperatorExistingReview:       "Đã bỏ qua quyền gateway operator vì credential CLI zalosclaw hiện có cần kiểm tra thủ công.",
+		MsgGatewayOperatorRegisterFailed:       "Đã bỏ qua quyền gateway operator vì không thể đăng ký credential CLI zalosclaw.",
 		MsgGatewayOperatorCredentialFailed:     "Đã bỏ qua quyền gateway operator vì không thể lưu credential.",
 
 		// Chat
@@ -70,7 +70,7 @@ func init() {
 		// HTTP API
 		MsgInvalidAuth:            "xác thực không hợp lệ",
 		MsgMsgsRequired:           "messages là bắt buộc",
-		MsgUserIDHeader:           "header X-GoClaw-User-Id là bắt buộc",
+		MsgUserIDHeader:           "header X-ZalosClaw-User-Id là bắt buộc",
 		MsgFileTooLarge:           "tệp quá lớn hoặc form multipart không hợp lệ",
 		MsgMissingFileField:       "thiếu trường 'file'",
 		MsgInvalidFilename:        "tên tệp không hợp lệ",
@@ -282,7 +282,7 @@ func init() {
 		MsgWebhookLocalhostOnlyViolation:      "webhook này chỉ cho phép gọi từ localhost",
 		MsgWebhookMediaChannelUnsupported:     "kênh không hỗ trợ tệp đính kèm media",
 		MsgWebhookIPDenied:                    "địa chỉ IP không nằm trong danh sách cho phép",
-		MsgWebhookEncryptionUnavailable:       "khóa mã hóa webhook chưa được cấu hình; hãy đặt GOCLAW_ENCRYPTION_KEY để kích hoạt webhook",
+		MsgWebhookEncryptionUnavailable:       "khóa mã hóa webhook chưa được cấu hình; hãy đặt ZALOSCLAW_ENCRYPTION_KEY để kích hoạt webhook",
 		MsgWebhookMessageTestRequiresStandard: "kiểm thử webhook loại message yêu cầu bản Standard",
 
 		// Hooks

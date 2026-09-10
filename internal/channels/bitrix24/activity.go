@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
 )
 
 // Compile-time guard: *Channel must satisfy ActivityIndicatorChannel so

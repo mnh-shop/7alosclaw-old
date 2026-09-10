@@ -8,21 +8,21 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerKnowledgeGraphCRUDTools registers the goclaw_kg_* MCP tools backed
-// by store.KnowledgeGraphStore — closes the `goclaw kg` CLI-vs-MCP coverage
+// registerKnowledgeGraphCRUDTools registers the zalosclaw_kg_* MCP tools backed
+// by store.KnowledgeGraphStore — closes the `zalosclaw kg` CLI-vs-MCP coverage
 // gap: read/inspect (entities/search/traverse/relations/stats), direct
 // writes (link = upsert relation, entity upsert/delete), and the dedup
 // family (scan/list/merge/dismiss). "extract" itself (running the LLM-driven
 // extraction pipeline over free text) is intentionally not wrapped here —
 // internal/knowledgegraph's extractor needs a resolved LLM provider/model
 // and produces the same Entity/Relation shapes this surface already accepts
-// via goclaw_kg_ingest, so a caller can run extraction itself (e.g. via
-// goclaw_llm_complete) and hand the result to goclaw_kg_ingest.
+// via zalosclaw_kg_ingest, so a caller can run extraction itself (e.g. via
+// zalosclaw_llm_complete) and hand the result to zalosclaw_kg_ingest.
 func registerKnowledgeGraphCRUDTools(srv *mcpserver.MCPServer, kg store.KnowledgeGraphStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_kg_entities_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_kg_entities_list",
 		mcpgo.WithDescription("List knowledge graph entities for an agent/user scope."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("user_id", mcpgo.Description("User ID scope; empty for agent-global entities.")),
@@ -32,7 +32,7 @@ func registerKnowledgeGraphCRUDTools(srv *mcpserver.MCPServer, kg store.Knowledg
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleKGEntitiesList(kg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_kg_entity_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_kg_entity_get",
 		mcpgo.WithDescription("Get a single knowledge graph entity by ID."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("user_id", mcpgo.Description("User ID scope; empty for agent-global entities.")),
@@ -40,7 +40,7 @@ func registerKnowledgeGraphCRUDTools(srv *mcpserver.MCPServer, kg store.Knowledg
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleKGEntityGet(kg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_kg_search",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_kg_search",
 		mcpgo.WithDescription("Search knowledge graph entities by name/description."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("user_id", mcpgo.Description("User ID scope; empty for agent-global entities.")),
@@ -49,7 +49,7 @@ func registerKnowledgeGraphCRUDTools(srv *mcpserver.MCPServer, kg store.Knowledg
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleKGSearch(kg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_kg_traverse",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_kg_traverse",
 		mcpgo.WithDescription("Traverse the knowledge graph outward from a starting entity."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("user_id", mcpgo.Description("User ID scope; empty for agent-global entities.")),
@@ -58,7 +58,7 @@ func registerKnowledgeGraphCRUDTools(srv *mcpserver.MCPServer, kg store.Knowledg
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleKGTraverse(kg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_kg_relations_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_kg_relations_list",
 		mcpgo.WithDescription("List relations for an entity, or all relations for the scope if entity_id is omitted."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("user_id", mcpgo.Description("User ID scope; empty for agent-global entities.")),
@@ -67,22 +67,22 @@ func registerKnowledgeGraphCRUDTools(srv *mcpserver.MCPServer, kg store.Knowledg
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleKGRelationsList(kg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_kg_stats",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_kg_stats",
 		mcpgo.WithDescription("Get aggregate knowledge graph stats (entity/relation counts by type) for an agent/user scope."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("user_id", mcpgo.Description("User ID scope; empty for agent-global entities.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleKGStats(kg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_kg_ingest",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_kg_ingest",
 		mcpgo.WithDescription("Upsert a batch of entities and relations (e.g. output of an LLM extraction pass) into the knowledge graph."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("user_id", mcpgo.Description("User ID scope; empty for agent-global entities.")),
-		mcpgo.WithArray("entities", mcpgo.Description("Entities to upsert (objects matching the Entity shape from goclaw_kg_entities_list).")),
-		mcpgo.WithArray("relations", mcpgo.Description("Relations to upsert (objects matching the Relation shape from goclaw_kg_relations_list).")),
+		mcpgo.WithArray("entities", mcpgo.Description("Entities to upsert (objects matching the Entity shape from zalosclaw_kg_entities_list).")),
+		mcpgo.WithArray("relations", mcpgo.Description("Relations to upsert (objects matching the Relation shape from zalosclaw_kg_relations_list).")),
 	), handleKGIngest(kg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_kg_entity_delete",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_kg_entity_delete",
 		mcpgo.WithDescription("Delete a single knowledge graph entity."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("user_id", mcpgo.Description("User ID scope; empty for agent-global entities.")),
@@ -90,7 +90,7 @@ func registerKnowledgeGraphCRUDTools(srv *mcpserver.MCPServer, kg store.Knowledg
 		mcpgo.WithDestructiveHintAnnotation(true),
 	), handleKGEntityDelete(kg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_kg_relation_delete",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_kg_relation_delete",
 		mcpgo.WithDescription("Delete a single knowledge graph relation."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("user_id", mcpgo.Description("User ID scope; empty for agent-global entities.")),
@@ -98,7 +98,7 @@ func registerKnowledgeGraphCRUDTools(srv *mcpserver.MCPServer, kg store.Knowledg
 		mcpgo.WithDestructiveHintAnnotation(true),
 	), handleKGRelationDelete(kg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_kg_prune",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_kg_prune",
 		mcpgo.WithDescription("Delete entities below a confidence threshold."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("user_id", mcpgo.Description("User ID scope; empty for agent-global entities.")),
@@ -106,7 +106,7 @@ func registerKnowledgeGraphCRUDTools(srv *mcpserver.MCPServer, kg store.Knowledg
 		mcpgo.WithDestructiveHintAnnotation(true),
 	), handleKGPrune(kg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_kg_dedup_scan",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_kg_dedup_scan",
 		mcpgo.WithDescription("Scan all entities with embeddings for near-duplicates, flagging candidates above a similarity threshold for review."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("user_id", mcpgo.Description("User ID scope; empty for agent-global entities.")),
@@ -114,7 +114,7 @@ func registerKnowledgeGraphCRUDTools(srv *mcpserver.MCPServer, kg store.Knowledg
 		mcpgo.WithNumber("limit", mcpgo.Description("Maximum candidates to flag; defaults to 100.")),
 	), handleKGDedupScan(kg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_kg_dedup_candidates",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_kg_dedup_candidates",
 		mcpgo.WithDescription("List pending dedup candidates for review."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("user_id", mcpgo.Description("User ID scope; empty for agent-global entities.")),
@@ -122,7 +122,7 @@ func registerKnowledgeGraphCRUDTools(srv *mcpserver.MCPServer, kg store.Knowledg
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleKGDedupCandidates(kg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_kg_merge_entities",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_kg_merge_entities",
 		mcpgo.WithDescription("Merge one entity into another: relations are re-pointed to the target and the source entity is deleted."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("user_id", mcpgo.Description("User ID scope; empty for agent-global entities.")),
@@ -131,7 +131,7 @@ func registerKnowledgeGraphCRUDTools(srv *mcpserver.MCPServer, kg store.Knowledg
 		mcpgo.WithDestructiveHintAnnotation(true),
 	), handleKGMergeEntities(kg))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_kg_dismiss_candidate",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_kg_dismiss_candidate",
 		mcpgo.WithDescription("Dismiss a dedup candidate as not a duplicate."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("candidate_id", mcpgo.Required(), mcpgo.Description("Dedup candidate ID.")),

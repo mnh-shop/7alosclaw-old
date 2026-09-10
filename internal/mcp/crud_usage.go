@@ -8,8 +8,8 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // mcpUsageRecord mirrors internal/gateway/methods/usage.go's UsageRecord.
@@ -43,10 +43,10 @@ func extractAgentIDFromSessionKey(key string) string {
 	return key
 }
 
-// registerUsageCRUDTools registers the goclaw_usage_* MCP tools backed by
+// registerUsageCRUDTools registers the zalosclaw_usage_* MCP tools backed by
 // store.SessionStore. Mirrors internal/gateway/methods/usage.go.
 func registerUsageCRUDTools(srv *mcpserver.MCPServer, sessions store.SessionStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_usage_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_usage_get",
 		mcpgo.WithDescription("List per-session token usage records, optionally filtered by agent."),
 		mcpgo.WithString("agent_id", mcpgo.Description("Filter by agent ID.")),
 		mcpgo.WithNumber("limit", mcpgo.Description("Maximum records to return; defaults to 20.")),
@@ -54,7 +54,7 @@ func registerUsageCRUDTools(srv *mcpserver.MCPServer, sessions store.SessionStor
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleUsageGet(sessions))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_usage_summary",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_usage_summary",
 		mcpgo.WithDescription("Return aggregate token usage summary, grouped by agent."),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleUsageSummary(sessions))
@@ -131,12 +131,12 @@ func handleUsageSummary(sessions store.SessionStore) mcpserver.ToolHandlerFunc {
 	}
 }
 
-// registerQuotaCRUDTools registers the goclaw_quota_usage MCP tool backed by
+// registerQuotaCRUDTools registers the zalosclaw_quota_usage MCP tool backed by
 // *channels.QuotaChecker. Mirrors internal/gateway/methods/quota_methods.go.
 // Both checker and db may be nil — degrades to {enabled: false} with an
 // empty entries list, matching the WS twin's nil-safe contract.
 func registerQuotaCRUDTools(srv *mcpserver.MCPServer, checker *channels.QuotaChecker, db *sql.DB) {
-	srv.AddTool(mcpgo.NewTool("goclaw_quota_usage",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_quota_usage",
 		mcpgo.WithDescription("Return per-user/group channel quota consumption for today."),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleQuotaUsage(checker, db))

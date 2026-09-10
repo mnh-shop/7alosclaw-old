@@ -9,17 +9,17 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // maxTaskCommentLength mirrors internal/gateway/methods/teams_tasks_mutations.go's
 // maxCommentLength cap on comment/reason content, to prevent DB bloat.
 const maxTaskCommentLength = 10000
 
-// registerTeamsTasksCRUDTools registers the goclaw_teams_tasks_* MCP tools
+// registerTeamsTasksCRUDTools registers the zalosclaw_teams_tasks_* MCP tools
 // backed by store.TeamStore. agents resolves agent_key/UUID inputs for assign.
 func registerTeamsTasksCRUDTools(srv *mcpserver.MCPServer, teams store.TeamStore, agents store.AgentStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_tasks_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_tasks_list",
 		mcpgo.WithDescription("List a team's tasks, optionally filtered by status/channel/chatID."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithString("status", mcpgo.Description("Status filter: \"\" (active), \"completed\", or \"all\".")),
@@ -28,20 +28,20 @@ func registerTeamsTasksCRUDTools(srv *mcpserver.MCPServer, teams store.TeamStore
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleTeamsTasksList(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_tasks_active_by_session",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_tasks_active_by_session",
 		mcpgo.WithDescription("List active tasks scoped to a session/chat ID (for sidebar-style views)."),
 		mcpgo.WithString("session_key", mcpgo.Required(), mcpgo.Description("Session/chat key.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleTeamsTasksActiveBySession(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_tasks_events",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_tasks_events",
 		mcpgo.WithDescription("List audit events for a single task."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithString("task_id", mcpgo.Required(), mcpgo.Description("Task UUID.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleTeamsTasksEvents(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_tasks_create",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_tasks_create",
 		mcpgo.WithDescription("Create a new task in a team's shared task list."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithString("subject", mcpgo.Required(), mcpgo.Description("Task subject (max 500 chars).")),
@@ -53,56 +53,56 @@ func registerTeamsTasksCRUDTools(srv *mcpserver.MCPServer, teams store.TeamStore
 		mcpgo.WithString("chat_id", mcpgo.Description("Origin chat ID; defaults to the team ID.")),
 	), handleTeamsTasksCreate(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_tasks_delete",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_tasks_delete",
 		mcpgo.WithDescription("Hard-delete a task in a terminal status."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithString("task_id", mcpgo.Required(), mcpgo.Description("Task UUID.")),
 		mcpgo.WithDestructiveHintAnnotation(true),
 	), handleTeamsTasksDelete(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_tasks_delete_bulk",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_tasks_delete_bulk",
 		mcpgo.WithDescription("Hard-delete multiple tasks in a terminal status."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithArray("task_ids", mcpgo.Required(), mcpgo.Description("Task UUIDs to delete.")),
 		mcpgo.WithDestructiveHintAnnotation(true),
 	), handleTeamsTasksDeleteBulk(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_tasks_assign",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_tasks_assign",
 		mcpgo.WithDescription("Assign a task to a team member (does not dispatch to the agent runtime — MCP surface only)."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithString("task_id", mcpgo.Required(), mcpgo.Description("Task UUID.")),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Assignee agent key or UUID.")),
 	), handleTeamsTasksAssign(teams, agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_tasks_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_tasks_get",
 		mcpgo.WithDescription("Fetch a task with its comments, events, and attachments."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithString("task_id", mcpgo.Required(), mcpgo.Description("Task UUID.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleTeamsTasksGet(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_tasks_get_light",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_tasks_get_light",
 		mcpgo.WithDescription("Fetch a task only (no comments/events/attachments)."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithString("task_id", mcpgo.Required(), mcpgo.Description("Task UUID.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleTeamsTasksGetLight(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_tasks_approve",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_tasks_approve",
 		mcpgo.WithDescription("Approve a task in review, optionally with a comment."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithString("task_id", mcpgo.Required(), mcpgo.Description("Task UUID.")),
 		mcpgo.WithString("comment", mcpgo.Description("Optional approval comment.")),
 	), handleTeamsTasksApprove(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_tasks_reject",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_tasks_reject",
 		mcpgo.WithDescription("Reject a task in review, with a reason."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithString("task_id", mcpgo.Required(), mcpgo.Description("Task UUID.")),
 		mcpgo.WithString("reason", mcpgo.Description("Rejection reason; defaults to \"Rejected by human\".")),
 	), handleTeamsTasksReject(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_tasks_comment",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_tasks_comment",
 		mcpgo.WithDescription("Add a comment to a task."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithString("task_id", mcpgo.Required(), mcpgo.Description("Task UUID.")),
@@ -110,7 +110,7 @@ func registerTeamsTasksCRUDTools(srv *mcpserver.MCPServer, teams store.TeamStore
 		mcpgo.WithString("user_id", mcpgo.Description("Author user ID.")),
 	), handleTeamsTasksComment(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_tasks_comments",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_tasks_comments",
 		mcpgo.WithDescription("List comments on a task."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithString("task_id", mcpgo.Required(), mcpgo.Description("Task UUID.")),

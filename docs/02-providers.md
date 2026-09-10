@@ -1,6 +1,6 @@
 # 02 - LLM Providers
 
-GoClaw abstracts LLM communication behind a single `Provider` interface, allowing the agent loop to work with any backend without knowing the wire format. Six concrete implementations exist: Anthropic (native HTTP+SSE), OpenAI-compatible (covering 10+ API endpoints), Claude CLI (local binary), Codex (OAuth-based), ACP (subagent orchestration), and DashScope (Alibaba Qwen with thinking). The OpenAI-compatible provider also supports BytePlus ModelArk (Seed 2.0 models with image/video generation).
+ZalosClaw abstracts LLM communication behind a single `Provider` interface, allowing the agent loop to work with any backend without knowing the wire format. Six concrete implementations exist: Anthropic (native HTTP+SSE), OpenAI-compatible (covering 10+ API endpoints), Claude CLI (local binary), Codex (OAuth-based), ACP (subagent orchestration), and DashScope (Alibaba Qwen with thinking). The OpenAI-compatible provider also supports BytePlus ModelArk (Seed 2.0 models with image/video generation).
 
 ---
 
@@ -103,7 +103,7 @@ Supported price units: input, output, cache read, cache write, reasoning, reques
 | gemini | `https://generativelanguage.googleapis.com/v1beta/openai` | `gemini-2.0-flash` | Skips empty content fields |
 | mistral | `https://api.mistral.ai/v1` | `mistral-large-latest` | |
 | xai | `https://api.x.ai/v1` | `grok-3-mini` | |
-| minimax | `https://api.minimax.io/v1` | `MiniMax-M3` | Uses OpenAI-compatible chat completions; MiniMax also exposes an Anthropic-compatible API, but GoClaw keeps the current OpenAI-compatible path |
+| minimax | `https://api.minimax.io/v1` | `MiniMax-M3` | Uses OpenAI-compatible chat completions; MiniMax also exposes an Anthropic-compatible API, but ZalosClaw keeps the current OpenAI-compatible path |
 | cohere | `https://api.cohere.ai/compatibility/v1` | `command-a` | |
 | perplexity | `https://api.perplexity.ai` | `sonar-pro` | |
 | ollama | `http://localhost:11434/v1` | `llama3.3` | Local/configurable |
@@ -299,7 +299,7 @@ flowchart LR
     end
 ```
 
-`GOCLAW_ENCRYPTION_KEY` accepts three formats:
+`ZALOSCLAW_ENCRYPTION_KEY` accepts three formats:
 - **Hex**: 64 characters (32 bytes decoded)
 - **Base64**: 44 characters (32 bytes decoded)
 - **Raw**: 32 characters (32 bytes direct)
@@ -308,7 +308,7 @@ flowchart LR
 
 ## 8. Extended Thinking
 
-Extended thinking allows LLMs to generate internal reasoning tokens before producing a response, improving quality for complex tasks. GoClaw supports this across multiple providers with provider-owned reasoning defaults, agent inherit/custom overrides, and a legacy `thinking_level` shim for rollback compatibility. See [12-extended-thinking.md](./12-extended-thinking.md) for full details.
+Extended thinking allows LLMs to generate internal reasoning tokens before producing a response, improving quality for complex tasks. ZalosClaw supports this across multiple providers with provider-owned reasoning defaults, agent inherit/custom overrides, and a legacy `thinking_level` shim for rollback compatibility. See [12-extended-thinking.md](./12-extended-thinking.md) for full details.
 
 ### Provider Mapping
 
@@ -363,7 +363,7 @@ Standard OpenAI-compatible provider targeting the Alibaba Coding API.
 
 ## 10. ACP Provider (Agent Client Protocol)
 
-The ACP provider enables GoClaw to orchestrate external coding agents (Claude Code, Codex CLI, Gemini CLI, or any ACP-compatible agent) as subprocesses via JSON-RPC 2.0 over stdio. This allows delegating complex code generation tasks to specialized agents while maintaining GoClaw's unified interface.
+The ACP provider enables ZalosClaw to orchestrate external coding agents (Claude Code, Codex CLI, Gemini CLI, or any ACP-compatible agent) as subprocesses via JSON-RPC 2.0 over stdio. This allows delegating complex code generation tasks to specialized agents while maintaining ZalosClaw's unified interface.
 
 ### Architecture Overview
 
@@ -406,7 +406,7 @@ Example config.json:
   "providers": {
     "acp": {
       "binary": "claude",
-      "args": ["--profile", "goclaw"],
+      "args": ["--profile", "zalosclaw"],
       "model": "claude",
       "work_dir": "/tmp/workspace",
       "idle_ttl": "5m",
@@ -460,7 +460,7 @@ type ContentBlock struct {
 
 Request extraction:
 
-1. Extract system prompt + user message from GoClaw `ChatRequest.Messages`
+1. Extract system prompt + user message from ZalosClaw `ChatRequest.Messages`
 2. Prepend system prompt to first user message (ACP agents lack separate system API)
 3. Attach images as separate blocks
 
@@ -523,7 +523,7 @@ Emits `StreamChunk` for each text delta via callback. Supports context cancellat
 
 ## 11. Claude CLI Provider
 
-The Claude CLI provider enables GoClaw to delegate requests to a local `claude` CLI binary. The CLI manages session history, context files, and tool execution independently; GoClaw only passes messages and streams responses back.
+The Claude CLI provider enables ZalosClaw to delegate requests to a local `claude` CLI binary. The CLI manages session history, context files, and tool execution independently; ZalosClaw only passes messages and streams responses back.
 
 ### Architecture Overview
 
@@ -575,7 +575,7 @@ Idle sessions are automatically cleaned up after inactivity.
 
 ### Tool Execution
 
-Claude CLI executes tools natively (filesystem, exec, web, memory). GoClaw forwards tool results back and lets the CLI loop continue. This differs from standard providers which return tool calls for the agent loop to execute.
+Claude CLI executes tools natively (filesystem, exec, web, memory). ZalosClaw forwards tool results back and lets the CLI loop continue. This differs from standard providers which return tool calls for the agent loop to execute.
 
 ### Model Aliases
 
@@ -652,7 +652,7 @@ The `phase` field indicates message purpose:
 - `"commentary"` — intermediate reasoning
 - `"final_answer"` — closeout response
 
-GoClaw persists this on assistant messages and passes it back in subsequent requests. Codex performance depends on this field being echoed correctly.
+ZalosClaw persists this on assistant messages and passes it back in subsequent requests. Codex performance depends on this field being echoed correctly.
 
 ### Streaming
 
@@ -663,7 +663,7 @@ Codex supports SSE streaming similar to Anthropic:
 
 ### Extended Thinking
 
-Codex provider reports `SupportsThinking() = true`, allowing capability-aware reasoning effort injection. Providers can save reusable `settings.reasoning_defaults`, agents inherit them by default, and custom agent overrides remain additive. For known GPT-5/Codex models, GoClaw resolves requested versus effective effort before the request and records the source and outcome in trace metadata.
+Codex provider reports `SupportsThinking() = true`, allowing capability-aware reasoning effort injection. Providers can save reusable `settings.reasoning_defaults`, agents inherit them by default, and custom agent overrides remain additive. For known GPT-5/Codex models, ZalosClaw resolves requested versus effective effort before the request and records the source and outcome in trace metadata.
 
 ### Token Usage
 
@@ -742,7 +742,7 @@ Reasoning behavior:
 
 ## 13. Wave 2: Provider Resilience (v3)
 
-GoClaw v3 Wave 2 adds composable request middleware, error classification, per-model cooldown, and 2-tier failover for production resilience.
+ZalosClaw v3 Wave 2 adds composable request middleware, error classification, per-model cooldown, and 2-tier failover for production resilience.
 
 **Request Middleware** — Transforms provider requests in composable pipeline. Built-in: `CacheMiddleware` (prompt caching), `ServiceTierMiddleware` (routing hints), `RateLimitMiddleware` (quota management). Zero-alloc fast path: `ComposeMiddlewares` returns nil if all inputs nil.
 

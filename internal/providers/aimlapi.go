@@ -26,7 +26,7 @@ func NewAIMLAPIProvider(name, apiKey, apiBase string) *OpenAIProvider {
 	return NewOpenAIProvider(name, apiKey, apiBase, AIMLAPIDefaultModel).
 		WithExtraHeaders(map[string]string{
 			"X-AIMLAPI-Partner-ID":          "nextlevelbuilder",
-			"X-AIMLAPI-Integration-Repo":    "nextlevelbuilder/goclaw",
+			"X-AIMLAPI-Integration-Repo":    "nextlevelbuilder/zalosclaw",
 			"X-AIMLAPI-Integration-Version": "1.0.0",
 		})
 }

@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
 )
 
 // maxMusicDownloadBytes caps the audio download at 200 MB.

@@ -30,7 +30,7 @@ type TenantBackupOptions struct {
 // TenantBackupManifest describes the contents of a tenant backup archive.
 type TenantBackupManifest struct {
 	Version       int            `json:"version"`
-	Format        string         `json:"format"` // "goclaw-tenant-backup"
+	Format        string         `json:"format"` // "zalosclaw-tenant-backup"
 	TenantID      string         `json:"tenant_id"`
 	TenantSlug    string         `json:"tenant_slug"`
 	SchemaVersion int            `json:"schema_version"`
@@ -72,7 +72,7 @@ func TenantBackup(ctx context.Context, opts TenantBackupOptions) (*TenantBackupM
 
 	manifest := &TenantBackupManifest{
 		Version:       1,
-		Format:        "goclaw-tenant-backup",
+		Format:        "zalosclaw-tenant-backup",
 		TenantID:      opts.TenantID.String(),
 		TenantSlug:    opts.TenantSlug,
 		SchemaVersion: opts.SchemaVersion,
@@ -89,7 +89,7 @@ func TenantBackup(ctx context.Context, opts TenantBackupOptions) (*TenantBackupM
 		progress("database", fmt.Sprintf("exporting %s", table.Name))
 
 		// Buffer the table JSONL in a temp file to get byte count for tar header.
-		tmp, err := os.CreateTemp("", "goclaw-tenant-table-*.jsonl")
+		tmp, err := os.CreateTemp("", "zalosclaw-tenant-table-*.jsonl")
 		if err != nil {
 			tw.Close()
 			gw.Close()

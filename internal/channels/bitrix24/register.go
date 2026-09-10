@@ -33,11 +33,11 @@ const maxAvatarBytes = 256 * 1024
 //     bot_id.
 //
 //  3. **Duplicate-code fallback** — Bitrix returns an error code when the
-//     CODE is already used (e.g. another goclaw instance raced us, or
+//     CODE is already used (e.g. another zalosclaw instance raced us, or
 //     state was wiped). Recover by listing bots and picking the one whose
 //     CODE matches.
 //
-// The function is intentionally idempotent so goclaw restarts don't spawn
+// The function is intentionally idempotent so zalosclaw restarts don't spawn
 // duplicate bots — critical because Bitrix charges per bot for larger plans.
 func (c *Channel) registerBot(ctx context.Context) (int, error) {
 	portal := c.Portal()
@@ -191,7 +191,7 @@ func (c *Channel) registerParams(ctx context.Context) map[string]any {
 //     Bitrix24 itself sent; self-verifying because the URL has been proven
 //     reachable. This is the preferred source.
 //  2. c.cfg.PublicURL — legacy per-instance config (deprecated). Used only
-//     when (1) is empty, e.g. portal was installed on a goclaw release that
+//     when (1) is empty, e.g. portal was installed on a zalosclaw release that
 //     predated the capture feature. A deprecation warning is logged so an
 //     operator can plan a reinstall.
 //

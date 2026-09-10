@@ -2,7 +2,7 @@
 
 ## 1. Overview
 
-GoClaw is an AI agent gateway written in Go. It exposes a WebSocket RPC (v3) interface and an OpenAI-compatible HTTP API for orchestrating LLM-powered agents. The system uses PostgreSQL as its storage backend with full multi-tenant isolation, per-user context files, encrypted credentials, agent delegation, teams, and LLM call tracing.
+ZalosClaw is an AI agent gateway written in Go. It exposes a WebSocket RPC (v3) interface and an OpenAI-compatible HTTP API for orchestrating LLM-powered agents. The system uses PostgreSQL as its storage backend with full multi-tenant isolation, per-user context files, encrypted credentials, agent delegation, teams, and LLM call tracing.
 
 ## 2. Component Diagram
 
@@ -210,16 +210,16 @@ Dispatcher wired into `PipelineDeps.HookDispatcher` (nil-safe noop fallback). Al
 
 ## 4. Multi-Tenant Identity Model
 
-GoClaw uses the **Identity Propagation** pattern (also known as **Trusted Subsystem**). It does not implement authentication or authorization — instead, it trusts the upstream service that authenticates with the gateway token to provide accurate user identity.
+ZalosClaw uses the **Identity Propagation** pattern (also known as **Trusted Subsystem**). It does not implement authentication or authorization — instead, it trusts the upstream service that authenticates with the gateway token to provide accurate user identity.
 
 ```mermaid
 flowchart LR
     subgraph "Upstream Service (trusted)"
         AUTH["Authenticate end-user"]
-        HDR["Set X-GoClaw-User-Id header<br/>or user_id in WS connect"]
+        HDR["Set X-ZalosClaw-User-Id header<br/>or user_id in WS connect"]
     end
 
-    subgraph "GoClaw Gateway"
+    subgraph "ZalosClaw Gateway"
         EXTRACT["Extract user_id<br/>(opaque, VARCHAR 255)"]
         CTX["store.WithUserID(ctx)"]
         SCOPE["Per-user scoping:<br/>sessions, context files,<br/>memory, traces, agent shares"]
@@ -235,13 +235,13 @@ flowchart LR
 
 | Entry Point | How user_id is provided | Enforcement |
 |-------------|------------------------|-------------|
-| HTTP API | `X-GoClaw-User-Id` header | Required |
+| HTTP API | `X-ZalosClaw-User-Id` header | Required |
 | WebSocket | `user_id` field in `connect` handshake | Required |
 | Channels | Derived from platform sender ID (e.g., Telegram user ID) | Automatic |
 
 ### Compound User ID Convention
 
-The `user_id` field is **opaque** to GoClaw — it does not interpret or validate the format. For multi-tenant deployments, the recommended convention is:
+The `user_id` field is **opaque** to ZalosClaw — it does not interpret or validate the format. For multi-tenant deployments, the recommended convention is:
 
 ```
 tenant.{tenantId}.user.{userId}
@@ -384,10 +384,10 @@ flowchart TD
 
 | Lane | Concurrency | Env Override | Purpose |
 |------|:-----------:|-------------|---------|
-| `main` | 30 | `GOCLAW_LANE_MAIN` | Primary user chat sessions |
-| `subagent` | 50 | `GOCLAW_LANE_SUBAGENT` | Spawned subagents |
-| `team` | 100 | `GOCLAW_LANE_TEAM` | Agent team/delegation executions |
-| `cron` | 30 | `GOCLAW_LANE_CRON` | Scheduled cron jobs |
+| `main` | 30 | `ZALOSCLAW_LANE_MAIN` | Primary user chat sessions |
+| `subagent` | 50 | `ZALOSCLAW_LANE_SUBAGENT` | Spawned subagents |
+| `team` | 100 | `ZALOSCLAW_LANE_TEAM` | Agent team/delegation executions |
+| `cron` | 30 | `ZALOSCLAW_LANE_CRON` | Scheduled cron jobs |
 
 ### Scaling Beyond the Lane Defaults
 
@@ -396,11 +396,11 @@ moves the queue downstream. These knobs need to move with it:
 
 | Setting | Default | Env Override | Why it binds |
 |---------|:-------:|--------------|--------------|
-| Postgres max open conns | 25 | `GOCLAW_PG_MAX_OPEN_CONNS` | Held per query, not per run — undersizing shows up as burst latency when many runs load context at once |
-| Postgres max idle conns | 10 | `GOCLAW_PG_MAX_IDLE_CONNS` | Clamped to max open |
-| Provider idle conns | 100 | `GOCLAW_HTTP_MAX_IDLE_CONNS` | Total across all provider hosts |
-| Provider idle conns per host | 10 | `GOCLAW_HTTP_MAX_IDLE_CONNS_PER_HOST` | When one provider takes nearly all traffic, every request past this limit pays a fresh TCP+TLS handshake. Self-hosted/in-network providers should match `main`. |
-| Outbound dispatch shards | 8 | `GOCLAW_OUTBOUND_SHARDS` | See below |
+| Postgres max open conns | 25 | `ZALOSCLAW_PG_MAX_OPEN_CONNS` | Held per query, not per run — undersizing shows up as burst latency when many runs load context at once |
+| Postgres max idle conns | 10 | `ZALOSCLAW_PG_MAX_IDLE_CONNS` | Clamped to max open |
+| Provider idle conns | 100 | `ZALOSCLAW_HTTP_MAX_IDLE_CONNS` | Total across all provider hosts |
+| Provider idle conns per host | 10 | `ZALOSCLAW_HTTP_MAX_IDLE_CONNS_PER_HOST` | When one provider takes nearly all traffic, every request past this limit pays a fresh TCP+TLS handshake. Self-hosted/in-network providers should match `main`. |
+| Outbound dispatch shards | 8 | `ZALOSCLAW_OUTBOUND_SHARDS` | See below |
 
 Channel-side rate limits are metered by the *remote* platform and are not
 covered by any of the above — DingTalk's AI Card API, for instance, meters per
@@ -415,7 +415,7 @@ depends on — block replies, retry notices, then the final answer — is
 preserved. Unrelated conversations run in parallel, so one slow send (a media
 upload of several seconds) no longer stalls every other reply in the process.
 
-Raising `GOCLAW_OUTBOUND_SHARDS` past the point where the remote API meters the
+Raising `ZALOSCLAW_OUTBOUND_SHARDS` past the point where the remote API meters the
 gateway only moves queueing from this process into theirs.
 
 ### Session Queue Concurrency
@@ -465,13 +465,13 @@ Configuration is loaded from a JSON5 file with environment variable overlay. Sec
 ```mermaid
 flowchart TD
     A{Config path?} -->|--config flag| B[CLI flag path]
-    A -->|GOCLAW_CONFIG env| C[Env var path]
+    A -->|ZALOSCLAW_CONFIG env| C[Env var path]
     A -->|default| D["config.json"]
 
     B & C & D --> LOAD["config.Load()"]
     LOAD --> S1["1. Set defaults"]
     S1 --> S2["2. Parse JSON5"]
-    S2 --> S3["3. Env var overlay<br/>(GOCLAW_*_API_KEY)"]
+    S2 --> S3["3. Env var overlay<br/>(ZALOSCLAW_*_API_KEY)"]
     S3 --> S4["4. Apply computed defaults<br/>(context pruning, etc.)"]
     S4 --> READY[Config ready]
 ```
@@ -489,7 +489,7 @@ flowchart TD
 ### Secret Handling
 
 - Secrets exist only in env vars or `.env.local` -- never in `config.json`.
-- `GOCLAW_POSTGRES_DSN` is tagged `json:"-"` and cannot be read from the config file.
+- `ZALOSCLAW_POSTGRES_DSN` is tagged `json:"-"` and cannot be read from the config file.
 - `MaskedCopy()` replaces API keys with `"***"` when returning config over WebSocket.
 - `StripSecrets()` removes secrets before writing config to disk.
 - Config hot-reload via `fsnotify` watcher with 300ms debounce.
@@ -638,7 +638,7 @@ WebhookWorker.pollOneTenant()
 
 **Lease Token Idempotency:** Each call row has a `lease_token` (UUID). Worker claims the row only if it can CAS the token. On success, worker updates status with the token as proof of ownership. Stale/slow receivers cannot accidentally overwrite a faster delivery attempt.
 
-**Secret Encryption:** The raw webhook secret is encrypted at rest via AES-256-GCM using the `GOCLAW_ENCRYPTION_KEY` environment variable (same key as LLM provider credentials). Database leaks do not compromise HMAC material. See `docs/webhooks.md` § 14 for details.
+**Secret Encryption:** The raw webhook secret is encrypted at rest via AES-256-GCM using the `ZALOSCLAW_ENCRYPTION_KEY` environment variable (same key as LLM provider credentials). Database leaks do not compromise HMAC material. See `docs/webhooks.md` § 14 for details.
 
 ### Security Log Events
 

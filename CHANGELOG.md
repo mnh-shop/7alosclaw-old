@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to GoClaw are documented here. For full documentation, see [docs.goclaw.sh](https://docs.goclaw.sh).
+All notable changes to ZalosClaw are documented here. For full documentation, see [docs.zalosclaw.sh](https://docs.zalosclaw.sh).
 
 ## Unreleased
 
@@ -121,7 +121,7 @@ All notable changes to GoClaw are documented here. For full documentation, see [
   checks for mutable HTTP surfaces, and Lite hook schema migration verification.
 
 - **SecureCLI runtime npm binaries** — binary discovery and credentialed exec now
-  resolve tools installed under the GoClaw runtime directories, including
+  resolve tools installed under the ZalosClaw runtime directories, including
   `{runtimeDir}/npm-global/bin`, and support single-binary npm package aliases
   such as `openrouter-cli` exposing `orc`.
 
@@ -144,7 +144,7 @@ All notable changes to GoClaw are documented here. For full documentation, see [
 ### New Features
 
 - **Pancake private-reply (comment → DM).** Enables a one-time DM to commenters
-  after the public reply. Stateless on GoClaw side — no DB dedup table, no
+  after the public reply. Stateless on ZalosClaw side — no DB dedup table, no
   in-memory state:
   - Config: `features.private_reply` (bool) + `private_reply_message` (text).
   - **Template variables** `{{commenter_name}}` and `{{post_title}}` with
@@ -153,7 +153,7 @@ All notable changes to GoClaw are documented here. For full documentation, see [
   - Empty `private_reply_message` → English fallback constant.
   - **Dedup strategy**: webhook-level comment_id dedup (already in
     `comment_handler.go`) + Facebook's per-comment idempotent `private_replies`
-    endpoint handle duplicates platform-side. No GoClaw state required.
+    endpoint handle duplicates platform-side. No ZalosClaw state required.
   - No DB migration.
 
 ### Improvements
@@ -215,7 +215,7 @@ All notable changes to GoClaw are documented here. For full documentation, see [
 - **Hooks system** — Event-driven hooks with command evaluators (shell exit code) and agent evaluators (delegate to reviewer). Blocking gates with auto-retry and recursion-safe evaluation.
 - **Media tools** — `create_image` (DashScope, MiniMax), `create_audio` (OpenAI, ElevenLabs, MiniMax, Suno), `create_video` (MiniMax, Veo), `read_document` (Gemini File API), `read_image`, `read_audio`, `read_video`. Persistent media storage with lazy-loaded MediaRef.
 - **Additional provider modes** — Claude CLI (Anthropic via stdio + MCP bridge), Codex (OpenAI gpt-5.3-codex via OAuth).
-- **Google Cloud Vertex AI provider** — Enterprise GCP integration via Vertex OpenAI-compatible endpoint. OAuth2 service account auth (inline JSON or file path) with automatic token refresh, plus Application Default Credentials (ADC) for GKE/Cloud Run/Compute Engine. Regional endpoints for data residency (e.g. `asia-southeast1`, `us-central1`). Addresses [#576](https://github.com/nextlevelbuilder/goclaw/issues/576).
+- **Google Cloud Vertex AI provider** — Enterprise GCP integration via Vertex OpenAI-compatible endpoint. OAuth2 service account auth (inline JSON or file path) with automatic token refresh, plus Application Default Credentials (ADC) for GKE/Cloud Run/Compute Engine. Regional endpoints for data residency (e.g. `asia-southeast1`, `us-central1`). Addresses [#576](https://github.com/nextlevelbuilder/zalosclaw/issues/576).
 - **Knowledge graph** — LLM-powered entity extraction, graph traversal, force-directed visualization, and `knowledge_graph_search` agent tool.
 - **Memory management** — Admin dashboard for memory documents (CRUD, semantic search, chunk/embedding details, bulk re-indexing).
 - **Persistent pending messages** — Channel messages persisted to PostgreSQL with auto-compaction (LLM summarization) and monitoring dashboard.

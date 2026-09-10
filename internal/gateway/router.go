@@ -9,14 +9,14 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/cache"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/edition"
-	httpapi "github.com/nextlevelbuilder/goclaw/internal/http"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/permissions"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/cache"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
+	httpapi "github.com/nextlevelbuilder/zalosclaw/internal/http"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/permissions"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 // MethodHandler processes a single RPC method request.
@@ -318,7 +318,7 @@ func (r *MethodRouter) handleConnect(ctx context.Context, client *Client, req *p
 				"pairing_code": code,
 				"sender_id":    client.id,
 				"server": map[string]any{
-					"name":    "goclaw",
+					"name":    "zalosclaw",
 					"version": r.server.version,
 				},
 			}))
@@ -380,7 +380,7 @@ func (r *MethodRouter) sendConnectResponse(ctx context.Context, client *Client, 
 		"is_master_scope": store.IsMasterScope(scopedCtx),
 		"edition":         edition.Current().Name,
 		"server": map[string]any{
-			"name":    "goclaw",
+			"name":    "zalosclaw",
 			"version": r.server.version,
 		},
 	}

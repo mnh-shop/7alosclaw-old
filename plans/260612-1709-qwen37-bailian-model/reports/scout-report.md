@@ -2,7 +2,7 @@
 
 ## Findings
 
-- Repo verified: `digitopvn/goclaw`, default branch `dev`.
+- Repo verified: `digitopvn/zalosclaw`, default branch `dev`.
 - Source issue verified: #169 requests `qwen3.7-plus` for Bailian Coding.
 - Catalog source: `internal/http/provider_models_catalog.go` -> `bailianModels()`.
 - Endpoint dispatch: `internal/http/provider_models.go` uses `bailianModels()` for `provider_type == "bailian"`.

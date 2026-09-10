@@ -171,7 +171,7 @@ func TestBuildRequestBody_OpenAINativeWithTools_NoToolCache(t *testing.T) {
 }
 
 func TestBuildRequestBody_DashScopeWithEnvDisable_DoesNotWrap(t *testing.T) {
-	t.Setenv("GOCLAW_DISABLE_DASHSCOPE_CACHE", "true")
+	t.Setenv("ZALOSCLAW_DISABLE_DASHSCOPE_CACHE", "true")
 	p := NewOpenAIProvider("test", "key", "https://coding-intl.dashscope.aliyuncs.com/v1", "qwen3.6-plus")
 	req := ChatRequest{Messages: []Message{{Role: "system", Content: "..."}, {Role: "user", Content: "Hi"}}}
 	body := p.buildRequestBody("qwen3.6-plus", req, false)

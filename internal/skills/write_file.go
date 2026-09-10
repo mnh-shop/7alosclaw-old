@@ -11,7 +11,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // Errors returned by WriteVersionedFile, mapped by callers (HTTP handler,
@@ -27,7 +27,7 @@ var (
 // writes the file into the copy, atomically renames it into place, and
 // repoints the skill's DB row at the new version. Historical versions remain
 // immutable. Shared by internal/http's skill-editor endpoint
-// (SkillsHandler.handleWriteFile) and the goclaw_skills_write_file MCP tool
+// (SkillsHandler.handleWriteFile) and the zalosclaw_skills_write_file MCP tool
 // so both surfaces apply identical validation and versioning.
 func WriteVersionedFile(ctx context.Context, manage store.SkillManageStore, tenantSkillsDir string, id uuid.UUID, relPath, content string) (path string, version int, err error) {
 	if strings.Contains(relPath, "..") {

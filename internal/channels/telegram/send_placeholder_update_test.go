@@ -9,8 +9,8 @@ import (
 	"github.com/mymmrac/telego"
 	ta "github.com/mymmrac/telego/telegoapi"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
 )
 
 func TestSendPlaceholderUpdateCreatesLazyPlaceholderWhenMissing(t *testing.T) {

@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
 )
 
 // recorderChannel records every delivered message in arrival order, and can
@@ -263,7 +263,7 @@ func TestClaimTempMedia_PassesThroughNonTempAndSkipsMissing(t *testing.T) {
 
 	mgr := NewManager(bus.New())
 
-	missing := filepath.Join(os.TempDir(), "goclaw-does-not-exist-12345.bin")
+	missing := filepath.Join(os.TempDir(), "zalosclaw-does-not-exist-12345.bin")
 	workspace := "/workspace/report.pdf"
 
 	kept, claimed := mgr.claimTempMedia([]bus.MediaAttachment{

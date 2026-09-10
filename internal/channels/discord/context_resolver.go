@@ -7,9 +7,9 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channelmemory"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channelmemory"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func (c *Channel) ResolveMemoryExtractionContext(ctx context.Context, inst *store.ChannelInstanceData, group store.PendingMessageGroup) (channelmemory.ExtractionContext, error) {

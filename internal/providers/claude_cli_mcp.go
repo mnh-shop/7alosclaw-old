@@ -13,7 +13,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
 )
 
 // MCPServerEntry represents a single MCP server config for CLI injection.
@@ -41,7 +41,7 @@ type MCPConfigData struct {
 }
 
 // BuildCLIMCPConfigData builds the base MCP server map from config.
-// Does NOT include the goclaw-bridge entry — that's added per-session
+// Does NOT include the zalosclaw-bridge entry — that's added per-session
 // with agent context headers in WriteMCPConfig.
 func BuildCLIMCPConfigData(servers map[string]*config.MCPServerConfig, gatewayAddr string, gatewayToken ...string) *MCPConfigData {
 	mcpServers := make(map[string]any, len(servers))
@@ -97,7 +97,7 @@ type BridgeContext struct {
 }
 
 // WriteMCPConfig writes a per-session MCP config file with agent context headers.
-// Files are stored at ~/.goclaw/mcp-configs/<safe-session-key>/mcp-config.json,
+// Files are stored at ~/.zalosclaw/mcp-configs/<safe-session-key>/mcp-config.json,
 // outside the agent's workDir so tokens are not exposed.
 // Skips write if content is unchanged. Returns the file path.
 func (d *MCPConfigData) WriteMCPConfig(ctx context.Context, sessionKey string, bc BridgeContext) string {
@@ -209,7 +209,7 @@ func (d *MCPConfigData) writeMCPConfigInternal(
 		if len(headers) > 0 {
 			bridgeEntry["headers"] = headers
 		}
-		servers["goclaw-bridge"] = bridgeEntry
+		servers["zalosclaw-bridge"] = bridgeEntry
 	}
 
 	if len(servers) == 0 {

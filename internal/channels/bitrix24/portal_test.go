@@ -16,7 +16,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // fakeBitrixStore is an in-memory BitrixPortalStore for unit tests.
@@ -622,10 +622,10 @@ func TestPortal_UpdatePublicURL_FirstSet_PersistsState(t *testing.T) {
 		t.Fatalf("expected empty initial PublicURL, got %q", got)
 	}
 
-	if err := p.UpdatePublicURL(context.Background(), "https://goclaw.tamgiac.com"); err != nil {
+	if err := p.UpdatePublicURL(context.Background(), "https://zalosclaw.tamgiac.com"); err != nil {
 		t.Fatalf("UpdatePublicURL: %v", err)
 	}
-	if got := p.PublicURL(); got != "https://goclaw.tamgiac.com" {
+	if got := p.PublicURL(); got != "https://zalosclaw.tamgiac.com" {
 		t.Fatalf("PublicURL = %q, want stored value", got)
 	}
 	if atomic.LoadInt32(&fs.stateUpdates) != 1 {
@@ -637,7 +637,7 @@ func TestPortal_UpdatePublicURL_FirstSet_PersistsState(t *testing.T) {
 	if err != nil {
 		t.Fatalf("reload: %v", err)
 	}
-	if got := p2.PublicURL(); got != "https://goclaw.tamgiac.com" {
+	if got := p2.PublicURL(); got != "https://zalosclaw.tamgiac.com" {
 		t.Fatalf("reloaded PublicURL = %q", got)
 	}
 }
@@ -648,11 +648,11 @@ func TestPortal_UpdatePublicURL_Idempotent_NoOpWrite(t *testing.T) {
 	fs := newFakeStore()
 	tid := store.GenNewID()
 	p := newTestPortal(t, srv, fs, tid, "p", store.BitrixPortalState{
-		PublicURL: "https://goclaw.tamgiac.com",
+		PublicURL: "https://zalosclaw.tamgiac.com",
 	})
 
 	// Same value → no write, no error.
-	if err := p.UpdatePublicURL(context.Background(), "https://goclaw.tamgiac.com"); err != nil {
+	if err := p.UpdatePublicURL(context.Background(), "https://zalosclaw.tamgiac.com"); err != nil {
 		t.Fatalf("err: %v", err)
 	}
 	if writes := atomic.LoadInt32(&fs.stateUpdates); writes != 0 {
@@ -700,12 +700,12 @@ func TestPortal_UpdatePublicURL_StoreFailurePropagates(t *testing.T) {
 	tid := store.GenNewID()
 	p := newTestPortal(t, srv, fs, tid, "p", store.BitrixPortalState{})
 
-	if err := p.UpdatePublicURL(context.Background(), "https://goclaw.tamgiac.com"); err == nil {
+	if err := p.UpdatePublicURL(context.Background(), "https://zalosclaw.tamgiac.com"); err == nil {
 		t.Fatal("expected store error to propagate")
 	}
 	// In-memory state still updated (acceptable — next write retry will sync).
 	// We document this in the method docstring; assert behaviour.
-	if got := p.PublicURL(); got != "https://goclaw.tamgiac.com" {
+	if got := p.PublicURL(); got != "https://zalosclaw.tamgiac.com" {
 		t.Fatalf("expected in-memory update despite persist failure, got %q", got)
 	}
 }

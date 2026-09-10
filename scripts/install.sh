@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# GoClaw installer — downloads the latest binary from GitHub Releases.
+# ZalosClaw installer — downloads the latest binary from GitHub Releases.
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/nextlevelbuilder/goclaw/main/scripts/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/nextlevelbuilder/zalosclaw/main/scripts/install.sh | bash
 #   curl -fsSL ... | bash -s -- --version v1.30.0
-#   curl -fsSL ... | bash -s -- --dir /opt/goclaw
+#   curl -fsSL ... | bash -s -- --dir /opt/zalosclaw
 #
 # Supported: Linux (amd64/arm64), macOS (amd64/arm64)
 
 set -euo pipefail
 
-REPO="nextlevelbuilder/goclaw"
-INSTALL_DIR="${GOCLAW_INSTALL_DIR:-/usr/local/bin}"
-MIGRATIONS_DIR="/usr/local/share/goclaw/migrations"
+REPO="nextlevelbuilder/zalosclaw"
+INSTALL_DIR="${ZALOSCLAW_INSTALL_DIR:-/usr/local/bin}"
+MIGRATIONS_DIR="/usr/local/share/zalosclaw/migrations"
 VERSION=""
 
 # ── Parse args ──
@@ -47,10 +47,10 @@ if [ -z "$VERSION" ]; then
   echo "Fetching latest release..."
   VERSION="$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" | grep '"tag_name"' | head -1 | sed 's/.*"tag_name": *"\([^"]*\)".*/\1/')"
 fi
-echo "Installing GoClaw ${VERSION} (${OS}/${ARCH})..."
+echo "Installing ZalosClaw ${VERSION} (${OS}/${ARCH})..."
 
 # ── Download ──
-ASSET="goclaw-${VERSION#v}-${OS}-${ARCH}.tar.gz"
+ASSET="zalosclaw-${VERSION#v}-${OS}-${ARCH}.tar.gz"
 URL="https://github.com/${REPO}/releases/download/${VERSION}/${ASSET}"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
@@ -63,39 +63,39 @@ tar -xzf "${TMP}/${ASSET}" -C "$TMP"
 
 # Check write permission, use sudo if needed
 if [ -w "$INSTALL_DIR" ]; then
-  cp "${TMP}/goclaw" "${INSTALL_DIR}/goclaw"
-  chmod +x "${INSTALL_DIR}/goclaw"
+  cp "${TMP}/zalosclaw" "${INSTALL_DIR}/zalosclaw"
+  chmod +x "${INSTALL_DIR}/zalosclaw"
   mkdir -p "${MIGRATIONS_DIR}"
   cp -r "${TMP}/migrations/"* "${MIGRATIONS_DIR}/"
 else
   echo "Installing to ${INSTALL_DIR} (requires sudo)..."
-  sudo cp "${TMP}/goclaw" "${INSTALL_DIR}/goclaw"
-  sudo chmod +x "${INSTALL_DIR}/goclaw"
+  sudo cp "${TMP}/zalosclaw" "${INSTALL_DIR}/zalosclaw"
+  sudo chmod +x "${INSTALL_DIR}/zalosclaw"
   sudo mkdir -p "${MIGRATIONS_DIR}"
   sudo cp -r "${TMP}/migrations/"* "${MIGRATIONS_DIR}/"
 fi
 
 echo ""
-echo "GoClaw ${VERSION} installed to ${INSTALL_DIR}/goclaw"
+echo "ZalosClaw ${VERSION} installed to ${INSTALL_DIR}/zalosclaw"
 echo "Migrations installed to ${MIGRATIONS_DIR}"
 echo ""
 echo "The binary includes an embedded web dashboard — no separate nginx needed."
 echo ""
 echo "Next steps:"
 echo "  1. Set up PostgreSQL (pgvector):"
-echo "     docker run -d --name goclaw-pg -p 5432:5432 -e POSTGRES_PASSWORD=goclaw pgvector/pgvector:pg18"
+echo "     docker run -d --name zalosclaw-pg -p 5432:5432 -e POSTGRES_PASSWORD=zalosclaw pgvector/pgvector:pg18"
 echo ""
 echo "  2. Set environment variables:"
-echo "     export GOCLAW_POSTGRES_DSN='postgres://postgres:goclaw@localhost:5432/postgres?sslmode=disable'"
-echo "     export GOCLAW_MIGRATIONS_DIR='${MIGRATIONS_DIR}'"
+echo "     export ZALOSCLAW_POSTGRES_DSN='postgres://postgres:zalosclaw@localhost:5432/postgres?sslmode=disable'"
+echo "     export ZALOSCLAW_MIGRATIONS_DIR='${MIGRATIONS_DIR}'"
 echo ""
 echo "  3. Start the onboard wizard (runs migrations automatically):"
-echo "     goclaw onboard"
+echo "     zalosclaw onboard"
 echo ""
 echo "  4. Start the gateway:"
-echo "     source .env.local && goclaw"
+echo "     source .env.local && zalosclaw"
 echo ""
 echo "  Web dashboard: http://localhost:18790"
 echo "  Health check:  curl http://localhost:18790/health"
 echo ""
-echo "  To update later: goclaw update --apply"
+echo "  To update later: zalosclaw update --apply"

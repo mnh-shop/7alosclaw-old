@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
 )
 
 // sttMaxBytes matches the OpenAI upload limit, which compatible engines

@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
 )
 
 // fetchAnthropicModels calls the Anthropic models API.

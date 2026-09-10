@@ -12,7 +12,7 @@ dependencies: []
 ## Context Links
 
 - Plan: `plans/260528-1807-group-chat-context-system-prompt/plan.md`
-- Issue: `digitopvn/goclaw#70`
+- Issue: `digitopvn/zalosclaw#70`
 - Prompt builder: `internal/agent/systemprompt.go`
 - Prompt tests: `internal/agent/systemprompt_*_test.go`
 
@@ -44,7 +44,7 @@ Expected group block:
 ## Current Chat Context
 - Platform: telegram
 - Chat type: Group
-- Group name: GoClaw Contributors
+- Group name: ZalosClaw Contributors
 - Group ID: -1001234567890
 - User: Alice (ID: 123456)
 ```

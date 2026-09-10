@@ -3,7 +3,7 @@ package tools
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func TestReviewOutboundMessage_UsesLocalKey(t *testing.T) {

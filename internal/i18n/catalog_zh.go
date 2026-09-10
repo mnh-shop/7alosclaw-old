@@ -28,9 +28,9 @@ func init() {
 		MsgGatewayOperatorEligibilityFailed:    "Agent 已创建，但无法验证其是否为第一个 Agent 来授予网关 operator 访问。",
 		MsgGatewayOperatorNotFirstAgent:        "未授予网关 operator 访问，因为这不是第一个 Agent。",
 		MsgGatewayOperatorTokenMissing:         "已跳过网关 operator 访问，因为未配置网关 token。",
-		MsgGatewayOperatorBinaryMissing:        "已跳过网关 operator 访问，因为无法发现 goclaw binary。",
-		MsgGatewayOperatorExistingReview:       "已跳过网关 operator 访问，因为现有 goclaw CLI credential 需要手动检查。",
-		MsgGatewayOperatorRegisterFailed:       "已跳过网关 operator 访问，因为无法注册 goclaw CLI credential。",
+		MsgGatewayOperatorBinaryMissing:        "已跳过网关 operator 访问，因为无法发现 zalosclaw binary。",
+		MsgGatewayOperatorExistingReview:       "已跳过网关 operator 访问，因为现有 zalosclaw CLI credential 需要手动检查。",
+		MsgGatewayOperatorRegisterFailed:       "已跳过网关 operator 访问，因为无法注册 zalosclaw CLI credential。",
 		MsgGatewayOperatorCredentialFailed:     "已跳过网关 operator 访问，因为无法存储 credential。",
 
 		// Chat
@@ -70,7 +70,7 @@ func init() {
 		// HTTP API
 		MsgInvalidAuth:            "身份验证无效",
 		MsgMsgsRequired:           "messages 是必填项",
-		MsgUserIDHeader:           "需要 X-GoClaw-User-Id 请求头",
+		MsgUserIDHeader:           "需要 X-ZalosClaw-User-Id 请求头",
 		MsgFileTooLarge:           "文件过大或 multipart 表单无效",
 		MsgMissingFileField:       "缺少 'file' 字段",
 		MsgInvalidFilename:        "文件名无效",
@@ -282,7 +282,7 @@ func init() {
 		MsgWebhookLocalhostOnlyViolation:      "此 Webhook 仅限本地调用",
 		MsgWebhookMediaChannelUnsupported:     "频道不支持媒体附件",
 		MsgWebhookIPDenied:                    "请求来源不在 IP 白名单中",
-		MsgWebhookEncryptionUnavailable:       "Webhook 加密密钥未配置；请设置 GOCLAW_ENCRYPTION_KEY 以启用 Webhook",
+		MsgWebhookEncryptionUnavailable:       "Webhook 加密密钥未配置；请设置 ZALOSCLAW_ENCRYPTION_KEY 以启用 Webhook",
 		MsgWebhookMessageTestRequiresStandard: "测试 message 类型 Webhook 需要 Standard 版本",
 
 		// Hooks

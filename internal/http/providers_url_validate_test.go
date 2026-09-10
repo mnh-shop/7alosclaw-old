@@ -134,7 +134,7 @@ func TestValidateProviderURL(t *testing.T) {
 	}
 }
 
-// --- Env gate: GOCLAW_ALLOW_PRIVATE_PROVIDER_URLS ---
+// --- Env gate: ZALOSCLAW_ALLOW_PRIVATE_PROVIDER_URLS ---
 
 func TestValidateProviderURL_AllowPrivateFlag(t *testing.T) {
 	saveAndRestoreGlobals(t)
@@ -328,7 +328,7 @@ func TestValidateProviderURL_PublicHostOK(t *testing.T) {
 	}
 }
 
-// --- GOCLAW_OLLAMA_ALLOWED_HOSTS opt-in for local provider types ---
+// --- ZALOSCLAW_OLLAMA_ALLOWED_HOSTS opt-in for local provider types ---
 
 func TestValidateProviderURL_OllamaAllowedHosts(t *testing.T) {
 	saveAndRestoreGlobals(t)
@@ -337,7 +337,7 @@ func TestValidateProviderURL_OllamaAllowedHosts(t *testing.T) {
 	t.Run("rejected when not configured", func(t *testing.T) {
 		ollamaAllowedHostsFn = func() []string { return nil }
 		if err := validateProviderURL("http://192.168.3.31:11434/v1", "ollama"); err == nil {
-			t.Error("expected LAN host to be rejected when GOCLAW_OLLAMA_ALLOWED_HOSTS is not configured")
+			t.Error("expected LAN host to be rejected when ZALOSCLAW_OLLAMA_ALLOWED_HOSTS is not configured")
 		}
 	})
 

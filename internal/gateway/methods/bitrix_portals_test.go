@@ -12,10 +12,10 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/gateway"
-	"github.com/nextlevelbuilder/goclaw/internal/permissions"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/pkg/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/gateway"
+	"github.com/nextlevelbuilder/zalosclaw/internal/permissions"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/protocol"
 )
 
 // ---------------------------------------------------------------------------
@@ -329,7 +329,7 @@ func TestBitrixPortals_Create_RBAC_OperatorDenied(t *testing.T) {
 func TestBitrixPortals_Create_HappyPath_ReturnsInstallURL(t *testing.T) {
 	tid := uuid.MustParse("11111111-1111-1111-1111-111111111111")
 	pStore := newStubBitrixPortalStore()
-	m := NewBitrixPortalsMethods(pStore, newStubChannelInstanceStore(), gatewayURLFn("https://goclaw.tamgiac.com"), "test-enc-key")
+	m := NewBitrixPortalsMethods(pStore, newStubChannelInstanceStore(), gatewayURLFn("https://zalosclaw.tamgiac.com"), "test-enc-key")
 
 	client, ch := gateway.NewCapturingTestClient(permissions.RoleAdmin, tid, "admin", 4)
 	m.handleCreate(store.WithTenantID(context.Background(), tid), client, buildBitrixReq(t, protocol.MethodBitrixPortalsCreate, map[string]string{
@@ -344,7 +344,7 @@ func TestBitrixPortals_Create_HappyPath_ReturnsInstallURL(t *testing.T) {
 		t.Fatalf("create failed: %+v", resp.Error)
 	}
 	result := resp.Payload.(map[string]any)
-	wantURL := "https://goclaw.tamgiac.com/bitrix24/install?state=" + tid.String() + ":myportal"
+	wantURL := "https://zalosclaw.tamgiac.com/bitrix24/install?state=" + tid.String() + ":myportal"
 	if result["install_url"] != wantURL {
 		t.Errorf("install_url = %q, want %q", result["install_url"], wantURL)
 	}
@@ -475,7 +475,7 @@ func TestBitrixPortals_Create_InvalidDomain(t *testing.T) {
 func TestBitrixPortals_Create_SelfHostedDomain(t *testing.T) {
 	tid := uuid.MustParse("22222222-2222-2222-2222-222222222222")
 	pStore := newStubBitrixPortalStore()
-	m := NewBitrixPortalsMethods(pStore, newStubChannelInstanceStore(), gatewayURLFn("https://goclaw.tamgiac.com"), "test-enc-key")
+	m := NewBitrixPortalsMethods(pStore, newStubChannelInstanceStore(), gatewayURLFn("https://zalosclaw.tamgiac.com"), "test-enc-key")
 
 	// Use a cloud domain (bitrixCloudDomainRegex) for the happy-path test
 	// since it bypasses SSRF DNS validation. Self-hosted SSRF validation

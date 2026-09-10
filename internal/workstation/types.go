@@ -3,7 +3,7 @@ package workstation
 import (
 	"regexp"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // workstationKeyRe validates workstation_key format.

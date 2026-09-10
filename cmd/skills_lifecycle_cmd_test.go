@@ -145,7 +145,7 @@ func captureSkillGatewayCalls(t *testing.T) *capturedSkillGatewayCalls {
 
 func TestRunLocalSkillDepsStatusPrintsJSON(t *testing.T) {
 	dir := t.TempDir()
-	if err := os.WriteFile(dir+"/SKILL.md", []byte("---\nname: Demo\ndeps:\n  - system:goclaw-missing-test-bin\n---\n"), 0o644); err != nil {
+	if err := os.WriteFile(dir+"/SKILL.md", []byte("---\nname: Demo\ndeps:\n  - system:zalosclaw-missing-test-bin\n---\n"), 0o644); err != nil {
 		t.Fatalf("write SKILL.md: %v", err)
 	}
 

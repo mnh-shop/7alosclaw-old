@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // fakeBudgetErr satisfies the contextBudgetExceededError interface that

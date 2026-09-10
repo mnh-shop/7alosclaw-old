@@ -8,7 +8,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/nextlevelbuilder/goclaw/internal/security"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
 )
 
 // DCRRequest is the Dynamic Client Registration request body (RFC 7591).
@@ -36,7 +36,7 @@ func RegisterClient(ctx context.Context, client *http.Client, registrationEndpoi
 		RedirectURIs:            []string{callbackURL},
 		GrantTypes:              []string{"authorization_code", "refresh_token"},
 		ResponseTypes:           []string{"code"},
-		ClientName:              "GoClaw Gateway",
+		ClientName:              "ZalosClaw Gateway",
 		TokenEndpointAuthMethod: "none", // public client — PKCE handles security
 	}
 	data, err := json.Marshal(body)

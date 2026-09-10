@@ -12,9 +12,9 @@ func TestExtractIdentityName(t *testing.T) {
 			name: "extracts inline markdown name",
 			content: `# IDENTITY.md - Who Am I?
 
-- **Name:** GoClaw
+- **Name:** ZalosClaw
 - **Creature:** AI assistant`,
-			want: "GoClaw",
+			want: "ZalosClaw",
 		},
 		{
 			name: "ignores next bullet when name is blank",
@@ -36,16 +36,16 @@ func TestExtractIdentityName(t *testing.T) {
 			name: "strips simple markdown wrappers from name",
 			content: `# IDENTITY.md - Who Am I?
 
-- **Name:** **GoClaw**
+- **Name:** **ZalosClaw**
 - **Creature:** AI assistant`,
-			want: "GoClaw",
+			want: "ZalosClaw",
 		},
 		{
 			name: "supports plain name format",
 			content: `# Identity
-Name: GoClaw
+Name: ZalosClaw
 Emoji: 🤖`,
-			want: "GoClaw",
+			want: "ZalosClaw",
 		},
 	}
 

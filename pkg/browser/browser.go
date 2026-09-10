@@ -14,7 +14,7 @@ import (
 	"github.com/go-rod/rod/lib/launcher"
 )
 
-// Backend identifies the CDP browser goclaw is talking to.
+// Backend identifies the CDP browser zalosclaw is talking to.
 // Chrome multiplexes all tabs/contexts over a single WS; Lightpanda requires
 // one CDP connection per tab (each connection is its own browser).
 type Backend string

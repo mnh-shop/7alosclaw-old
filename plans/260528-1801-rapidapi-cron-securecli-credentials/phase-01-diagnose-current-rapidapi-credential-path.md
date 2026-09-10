@@ -11,8 +11,8 @@ dependencies: []
 
 ## Context Links
 
-- Issue: `digitopvn/goclaw#74`
-- Related closed issue: `digitopvn/goclaw#54`
+- Issue: `digitopvn/zalosclaw#74`
+- Related closed issue: `digitopvn/zalosclaw#54`
 - Cron payload model: `internal/store/cron_store.go`
 - Cron run injection: `cmd/gateway_cron.go`
 - SecureCLI lookup: `internal/tools/credentialed_exec.go`
@@ -103,7 +103,7 @@ Code evidence:
 - `internal/store/cron_store.go` redacts `CredentialUserID` from response-safe cron jobs.
 - `internal/tools/credentialed_exec.go` uses `store.CredentialUserIDFromContext(ctx)` for `LookupByBinary`.
 - `internal/tools/credential_presets.go` has no `rapidapi` preset.
-- `internal/tools/credentialed_exec.go` returns downstream CLI output when env is empty, so a RapidAPI failure surfaces as raw `RAPIDAPI_KEY required` instead of a GoClaw credential diagnostic.
+- `internal/tools/credentialed_exec.go` returns downstream CLI output when env is empty, so a RapidAPI failure surfaces as raw `RAPIDAPI_KEY required` instead of a ZalosClaw credential diagnostic.
 
 Live DB inspection was not run in this phase because no operator-approved credentialed environment or target cron job was provided. Phase 2 proceeds with code-level regression coverage for the confirmed local gap.
 

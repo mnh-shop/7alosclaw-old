@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"regexp"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bgalert"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bgalert"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // SystemConfigsHandler handles system config CRUD endpoints.

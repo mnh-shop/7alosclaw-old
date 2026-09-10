@@ -8,7 +8,7 @@
     "url": "https://audit.internal.example.com/hooks/tool-usage",
     "headers": {
       "Authorization": "Bearer REPLACE_ME_ENCRYPTED",
-      "X-Goclaw-Audit": "tool-usage"
+      "X-Zalosclaw-Audit": "tool-usage"
     }
   },
   "timeout_ms": 2000,

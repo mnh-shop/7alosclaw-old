@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func (s *SQLiteKnowledgeGraphStore) UpsertRelation(ctx context.Context, relation *store.Relation) error {

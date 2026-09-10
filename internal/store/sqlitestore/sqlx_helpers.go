@@ -8,7 +8,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/jmoiron/sqlx/reflectx"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // pkgSqlxDB is the package-level *sqlx.DB wrapping the same *sql.DB connection pool.

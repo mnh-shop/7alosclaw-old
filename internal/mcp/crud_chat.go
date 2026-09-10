@@ -8,44 +8,44 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerChatCRUDTools registers the goclaw_chat_* MCP tools backed by the
+// registerChatCRUDTools registers the zalosclaw_chat_* MCP tools backed by the
 // live agent runtime (via ChatRunner) and store.SessionStore.
 func registerChatCRUDTools(srv *mcpserver.MCPServer, runner ChatRunner, sessions store.SessionStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_chat_send",
-		mcpgo.WithDescription("Send a chat message to a goclaw agent and receive the assistant's reply. Always synchronous — the underlying run's incremental events (if any) are not forwarded, only the final result."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_chat_send",
+		mcpgo.WithDescription("Send a chat message to a zalosclaw agent and receive the assistant's reply. Always synchronous — the underlying run's incremental events (if any) are not forwarded, only the final result."),
 		mcpgo.WithString("message", mcpgo.Required(), mcpgo.Description("The user message to send.")),
 		mcpgo.WithString("agent_id", mcpgo.Description("Agent key/slug (defaults to \"default\", or is inferred from session_key when provided).")),
 		mcpgo.WithString("session_key", mcpgo.Description("Existing session key to resume; a new one is created when omitted.")),
 	), handleChatSend(runner))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_chat_history",
-		mcpgo.WithDescription("Fetch the message history for a goclaw chat session."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_chat_history",
+		mcpgo.WithDescription("Fetch the message history for a zalosclaw chat session."),
 		mcpgo.WithString("session_key", mcpgo.Required(), mcpgo.Description("Session key.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleChatHistory(sessions))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_chat_inject",
-		mcpgo.WithDescription("Inject a message into a goclaw session's transcript without triggering an agent run."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_chat_inject",
+		mcpgo.WithDescription("Inject a message into a zalosclaw session's transcript without triggering an agent run."),
 		mcpgo.WithString("session_key", mcpgo.Required(), mcpgo.Description("Session key.")),
 		mcpgo.WithString("message", mcpgo.Required(), mcpgo.Description("Message text to inject.")),
 		mcpgo.WithString("label", mcpgo.Description("Optional label prefix (e.g. \"note\"), truncated to 100 chars.")),
 	), handleChatInject(sessions))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_chat_abort",
-		mcpgo.WithDescription("Cancel a running goclaw agent invocation for a session or a specific run ID."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_chat_abort",
+		mcpgo.WithDescription("Cancel a running zalosclaw agent invocation for a session or a specific run ID."),
 		mcpgo.WithString("run_id", mcpgo.Description("Specific run ID to abort.")),
 		mcpgo.WithString("session_key", mcpgo.Description("Session key whose active run(s) should be aborted.")),
 		mcpgo.WithDestructiveHintAnnotation(true),
 	), handleChatAbort(runner))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_chat_session_status",
-		mcpgo.WithDescription("Return the running state and current activity (phase, tool, iteration) for a goclaw chat session."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_chat_session_status",
+		mcpgo.WithDescription("Return the running state and current activity (phase, tool, iteration) for a zalosclaw chat session."),
 		mcpgo.WithString("session_key", mcpgo.Required(), mcpgo.Description("Session key.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleChatSessionStatus(runner))
@@ -150,7 +150,7 @@ func handleChatSessionStatus(runner ChatRunner) mcpserver.ToolHandlerFunc {
 	}
 }
 
-// registerChatBehaviorCRUDTool registers goclaw_chat_behavior_preview, backed
+// registerChatBehaviorCRUDTool registers zalosclaw_chat_behavior_preview, backed
 // by the same channels.ResolveChatBehavior/PreviewResolvedChatBehavior logic
 // used by the WS chat_behavior.preview method
 // (internal/gateway/methods/chat_behavior.go). The WS method additionally
@@ -158,7 +158,7 @@ func handleChatSessionStatus(runner ChatRunner) mcpserver.ToolHandlerFunc {
 // role/tenant; this MCP surface has no such per-caller identity (the bearer
 // token is the sole boundary), matching the rest of this CRUD MCP server.
 func registerChatBehaviorCRUDTool(srv *mcpserver.MCPServer, cfg *config.Config, channelMgr *channels.Manager) {
-	srv.AddTool(mcpgo.NewTool("goclaw_chat_behavior_preview",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_chat_behavior_preview",
 		mcpgo.WithDescription("Preview resolved channel delivery behavior (streaming/quick-ack/final-split) for a channel or an ad-hoc config."),
 		mcpgo.WithString("channel", mcpgo.Description("Channel instance name to resolve behavior for; empty uses the global default.")),
 		mcpgo.WithString("content", mcpgo.Description("Sample content to preview delivery for.")),

@@ -12,7 +12,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // writeStorageTestFile creates a file with the given content for testing.
@@ -375,8 +375,8 @@ func TestStorageMutationsRequireTenantAdmin(t *testing.T) {
 
 	viewerUpload := newStorageUploadRequest(t, "/v1/storage/files", "file", "x.txt", "data")
 	viewerUpload.Header.Set("Authorization", "Bearer gateway-token")
-	viewerUpload.Header.Set("X-GoClaw-User-Id", "viewer-user")
-	viewerUpload.Header.Set("X-GoClaw-Tenant-Id", "acme")
+	viewerUpload.Header.Set("X-ZalosClaw-User-Id", "viewer-user")
+	viewerUpload.Header.Set("X-ZalosClaw-Tenant-Id", "acme")
 	viewerUploadRR := httptest.NewRecorder()
 	mux.ServeHTTP(viewerUploadRR, viewerUpload)
 	if viewerUploadRR.Code != http.StatusForbidden {
@@ -385,8 +385,8 @@ func TestStorageMutationsRequireTenantAdmin(t *testing.T) {
 
 	viewerMove := httptest.NewRequest(http.MethodPut, "/v1/storage/move?from=from.txt&to=to.txt", nil)
 	viewerMove.Header.Set("Authorization", "Bearer gateway-token")
-	viewerMove.Header.Set("X-GoClaw-User-Id", "viewer-user")
-	viewerMove.Header.Set("X-GoClaw-Tenant-Id", "acme")
+	viewerMove.Header.Set("X-ZalosClaw-User-Id", "viewer-user")
+	viewerMove.Header.Set("X-ZalosClaw-Tenant-Id", "acme")
 	viewerMoveRR := httptest.NewRecorder()
 	mux.ServeHTTP(viewerMoveRR, viewerMove)
 	if viewerMoveRR.Code != http.StatusForbidden {
@@ -395,8 +395,8 @@ func TestStorageMutationsRequireTenantAdmin(t *testing.T) {
 
 	viewerDelete := httptest.NewRequest(http.MethodDelete, "/v1/storage/files/from.txt", nil)
 	viewerDelete.Header.Set("Authorization", "Bearer gateway-token")
-	viewerDelete.Header.Set("X-GoClaw-User-Id", "viewer-user")
-	viewerDelete.Header.Set("X-GoClaw-Tenant-Id", "acme")
+	viewerDelete.Header.Set("X-ZalosClaw-User-Id", "viewer-user")
+	viewerDelete.Header.Set("X-ZalosClaw-Tenant-Id", "acme")
 	viewerDeleteRR := httptest.NewRecorder()
 	mux.ServeHTTP(viewerDeleteRR, viewerDelete)
 	if viewerDeleteRR.Code != http.StatusForbidden {
@@ -405,8 +405,8 @@ func TestStorageMutationsRequireTenantAdmin(t *testing.T) {
 
 	adminUpload := newStorageUploadRequest(t, "/v1/storage/files", "file", "admin.txt", "data")
 	adminUpload.Header.Set("Authorization", "Bearer gateway-token")
-	adminUpload.Header.Set("X-GoClaw-User-Id", "admin-user")
-	adminUpload.Header.Set("X-GoClaw-Tenant-Id", "acme")
+	adminUpload.Header.Set("X-ZalosClaw-User-Id", "admin-user")
+	adminUpload.Header.Set("X-ZalosClaw-Tenant-Id", "acme")
 	adminUploadRR := httptest.NewRecorder()
 	mux.ServeHTTP(adminUploadRR, adminUpload)
 	if adminUploadRR.Code != http.StatusOK {

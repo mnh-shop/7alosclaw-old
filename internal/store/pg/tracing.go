@@ -11,7 +11,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/lib/pq"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // PGTracingStore implements store.TracingStore backed by Postgres.

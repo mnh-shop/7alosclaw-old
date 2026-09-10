@@ -10,19 +10,19 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerTeamsCRUDTools registers the goclaw_teams_* MCP tools backed by
+// registerTeamsCRUDTools registers the zalosclaw_teams_* MCP tools backed by
 // store.TeamStore. agents is used to resolve agent_key/UUID inputs for lead,
 // members, and add/remove-member operations.
 func registerTeamsCRUDTools(srv *mcpserver.MCPServer, teams store.TeamStore, agents store.AgentStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_list",
 		mcpgo.WithDescription("List teams visible to the caller."),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleTeamsList(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_create",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_create",
 		mcpgo.WithDescription("Create a new team."),
 		mcpgo.WithString("name", mcpgo.Required(), mcpgo.Description("Team name.")),
 		mcpgo.WithString("lead", mcpgo.Required(), mcpgo.Description("Lead agent key or UUID.")),
@@ -30,19 +30,19 @@ func registerTeamsCRUDTools(srv *mcpserver.MCPServer, teams store.TeamStore, age
 		mcpgo.WithString("description", mcpgo.Description("Team description.")),
 	), handleTeamsCreate(teams, agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_get",
 		mcpgo.WithDescription("Fetch a single team with its member list."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleTeamsGet(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_delete",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_delete",
 		mcpgo.WithDescription("Delete a team."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithDestructiveHintAnnotation(true),
 	), handleTeamsDelete(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_update",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_update",
 		mcpgo.WithDescription("Apply a partial update to a team's settings."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithString("name", mcpgo.Description("New team name.")),
@@ -50,19 +50,19 @@ func registerTeamsCRUDTools(srv *mcpserver.MCPServer, teams store.TeamStore, age
 		mcpgo.WithObject("settings", mcpgo.Description("New team settings object (merged, not replaced).")),
 	), handleTeamsUpdate(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_known_users",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_known_users",
 		mcpgo.WithDescription("List user IDs known to have interacted with a team."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleTeamsKnownUsers(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_scopes",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_scopes",
 		mcpgo.WithDescription("List distinct (channel, chatID) task scopes for a team."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleTeamsScopes(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_events_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_events_list",
 		mcpgo.WithDescription("List audit events for a team's tasks."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithNumber("limit", mcpgo.Description("Maximum entries to return.")),
@@ -70,14 +70,14 @@ func registerTeamsCRUDTools(srv *mcpserver.MCPServer, teams store.TeamStore, age
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleTeamsEventsList(teams))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_members_add",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_members_add",
 		mcpgo.WithDescription("Add an agent to a team."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithString("agent", mcpgo.Required(), mcpgo.Description("Agent key or UUID to add.")),
 		mcpgo.WithString("role", mcpgo.Enum("member", "reviewer"), mcpgo.Description("Member role; defaults to \"member\".")),
 	), handleTeamsMembersAdd(teams, agents))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_teams_members_remove",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_teams_members_remove",
 		mcpgo.WithDescription("Remove an agent from a team."),
 		mcpgo.WithString("team_id", mcpgo.Required(), mcpgo.Description("Team UUID.")),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent key or UUID to remove.")),
@@ -331,7 +331,7 @@ func handleTeamsMembersRemove(teams store.TeamStore, agents store.AgentStore) mc
 }
 
 // parseTeamID extracts and parses the required team_id parameter shared by
-// nearly all goclaw_teams_* and goclaw_teams_tasks_* tools.
+// nearly all zalosclaw_teams_* and zalosclaw_teams_tasks_* tools.
 func parseTeamID(req mcpgo.CallToolRequest) (uuid.UUID, error) {
 	teamIDStr, err := req.RequireString("team_id")
 	if err != nil {

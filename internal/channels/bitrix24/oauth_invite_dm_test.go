@@ -12,8 +12,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // capturedImbotCall is one recorded imbot.v2.Chat.Message.send request, as
@@ -121,7 +121,7 @@ func newOAuthInviteTestChannel(t *testing.T, imbotSrv *httptest.Server) (*Channe
 	portal := newTestPortal(t, httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		t.Error("no OAuth token call expected — access token is pre-seeded fresh")
 	})), portalFS, bc.TenantID(), "p", store.BitrixPortalState{
-		PublicURL:    "https://goclaw.example.com",
+		PublicURL:    "https://zalosclaw.example.com",
 		AccessToken:  "bot-access-tok",
 		RefreshToken: "bot-refresh-tok",
 		ExpiresAt:    time.Now().Add(time.Hour),

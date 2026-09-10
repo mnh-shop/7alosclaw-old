@@ -3,7 +3,7 @@ package skills
 // apk_update_checker.go — ApkUpdateChecker polls apk for available package
 // updates by invoking the pkg-helper Unix socket (actions: update-index,
 // list-outdated). All apk invocations run via the privileged helper because the
-// gateway runs unprivileged as `goclaw`. No direct exec.Command("apk", ...) here.
+// gateway runs unprivileged as `zalosclaw`. No direct exec.Command("apk", ...) here.
 //
 // Availability semantics:
 //   - Helper socket unreachable (dial fail) → Available:false, nil Err.

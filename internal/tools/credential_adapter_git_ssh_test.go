@@ -18,7 +18,7 @@ import (
 
 	"golang.org/x/crypto/ssh"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // genEd25519PEM returns an unencrypted OpenSSH PEM-encoded ed25519 private key.
@@ -159,7 +159,7 @@ func TestGitAdapter_PrepareSSH(t *testing.T) {
 	// Extract keypath: token after "-i ".
 	rest := strings.TrimPrefix(gsc, "ssh -i ")
 	keyPath := strings.SplitN(rest, " ", 2)[0]
-	if !strings.Contains(keyPath, "goclaw-gitkey-") {
+	if !strings.Contains(keyPath, "zalosclaw-gitkey-") {
 		t.Fatalf("keypath not in expected tmp prefix: %s", keyPath)
 	}
 	if !strings.HasPrefix(keyPath, os.TempDir()) {

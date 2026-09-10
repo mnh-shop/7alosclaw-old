@@ -828,7 +828,7 @@
         "invalidDomain": "Must be a valid hostname (e.g. mycorp.bitrix24.com, mycorp.bitrix24.vn, or your self-hosted domain).",
         "duplicateName": "A portal with this name already exists.",
         "forbidden": "You need tenant admin permission to create portals.",
-        "gatewayURLUnknown": "Open the goclaw UI via your public URL first (not localhost), then retry."
+        "gatewayURLUnknown": "Open the zalosclaw UI via your public URL first (not localhost), then retry."
       },
       "help": {
         "title": "How to get Client ID and Secret?",
@@ -846,7 +846,7 @@
         "installed": "Portal installed successfully!",
         "timedOut": "Authorization not completed yet. You can resume from the dropdown.",
         "closeResumeLater": "Close (resume later)",
-        "urlUnknown": "Install URL is unavailable. Open the goclaw UI via your public URL and retry from the dropdown."
+        "urlUnknown": "Install URL is unavailable. Open the zalosclaw UI via your public URL and retry from the dropdown."
       }
     }
   }

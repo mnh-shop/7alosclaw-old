@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // ListUnenrichedDocs returns documents with empty summary for re-enrichment.

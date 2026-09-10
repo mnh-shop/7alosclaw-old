@@ -9,9 +9,9 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/goclaw/internal/sandbox"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
+	"github.com/nextlevelbuilder/zalosclaw/internal/sandbox"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // virtualSystemFiles are files dynamically injected into the system prompt.
@@ -26,7 +26,7 @@ type ReadFileTool struct {
 	workspace       string
 	restrict        bool
 	allowedPrefixes []string                    // extra allowed path prefixes (e.g. skills dirs)
-	deniedPrefixes  []string                    // path prefixes to deny access to (e.g. .goclaw)
+	deniedPrefixes  []string                    // path prefixes to deny access to (e.g. .zalosclaw)
 	sandboxMgr      sandbox.Manager             // nil = direct host access
 	contextFileIntc *ContextFileInterceptor     // nil = no virtual FS routing
 	memIntc         *MemoryInterceptor          // nil = no memory routing
@@ -451,7 +451,7 @@ func ValidateRegularFileForRead(path string) error {
 }
 
 // checkDeniedPath returns an error if the resolved path falls under any denied prefix.
-// Denied prefixes are relative to the workspace (e.g. ".goclaw" denies workspace/.goclaw/).
+// Denied prefixes are relative to the workspace (e.g. ".zalosclaw" denies workspace/.zalosclaw/).
 // The resolved path should already be canonical (from resolvePath with restrict=true).
 func checkDeniedPath(resolved, workspace string, deniedPrefixes []string) error {
 	if len(deniedPrefixes) == 0 {

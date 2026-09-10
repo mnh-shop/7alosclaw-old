@@ -9,7 +9,7 @@ import (
 // CacheBoundaryMarker separates stable from dynamic prompt content.
 // Exported so agent package can assert consistency (agent has its own copy
 // to avoid circular import; agent_test verifies they match).
-const CacheBoundaryMarker = "<!-- GOCLAW_CACHE_BOUNDARY -->"
+const CacheBoundaryMarker = "<!-- ZALOSCLAW_CACHE_BOUNDARY -->"
 
 // SplitSystemPromptForCache splits a system prompt at CacheBoundaryMarker.
 // Returns 2 blocks if boundary found: stable (with cache_control) + dynamic (without).

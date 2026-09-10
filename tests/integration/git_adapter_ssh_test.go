@@ -33,8 +33,8 @@ import (
 
 	"golang.org/x/crypto/ssh"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 func makeTestKeyJSON(t *testing.T) []byte {
@@ -167,13 +167,13 @@ func TestGitAdapter_SSH_HostMismatch_NoTmpfile(t *testing.T) {
 	// This assertion observes os.TempDir(), which is process-global. Keep it
 	// serial so other SSH lifecycle tests cannot create legitimate temp keys
 	// between the before/after snapshots.
-	before, _ := filepath.Glob(filepath.Join(os.TempDir(), "goclaw-gitkey-*"))
+	before, _ := filepath.Glob(filepath.Join(os.TempDir(), "zalosclaw-gitkey-*"))
 	_, err := adapter.Prepare(context.Background(), nil, cred,
 		[]string{"clone", "git@gitlab.com:o/r.git"})
 	if err == nil {
 		t.Fatal("expected host mismatch error")
 	}
-	after, _ := filepath.Glob(filepath.Join(os.TempDir(), "goclaw-gitkey-*"))
+	after, _ := filepath.Glob(filepath.Join(os.TempDir(), "zalosclaw-gitkey-*"))
 	if len(after) > len(before) {
 		t.Fatalf("orphaned tmpfile after rejected Prepare: before=%d after=%d new=%v",
 			len(before), len(after), after)

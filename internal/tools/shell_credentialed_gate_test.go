@@ -14,7 +14,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // stubSecureCLIStore is a minimal in-memory SecureCLIStore used by shell gate
@@ -156,7 +156,7 @@ func TestExec_UnregisteredBinary_FallsThrough(t *testing.T) {
 // TestExec_GrantedBinary_UsesCredentialedPath — Red Team F9 applied:
 // sentinel binary name (not echo) proves the credentialed branch was taken.
 func TestExec_GrantedBinary_UsesCredentialedPath(t *testing.T) {
-	const sentinel = "xyz_goclaw_sentinel"
+	const sentinel = "xyz_zalosclaw_sentinel"
 	stub := newStubSecureCLIStore()
 	stub.byName[sentinel] = &store.SecureCLIBinary{
 		BinaryName:     sentinel,
@@ -432,7 +432,7 @@ func TestExec_AllowsShellWrapperWithUnregisteredInner(t *testing.T) {
 
 // Normalization consistency at LookupByBinary (Red Team F5).
 func TestExec_LookupPathNormalizes(t *testing.T) {
-	const sentinel = "xyz_goclaw_sentinel"
+	const sentinel = "xyz_zalosclaw_sentinel"
 	tool, stub, ctx := newGateTestTool(t)
 	stub.byName[sentinel] = &store.SecureCLIBinary{
 		BinaryName:     sentinel,
@@ -442,7 +442,7 @@ func TestExec_LookupPathNormalizes(t *testing.T) {
 		DenyVerbose:    json.RawMessage("[]"),
 	}
 	// Provide path-prefixed, mixed-case, padded form.
-	_ = tool.Execute(ctx, map[string]any{"command": "  /usr/local/bin/XYZ_GOCLAW_SENTINEL --help "})
+	_ = tool.Execute(ctx, map[string]any{"command": "  /usr/local/bin/XYZ_ZALOSCLAW_SENTINEL --help "})
 	stub.mu.Lock()
 	got := stub.lastLookupName
 	stub.mu.Unlock()

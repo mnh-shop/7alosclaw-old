@@ -13,7 +13,7 @@ import (
 	"github.com/google/uuid"
 	_ "modernc.org/sqlite"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 type emptyUsageSnapshotStore struct{}

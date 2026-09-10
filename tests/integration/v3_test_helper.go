@@ -15,13 +15,13 @@ import (
 	"github.com/google/uuid"
 	_ "github.com/jackc/pgx/v5/stdlib"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/security"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/store/pg"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
 )
 
-const defaultTestDSN = "postgres://postgres:test@localhost:5433/goclaw_test?sslmode=disable"
+const defaultTestDSN = "postgres://postgres:test@localhost:5433/zalosclaw_test?sslmode=disable"
 
 var (
 	sharedDB     *sql.DB

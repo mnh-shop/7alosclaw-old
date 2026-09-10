@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="../_statics/goclaw.png" alt="GoClaw" />
+  <img src="../_statics/zalosclaw.png" alt="ZalosClaw" />
 </p>
 
-<h1 align="center">GoClaw</h1>
+<h1 align="center">ZalosClaw</h1>
 
 <p align="center"><strong>Enterprise AI Agent Platform</strong></p>
 
@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.goclaw.sh">Dokumentáció</a> •
-  <a href="https://docs.goclaw.sh/#quick-start">Gyors kezdés</a> •
+  <a href="https://docs.zalosclaw.sh">Dokumentáció</a> •
+  <a href="https://docs.zalosclaw.sh/#quick-start">Gyors kezdés</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -28,7 +28,7 @@ Single binary. Production-tested. Agents that orchestrate for you.
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License: MIT" />
 </p>
 
-A **GoClaw** egy többügynökös AI átjáró, amely összeköti az LLM-eket az eszközeiddel, csatornáiddal és adataiddal — egyetlen Go binárisként telepítve, futásidejű függőségek nélkül. Ügynökcsapatokat és ügynökök közötti delegálást vezényel több mint 20 LLM-szolgáltatón keresztül, teljes többbérlős izolációval.
+A **ZalosClaw** egy többügynökös AI átjáró, amely összeköti az LLM-eket az eszközeiddel, csatornáiddal és adataiddal — egyetlen Go binárisként telepítve, futásidejű függőségek nélkül. Ügynökcsapatokat és ügynökök közötti delegálást vezényel több mint 20 LLM-szolgáltatón keresztül, teljes többbérlős izolációval.
 
 Az [OpenClaw](https://github.com/openclaw/openclaw) Go portja, fokozott biztonsággal, többbérlős PostgreSQL-lel és éles környezetre alkalmas megfigyelhetőséggel.
 
@@ -80,7 +80,7 @@ Az [OpenClaw](https://github.com/openclaw/openclaw) Go portja, fokozott biztons�
 
 ## Claw Ökoszisztéma
 
-|                 | OpenClaw        | ZeroClaw | PicoClaw | **GoClaw**                              |
+|                 | OpenClaw        | ZeroClaw | PicoClaw | **ZalosClaw**                              |
 | --------------- | --------------- | -------- | -------- | --------------------------------------- |
 | Nyelv           | TypeScript      | Rust     | Go       | **Go**                                  |
 | Bináris méret   | 28 MB + Node.js | 3.4 MB   | ~8 MB    | **~25 MB** (alap) / **~36 MB** (+ OTel) |
@@ -89,7 +89,7 @@ Az [OpenClaw](https://github.com/openclaw/openclaw) Go portja, fokozott biztons�
 | Indulás         | > 5 s           | < 10 ms  | < 1 s    | **< 1 s**                               |
 | Célhardver      | $599+ Mac Mini  | $10 edge | $10 edge | **$5 VPS+**                             |
 
-| Funkció                    | OpenClaw                             | ZeroClaw                                     | PicoClaw                              | **GoClaw**                     |
+| Funkció                    | OpenClaw                             | ZeroClaw                                     | PicoClaw                              | **ZalosClaw**                     |
 | -------------------------- | ------------------------------------ | -------------------------------------------- | ------------------------------------- | ------------------------------ |
 | Többbérlős (PostgreSQL)    | —                                    | —                                            | —                                     | ✅                             |
 | MCP integráció             | — (ACP-t használ)                   | —                                            | —                                     | ✅ (stdio/SSE/streamable-http) |
@@ -110,7 +110,7 @@ Az [OpenClaw](https://github.com/openclaw/openclaw) Go portja, fokozott biztons�
 ## Architektúra
 
 <p align="center">
-  <img src="../_statics/architecture.jpg" alt="GoClaw Architecture" width="800" />
+  <img src="../_statics/architecture.jpg" alt="ZalosClaw Architecture" width="800" />
 </p>
 
 ## Gyors kezdés
@@ -120,10 +120,10 @@ Az [OpenClaw](https://github.com/openclaw/openclaw) Go portja, fokozott biztons�
 ### Forrásból
 
 ```bash
-git clone https://github.com/nextlevelbuilder/goclaw.git && cd goclaw
+git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
 make build
-./goclaw onboard        # Interaktív telepítő varázsló
-source .env.local && ./goclaw
+./zalosclaw onboard        # Interaktív telepítő varázsló
+source .env.local && ./zalosclaw
 ```
 
 ### Docker segítségével
@@ -132,20 +132,20 @@ source .env.local && ./goclaw
 # .env generálása automatikusan generált titkokkal
 chmod +x prepare-env.sh && ./prepare-env.sh
 
-# Adj meg legalább egy GOCLAW_*_API_KEY értéket a .env fájlban, majd:
+# Adj meg legalább egy ZALOSCLAW_*_API_KEY értéket a .env fájlban, majd:
 make up
 
 # Webes irányítópult: http://localhost:18790
 # Állapotfelmérés: curl http://localhost:18790/health
 ```
 
-Ha a `GOCLAW_*_API_KEY` környezeti változók be vannak állítva, az átjáró interaktív prompt nélkül automatikusan elvégzi az onboardingot — felismeri a szolgáltatót, futtatja a migrációkat és feltölti az alapértelmezett adatokat.
+Ha a `ZALOSCLAW_*_API_KEY` környezeti változók be vannak állítva, az átjáró interaktív prompt nélkül automatikusan elvégzi az onboardingot — felismeri a szolgáltatót, futtatja a migrációkat és feltölti az alapértelmezett adatokat.
 
-> A build-változatokért (OTel, Tailscale, Redis), Docker image-címkékért és compose overlay-ekért lásd a [Telepítési útmutatót](https://docs.goclaw.sh/#deploy-docker-compose).
+> A build-változatokért (OTel, Tailscale, Redis), Docker image-címkékért és compose overlay-ekért lásd a [Telepítési útmutatót](https://docs.zalosclaw.sh/#deploy-docker-compose).
 
 ## Többügynökös vezénylés
 
-A GoClaw támogatja az ügynökcsapatokat és az ügynökök közötti delegálást — minden ügynök saját identitással, eszközökkel, LLM-szolgáltatóval és kontextfájlokkal fut.
+A ZalosClaw támogatja az ügynökcsapatokat és az ügynökök közötti delegálást — minden ügynök saját identitással, eszközökkel, LLM-szolgáltatóval és kontextfájlokkal fut.
 
 ### Ügynök delegálás
 
@@ -170,7 +170,7 @@ Az ügynökök explicit **jogosultsági kapcsolatokon** keresztül kommunikálna
 - **Csapat postaláda** — Közvetlen társak közötti üzenetküldés és körüzenet
 - **Eszközök**: `team_tasks` feladatkezeléshez, `team_message` postaládához
 
-> A delegálás részleteiért, jogosultsági kapcsolatokért és párhuzamossági vezérlésért lásd az [Ügynökcsapatok dokumentációt](https://docs.goclaw.sh/#teams-what-are-teams).
+> A delegálás részleteiért, jogosultsági kapcsolatokért és párhuzamossági vezérlésért lásd az [Ügynökcsapatok dokumentációt](https://docs.zalosclaw.sh/#teams-what-are-teams).
 
 ## Beépített eszközök
 
@@ -214,19 +214,19 @@ Az ügynökök explicit **jogosultsági kapcsolatokon** keresztül kommunikálna
 
 ## Dokumentáció
 
-A teljes dokumentáció elérhető a **[docs.goclaw.sh](https://docs.goclaw.sh)** oldalon — vagy böngéssz a forrásban itt: [`goclaw-docs/`](https://github.com/nextlevelbuilder/goclaw-docs)
+A teljes dokumentáció elérhető a **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** oldalon — vagy böngéssz a forrásban itt: [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
 
 | Szakasz | Témák |
 |---------|--------|
-| [Kezdő lépések](https://docs.goclaw.sh/#what-is-goclaw) | Telepítés, Gyors kezdés, Konfiguráció, Webes irányítópult bemutató |
-| [Alapfogalmak](https://docs.goclaw.sh/#how-goclaw-works) | Ügynök hurok, Munkamenetek, Eszközök, Memória, Többbérlősség |
-| [Ügynökök](https://docs.goclaw.sh/#creating-agents) | Ügynökök létrehozása, Kontextfájlok, Személyiség, Megosztás és hozzáférés |
-| [Szolgáltatók](https://docs.goclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 további |
-| [Csatornák](https://docs.goclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Ügynökcsapatok](https://docs.goclaw.sh/#teams-what-are-teams) | Csapatok, Feladattábla, Üzenetküldés, Delegálás és átadás |
-| [Haladó](https://docs.goclaw.sh/#custom-tools) | Egyéni eszközök, MCP, Skillek, Cron, Sandbox, Horgok, RBAC |
-| [Telepítés](https://docs.goclaw.sh/#deploy-docker-compose) | Docker Compose, Adatbázis, Biztonság, Megfigyelhetőség, Tailscale |
-| [Hivatkozás](https://docs.goclaw.sh/#cli-commands) | CLI parancsok, REST API, WebSocket protokoll, Környezeti változók |
+| [Kezdő lépések](https://docs.zalosclaw.sh/#what-is-zalosclaw) | Telepítés, Gyors kezdés, Konfiguráció, Webes irányítópult bemutató |
+| [Alapfogalmak](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Ügynök hurok, Munkamenetek, Eszközök, Memória, Többbérlősség |
+| [Ügynökök](https://docs.zalosclaw.sh/#creating-agents) | Ügynökök létrehozása, Kontextfájlok, Személyiség, Megosztás és hozzáférés |
+| [Szolgáltatók](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 további |
+| [Csatornák](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Ügynökcsapatok](https://docs.zalosclaw.sh/#teams-what-are-teams) | Csapatok, Feladattábla, Üzenetküldés, Delegálás és átadás |
+| [Haladó](https://docs.zalosclaw.sh/#custom-tools) | Egyéni eszközök, MCP, Skillek, Cron, Sandbox, Horgok, RBAC |
+| [Telepítés](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, Adatbázis, Biztonság, Megfigyelhetőség, Tailscale |
+| [Hivatkozás](https://docs.zalosclaw.sh/#cli-commands) | CLI parancsok, REST API, WebSocket protokoll, Környezeti változók |
 
 ## Tesztelés
 
@@ -241,7 +241,7 @@ Részletes funkció-állapotért, beleértve azt, hogy mi lett tesztelve éles k
 
 ## Köszönetnyilvánítás
 
-A GoClaw az eredeti [OpenClaw](https://github.com/openclaw/openclaw) projektre épül. Hálásak vagyunk az architektúráért és a vízióért, amely ezt a Go portot ihlette.
+A ZalosClaw az eredeti [OpenClaw](https://github.com/openclaw/openclaw) projektre épül. Hálásak vagyunk az architektúráért és a vízióért, amely ezt a Go portot ihlette.
 
 ## Licenc
 

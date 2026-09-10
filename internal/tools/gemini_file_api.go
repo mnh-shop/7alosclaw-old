@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 const (
@@ -150,7 +150,7 @@ func geminiFilePoll(ctx context.Context, apiKey, fileName string) (fileURI strin
 // then calls generateContent with file_data reference.
 // Used for audio/video files where inlineData doesn't work.
 func geminiFileAPICall(ctx context.Context, apiKey, model, prompt string, data []byte, mime string, httpTimeout time.Duration) (*providers.ChatResponse, error) {
-	displayName := fmt.Sprintf("goclaw_%d", time.Now().UnixNano())
+	displayName := fmt.Sprintf("zalosclaw_%d", time.Now().UnixNano())
 
 	slog.Info("gemini file api: uploading", "size", len(data), "mime", mime)
 	fileName, fileURI, err := geminiFileUpload(ctx, apiKey, displayName, data, mime)
@@ -346,7 +346,7 @@ func geminiFileUploadStream(ctx context.Context, apiKey, displayName string, rea
 // geminiFileAPICallStream uploads a file stream via Gemini File API, polls until ready,
 // then calls generateContent with file_data reference.
 func geminiFileAPICallStream(ctx context.Context, apiKey, model, prompt string, reader io.Reader, contentLength int64, mime string, httpTimeout time.Duration) (*providers.ChatResponse, error) {
-	displayName := fmt.Sprintf("goclaw_%d", time.Now().UnixNano())
+	displayName := fmt.Sprintf("zalosclaw_%d", time.Now().UnixNano())
 
 	slog.Info("gemini file api: uploading stream", "size", contentLength, "mime", mime)
 	fileName, fileURI, err := geminiFileUploadStream(ctx, apiKey, displayName, reader, contentLength, mime)

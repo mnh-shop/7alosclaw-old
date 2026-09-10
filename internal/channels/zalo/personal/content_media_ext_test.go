@@ -14,7 +14,7 @@ import (
 // it based on sniffed content, regardless of the URL-derived extension.
 func TestFixDownloadedExtRenamesSniffedImage(t *testing.T) {
 	dir := t.TempDir()
-	p := filepath.Join(dir, "goclaw_zca_test.bin")
+	p := filepath.Join(dir, "zalosclaw_zca_test.bin")
 	png := append([]byte{0x89, 'P', 'N', 'G', 0x0D, 0x0A, 0x1A, 0x0A}, make([]byte, 64)...)
 	if err := os.WriteFile(p, png, 0644); err != nil {
 		t.Fatal(err)
@@ -32,7 +32,7 @@ func TestFixDownloadedExtRenamesSniffedImage(t *testing.T) {
 // scoped to unblocking vision input, not reclassifying arbitrary files.
 func TestFixDownloadedExtLeavesNonImage(t *testing.T) {
 	dir := t.TempDir()
-	p := filepath.Join(dir, "goclaw_zca_doc.bin")
+	p := filepath.Join(dir, "zalosclaw_zca_doc.bin")
 	if err := os.WriteFile(p, []byte("%PDF-1.4 not an image"), 0644); err != nil {
 		t.Fatal(err)
 	}
@@ -45,7 +45,7 @@ func TestFixDownloadedExtLeavesNonImage(t *testing.T) {
 // even though sniffing would also say "image" — avoids pointless renames.
 func TestFixDownloadedExtLeavesCorrectExtension(t *testing.T) {
 	dir := t.TempDir()
-	p := filepath.Join(dir, "goclaw_zca_test.jpg")
+	p := filepath.Join(dir, "zalosclaw_zca_test.jpg")
 	jpg := append([]byte{0xFF, 0xD8, 0xFF, 0xE0}, make([]byte, 64)...)
 	if err := os.WriteFile(p, jpg, 0644); err != nil {
 		t.Fatal(err)

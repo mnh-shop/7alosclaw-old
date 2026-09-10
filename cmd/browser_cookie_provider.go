@@ -10,8 +10,8 @@ import (
 	"github.com/go-rod/rod/lib/proto"
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/pkg/browser"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/pkg/browser"
 )
 
 type storeBrowserCookieProvider struct {

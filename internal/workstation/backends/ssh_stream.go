@@ -8,7 +8,7 @@ import (
 	"log/slog"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/workstation"
+	"github.com/nextlevelbuilder/zalosclaw/internal/workstation"
 	"golang.org/x/crypto/ssh"
 )
 

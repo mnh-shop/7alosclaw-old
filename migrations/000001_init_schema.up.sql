@@ -1,4 +1,4 @@
--- GoClaw Multi-Tenant Schema
+-- ZalosClaw Multi-Tenant Schema
 -- Requires: pgcrypto, pgvector extensions
 
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";

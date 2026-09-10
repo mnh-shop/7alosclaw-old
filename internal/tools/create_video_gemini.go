@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // callGeminiVideoGen uses the Gemini predictLongRunning API for Veo video generation.

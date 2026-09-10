@@ -4,7 +4,7 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // defaultProviderRequestTimeoutSec is used when the tenant has not configured

@@ -1,5 +1,5 @@
 # Base docker-compose — shared service definition.
-# Pre-built images: ghcr.io/nextlevelbuilder/goclaw (also on Docker Hub: digitop/goclaw)
+# Pre-built images: ghcr.io/nextlevelbuilder/zalosclaw (also on Docker Hub: digitop/zalosclaw)
 #
 # The default `latest` image includes an embedded web dashboard (no separate nginx needed).
 # Web UI is served at the same port as the API (default: 18790).
@@ -23,38 +23,38 @@
 # With Claude CLI:    add -f docker-compose.claude-cli.yml
 
 services:
-  goclaw:
-    image: ghcr.io/nextlevelbuilder/goclaw:latest
+  zalosclaw:
+    image: ghcr.io/nextlevelbuilder/zalosclaw:latest
     build:
-      context: ${GOCLAW_DIR:-.}
+      context: ${ZALOSCLAW_DIR:-.}
       dockerfile: Dockerfile
       args:
         ENABLE_OTEL: "${ENABLE_OTEL:-false}"
         ENABLE_EMBEDUI: "${ENABLE_EMBEDUI:-true}"  # set to false when using WITH_WEB_NGINX
         ENABLE_PYTHON: "${ENABLE_PYTHON:-true}"
         ENABLE_FULL_SKILLS: "${ENABLE_FULL_SKILLS:-false}"
-        VERSION: "${GOCLAW_VERSION:-dev}"
-    # Uncomment to test update UI: GOCLAW_VERSION=v1.0.0
+        VERSION: "${ZALOSCLAW_VERSION:-dev}"
+    # Uncomment to test update UI: ZALOSCLAW_VERSION=v1.0.0
     ports:
-      - "${GOCLAW_PORT:-18790}:18790"
+      - "${ZALOSCLAW_PORT:-18790}:18790"
     env_file:
       - path: .env
         required: false
     environment:
-      - GOCLAW_HOST=0.0.0.0
-      - GOCLAW_PORT=18790
-      - GOCLAW_CONFIG=/app/data/config.json
-      - GOCLAW_GATEWAY_TOKEN=${GOCLAW_GATEWAY_TOKEN:?run ./prepare-env.sh or set GOCLAW_GATEWAY_TOKEN}
-      - GOCLAW_ENCRYPTION_KEY=${GOCLAW_ENCRYPTION_KEY:-}
-      - GOCLAW_SKILLS_DIR=/app/data/skills
+      - ZALOSCLAW_HOST=0.0.0.0
+      - ZALOSCLAW_PORT=18790
+      - ZALOSCLAW_CONFIG=/app/data/config.json
+      - ZALOSCLAW_GATEWAY_TOKEN=${ZALOSCLAW_GATEWAY_TOKEN:?run ./prepare-env.sh or set ZALOSCLAW_GATEWAY_TOKEN}
+      - ZALOSCLAW_ENCRYPTION_KEY=${ZALOSCLAW_ENCRYPTION_KEY:-}
+      - ZALOSCLAW_SKILLS_DIR=/app/data/skills
       # Debug
-      - GOCLAW_TRACE_VERBOSE=${GOCLAW_TRACE_VERBOSE:-0}
+      - ZALOSCLAW_TRACE_VERBOSE=${ZALOSCLAW_TRACE_VERBOSE:-0}
       - BITRIX24_LOG_RAW_EVENT=${BITRIX24_LOG_RAW_EVENT:-0}
       - BITRIX24_FORCE_REREGISTER=${BITRIX24_FORCE_REREGISTER:-0}
       - BITRIX24_DEBUG_UNREDACTED_TOKEN=${BITRIX24_DEBUG_UNREDACTED_TOKEN:-0}
     volumes:
-      - goclaw-data:/app/data
-      - goclaw-workspace:/app/workspace
+      - zalosclaw-data:/app/data
+      - zalosclaw-workspace:/app/workspace
     extra_hosts:
       - "host.docker.internal:host-gateway"
     security_opt:
@@ -76,14 +76,14 @@ services:
           pids: 200
     networks:
       - default
-      - goclaw-net
+      - zalosclaw-net
     restart: unless-stopped
 
 volumes:
-  goclaw-data:
-  goclaw-workspace:
+  zalosclaw-data:
+  zalosclaw-workspace:
 
 networks:
-  goclaw-net:
-    name: goclaw-net
+  zalosclaw-net:
+    name: zalosclaw-net
     driver: bridge

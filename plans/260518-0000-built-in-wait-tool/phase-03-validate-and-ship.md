@@ -23,7 +23,7 @@ Validate the implementation with focused Go tests, compile checks, adversarial r
 3. Run code review on changed files and address correctness findings.
 4. Update docs/changelog only if implementation changes user-facing admin docs.
 5. Stage only plan + implementation files; run `git diff --cached --check` and staged secret scan.
-6. Commit with conventional message, push `codex/feat-wait-tool`, and create PR to `digitopvn/goclaw:dev`.
+6. Commit with conventional message, push `codex/feat-wait-tool`, and create PR to `digitopvn/zalosclaw:dev`.
 
 ## Success Criteria
 

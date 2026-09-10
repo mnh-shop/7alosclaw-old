@@ -9,7 +9,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
 )
 
 // denyWinsMockTool is a minimal Tool for populating a Registry in tests.

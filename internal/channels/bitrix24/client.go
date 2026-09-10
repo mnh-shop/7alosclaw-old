@@ -1,4 +1,4 @@
-// Package bitrix24 implements a native goclaw channel for the Bitrix24 portal.
+// Package bitrix24 implements a native zalosclaw channel for the Bitrix24 portal.
 //
 // This file is the low-level REST client. Phase 01 only exposes the OAuth2
 // endpoints (token exchange + refresh) so the Portal runtime can bootstrap
@@ -208,7 +208,7 @@ func (c *Client) postTokenForm(ctx context.Context, form url.Values) (*TokenResp
 }
 
 // ValidateAccessToken checks that Bitrix24 accepts the access token on this
-// portal domain before GoClaw persists it as install state.
+// portal domain before ZalosClaw persists it as install state.
 func (c *Client) ValidateAccessToken(ctx context.Context, accessToken string) error {
 	if c.domain == "" {
 		return errors.New("bitrix24 client: domain not set")

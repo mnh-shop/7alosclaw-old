@@ -14,16 +14,16 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/permissions"
-	"github.com/nextlevelbuilder/goclaw/internal/skills"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/permissions"
+	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // StorageHandler provides HTTP endpoints for browsing and managing
-// files inside the ~/.goclaw/ data directory.
+// files inside the ~/.zalosclaw/ data directory.
 // Skills directories are browsable (read-only) but deletion is blocked.
 // sizeCacheEntry holds a cached storage size calculation for one tenant.
 type sizeCacheEntry struct {
@@ -33,7 +33,7 @@ type sizeCacheEntry struct {
 }
 
 type StorageHandler struct {
-	baseDir string // global data dir (resolved absolute path to ~/.goclaw/)
+	baseDir string // global data dir (resolved absolute path to ~/.zalosclaw/)
 	tenants store.TenantStore
 
 	// sizeCache caches the total storage size per tenant for 60 minutes.
@@ -189,7 +189,7 @@ func (h *StorageHandler) validateStorageParent(r *http.Request, base, parent str
 	}
 }
 
-// handleList lists files and directories under ~/.goclaw/ with depth limiting.
+// handleList lists files and directories under ~/.zalosclaw/ with depth limiting.
 // Query params:
 //   - ?path=  scopes the listing to a subtree
 //   - ?depth= max depth to walk (default 3, max 20)

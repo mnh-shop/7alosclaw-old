@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // syncSystemConfigs upserts non-secret config values into the system_configs table.

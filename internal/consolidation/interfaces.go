@@ -3,7 +3,7 @@ package consolidation
 import (
 	"context"
 
-	"github.com/nextlevelbuilder/goclaw/internal/knowledgegraph"
+	"github.com/nextlevelbuilder/zalosclaw/internal/knowledgegraph"
 )
 
 // EntityExtractor extracts knowledge graph entities from text.

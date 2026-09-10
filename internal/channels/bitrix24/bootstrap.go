@@ -4,7 +4,7 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // BootstrapPortals warms the shared Router with every bitrix_portals row in

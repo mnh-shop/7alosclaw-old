@@ -162,7 +162,7 @@ func runAgentAdd() {
 		os.Exit(1)
 	}
 	if len(providers) == 0 {
-		fmt.Println("No providers configured. Run 'goclaw providers add' first.")
+		fmt.Println("No providers configured. Run 'zalosclaw providers add' first.")
 		return
 	}
 

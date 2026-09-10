@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
 )
 
 // SynthesizeStream streams ElevenLabs TTS audio via the /stream endpoint.

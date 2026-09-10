@@ -132,7 +132,7 @@ type execCwdKey struct{}
 // WithExecCwd returns a context carrying the working directory the
 // credentialed exec will use. Adapters consult this so any pre-flight
 // sub-exec (e.g. `git config --get remote.origin.url`) runs inside the
-// caller's repo, not goclaw's daemon CWD.
+// caller's repo, not zalosclaw's daemon CWD.
 func WithExecCwd(ctx context.Context, cwd string) context.Context {
 	if cwd == "" {
 		return ctx

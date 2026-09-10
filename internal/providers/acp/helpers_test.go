@@ -16,9 +16,9 @@ func TestFilterACPEnv_RemovesSensitivePrefixes(t *testing.T) {
 		kept    []string
 	}{
 		{
-			name:    "GOCLAW prefix",
-			env:     []string{"GOCLAW_TOKEN=abc", "HOME=/root"},
-			removed: []string{"GOCLAW_TOKEN=abc"},
+			name:    "ZALOSCLAW prefix",
+			env:     []string{"ZALOSCLAW_TOKEN=abc", "HOME=/root"},
+			removed: []string{"ZALOSCLAW_TOKEN=abc"},
 			kept:    []string{"HOME=/root"},
 		},
 		{
@@ -131,11 +131,11 @@ func TestFilterACPEnv_AllSafe(t *testing.T) {
 
 func TestFilterACPEnv_CaseInsensitive(t *testing.T) {
 	// keys are uppercased before comparison
-	env := []string{"goclaw_token=abc", "SAFE=ok"}
+	env := []string{"zalosclaw_token=abc", "SAFE=ok"}
 	filtered := filterACPEnv(env)
 	for _, f := range filtered {
-		if strings.HasPrefix(strings.ToUpper(f), "GOCLAW_") {
-			t.Errorf("expected lowercase goclaw_token to be stripped, got %q", f)
+		if strings.HasPrefix(strings.ToUpper(f), "ZALOSCLAW_") {
+			t.Errorf("expected lowercase zalosclaw_token to be stripped, got %q", f)
 		}
 	}
 }

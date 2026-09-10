@@ -4,10 +4,10 @@ import (
 	"context"
 	"net/http"
 
-	kg "github.com/nextlevelbuilder/goclaw/internal/knowledgegraph"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	usagecaps "github.com/nextlevelbuilder/goclaw/internal/usage/caps"
+	kg "github.com/nextlevelbuilder/zalosclaw/internal/knowledgegraph"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
 )
 
 // KnowledgeGraphHandler handles KG entity/relation management endpoints.

@@ -3,7 +3,7 @@ package channels
 import (
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
 )
 
 // --- Run tracking for streaming/reaction event forwarding ---

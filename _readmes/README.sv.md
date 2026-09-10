@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="../_statics/goclaw.png" alt="GoClaw" />
+  <img src="../_statics/zalosclaw.png" alt="ZalosClaw" />
 </p>
 
-<h1 align="center">GoClaw</h1>
+<h1 align="center">ZalosClaw</h1>
 
 <p align="center"><strong>Enterprise AI Agent Platform</strong></p>
 
@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.goclaw.sh">Dokumentation</a> •
-  <a href="https://docs.goclaw.sh/#quick-start">Snabbstart</a> •
+  <a href="https://docs.zalosclaw.sh">Dokumentation</a> •
+  <a href="https://docs.zalosclaw.sh/#quick-start">Snabbstart</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -28,7 +28,7 @@ Single binary. Production-tested. Agents that orchestrate for you.
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License: MIT" />
 </p>
 
-**GoClaw** är en multi-agent AI-gateway som kopplar ihop LLM:er med dina verktyg, kanaler och data — driftsatt som en enda Go-binärfil utan externa körtidsberoenden. Den orkestrerar agentteam och inter-agent-delegering mellan 20+ LLM-leverantörer med full flertenantsisolering.
+**ZalosClaw** är en multi-agent AI-gateway som kopplar ihop LLM:er med dina verktyg, kanaler och data — driftsatt som en enda Go-binärfil utan externa körtidsberoenden. Den orkestrerar agentteam och inter-agent-delegering mellan 20+ LLM-leverantörer med full flertenantsisolering.
 
 En Go-port av [OpenClaw](https://github.com/openclaw/openclaw) med förbättrad säkerhet, flertenants PostgreSQL och observerbarhet för produktionsmiljö.
 
@@ -80,7 +80,7 @@ En Go-port av [OpenClaw](https://github.com/openclaw/openclaw) med förbättrad 
 
 ## Claw-ekosystemet
 
-|                 | OpenClaw        | ZeroClaw | PicoClaw | **GoClaw**                              |
+|                 | OpenClaw        | ZeroClaw | PicoClaw | **ZalosClaw**                              |
 | --------------- | --------------- | -------- | -------- | --------------------------------------- |
 | Språk           | TypeScript      | Rust     | Go       | **Go**                                  |
 | Binärstorlek    | 28 MB + Node.js | 3.4 MB   | ~8 MB    | **~25 MB** (bas) / **~36 MB** (+ OTel) |
@@ -89,7 +89,7 @@ En Go-port av [OpenClaw](https://github.com/openclaw/openclaw) med förbättrad 
 | Uppstart        | > 5 s           | < 10 ms  | < 1 s    | **< 1 s**                               |
 | Målhårdvara     | $599+ Mac Mini  | $10 edge | $10 edge | **$5 VPS+**                             |
 
-| Funktion                   | OpenClaw                             | ZeroClaw                                     | PicoClaw                              | **GoClaw**                     |
+| Funktion                   | OpenClaw                             | ZeroClaw                                     | PicoClaw                              | **ZalosClaw**                     |
 | -------------------------- | ------------------------------------ | -------------------------------------------- | ------------------------------------- | ------------------------------ |
 | Flertenants (PostgreSQL)   | —                                    | —                                            | —                                     | ✅                             |
 | MCP-integration            | — (använder ACP)                     | —                                            | —                                     | ✅ (stdio/SSE/streamable-http) |
@@ -110,7 +110,7 @@ En Go-port av [OpenClaw](https://github.com/openclaw/openclaw) med förbättrad 
 ## Arkitektur
 
 <p align="center">
-  <img src="../_statics/architecture.jpg" alt="GoClaw Architecture" width="800" />
+  <img src="../_statics/architecture.jpg" alt="ZalosClaw Architecture" width="800" />
 </p>
 
 ## Snabbstart
@@ -120,10 +120,10 @@ En Go-port av [OpenClaw](https://github.com/openclaw/openclaw) med förbättrad 
 ### Från källkod
 
 ```bash
-git clone https://github.com/nextlevelbuilder/goclaw.git && cd goclaw
+git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
 make build
-./goclaw onboard        # Interaktiv installationsguide
-source .env.local && ./goclaw
+./zalosclaw onboard        # Interaktiv installationsguide
+source .env.local && ./zalosclaw
 ```
 
 ### Med Docker
@@ -132,20 +132,20 @@ source .env.local && ./goclaw
 # Generera .env med automatiskt skapade hemligheter
 chmod +x prepare-env.sh && ./prepare-env.sh
 
-# Lägg till minst en GOCLAW_*_API_KEY i .env, sedan:
+# Lägg till minst en ZALOSCLAW_*_API_KEY i .env, sedan:
 make up
 
 # Webbinstrumentpanel på http://localhost:18790
 # Hälsokontroll: curl http://localhost:18790/health
 ```
 
-När miljövariabler av typen `GOCLAW_*_API_KEY` är inställda registreras gatewayen automatiskt utan interaktiva promptar — identifierar leverantör, kör migrationer och sår standarddata.
+När miljövariabler av typen `ZALOSCLAW_*_API_KEY` är inställda registreras gatewayen automatiskt utan interaktiva promptar — identifierar leverantör, kör migrationer och sår standarddata.
 
-> För byggvarianter (OTel, Tailscale, Redis), Docker-avbildstaggar och compose-överlägg, se [Driftsättningsguiden](https://docs.goclaw.sh/#deploy-docker-compose).
+> För byggvarianter (OTel, Tailscale, Redis), Docker-avbildstaggar och compose-överlägg, se [Driftsättningsguiden](https://docs.zalosclaw.sh/#deploy-docker-compose).
 
 ## Multi-agent-orkestrering
 
-GoClaw stöder agentteam och inter-agent-delegering — varje agent körs med sin egen identitet, verktyg, LLM-leverantör och kontextfiler.
+ZalosClaw stöder agentteam och inter-agent-delegering — varje agent körs med sin egen identitet, verktyg, LLM-leverantör och kontextfiler.
 
 ### Agentdelegering
 
@@ -170,7 +170,7 @@ Agenter kommunicerar via explicita **behörighetslänkar** med riktningskontroll
 - **Teamets brevlåda** — Direkt peer-to-peer-meddelanden och utsändningar
 - **Verktyg**: `team_tasks` för uppgiftshantering, `team_message` för brevlådan
 
-> För detaljer om delegering, behörighetslänkar och samtidighetskontroll, se [dokumentationen för agentteam](https://docs.goclaw.sh/#teams-what-are-teams).
+> För detaljer om delegering, behörighetslänkar och samtidighetskontroll, se [dokumentationen för agentteam](https://docs.zalosclaw.sh/#teams-what-are-teams).
 
 ## Inbyggda verktyg
 
@@ -214,19 +214,19 @@ Agenter kommunicerar via explicita **behörighetslänkar** med riktningskontroll
 
 ## Dokumentation
 
-Fullständig dokumentation på **[docs.goclaw.sh](https://docs.goclaw.sh)** — eller bläddra i källkoden i [`goclaw-docs/`](https://github.com/nextlevelbuilder/goclaw-docs)
+Fullständig dokumentation på **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** — eller bläddra i källkoden i [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
 
 | Avsnitt | Ämnen |
 |---------|-------|
-| [Kom igång](https://docs.goclaw.sh/#what-is-goclaw) | Installation, Snabbstart, Konfiguration, Rundtur i webbinstrumentpanelen |
-| [Grundläggande begrepp](https://docs.goclaw.sh/#how-goclaw-works) | Agentloop, Sessioner, Verktyg, Minne, Flertenancy |
-| [Agenter](https://docs.goclaw.sh/#creating-agents) | Skapa agenter, Kontextfiler, Personlighet, Delning och åtkomst |
-| [Leverantörer](https://docs.goclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 fler |
-| [Kanaler](https://docs.goclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Agentteam](https://docs.goclaw.sh/#teams-what-are-teams) | Team, Uppgiftstavla, Meddelanden, Delegering och överlämning |
-| [Avancerat](https://docs.goclaw.sh/#custom-tools) | Anpassade verktyg, MCP, Färdigheter, Cron, Sandbox, Krokar, RBAC |
-| [Driftsättning](https://docs.goclaw.sh/#deploy-docker-compose) | Docker Compose, Databas, Säkerhet, Observerbarhet, Tailscale |
-| [Referens](https://docs.goclaw.sh/#cli-commands) | CLI-kommandon, REST API, WebSocket-protokoll, Miljövariabler |
+| [Kom igång](https://docs.zalosclaw.sh/#what-is-zalosclaw) | Installation, Snabbstart, Konfiguration, Rundtur i webbinstrumentpanelen |
+| [Grundläggande begrepp](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Agentloop, Sessioner, Verktyg, Minne, Flertenancy |
+| [Agenter](https://docs.zalosclaw.sh/#creating-agents) | Skapa agenter, Kontextfiler, Personlighet, Delning och åtkomst |
+| [Leverantörer](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 fler |
+| [Kanaler](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Agentteam](https://docs.zalosclaw.sh/#teams-what-are-teams) | Team, Uppgiftstavla, Meddelanden, Delegering och överlämning |
+| [Avancerat](https://docs.zalosclaw.sh/#custom-tools) | Anpassade verktyg, MCP, Färdigheter, Cron, Sandbox, Krokar, RBAC |
+| [Driftsättning](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, Databas, Säkerhet, Observerbarhet, Tailscale |
+| [Referens](https://docs.zalosclaw.sh/#cli-commands) | CLI-kommandon, REST API, WebSocket-protokoll, Miljövariabler |
 
 ## Testning
 
@@ -241,7 +241,7 @@ Se [CHANGELOG.md](CHANGELOG.md) för detaljerad funktionsstatus, inklusive vad s
 
 ## Erkännanden
 
-GoClaw är byggt på det ursprungliga [OpenClaw](https://github.com/openclaw/openclaw)-projektet. Vi är tacksamma för den arkitektur och vision som inspirerade denna Go-port.
+ZalosClaw är byggt på det ursprungliga [OpenClaw](https://github.com/openclaw/openclaw)-projektet. Vi är tacksamma för den arkitektur och vision som inspirerade denna Go-port.
 
 ## Licens
 

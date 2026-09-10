@@ -11,7 +11,7 @@ import (
 
 const (
 	delegationArtifactLifecycleVersion  = 2
-	delegationArtifactLifecycleFile     = ".goclaw-lifecycle.json"
+	delegationArtifactLifecycleFile     = ".zalosclaw-lifecycle.json"
 	delegationArtifactLifecycleMaxBytes = 64 * 1024
 )
 
@@ -81,7 +81,7 @@ func persistDelegationArtifactLifecycleState(
 		return artifactError("artifact_lifecycle_state_failed", "marshal_lifecycle_state", "", err)
 	}
 	encoded = append(encoded, '\n')
-	tempName := ".goclaw-lifecycle-" + uuid.NewString() + ".tmp"
+	tempName := ".zalosclaw-lifecycle-" + uuid.NewString() + ".tmp"
 	stateFile, err := root.createFile(tempName, 0600)
 	if err != nil {
 		return wrapArtifactFilesystemError("create_lifecycle_state", "", err)

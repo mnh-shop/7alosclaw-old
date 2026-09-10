@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // ListEntitiesTemporal queries entities with temporal awareness.

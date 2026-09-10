@@ -73,7 +73,7 @@ import ruTeams from './locales/ru/teams.json'
 import ruChannels from './locales/ru/channels.json'
 import ruTts from './locales/ru/tts.json'
 
-const STORAGE_KEY = 'goclaw:language'
+const STORAGE_KEY = 'zalosclaw:language'
 
 function getInitialLanguage(): string {
   const stored = localStorage.getItem(STORAGE_KEY)

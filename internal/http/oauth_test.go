@@ -11,10 +11,10 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/crypto"
-	"github.com/nextlevelbuilder/goclaw/internal/oauth"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
+	"github.com/nextlevelbuilder/zalosclaw/internal/oauth"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // --- mock stores for tests ---
@@ -524,7 +524,7 @@ func TestOAuthHandlerStartRejectsConcurrentFlowForDifferentRequester(t *testing.
 	h.RegisterRoutes(mux)
 
 	req1 := httptest.NewRequest("POST", "/v1/auth/chatgpt/codex-work/start", nil)
-	req1.Header.Set("X-GoClaw-User-Id", "alice")
+	req1.Header.Set("X-ZalosClaw-User-Id", "alice")
 	w1 := httptest.NewRecorder()
 	mux.ServeHTTP(w1, req1)
 
@@ -545,7 +545,7 @@ func TestOAuthHandlerStartRejectsConcurrentFlowForDifferentRequester(t *testing.
 	}()
 
 	req2 := httptest.NewRequest("POST", "/v1/auth/chatgpt/codex-personal/start", nil)
-	req2.Header.Set("X-GoClaw-User-Id", "bob")
+	req2.Header.Set("X-ZalosClaw-User-Id", "bob")
 	w2 := httptest.NewRecorder()
 	mux.ServeHTTP(w2, req2)
 
@@ -563,7 +563,7 @@ func TestOAuthHandlerManualCallbackRequiresSameRequester(t *testing.T) {
 	h.RegisterRoutes(mux)
 
 	req1 := httptest.NewRequest("POST", "/v1/auth/chatgpt/codex-work/start", nil)
-	req1.Header.Set("X-GoClaw-User-Id", "alice")
+	req1.Header.Set("X-ZalosClaw-User-Id", "alice")
 	w1 := httptest.NewRecorder()
 	mux.ServeHTTP(w1, req1)
 
@@ -584,13 +584,13 @@ func TestOAuthHandlerManualCallbackRequiresSameRequester(t *testing.T) {
 	}()
 
 	req2 := httptest.NewRequest("POST", "/v1/auth/chatgpt/codex-work/callback", nil)
-	req2.Header.Set("X-GoClaw-User-Id", "bob")
+	req2.Header.Set("X-ZalosClaw-User-Id", "bob")
 	req2 = httptest.NewRequest(
 		"POST",
 		"/v1/auth/chatgpt/codex-work/callback",
 		strings.NewReader(`{"redirect_url":"http://localhost:1455/auth/callback?code=test&state=wrong"}`),
 	)
-	req2.Header.Set("X-GoClaw-User-Id", "bob")
+	req2.Header.Set("X-ZalosClaw-User-Id", "bob")
 	w2 := httptest.NewRecorder()
 	mux.ServeHTTP(w2, req2)
 

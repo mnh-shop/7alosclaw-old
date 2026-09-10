@@ -17,7 +17,7 @@ source: skill
 
 ## Overview
 
-Issue #81 asks GoClaw to execute independent tool calls in parallel while preserving deterministic transcript order, rate limits, safety, and observability.
+Issue #81 asks ZalosClaw to execute independent tool calls in parallel while preserving deterministic transcript order, rate limits, safety, and observability.
 
 Current `dev` already has a parallel path in `internal/pipeline/tool_stage.go`: multi-tool batches call `ExecuteToolRaw` concurrently, then process results sequentially by original index. That is the right architecture. The plan is to harden it, not rewrite it.
 
@@ -46,7 +46,7 @@ Design summary: [reports/brainstorm-summary.md](./reports/brainstorm-summary.md)
 
 ## Dependencies
 
-- GitHub issue: digitopvn/goclaw#81
+- GitHub issue: digitopvn/zalosclaw#81
 - Existing executor: `internal/pipeline/tool_stage.go`
 - Pipeline dependency contract: `internal/pipeline/deps.go`
 - Loop wiring: `internal/agent/loop_pipeline_adapter.go`

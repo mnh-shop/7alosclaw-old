@@ -6,7 +6,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
 )
 
 // TestTTSHandler_UpdateManager_SwapsProvider verifies that UpdateManager changes

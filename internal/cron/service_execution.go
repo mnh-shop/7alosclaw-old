@@ -10,7 +10,7 @@ import (
 
 	"github.com/adhocore/gronx"
 
-	"github.com/nextlevelbuilder/goclaw/internal/safego"
+	"github.com/nextlevelbuilder/zalosclaw/internal/safego"
 )
 
 // RunJob manually triggers a job execution.

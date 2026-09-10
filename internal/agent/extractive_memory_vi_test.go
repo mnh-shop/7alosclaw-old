@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // The extractive memory fallback exists so a failed or NO_REPLY LLM flush still

@@ -17,8 +17,8 @@ import (
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/spf13/cobra"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/upgrade"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/upgrade"
 )
 
 var migrationsDir string
@@ -28,7 +28,7 @@ func resolveMigrationsDir() string {
 		return migrationsDir
 	}
 	// Allow env override (used by Docker entrypoint).
-	if v := os.Getenv("GOCLAW_MIGRATIONS_DIR"); v != "" {
+	if v := os.Getenv("ZALOSCLAW_MIGRATIONS_DIR"); v != "" {
 		return v
 	}
 	// Default: ./migrations relative to the executable's working directory.
@@ -67,14 +67,14 @@ func newMigrator(dsn string) (*migrate.Migrate, error) {
 
 func resolveDSN() (string, error) {
 	// DSN comes from environment only (secret, never in config.json).
-	// config.Load also reads GOCLAW_POSTGRES_DSN into cfg.Database.PostgresDSN.
+	// config.Load also reads ZALOSCLAW_POSTGRES_DSN into cfg.Database.PostgresDSN.
 	cfg, err := config.Load(resolveConfigPath())
 	if err != nil {
 		return "", fmt.Errorf("load config: %w", err)
 	}
 	dsn := cfg.Database.PostgresDSN
 	if dsn == "" {
-		return "", fmt.Errorf("GOCLAW_POSTGRES_DSN environment variable is not set")
+		return "", fmt.Errorf("ZALOSCLAW_POSTGRES_DSN environment variable is not set")
 	}
 	return dsn, nil
 }

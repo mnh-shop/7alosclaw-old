@@ -47,7 +47,7 @@ test("dev beta workflow publishes zuey amd64 asset before completing all release
   const completion = jobBlock("complete_release_artifacts");
   assert.match(completion, /needs: \[beta_version, publish_release, build_zuey_binary, build_remaining_binaries, deploy_zuey_beta\]/);
   assert.match(completion, /pattern: binary-\*/);
-  assert.match(completion, /sha256sum goclaw-\*\.tar\.gz > CHECKSUMS\.sha256/);
+  assert.match(completion, /sha256sum zalosclaw-\*\.tar\.gz > CHECKSUMS\.sha256/);
 });
 
 test("dev beta workflow skips stale deploy and alias mutations", () => {

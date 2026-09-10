@@ -9,7 +9,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 const (
@@ -110,7 +110,7 @@ type Collector struct {
 }
 
 // NewCollector creates a new tracing collector backed by the given store.
-// Set GOCLAW_TRACE_VERBOSE=1 to include full LLM input in spans.
+// Set ZALOSCLAW_TRACE_VERBOSE=1 to include full LLM input in spans.
 //
 // The optional usageStore flushes usage events AFTER spans within the same
 // flush cycle, preserving the usage_events→spans FK without a schema change.
@@ -118,9 +118,9 @@ type Collector struct {
 // direct best-effort insert. This keeps callers that only need tracing
 // (e.g. unit/integration tests) compiling unchanged.
 func NewCollector(ts store.TracingStore, usageStore ...store.UsageEventStore) *Collector {
-	verbose := os.Getenv("GOCLAW_TRACE_VERBOSE") != ""
+	verbose := os.Getenv("ZALOSCLAW_TRACE_VERBOSE") != ""
 	if verbose {
-		slog.Info("tracing: verbose mode enabled (GOCLAW_TRACE_VERBOSE)")
+		slog.Info("tracing: verbose mode enabled (ZALOSCLAW_TRACE_VERBOSE)")
 	}
 	var us store.UsageEventStore
 	if len(usageStore) > 0 {

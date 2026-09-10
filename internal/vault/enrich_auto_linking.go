@@ -5,7 +5,7 @@ import (
 	"log/slog"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // phase25TaskLinking implements task-based auto-linking (Phase 04).

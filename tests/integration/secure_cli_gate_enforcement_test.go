@@ -10,14 +10,14 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/store/pg"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // gateTestBinaryName is deliberately NOT a real binary on PATH so the
 // "allowed" path can never accidentally exec something real.
-const gateTestBinaryName = "goclaw_test_cli"
+const gateTestBinaryName = "zalosclaw_test_cli"
 
 // gateFixture holds the common seeds for gate enforcement tests.
 type gateFixture struct {
@@ -192,7 +192,7 @@ func TestSecureCLIGate_IsGlobalBinaryNotDenied(t *testing.T) {
 
 	db := testDB(t)
 	tenantID, agentID := seedTenantAgent(t, db)
-	seedGateBinary(t, db, tenantID, "goclaw_global_test", true)
+	seedGateBinary(t, db, tenantID, "zalosclaw_global_test", true)
 
 	secStore := pg.NewPGSecureCLIStore(db, testEncryptionKey)
 	tool := tools.NewExecTool(t.TempDir(), false)
@@ -200,7 +200,7 @@ func TestSecureCLIGate_IsGlobalBinaryNotDenied(t *testing.T) {
 
 	ctx := gateCtx(tenantID, agentID)
 	result := tool.Execute(ctx, map[string]any{
-		"command": "goclaw_global_test --help",
+		"command": "zalosclaw_global_test --help",
 	})
 
 	if strings.Contains(result.ForLLM, "requires a secure CLI grant") {

@@ -1,7 +1,7 @@
 // Package tools provides the subagent system for spawning child agent instances.
 //
 // Subagents run in background goroutines with restricted tool access.
-// Key GoClaw constraints:
+// Key ZalosClaw constraints:
 //   - Depth limit: configurable maxSpawnDepth (default 1)
 //   - Max children per parent: configurable (default 5)
 //   - Max executing descendants per root agent: configurable (default 20)
@@ -18,11 +18,11 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	orchestration "github.com/nextlevelbuilder/goclaw/internal/childrun"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	usagecaps "github.com/nextlevelbuilder/goclaw/internal/usage/caps"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	orchestration "github.com/nextlevelbuilder/zalosclaw/internal/childrun"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
 )
 
 var ErrSubagentLifecycleDrainTimeout = errors.New("subagent_lifecycle_drain_timeout")

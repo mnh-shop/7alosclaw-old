@@ -9,7 +9,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/lib/pq"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // tenantFromCtx extracts tenant_id from context, returns uuid.Nil if not set.

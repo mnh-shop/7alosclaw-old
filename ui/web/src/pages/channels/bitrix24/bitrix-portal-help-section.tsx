@@ -11,7 +11,7 @@ import { useClipboard } from "@/hooks/use-clipboard";
 // app registration.
 //
 // The handler URL shown here is derived from window.location.origin: any
-// admin opening the goclaw UI is by definition opening it via the public
+// admin opening the zalosclaw UI is by definition opening it via the public
 // URL, so this matches what they should paste into Bitrix24's app config.
 // If they're on localhost, we surface a warning — Bitrix24 cannot reach
 // localhost, so the install handler URL must be a public one.

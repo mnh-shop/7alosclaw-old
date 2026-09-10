@@ -1,8 +1,8 @@
 # 19 - Credentialed Exec
 
-Credentialed Exec allows GoClaw agents to use external CLI tools (`gh`, `gcloud`, `aws`, `kubectl`, `terraform`) with auto-injected credentials. Credentials are encrypted at rest and injected directly into child processes via Direct Exec Mode — never exposed to the LLM, never passed through a shell.
+Credentialed Exec allows ZalosClaw agents to use external CLI tools (`gh`, `gcloud`, `aws`, `kubectl`, `terraform`) with auto-injected credentials. Credentials are encrypted at rest and injected directly into child processes via Direct Exec Mode — never exposed to the LLM, never passed through a shell.
 
-> **References:** Issue [#197](https://github.com/nextlevelbuilder/goclaw/issues/197) · PR [#199](https://github.com/nextlevelbuilder/goclaw/pull/199)
+> **References:** Issue [#197](https://github.com/nextlevelbuilder/zalosclaw/issues/197) · PR [#199](https://github.com/nextlevelbuilder/zalosclaw/pull/199)
 
 ---
 

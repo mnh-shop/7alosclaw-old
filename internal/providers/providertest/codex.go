@@ -2,7 +2,7 @@
 // fast, deterministic test runs. Not intended for production use.
 package providertest
 
-import "github.com/nextlevelbuilder/goclaw/internal/providers"
+import "github.com/nextlevelbuilder/zalosclaw/internal/providers"
 
 // staticTokenSource always returns a fixed token.
 type staticTokenSource struct{ token string }

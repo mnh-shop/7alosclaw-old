@@ -8,7 +8,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
 )
 
 // sttHappyResponse matches ElevenLabs Scribe response schema.

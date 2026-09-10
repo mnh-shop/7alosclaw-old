@@ -42,7 +42,7 @@ func isDashScopeAPIBase(apiBase string) bool {
 
 // isOllamaEndpoint returns true for local or self-hosted Ollama instances.
 // Ollama models such as qwq and deepseek-r1 have thinking enabled by default;
-// goclaw must send think=false to suppress it unless the user explicitly opts in.
+// zalosclaw must send think=false to suppress it unless the user explicitly opts in.
 // Detection uses providerType (DB), name, and apiBase so both ProviderOllama and
 // ProviderOllamaCloud are covered, as well as self-hosted instances behind a proxy.
 func (p *OpenAIProvider) isOllamaEndpoint() bool {

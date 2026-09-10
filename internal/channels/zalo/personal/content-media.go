@@ -11,9 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channels/media"
-	"github.com/nextlevelbuilder/goclaw/internal/channels/zalo/personal/protocol"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/media"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/zalo/personal/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // extractContentAndMedia returns text content with media tags plus local media paths.
@@ -107,7 +107,7 @@ func downloadFile(ctx context.Context, fileURL string) (string, error) {
 		ext = ".bin"
 	}
 
-	tmpFile, err := os.CreateTemp("", "goclaw_zca_*"+ext)
+	tmpFile, err := os.CreateTemp("", "zalosclaw_zca_*"+ext)
 	if err != nil {
 		return "", fmt.Errorf("create temp: %w", err)
 	}

@@ -10,24 +10,24 @@ import (
 // contextKey is the unexported type for context values set by this package.
 type contextKey string
 
-const goclawSessionCtxKey contextKey = "goclaw_session"
+const zalosclawSessionCtxKey contextKey = "zalosclaw_session"
 
-// WithGoclawSession attaches the goclaw conversation session key to ctx so
-// that ACP-level logs can correlate the ACP session ID with the goclaw session.
-func WithGoclawSession(ctx context.Context, key string) context.Context {
-	return context.WithValue(ctx, goclawSessionCtxKey, key)
+// WithZalosclawSession attaches the zalosclaw conversation session key to ctx so
+// that ACP-level logs can correlate the ACP session ID with the zalosclaw session.
+func WithZalosclawSession(ctx context.Context, key string) context.Context {
+	return context.WithValue(ctx, zalosclawSessionCtxKey, key)
 }
 
-// goclawSessionFromCtx extracts the goclaw session key injected by WithGoclawSession.
+// zalosclawSessionFromCtx extracts the zalosclaw session key injected by WithZalosclawSession.
 // Returns "" if not set.
-func goclawSessionFromCtx(ctx context.Context) string {
-	v, _ := ctx.Value(goclawSessionCtxKey).(string)
+func zalosclawSessionFromCtx(ctx context.Context) string {
+	v, _ := ctx.Value(zalosclawSessionCtxKey).(string)
 	return v
 }
 
 // sensitiveEnvPrefixes lists env var prefixes stripped from ACP subprocesses.
 var sensitiveEnvPrefixes = []string{
-	"GOCLAW", "CLAUDE", "ANTHROPIC", "OPENAI",
+	"ZALOSCLAW", "CLAUDE", "ANTHROPIC", "OPENAI",
 	"DATABASE", "POSTGRES", "MYSQL", "REDIS", "MONGO",
 	"AWS_", "AZURE_", "GOOGLE_", "GCP_",
 	"GITHUB_", "GH_", "GITLAB_", "BITBUCKET_",

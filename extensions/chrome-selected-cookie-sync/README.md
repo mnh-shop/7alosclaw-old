@@ -1,6 +1,6 @@
-# GoClaw Selected Cookie Sync Extension
+# ZalosClaw Selected Cookie Sync Extension
 
-Chrome MV3 extension for explicit selected-cookie sync into GoClaw browser sessions.
+Chrome MV3 extension for explicit selected-cookie sync into ZalosClaw browser sessions.
 
 Security model:
 - No automatic background sync.

@@ -4,11 +4,11 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/channels/typing"
-	"github.com/nextlevelbuilder/goclaw/internal/channels/zalo"
-	"github.com/nextlevelbuilder/goclaw/internal/channels/zalo/personal/protocol"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/typing"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/zalo"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/zalo/personal/protocol"
 )
 
 const maxTextLength = 2000

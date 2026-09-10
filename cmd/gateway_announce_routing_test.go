@@ -3,7 +3,7 @@ package cmd
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // TestAnnounceRouting_PropagatesSenderAndRole guards against the regression

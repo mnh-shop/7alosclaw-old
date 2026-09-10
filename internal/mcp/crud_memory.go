@@ -6,21 +6,21 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerMemoryCRUDTools registers the goclaw_memory_* MCP tools backed by
-// store.MemoryStore — closes a CLI-vs-MCP coverage gap (the `goclaw memory
+// registerMemoryCRUDTools registers the zalosclaw_memory_* MCP tools backed by
+// store.MemoryStore — closes a CLI-vs-MCP coverage gap (the `zalosclaw memory
 // get/list/search/store/delete` commands had no MCP equivalent).
 func registerMemoryCRUDTools(srv *mcpserver.MCPServer, memory store.MemoryStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_memory_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_memory_list",
 		mcpgo.WithDescription("List memory documents for an agent/user scope."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("user_id", mcpgo.Description("User ID scope; empty for agent-global documents.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleMemoryList(memory))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_memory_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_memory_get",
 		mcpgo.WithDescription("Get a single memory document's content."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("user_id", mcpgo.Description("User ID scope; empty for agent-global documents.")),
@@ -28,7 +28,7 @@ func registerMemoryCRUDTools(srv *mcpserver.MCPServer, memory store.MemoryStore)
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleMemoryGet(memory))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_memory_search",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_memory_search",
 		mcpgo.WithDescription("Search memory documents (hybrid vector+text search) for an agent/user scope."),
 		mcpgo.WithString("query", mcpgo.Required(), mcpgo.Description("Search query.")),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
@@ -37,7 +37,7 @@ func registerMemoryCRUDTools(srv *mcpserver.MCPServer, memory store.MemoryStore)
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleMemorySearch(memory))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_memory_store",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_memory_store",
 		mcpgo.WithDescription("Create or overwrite a memory document's content, then re-index it."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("user_id", mcpgo.Description("User ID scope; empty for agent-global documents.")),
@@ -45,7 +45,7 @@ func registerMemoryCRUDTools(srv *mcpserver.MCPServer, memory store.MemoryStore)
 		mcpgo.WithString("content", mcpgo.Required(), mcpgo.Description("Document content.")),
 	), handleMemoryStore(memory))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_memory_delete",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_memory_delete",
 		mcpgo.WithDescription("Delete a memory document."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent ID scope.")),
 		mcpgo.WithString("user_id", mcpgo.Description("User ID scope; empty for agent-global documents.")),

@@ -10,19 +10,19 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/skills"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerSkillCRUDTools registers the goclaw_skills_* MCP tools backed by store.SkillStore.
+// registerSkillCRUDTools registers the zalosclaw_skills_* MCP tools backed by store.SkillStore.
 func registerSkillCRUDTools(srv *mcpserver.MCPServer, skills store.SkillStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_skills_list",
-		mcpgo.WithDescription("List all skills known to goclaw."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_skills_list",
+		mcpgo.WithDescription("List all skills known to zalosclaw."),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleSkillsList(skills))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_skills_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_skills_get",
 		mcpgo.WithDescription("Get metadata for a single skill by name."),
 		mcpgo.WithString("name", mcpgo.Required(), mcpgo.Description("Skill name.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
@@ -50,13 +50,13 @@ func handleSkillsGet(skills store.SkillStore) mcpserver.ToolHandlerFunc {
 	}
 }
 
-// registerSkillUpdateCRUDTool registers goclaw_skills_update. Only wired when
+// registerSkillUpdateCRUDTool registers zalosclaw_skills_update. Only wired when
 // the skill store also implements store.SkillManageStore (e.g. PGSkillStore);
 // stores that don't support updates (e.g. FileSkillStore) simply don't get
 // this tool registered.
 func registerSkillUpdateCRUDTool(srv *mcpserver.MCPServer, skills store.SkillStore, manage store.SkillManageStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_skills_update",
-		mcpgo.WithDescription("Update a goclaw skill's metadata by name or id, applying the given field updates."),
+	srv.AddTool(mcpgo.NewTool("zalosclaw_skills_update",
+		mcpgo.WithDescription("Update a zalosclaw skill's metadata by name or id, applying the given field updates."),
 		mcpgo.WithString("name", mcpgo.Description("Skill name; used to resolve the skill if id is not given.")),
 		mcpgo.WithString("id", mcpgo.Description("Skill UUID.")),
 		mcpgo.WithObject("updates", mcpgo.Required(), mcpgo.Description("Field updates to apply (e.g. {\"visibility\": \"tenant\"}).")),
@@ -90,16 +90,16 @@ func handleSkillsUpdate(skills store.SkillStore, manage store.SkillManageStore) 
 	}
 }
 
-// registerSkillCreateCRUDTool registers goclaw_skills_create, letting MCP
+// registerSkillCreateCRUDTool registers zalosclaw_skills_create, letting MCP
 // callers create a new managed skill from SKILL.md content — the single-file
 // equivalent of the web UI's ZIP-based skill upload
 // (SkillsHandler.handleUpload in internal/http/skills_upload.go), via
 // skills.CreateFromContent. There is no per-caller identity on this MCP
 // surface (see crud_server.go doc comment), so owner_id is an explicit
-// param — same pattern as registerAgentCRUDTools' goclaw_agents_create,
+// param — same pattern as registerAgentCRUDTools' zalosclaw_agents_create,
 // which defaults owner_id to "system" when omitted.
 func registerSkillCreateCRUDTool(srv *mcpserver.MCPServer, manage store.SkillManageStore, cfg *config.Config) {
-	srv.AddTool(mcpgo.NewTool("goclaw_skills_create",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_skills_create",
 		mcpgo.WithDescription("Create a new managed skill from a SKILL.md content string (name/slug/description are parsed from its YAML frontmatter)."),
 		mcpgo.WithString("content", mcpgo.Required(), mcpgo.Description("Full SKILL.md content, including YAML frontmatter (name, slug, description).")),
 		mcpgo.WithString("owner_id", mcpgo.Description("Owner user ID; defaults to \"system\".")),
@@ -137,7 +137,7 @@ func handleSkillsCreate(manage store.SkillManageStore, cfg *config.Config) mcpse
 	}
 }
 
-// registerSkillWriteFileCRUDTool registers goclaw_skills_write_file, letting
+// registerSkillWriteFileCRUDTool registers zalosclaw_skills_write_file, letting
 // MCP callers edit a managed (non-system) skill's file content on disk —
 // mirroring the web UI's skill file editor (SkillsHandler.handleWriteFile in
 // internal/http/skills_versions.go). Both surfaces call the same
@@ -145,7 +145,7 @@ func handleSkillsCreate(manage store.SkillManageStore, cfg *config.Config) mcpse
 // identical. Only wired when the skill store implements
 // store.SkillManageStore, same gate as registerSkillUpdateCRUDTool.
 func registerSkillWriteFileCRUDTool(srv *mcpserver.MCPServer, skillStore store.SkillStore, manage store.SkillManageStore, cfg *config.Config) {
-	srv.AddTool(mcpgo.NewTool("goclaw_skills_write_file",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_skills_write_file",
 		mcpgo.WithDescription("Write a file's content within a managed (non-system) skill, creating a new immutable version of that skill."),
 		mcpgo.WithString("name", mcpgo.Description("Skill name; used to resolve the skill if id is not given.")),
 		mcpgo.WithString("id", mcpgo.Description("Skill UUID.")),
@@ -197,14 +197,14 @@ func handleSkillsWriteFile(skillStore store.SkillStore, manage store.SkillManage
 	}
 }
 
-// registerSkillGrantCRUDTools registers goclaw_skills_grant/goclaw_skills_revoke,
+// registerSkillGrantCRUDTools registers zalosclaw_skills_grant/zalosclaw_skills_revoke,
 // letting MCP callers grant/revoke an agent's access to a skill — mirrors the
-// goclaw CLI's `skills grant`/`skills revoke` (internal/http/skills_grants.go
+// zalosclaw CLI's `skills grant`/`skills revoke` (internal/http/skills_grants.go
 // handleGrantAgent/handleRevokeAgent) via store.SkillManageStore.GrantToAgent/
 // RevokeFromAgent. Note: granting access is distinct from pinning a skill
 // into an agent's always-loaded context — see registerAgentSkillPinCRUDTools.
 func registerSkillGrantCRUDTools(srv *mcpserver.MCPServer, skillStore store.SkillStore, manage store.SkillManageStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_skills_grant",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_skills_grant",
 		mcpgo.WithDescription("Grant an agent access to a skill."),
 		mcpgo.WithString("name", mcpgo.Description("Skill name; used to resolve the skill if id is not given.")),
 		mcpgo.WithString("id", mcpgo.Description("Skill UUID.")),
@@ -213,7 +213,7 @@ func registerSkillGrantCRUDTools(srv *mcpserver.MCPServer, skillStore store.Skil
 		mcpgo.WithBoolean("can_manage", mcpgo.Description("Whether the granted agent can also edit/manage this skill (default false).")),
 	), handleSkillsGrant(skillStore, manage))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_skills_revoke",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_skills_revoke",
 		mcpgo.WithDescription("Revoke an agent's access to a skill."),
 		mcpgo.WithString("name", mcpgo.Description("Skill name; used to resolve the skill if id is not given.")),
 		mcpgo.WithString("id", mcpgo.Description("Skill UUID.")),
@@ -222,7 +222,7 @@ func registerSkillGrantCRUDTools(srv *mcpserver.MCPServer, skillStore store.Skil
 }
 
 // resolveSkillID resolves a skill UUID from either an explicit id or a
-// name lookup — shared by every goclaw_skills_* tool that accepts both.
+// name lookup — shared by every zalosclaw_skills_* tool that accepts both.
 func resolveSkillID(ctx context.Context, skillStore store.SkillStore, idStr, name string) (uuid.UUID, error) {
 	if idStr != "" {
 		id, err := uuid.Parse(idStr)

@@ -16,16 +16,16 @@ services:
       - COLLECTOR_OTLP_ENABLED=true
     restart: unless-stopped
 
-  goclaw:
+  zalosclaw:
     build:
       args:
         ENABLE_OTEL: "true"
     environment:
-      - GOCLAW_TELEMETRY_ENABLED=true
-      - GOCLAW_TELEMETRY_ENDPOINT=jaeger:4317
-      - GOCLAW_TELEMETRY_PROTOCOL=grpc
-      - GOCLAW_TELEMETRY_INSECURE=true
-      - GOCLAW_TELEMETRY_SERVICE_NAME=goclaw-gateway
+      - ZALOSCLAW_TELEMETRY_ENABLED=true
+      - ZALOSCLAW_TELEMETRY_ENDPOINT=jaeger:4317
+      - ZALOSCLAW_TELEMETRY_PROTOCOL=grpc
+      - ZALOSCLAW_TELEMETRY_INSECURE=true
+      - ZALOSCLAW_TELEMETRY_SERVICE_NAME=zalosclaw-gateway
     depends_on:
       jaeger:
         condition: service_started

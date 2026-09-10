@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // Fixture math for these tests (contextWindow=200000, maxTokens=8192, nil cfg):

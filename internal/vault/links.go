@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // wikilinkRe matches [[target]] and [[target|display text]].

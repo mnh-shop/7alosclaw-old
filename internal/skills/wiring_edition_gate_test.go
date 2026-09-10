@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/edition"
+	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
 )
 
 // TestEditionGate_LitePreventsRegistration mirrors the wiring logic in

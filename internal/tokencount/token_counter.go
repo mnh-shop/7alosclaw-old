@@ -5,7 +5,7 @@
 // Implementation: tiktoken-go with per-message hash cache.
 package tokencount
 
-import "github.com/nextlevelbuilder/goclaw/internal/providers"
+import "github.com/nextlevelbuilder/zalosclaw/internal/providers"
 
 // TokenCounter provides accurate per-model token counting.
 type TokenCounter interface {

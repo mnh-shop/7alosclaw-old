@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="../_statics/goclaw.png" alt="GoClaw" />
+  <img src="../_statics/zalosclaw.png" alt="ZalosClaw" />
 </p>
 
-<h1 align="center">GoClaw</h1>
+<h1 align="center">ZalosClaw</h1>
 
 <p align="center"><strong>Enterprise AI Agent Platform</strong></p>
 
@@ -12,8 +12,8 @@ Single binary. Production-tested. Agents that orchestrate for you.
 </p>
 
 <p align="center">
-  <a href="https://docs.goclaw.sh">Документація</a> •
-  <a href="https://docs.goclaw.sh/#quick-start">Швидкий старт</a> •
+  <a href="https://docs.zalosclaw.sh">Документація</a> •
+  <a href="https://docs.zalosclaw.sh/#quick-start">Швидкий старт</a> •
   <a href="https://x.com/nlb_io">Twitter / X</a>
 </p>
 
@@ -28,7 +28,7 @@ Single binary. Production-tested. Agents that orchestrate for you.
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License: MIT" />
 </p>
 
-**GoClaw** — це мультиагентний AI-шлюз, що з'єднує LLM з вашими інструментами, каналами та даними — розгортається як єдиний Go-бінарник без зовнішніх залежностей часу виконання. Він оркеструє команди агентів і міжагентну делегацію через 20+ постачальників LLM з повною ізоляцією мультиорендарності.
+**ZalosClaw** — це мультиагентний AI-шлюз, що з'єднує LLM з вашими інструментами, каналами та даними — розгортається як єдиний Go-бінарник без зовнішніх залежностей часу виконання. Він оркеструє команди агентів і міжагентну делегацію через 20+ постачальників LLM з повною ізоляцією мультиорендарності.
 
 Go-порт [OpenClaw](https://github.com/openclaw/openclaw) з посиленою безпекою, мультиорендарним PostgreSQL та спостережуваністю виробничого рівня.
 
@@ -80,7 +80,7 @@ Go-порт [OpenClaw](https://github.com/openclaw/openclaw) з посилено
 
 ## Екосистема Claw
 
-|                 | OpenClaw        | ZeroClaw | PicoClaw | **GoClaw**                              |
+|                 | OpenClaw        | ZeroClaw | PicoClaw | **ZalosClaw**                              |
 | --------------- | --------------- | -------- | -------- | --------------------------------------- |
 | Мова            | TypeScript      | Rust     | Go       | **Go**                                  |
 | Розмір бінарника | 28 МБ + Node.js | 3,4 МБ   | ~8 МБ    | **~25 МБ** (базовий) / **~36 МБ** (+ OTel) |
@@ -89,7 +89,7 @@ Go-порт [OpenClaw](https://github.com/openclaw/openclaw) з посилено
 | Запуск          | > 5 с           | < 10 мс  | < 1 с    | **< 1 с**                               |
 | Цільове залізо  | Mac Mini від $599+ | Edge за $10 | Edge за $10 | **VPS від $5+**                   |
 
-| Функція                    | OpenClaw                             | ZeroClaw                                     | PicoClaw                              | **GoClaw**                     |
+| Функція                    | OpenClaw                             | ZeroClaw                                     | PicoClaw                              | **ZalosClaw**                     |
 | -------------------------- | ------------------------------------ | -------------------------------------------- | ------------------------------------- | ------------------------------ |
 | Мультиорендарність (PostgreSQL) | —                               | —                                            | —                                     | ✅                             |
 | Інтеграція MCP             | — (використовує ACP)                 | —                                            | —                                     | ✅ (stdio/SSE/streamable-http) |
@@ -110,7 +110,7 @@ Go-порт [OpenClaw](https://github.com/openclaw/openclaw) з посилено
 ## Архітектура
 
 <p align="center">
-  <img src="../_statics/architecture.jpg" alt="GoClaw Architecture" width="800" />
+  <img src="../_statics/architecture.jpg" alt="ZalosClaw Architecture" width="800" />
 </p>
 
 ## Швидкий старт
@@ -120,10 +120,10 @@ Go-порт [OpenClaw](https://github.com/openclaw/openclaw) з посилено
 ### З вихідного коду
 
 ```bash
-git clone https://github.com/nextlevelbuilder/goclaw.git && cd goclaw
+git clone https://github.com/nextlevelbuilder/zalosclaw.git && cd zalosclaw
 make build
-./goclaw onboard        # Інтерактивний майстер налаштування
-source .env.local && ./goclaw
+./zalosclaw onboard        # Інтерактивний майстер налаштування
+source .env.local && ./zalosclaw
 ```
 
 ### З Docker
@@ -132,20 +132,20 @@ source .env.local && ./goclaw
 # Генерація .env з автоматично згенерованими секретами
 chmod +x prepare-env.sh && ./prepare-env.sh
 
-# Додайте хоча б один GOCLAW_*_API_KEY до .env, потім:
+# Додайте хоча б один ZALOSCLAW_*_API_KEY до .env, потім:
 make up
 
 # Веб-панель за адресою http://localhost:18790
 # Перевірка стану: curl http://localhost:18790/health
 ```
 
-Якщо встановлені змінні середовища `GOCLAW_*_API_KEY`, шлюз виконує автоматичне налаштування без інтерактивних підказок — визначає постачальника, запускає міграції та заповнює початкові дані.
+Якщо встановлені змінні середовища `ZALOSCLAW_*_API_KEY`, шлюз виконує автоматичне налаштування без інтерактивних підказок — визначає постачальника, запускає міграції та заповнює початкові дані.
 
-> Щодо варіантів збірки (OTel, Tailscale, Redis), тегів Docker-образів та compose-оверлеїв, дивіться [Посібник із розгортання](https://docs.goclaw.sh/#deploy-docker-compose).
+> Щодо варіантів збірки (OTel, Tailscale, Redis), тегів Docker-образів та compose-оверлеїв, дивіться [Посібник із розгортання](https://docs.zalosclaw.sh/#deploy-docker-compose).
 
 ## Мультиагентна оркестрація
 
-GoClaw підтримує команди агентів та міжагентну делегацію — кожен агент працює зі своєю власною ідентичністю, інструментами, постачальником LLM та файлами контексту.
+ZalosClaw підтримує команди агентів та міжагентну делегацію — кожен агент працює зі своєю власною ідентичністю, інструментами, постачальником LLM та файлами контексту.
 
 ### Делегація агентів
 
@@ -170,7 +170,7 @@ GoClaw підтримує команди агентів та міжагентн�
 - **Командна поштова скринька** — Пряме повідомлення між учасниками та широкомовні розсилки
 - **Інструменти**: `team_tasks` для керування завданнями, `team_message` для поштової скриньки
 
-> Щодо деталей делегації, посилань дозволів та керування паралелізмом, дивіться [документацію Команд агентів](https://docs.goclaw.sh/#teams-what-are-teams).
+> Щодо деталей делегації, посилань дозволів та керування паралелізмом, дивіться [документацію Команд агентів](https://docs.zalosclaw.sh/#teams-what-are-teams).
 
 ## Вбудовані інструменти
 
@@ -214,19 +214,19 @@ GoClaw підтримує команди агентів та міжагентн�
 
 ## Документація
 
-Повна документація на **[docs.goclaw.sh](https://docs.goclaw.sh)** — або перегляньте вихідний код у [`goclaw-docs/`](https://github.com/nextlevelbuilder/goclaw-docs)
+Повна документація на **[docs.zalosclaw.sh](https://docs.zalosclaw.sh)** — або перегляньте вихідний код у [`zalosclaw-docs/`](https://github.com/nextlevelbuilder/zalosclaw-docs)
 
 | Розділ | Теми |
 |--------|------|
-| [Початок роботи](https://docs.goclaw.sh/#what-is-goclaw) | Встановлення, Швидкий старт, Конфігурація, Огляд веб-панелі |
-| [Основні концепції](https://docs.goclaw.sh/#how-goclaw-works) | Цикл агента, Сесії, Інструменти, Пам'ять, Мультиорендарність |
-| [Агенти](https://docs.goclaw.sh/#creating-agents) | Створення агентів, Файли контексту, Особистість, Спільний доступ |
-| [Постачальники](https://docs.goclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 інших |
-| [Канали](https://docs.goclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
-| [Команди агентів](https://docs.goclaw.sh/#teams-what-are-teams) | Команди, Дошка завдань, Обмін повідомленнями, Делегація та передача |
-| [Розширено](https://docs.goclaw.sh/#custom-tools) | Власні інструменти, MCP, Навички, Cron, Пісочниця, Хуки, RBAC |
-| [Розгортання](https://docs.goclaw.sh/#deploy-docker-compose) | Docker Compose, База даних, Безпека, Спостережуваність, Tailscale |
-| [Довідник](https://docs.goclaw.sh/#cli-commands) | Команди CLI, REST API, Протокол WebSocket, Змінні середовища |
+| [Початок роботи](https://docs.zalosclaw.sh/#what-is-zalosclaw) | Встановлення, Швидкий старт, Конфігурація, Огляд веб-панелі |
+| [Основні концепції](https://docs.zalosclaw.sh/#how-zalosclaw-works) | Цикл агента, Сесії, Інструменти, Пам'ять, Мультиорендарність |
+| [Агенти](https://docs.zalosclaw.sh/#creating-agents) | Створення агентів, Файли контексту, Особистість, Спільний доступ |
+| [Постачальники](https://docs.zalosclaw.sh/#providers-overview) | Anthropic, OpenAI, OpenRouter, Gemini, DeepSeek, +15 інших |
+| [Канали](https://docs.zalosclaw.sh/#channels-overview) | Telegram, Discord, Slack, Feishu, Zalo, WhatsApp, WebSocket |
+| [Команди агентів](https://docs.zalosclaw.sh/#teams-what-are-teams) | Команди, Дошка завдань, Обмін повідомленнями, Делегація та передача |
+| [Розширено](https://docs.zalosclaw.sh/#custom-tools) | Власні інструменти, MCP, Навички, Cron, Пісочниця, Хуки, RBAC |
+| [Розгортання](https://docs.zalosclaw.sh/#deploy-docker-compose) | Docker Compose, База даних, Безпека, Спостережуваність, Tailscale |
+| [Довідник](https://docs.zalosclaw.sh/#cli-commands) | Команди CLI, REST API, Протокол WebSocket, Змінні середовища |
 
 ## Тестування
 
@@ -241,7 +241,7 @@ go test -v ./tests/integration/ -timeout 120s    # Інтеграційні те
 
 ## Подяки
 
-GoClaw побудований на основі оригінального проекту [OpenClaw](https://github.com/openclaw/openclaw). Ми вдячні за архітектуру та бачення, що надихнули цей Go-порт.
+ZalosClaw побудований на основі оригінального проекту [OpenClaw](https://github.com/openclaw/openclaw). Ми вдячні за архітектуру та бачення, що надихнули цей Go-порт.
 
 ## Ліцензія
 

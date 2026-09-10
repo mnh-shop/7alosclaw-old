@@ -5,7 +5,7 @@ import (
 	"os/exec"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
 )
 
 // captureEdgeArgsWithOpts is a test helper that captures CLI args via synthesizeWithFactory.

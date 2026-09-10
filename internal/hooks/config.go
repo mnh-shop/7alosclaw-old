@@ -6,7 +6,7 @@ import (
 	"github.com/dop251/goja"
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/edition"
+	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
 )
 
 // Defaults and limits for HookConfig fields. Exported so the UI layer can

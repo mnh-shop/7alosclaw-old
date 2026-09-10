@@ -213,7 +213,7 @@ import ruHooks from "./locales/ru/hooks.json";
 import ruWebhooks from "./locales/ru/webhooks.json";
 import ruWorkstations from "./locales/ru/workstations.json";
 
-const STORAGE_KEY = "goclaw:language";
+const STORAGE_KEY = "zalosclaw:language";
 
 function getInitialLanguage(): string {
   const stored = localStorage.getItem(STORAGE_KEY);

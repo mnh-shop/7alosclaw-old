@@ -9,8 +9,8 @@ import (
 
 	"github.com/mymmrac/telego"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // triggerWordsTTL bounds how long parsed IDENTITY.md trigger words are cached

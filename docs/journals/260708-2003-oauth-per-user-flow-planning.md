@@ -9,13 +9,13 @@
 
 Bitrix24 support confirmed via official investigation (2026-07-08) that the `ONIMBOTMESSAGEADD` webhook no longer attaches `auth[access_token]` for new users — this is **expected behavior, not a regression**. Imbot subscriptions bind with `USER_ID=0` at registration time, so Bitrix never requests/includes a real OAuth token in the top-level `auth` block; only the bot's own token (`data[BOT][botID][AUTH]`) is guaranteed present.
 
-**Proof**: goclaw's `mcp_user_credentials` table shows 3 users (614, 1, 610) successfully minted credentials between 2026-05-07 and 2026-05-25. Zero new users since. DB + support confirmation align perfectly.
+**Proof**: zalosclaw's `mcp_user_credentials` table shows 3 users (614, 1, 610) successfully minted credentials between 2026-05-07 and 2026-05-25. Zero new users since. DB + support confirmation align perfectly.
 
-**Consequence**: New staff users who message the bot cannot authorize CRM access via webhook token. goclaw must implement a self-serve OAuth re-auth flow: detect when a user has no `mcp_user_credentials` row OR their stored `refresh_token` is dead, then DM them a signed OAuth authorize link.
+**Consequence**: New staff users who message the bot cannot authorize CRM access via webhook token. zalosclaw must implement a self-serve OAuth re-auth flow: detect when a user has no `mcp_user_credentials` row OR their stored `refresh_token` is dead, then DM them a signed OAuth authorize link.
 
 ## The Brutal Truth
 
-This is a hard block on goclaw's Bitrix integration expanding to new staff. We shipped assuming Bitrix would ship the user's token in every webhook event. It doesn't. The issue isn't a bug we can wait out — it's by design. We should have pressure-tested the webhook event schema against real multi-user tenants months ago instead of assuming Bitrix's imbot behavior matched simpler channel patterns.
+This is a hard block on zalosclaw's Bitrix integration expanding to new staff. We shipped assuming Bitrix would ship the user's token in every webhook event. It doesn't. The issue isn't a bug we can wait out — it's by design. We should have pressure-tested the webhook event schema against real multi-user tenants months ago instead of assuming Bitrix's imbot behavior matched simpler channel patterns.
 
 The good news: the fix is **stateless**. We reuse nearly all existing infrastructure (provisioner checks, autoOnboard flow, state codec). ~230 LOC, no migration, no new tables.
 
@@ -50,7 +50,7 @@ The good news: the fix is **stateless**. We reuse nearly all existing infrastruc
 ## Root Cause Analysis
 
 The blocking issue is a **design-webhook mismatch**:
-- goclaw designed for "user-centric OAuth" (assume webhook carries user token every event).
+- zalosclaw designed for "user-centric OAuth" (assume webhook carries user token every event).
 - Bitrix imbot designed for "app-centric OAuth" (bot requests OAuth once at install; per-user tokens require separate auth flow).
 
 This gap surfaced only when real multi-user tenants started messaging. Single-user dev/staging never caught it.

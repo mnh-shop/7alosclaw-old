@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func canonicalizeChatGPTOAuthRoutingForResponse(raw json.RawMessage) json.RawMessage {

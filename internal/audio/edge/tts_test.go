@@ -5,7 +5,7 @@ import (
 	"os/exec"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
 )
 
 // commandFactory is a test seam that intercepts exec.CommandContext calls.

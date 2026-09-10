@@ -17,7 +17,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/crypto"
+	"github.com/nextlevelbuilder/zalosclaw/internal/crypto"
 )
 
 // frontendDenylistExact reads the frontend ENV_DENYLIST_EXACT set from the TypeScript source.
@@ -82,7 +82,7 @@ func frontendDenylistPrefixes(t *testing.T) map[string]struct{} {
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
 		if strings.Contains(line, "const ENV_DENYLIST_PREFIXES") {
-			// Parse prefix entries from: ["DYLD_", "GOCLAW_", "LD_"]
+			// Parse prefix entries from: ["DYLD_", "ZALOSCLAW_", "LD_"]
 			parts := strings.Split(line, `"`)
 			for i := 1; i < len(parts); i += 2 {
 				pfx := strings.TrimSpace(parts[i])
@@ -152,7 +152,7 @@ func TestDenylistParity_BackendDeniesKnownKeys(t *testing.T) {
 		"IFS",
 		// Prefix matches
 		"DYLD_INSERT_LIBRARIES", "DYLD_FRAMEWORK_PATH",
-		"GOCLAW_SECRET", "GOCLAW_ENCRYPTION_KEY",
+		"ZALOSCLAW_SECRET", "ZALOSCLAW_ENCRYPTION_KEY",
 		"LD_SOMETHING",
 		// npm_config_ prefix (finding #6)
 		"npm_config_registry", "npm_config_prefix",

@@ -9,7 +9,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
 )
 
 // apiPrefixes are URL prefixes reserved for backend APIs.
@@ -152,7 +152,7 @@ func runtimeBrandingScript(branding config.BrandingConfig) string {
 	if err != nil {
 		return ""
 	}
-	return `<script id="goclaw-branding" type="application/json">` + string(data) + `</script>`
+	return `<script id="zalosclaw-branding" type="application/json">` + string(data) + `</script>`
 }
 
 func firstNonEmpty(values ...string) string {

@@ -9,17 +9,17 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerContactsCRUDTools registers the goclaw_contacts_* MCP tools backed
-// by store.ContactStore — closes a CLI-vs-MCP coverage gap (the `goclaw
+// registerContactsCRUDTools registers the zalosclaw_contacts_* MCP tools backed
+// by store.ContactStore — closes a CLI-vs-MCP coverage gap (the `zalosclaw
 // channels contacts create/list/verify` commands had no MCP equivalent).
 // Contacts are auto-collected from channel traffic (see internal/store
 // ContactCollector), so there is no create tool here — only inspection and
 // identity merge/unmerge, mirroring internal/http/contact_merge_handlers.go.
 func registerContactsCRUDTools(srv *mcpserver.MCPServer, contacts store.ContactStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_contacts_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_contacts_list",
 		mcpgo.WithDescription("List/search channel contacts (auto-collected user info from channel traffic)."),
 		mcpgo.WithString("search", mcpgo.Description("Search text (matches display name, username, sender ID).")),
 		mcpgo.WithString("channel_type", mcpgo.Description("Filter by platform (telegram, discord, etc.).")),
@@ -31,19 +31,19 @@ func registerContactsCRUDTools(srv *mcpserver.MCPServer, contacts store.ContactS
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleContactsList(contacts))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_contacts_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_contacts_get",
 		mcpgo.WithDescription("Get a single contact by UUID."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("Contact UUID.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleContactsGet(contacts))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_contacts_merge",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_contacts_merge",
 		mcpgo.WithDescription("Merge one or more contacts into a single tenant-user identity."),
 		mcpgo.WithArray("contact_ids", mcpgo.Required(), mcpgo.Description("Contact UUIDs to merge.")),
 		mcpgo.WithString("tenant_user_id", mcpgo.Required(), mcpgo.Description("Tenant-user UUID to merge into.")),
 	), handleContactsMerge(contacts))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_contacts_unmerge",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_contacts_unmerge",
 		mcpgo.WithDescription("Unmerge contacts, unlinking them from their tenant-user identity."),
 		mcpgo.WithArray("contact_ids", mcpgo.Required(), mcpgo.Description("Contact UUIDs to unmerge.")),
 	), handleContactsUnmerge(contacts))

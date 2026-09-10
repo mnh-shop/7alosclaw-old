@@ -86,7 +86,7 @@ describe("agent instance display utils", () => {
   });
 
   it("maps tele group instance prefixes to Telegram", () => {
-    const display = buildAgentInstanceDisplay({ user_id: "group:tele-itsdd-local-goclaw:-5104" }, resolver({}));
+    const display = buildAgentInstanceDisplay({ user_id: "group:tele-itsdd-local-zalosclaw:-5104" }, resolver({}));
 
     expect(display.label).toBe("Telegram - -5104");
   });

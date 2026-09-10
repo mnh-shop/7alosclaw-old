@@ -19,7 +19,7 @@ import (
 // newTestMCPServer builds a bare MCPServer suitable for registering CRUD tool
 // families in tests.
 func newTestMCPServer() *mcpserver.MCPServer {
-	return mcpserver.NewMCPServer("goclaw-crud-test", "test", mcpserver.WithToolCapabilities(false))
+	return mcpserver.NewMCPServer("zalosclaw-crud-test", "test", mcpserver.WithToolCapabilities(false))
 }
 
 // callTool looks up a registered tool by name and invokes its handler with

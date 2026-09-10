@@ -3,9 +3,9 @@ package http
 import (
 	"net/http"
 
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
-	"github.com/nextlevelbuilder/goclaw/internal/oauth"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/oauth"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func (h *OAuthHandler) handleQuota(w http.ResponseWriter, r *http.Request) {

@@ -138,7 +138,7 @@ async function syncSelected() {
   }
   const headers = {
     "Content-Type": "application/json",
-    "X-GoClaw-User-Id": userId,
+    "X-ZalosClaw-User-Id": userId,
   };
   if (els.token.value) {
     headers.Authorization = `Bearer ${els.token.value}`;

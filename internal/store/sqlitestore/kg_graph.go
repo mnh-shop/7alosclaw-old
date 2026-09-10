@@ -7,7 +7,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // SQLiteKGGraphStore implements store.KGGraphStore backed by SQLite.

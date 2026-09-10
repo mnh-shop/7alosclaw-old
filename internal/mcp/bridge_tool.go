@@ -14,8 +14,8 @@ import (
 	"github.com/google/uuid"
 	mcpclient "github.com/mark3labs/mcp-go/client"
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // argMapKeys returns sorted top-level keys of a tool argument map for log

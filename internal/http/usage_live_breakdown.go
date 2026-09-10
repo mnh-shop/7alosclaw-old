@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func (h *UsageHandler) queryLiveBreakdown(r *http.Request, from, to time.Time, q store.SnapshotQuery) ([]store.SnapshotBreakdown, error) {

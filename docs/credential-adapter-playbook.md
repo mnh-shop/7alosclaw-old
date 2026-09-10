@@ -72,7 +72,7 @@ The primary injection channel. Tools that read auth from a config file env
 var (`KUBECONFIG`, `DOCKER_CONFIG`, `NPM_CONFIG_USERCONFIG`,
 `AWS_SHARED_CREDENTIALS_FILE`, `PGPASSFILE`) all flow through here.
 
-Env is scoped to the spawned child process; goclaw's own env is unchanged.
+Env is scoped to the spawned child process; zalosclaw's own env is unchanged.
 
 ### `Cleanup`
 
@@ -112,7 +112,7 @@ Guarantees:
 
 - `0600` perms, per-user `os.TempDir()` on POSIX.
 - Idempotent cleanup (concurrent callers don't double-remove).
-- Prefix becomes `goclaw-<prefix>-<random>` so operators can sweep stale files
+- Prefix becomes `zalosclaw-<prefix>-<random>` so operators can sweep stale files
   with one glob.
 
 ### Why not memfd?
@@ -124,7 +124,7 @@ passed the fd via `ExecCommand.ExtraFiles` AND the child binary reads from that
 fd number. None of git/psql/docker/kubectl have an API to forward fds to their
 subprocesses. Tmpfile + `defer remove` is the safe, portable default.
 
-**SIGKILL caveat:** if goclaw is killed with SIGKILL (-9), `defer cleanup()`
+**SIGKILL caveat:** if zalosclaw is killed with SIGKILL (-9), `defer cleanup()`
 never fires and the 0600 tmpfile lingers. Operators should sweep — see
 [git-credential-adapter.md → Operator notes](./git-credential-adapter.md#operator-notes).
 

@@ -5,11 +5,11 @@
 #   # or: docker compose -f docker-compose.yml -f docker-compose.postgres.yml up -d --build
 #
 # Required env vars (set in .env or shell):
-#   GOCLAW_OPENROUTER_API_KEY (or another provider key)
-#   POSTGRES_PASSWORD (defaults to "goclaw" for dev)
+#   ZALOSCLAW_OPENROUTER_API_KEY (or another provider key)
+#   POSTGRES_PASSWORD (defaults to "zalosclaw" for dev)
 #
 # If host port 5432 is already in use, set POSTGRES_PORT (e.g. 5433) in .env.
-# The goclaw container still connects via postgres:5432 on the Docker network.
+# The zalosclaw container still connects via postgres:5432 on the Docker network.
 
 services:
   postgres:
@@ -17,28 +17,28 @@ services:
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-goclaw}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-goclaw}
-      POSTGRES_DB: ${POSTGRES_DB:-goclaw}
+      POSTGRES_USER: ${POSTGRES_USER:-zalosclaw}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-zalosclaw}
+      POSTGRES_DB: ${POSTGRES_DB:-zalosclaw}
     volumes:
       - postgres-data:/var/lib/postgresql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-goclaw} -d ${POSTGRES_DB:-goclaw}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-zalosclaw} -d ${POSTGRES_DB:-zalosclaw}"]
       interval: 5s
       timeout: 5s
       retries: 10
     restart: unless-stopped
 
-  goclaw:
+  zalosclaw:
     depends_on:
       postgres:
         condition: service_healthy
     environment:
-      - GOCLAW_POSTGRES_DSN=postgres://${POSTGRES_USER:-goclaw}:${POSTGRES_PASSWORD:-goclaw}@postgres:5432/${POSTGRES_DB:-goclaw}?sslmode=disable
+      - ZALOSCLAW_POSTGRES_DSN=postgres://${POSTGRES_USER:-zalosclaw}:${POSTGRES_PASSWORD:-zalosclaw}@postgres:5432/${POSTGRES_DB:-zalosclaw}?sslmode=disable
     volumes:
-      - goclaw-skills:/app/skills
-      - goclaw-workspace:/app/.goclaw
+      - zalosclaw-skills:/app/skills
+      - zalosclaw-workspace:/app/.zalosclaw
 
 volumes:
   postgres-data:
-  goclaw-skills:
+  zalosclaw-skills:

@@ -32,10 +32,10 @@ services:
           cpus: '1.0'
     restart: unless-stopped
 
-  goclaw:
+  zalosclaw:
     environment:
-      - GOCLAW_BROWSER_REMOTE_URL=ws://lightpanda:9222
-      - GOCLAW_BROWSER_BACKEND=lightpanda
+      - ZALOSCLAW_BROWSER_REMOTE_URL=ws://lightpanda:9222
+      - ZALOSCLAW_BROWSER_BACKEND=lightpanda
     depends_on:
       lightpanda:
         condition: service_healthy

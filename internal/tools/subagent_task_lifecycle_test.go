@@ -9,9 +9,9 @@ import (
 
 	"github.com/google/uuid"
 
-	orchestration "github.com/nextlevelbuilder/goclaw/internal/childrun"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	orchestration "github.com/nextlevelbuilder/zalosclaw/internal/childrun"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 type taskLifecycleUpdate struct {

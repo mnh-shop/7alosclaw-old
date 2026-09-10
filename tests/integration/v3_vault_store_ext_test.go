@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // TestStoreVault_CountDocuments verifies CountDocuments returns correct count per tenant+agent.

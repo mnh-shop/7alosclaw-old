@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channels/media"
-	"github.com/nextlevelbuilder/goclaw/internal/i18n"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels/media"
+	"github.com/nextlevelbuilder/zalosclaw/internal/i18n"
 )
 
 const (

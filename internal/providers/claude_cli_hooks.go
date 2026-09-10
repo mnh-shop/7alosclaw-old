@@ -12,10 +12,10 @@ import (
 )
 
 // BuildCLIHooksConfig generates a Claude CLI settings file with PreToolUse hooks
-// that enforce GoClaw's security policies (shell deny patterns, path restrictions).
+// that enforce ZalosClaw's security policies (shell deny patterns, path restrictions).
 // Returns settings file path and a cleanup function.
 func BuildCLIHooksConfig(workspace string, restrictToWorkspace bool, denyPatternSets ...[]*regexp.Regexp) (string, func(), error) {
-	tmpDir := filepath.Join(os.TempDir(), "goclaw-cli-hooks")
+	tmpDir := filepath.Join(os.TempDir(), "zalosclaw-cli-hooks")
 	if err := os.MkdirAll(tmpDir, 0755); err != nil {
 		return "", nil, fmt.Errorf("create hooks dir: %w", err)
 	}
@@ -82,14 +82,14 @@ func generateSettingsJSON(hookPath string) []byte {
 	return data
 }
 
-// generateHookScript creates a bash script that enforces GoClaw security policies.
+// generateHookScript creates a bash script that enforces ZalosClaw security policies.
 func generateHookScript(workspace string, restrictToWorkspace bool, denyPatternSets ...[]*regexp.Regexp) string {
 	var sb strings.Builder
 
 	sb.WriteString(`#!/bin/bash
 set -euo pipefail
 
-# GoClaw security hook for Claude CLI PreToolUse.
+# ZalosClaw security hook for Claude CLI PreToolUse.
 # Checks shell deny patterns and workspace path restrictions.
 
 INPUT=$(cat)

@@ -10,8 +10,8 @@ import (
 	mcpclient "github.com/mark3labs/mcp-go/client"
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
 )
 
 // TestListToolsForAgent_EmptyToolAllowUsesCache verifies that when an agent's
@@ -200,7 +200,7 @@ func TestListToolsForAgent_LegacyCacheShapeDegradesGracefully(t *testing.T) {
 // TestListToolsForAgent_LegacyPrefixedToolAllowResolvesLiveDescriptions
 // reproduces the production regression: an agent's MCP grant has a persisted
 // tool_allow list containing OLD registered-name-shaped entries (e.g.
-// "mcp_goclaw__goclaw_agent_get" instead of the bare "goclaw_agent_get"),
+// "mcp_zalosclaw__zalosclaw_agent_get" instead of the bare "zalosclaw_agent_get"),
 // captured before the grant-capture fix in mcp_tools.go. Before this fix,
 // ListToolsForAgent looked up tool_cache/registry entries keyed by the raw
 // stored name, which never matched the bare-name keys used elsewhere,
@@ -211,7 +211,7 @@ func TestListToolsForAgent_LegacyCacheShapeDegradesGracefully(t *testing.T) {
 func TestListToolsForAgent_LegacyPrefixedToolAllowResolvesLiveDescriptions(t *testing.T) {
 	serverID := uuid.New()
 
-	// One tool ("goclaw_agent_get") is live-registered in the tool registry
+	// One tool ("zalosclaw_agent_get") is live-registered in the tool registry
 	// (simulating an already-connected self-hosted MCP server), and its
 	// description/schema must come from there, not from settings.
 	registry := tools.NewRegistry()
@@ -219,9 +219,9 @@ func TestListToolsForAgent_LegacyPrefixedToolAllowResolvesLiveDescriptions(t *te
 	connected := &atomic.Bool{}
 	connected.Store(true)
 	liveTool := NewBridgeTool(
-		"goclaw",
+		"zalosclaw",
 		mcpgo.Tool{
-			Name:        "goclaw_agent_get",
+			Name:        "zalosclaw_agent_get",
 			Description: "Fetch an agent by ID",
 			InputSchema: mcpgo.ToolInputSchema{
 				Type:       "object",
@@ -233,10 +233,10 @@ func TestListToolsForAgent_LegacyPrefixedToolAllowResolvesLiveDescriptions(t *te
 	)
 	registry.Register(liveTool)
 
-	// The other tool ("goclaw_agent_list") has no live registration but does
+	// The other tool ("zalosclaw_agent_list") has no live registration but does
 	// have a settings tool_cache entry — description must come from there.
 	toolCache := map[string]store.CachedToolInfo{
-		"goclaw_agent_list": {
+		"zalosclaw_agent_list": {
 			Description: "List all agents",
 			Parameters:  json.RawMessage(`{"type":"object","properties":{}}`),
 		},
@@ -251,15 +251,15 @@ func TestListToolsForAgent_LegacyPrefixedToolAllowResolvesLiveDescriptions(t *te
 			{
 				Server: store.MCPServerData{
 					BaseModel: store.BaseModel{ID: serverID},
-					Name:      "goclaw",
+					Name:      "zalosclaw",
 					Enabled:   true,
 					Settings:  settings,
 				},
 				// Legacy-persisted entries: already-prefixed registered names,
 				// exactly the shape a pre-fix grant capture would have stored.
 				ToolAllow: []string{
-					"mcp_goclaw__goclaw_agent_get",
-					"mcp_goclaw__goclaw_agent_list",
+					"mcp_zalosclaw__zalosclaw_agent_get",
+					"mcp_zalosclaw__zalosclaw_agent_list",
 				},
 				ToolDeny: nil,
 			},
@@ -280,7 +280,7 @@ func TestListToolsForAgent_LegacyPrefixedToolAllowResolvesLiveDescriptions(t *te
 
 	// Live-registered tool: description/schema resolved from the registry.
 	live := got[0]
-	if live.RegisteredName != "mcp_goclaw__goclaw_agent_get" {
+	if live.RegisteredName != "mcp_zalosclaw__zalosclaw_agent_get" {
 		t.Fatalf("unexpected registered name: %q", live.RegisteredName)
 	}
 	if live.Description != "Fetch an agent by ID" {
@@ -299,7 +299,7 @@ func TestListToolsForAgent_LegacyPrefixedToolAllowResolvesLiveDescriptions(t *te
 
 	// Cache-only tool: description/schema resolved from settings tool_cache.
 	cached := got[1]
-	if cached.RegisteredName != "mcp_goclaw__goclaw_agent_list" {
+	if cached.RegisteredName != "mcp_zalosclaw__zalosclaw_agent_list" {
 		t.Fatalf("unexpected registered name: %q", cached.RegisteredName)
 	}
 	if cached.Description != "List all agents" {

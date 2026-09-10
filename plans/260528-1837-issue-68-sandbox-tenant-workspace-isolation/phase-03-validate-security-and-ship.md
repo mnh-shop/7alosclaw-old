@@ -11,7 +11,7 @@ effort: "2h"
 
 - Phase 2 implementation: `./phase-02-implement-tenant-scoped-sandbox-mounts.md`
 - Post-implementation checklist: `CLAUDE.md`
-- Related issue: https://github.com/digitopvn/goclaw/issues/68
+- Related issue: https://github.com/digitopvn/zalosclaw/issues/68
 
 ## Overview
 
@@ -39,7 +39,7 @@ Validate the P0 isolation fix locally, review with security focus, update change
    - `git diff --cached --check`
    - `git diff --cached | grep -iE '(api[_-]?key|token|password|secret|credential)'`
 6. Commit with conventional message and push branch.
-7. Create PR to `digitopvn/goclaw:dev`, link issue #68, and monitor CI.
+7. Create PR to `digitopvn/zalosclaw:dev`, link issue #68, and monitor CI.
 
 ## Success Criteria
 

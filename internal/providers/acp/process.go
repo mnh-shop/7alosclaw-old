@@ -13,7 +13,7 @@ import (
 )
 
 // ACPProcess represents a running ACP agent subprocess.
-// One process is shared across all sessions — each goclaw conversation
+// One process is shared across all sessions — each zalosclaw conversation
 // creates its own ACP session (identified by session ID) on this process.
 type ACPProcess struct {
 	cmd  *exec.Cmd

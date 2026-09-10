@@ -6,17 +6,17 @@ import (
 	"os"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/audio"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/edition"
-	"github.com/nextlevelbuilder/goclaw/internal/gateway/methods"
-	httpapi "github.com/nextlevelbuilder/goclaw/internal/http"
-	mcpbridge "github.com/nextlevelbuilder/goclaw/internal/mcp"
-	"github.com/nextlevelbuilder/goclaw/internal/media"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/store/pg"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
-	"github.com/nextlevelbuilder/goclaw/internal/webhooks"
+	"github.com/nextlevelbuilder/zalosclaw/internal/audio"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/edition"
+	"github.com/nextlevelbuilder/zalosclaw/internal/gateway/methods"
+	httpapi "github.com/nextlevelbuilder/zalosclaw/internal/http"
+	mcpbridge "github.com/nextlevelbuilder/zalosclaw/internal/mcp"
+	"github.com/nextlevelbuilder/zalosclaw/internal/media"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/webhooks"
 )
 
 // httpHandlers bundles the results of wireHTTP() for passing to wireHTTPHandlersOnServer.
@@ -172,15 +172,15 @@ func (d *gatewayDeps) wireHTTPHandlersOnServer(
 
 	// K10: single shared webhookLimiter — one per process enforces per-tenant RPM cap across
 	// both LLM and message endpoints. Two separate instances would double the effective cap.
-	webhookEncKey := os.Getenv("GOCLAW_ENCRYPTION_KEY")
+	webhookEncKey := os.Getenv("ZALOSCLAW_ENCRYPTION_KEY")
 
-	// K6: refuse to mount any webhook handler when GOCLAW_ENCRYPTION_KEY is unset.
+	// K6: refuse to mount any webhook handler when ZALOSCLAW_ENCRYPTION_KEY is unset.
 	// crypto.Encrypt("", "") returns plaintext unchanged, so an empty key would silently
 	// persist raw secrets to the database — defeating the stated DB-leak protection.
 	// Skip-mount approach: process still starts (all other subsystems work), but
-	// /v1/webhooks/* returns 404. Set GOCLAW_ENCRYPTION_KEY to re-enable webhooks.
+	// /v1/webhooks/* returns 404. Set ZALOSCLAW_ENCRYPTION_KEY to re-enable webhooks.
 	if webhookEncKey == "" {
-		slog.Error("webhook subsystem disabled: GOCLAW_ENCRYPTION_KEY not set. Set the env var to enable /v1/webhooks/* endpoints.")
+		slog.Error("webhook subsystem disabled: ZALOSCLAW_ENCRYPTION_KEY not set. Set the env var to enable /v1/webhooks/* endpoints.")
 	} else {
 		sharedWebhookLimiter := httpapi.NewWebhookLimiter()
 

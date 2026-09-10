@@ -1,6 +1,6 @@
 package gemini
 
-import "github.com/nextlevelbuilder/goclaw/internal/audio"
+import "github.com/nextlevelbuilder/zalosclaw/internal/audio"
 
 // geminiVoices is the static catalog of 30 Gemini prebuilt voices.
 // Source: https://ai.google.dev/gemini-api/docs/speech-generation (April 2026)

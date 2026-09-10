@@ -10,22 +10,22 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/bootstrap"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/eventbus"
-	"github.com/nextlevelbuilder/goclaw/internal/hooks"
-	mcpbridge "github.com/nextlevelbuilder/goclaw/internal/mcp"
-	"github.com/nextlevelbuilder/goclaw/internal/media"
-	"github.com/nextlevelbuilder/goclaw/internal/memory"
-	"github.com/nextlevelbuilder/goclaw/internal/providerresolve"
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
-	"github.com/nextlevelbuilder/goclaw/internal/sandbox"
-	"github.com/nextlevelbuilder/goclaw/internal/skills"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/tools"
-	"github.com/nextlevelbuilder/goclaw/internal/tracing"
-	usagecaps "github.com/nextlevelbuilder/goclaw/internal/usage/caps"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bootstrap"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/eventbus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/hooks"
+	mcpbridge "github.com/nextlevelbuilder/zalosclaw/internal/mcp"
+	"github.com/nextlevelbuilder/zalosclaw/internal/media"
+	"github.com/nextlevelbuilder/zalosclaw/internal/memory"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providerresolve"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/sandbox"
+	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tools"
+	"github.com/nextlevelbuilder/zalosclaw/internal/tracing"
+	usagecaps "github.com/nextlevelbuilder/zalosclaw/internal/usage/caps"
 )
 
 // ResolverDeps holds shared dependencies for the agent resolver.
@@ -126,7 +126,7 @@ type ResolverDeps struct {
 	// System config store for tenant-scoped settings (allowed_paths, etc.)
 	SystemConfigs store.SystemConfigStore
 
-	// Global workspace root (GOCLAW_WORKSPACE)
+	// Global workspace root (ZALOSCLAW_WORKSPACE)
 	Workspace string
 
 	// TTS auto mode from config: "off", "always", "inbound", "tagged"

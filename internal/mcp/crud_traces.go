@@ -9,16 +9,16 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerTracesCRUDTools registers the goclaw_traces_* MCP tools backed by
-// store.TracingStore — closes a CLI-vs-MCP coverage gap (the `goclaw traces
-// get/list` commands had no MCP equivalent; goclaw_run_timeline_get covers a
+// registerTracesCRUDTools registers the zalosclaw_traces_* MCP tools backed by
+// store.TracingStore — closes a CLI-vs-MCP coverage gap (the `zalosclaw traces
+// get/list` commands had no MCP equivalent; zalosclaw_run_timeline_get covers a
 // different, run-oriented view). Read-only: trace/span data is written by
 // the tracing pipeline itself (internal/tracing), not by operators.
 func registerTracesCRUDTools(srv *mcpserver.MCPServer, tracing store.TracingStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_traces_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_traces_list",
 		mcpgo.WithDescription("List LLM call traces, optionally filtered by agent/user/session/status."),
 		mcpgo.WithString("agent_id", mcpgo.Description("Filter by agent UUID.")),
 		mcpgo.WithString("user_id", mcpgo.Description("Filter by user ID.")),
@@ -29,7 +29,7 @@ func registerTracesCRUDTools(srv *mcpserver.MCPServer, tracing store.TracingStor
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleTracesList(tracing))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_traces_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_traces_get",
 		mcpgo.WithDescription("Get a single trace and its spans by UUID."),
 		mcpgo.WithString("id", mcpgo.Required(), mcpgo.Description("Trace UUID.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),

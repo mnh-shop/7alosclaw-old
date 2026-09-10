@@ -34,7 +34,7 @@ function showsDeleteAffordance(p: Pick<BitrixPortal, "installed">): boolean {
 }
 
 describe("bitrix-portal-select — pending vs installed classification", () => {
-  const installed: BitrixPortal = { name: "acme", domain: "acme.bitrix24.com", installed: true, public_url: "https://goclaw.example.com", created_at: "2026-01-01T00:00:00Z" };
+  const installed: BitrixPortal = { name: "acme", domain: "acme.bitrix24.com", installed: true, public_url: "https://zalosclaw.example.com", created_at: "2026-01-01T00:00:00Z" };
   const pending: BitrixPortal = { name: "web1trang", domain: "web1trang.bitrix24.com", installed: false, public_url: "", created_at: "2026-01-01T00:00:00Z" };
 
   it("installed portal's item value is the bare name (what onChange stores)", () => {

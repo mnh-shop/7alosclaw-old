@@ -9,20 +9,20 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerAgentLinkCRUDTools registers the goclaw_agent_links_* MCP tools
+// registerAgentLinkCRUDTools registers the zalosclaw_agent_links_* MCP tools
 // backed by store.AgentLinkStore.
 func registerAgentLinkCRUDTools(srv *mcpserver.MCPServer, links store.AgentLinkStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_agent_links_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agent_links_list",
 		mcpgo.WithDescription("List inter-agent delegation links for an agent."),
 		mcpgo.WithString("agent_id", mcpgo.Required(), mcpgo.Description("Agent UUID to list links for.")),
 		mcpgo.WithString("direction", mcpgo.Enum("from", "to", "all"), mcpgo.Description("Direction to list: \"from\" (default), \"to\", or \"all\".")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleAgentLinksList(links))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_agent_links_create",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agent_links_create",
 		mcpgo.WithDescription("Create a new inter-agent delegation link."),
 		mcpgo.WithString("source_agent", mcpgo.Required(), mcpgo.Description("Source agent UUID.")),
 		mcpgo.WithString("target_agent", mcpgo.Required(), mcpgo.Description("Target agent UUID.")),
@@ -31,7 +31,7 @@ func registerAgentLinkCRUDTools(srv *mcpserver.MCPServer, links store.AgentLinkS
 		mcpgo.WithNumber("max_concurrent", mcpgo.Description("Compatibility metadata reserved for future per-link scheduling; not enforced at runtime.")),
 	), handleAgentLinksCreate(links))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_agent_links_update",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agent_links_update",
 		mcpgo.WithDescription("Apply a partial update to an agent link."),
 		mcpgo.WithString("link_id", mcpgo.Required(), mcpgo.Description("Link UUID.")),
 		mcpgo.WithString("direction", mcpgo.Enum("outbound", "inbound", "bidirectional"), mcpgo.Description("New direction.")),
@@ -40,7 +40,7 @@ func registerAgentLinkCRUDTools(srv *mcpserver.MCPServer, links store.AgentLinkS
 		mcpgo.WithString("status", mcpgo.Enum("active", "disabled"), mcpgo.Description("New status.")),
 	), handleAgentLinksUpdate(links))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_agent_links_delete",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_agent_links_delete",
 		mcpgo.WithDescription("Delete an agent link."),
 		mcpgo.WithString("link_id", mcpgo.Required(), mcpgo.Description("Link UUID.")),
 		mcpgo.WithDestructiveHintAnnotation(true),

@@ -23,7 +23,7 @@
 
 ## 1. Overview
 
-GoClaw webhooks let external systems trigger agents or deliver messages through connected channels. Two webhook kinds exist:
+ZalosClaw webhooks let external systems trigger agents or deliver messages through connected channels. Two webhook kinds exist:
 
 | Kind | Endpoint | Purpose | Editions |
 |------|----------|---------|----------|
@@ -91,7 +91,7 @@ Fields:
 **`secret` and `hmac_signing_key` are returned exactly once — on create and rotate. Store them securely; they cannot be retrieved again.**
 
 - `secret` — raw bearer token. Send as `Authorization: Bearer wh_...`
-- `hmac_signing_key` — `hex(SHA-256(secret))`. Used as the HMAC signing key for `X-GoClaw-Signature`. To sign: `HMAC_SHA256(key=hex.Decode(hmac_signing_key), payload="{ts}.{body}")`
+- `hmac_signing_key` — `hex(SHA-256(secret))`. Used as the HMAC signing key for `X-ZalosClaw-Signature`. To sign: `HMAC_SHA256(key=hex.Decode(hmac_signing_key), payload="{ts}.{body}")`
 
 ### List — `GET /v1/webhooks`
 
@@ -176,7 +176,7 @@ Recommended for Standard edition integrations. Provides both authentication and 
 
 ```
 X-Webhook-Id: <webhook-uuid>
-X-GoClaw-Signature: t=<unix_seconds>,v1=<hmac_hex>
+X-ZalosClaw-Signature: t=<unix_seconds>,v1=<hmac_hex>
 Content-Type: application/json
 ```
 
@@ -315,8 +315,8 @@ Both webhook agent-run deadlines default to **600s** and are capped at **3600s**
 
 | Setting (config) | Env var | Applies to | Default |
 |------------------|---------|-----------|---------|
-| `gateway.webhook_sync_timeout_sec` | `GOCLAW_WEBHOOK_SYNC_TIMEOUT_SEC` | sync + admin test calls | 600 |
-| `gateway.webhook_async_timeout_sec` | `GOCLAW_WEBHOOK_ASYNC_TIMEOUT_SEC` | async worker runs | 600 |
+| `gateway.webhook_sync_timeout_sec` | `ZALOSCLAW_WEBHOOK_SYNC_TIMEOUT_SEC` | sync + admin test calls | 600 |
+| `gateway.webhook_async_timeout_sec` | `ZALOSCLAW_WEBHOOK_ASYNC_TIMEOUT_SEC` | async worker runs | 600 |
 
 > Sync mode holds the HTTP connection open for the whole run — a value above an upstream proxy/load-balancer read timeout may be cut before the agent finishes. Async mode returns `202` immediately and runs in the background, so a longer deadline is safe.
 
@@ -326,7 +326,7 @@ Server-side webhook agent runs (sync, async, and admin test) stream provider res
 
 | Setting (config) | Env var | Applies to | Default |
 |------------------|---------|-----------|---------|
-| `gateway.webhook_stream` | `GOCLAW_WEBHOOK_STREAM` | sync + async + test webhook agent runs | `true` |
+| `gateway.webhook_stream` | `ZALOSCLAW_WEBHOOK_STREAM` | sync + async + test webhook agent runs | `true` |
 
 > Set to `false` to restore non-streaming requests (e.g. for a provider that misbehaves when streaming). Caching for `cache_control`-style providers (Anthropic/DashScope) is unaffected by this flag.
 
@@ -444,7 +444,7 @@ Every delivery attempt carries:
 X-Webhook-Delivery-Id: <uuid>           -- stable across retries
 X-Webhook-Signature: t=<unix>,v1=<hex> -- recomputed per attempt (timestamp differs)
 Content-Type: application/json
-User-Agent: goclaw-webhook/1
+User-Agent: zalosclaw-webhook/1
 ```
 
 `X-Webhook-Delivery-Id` is stable for all retry attempts of the same call. Receivers **SHOULD** deduplicate by this ID within a window of at least 24 hours.
@@ -661,7 +661,7 @@ SIG=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -mac HMAC \
 curl -X POST https://example.com/v1/webhooks/llm \
   -H "Content-Type: application/json" \
   -H "X-Webhook-Id: ${WEBHOOK_ID}" \
-  -H "X-GoClaw-Signature: t=${TS},v1=${SIG}" \
+  -H "X-ZalosClaw-Signature: t=${TS},v1=${SIG}" \
   -d "$BODY"
 ```
 
@@ -699,7 +699,7 @@ await fetch('https://example.com/v1/webhooks/llm', {
   headers: {
     'Content-Type': 'application/json',
     'X-Webhook-Id': process.env.WEBHOOK_ID,
-    'X-GoClaw-Signature': signature,
+    'X-ZalosClaw-Signature': signature,
   },
   body,
 });
@@ -729,7 +729,7 @@ requests.post(
     headers={
         "Content-Type": "application/json",
         "X-Webhook-Id": os.environ["WEBHOOK_ID"],
-        "X-GoClaw-Signature": signature,
+        "X-ZalosClaw-Signature": signature,
     },
     data=body,
 )
@@ -790,7 +790,7 @@ SHA-256 hex digest of the raw request body bytes. Used by the idempotency subsys
 
 ### Raw Secret Encryption
 
-The webhook secret is encrypted at rest using AES-256-GCM, keyed by the environment variable `GOCLAW_ENCRYPTION_KEY` (required for webhook HMAC auth to work). Only the database stores encrypted secret material.
+The webhook secret is encrypted at rest using AES-256-GCM, keyed by the environment variable `ZALOSCLAW_ENCRYPTION_KEY` (required for webhook HMAC auth to work). Only the database stores encrypted secret material.
 
 **Key contract (POST /v1/webhooks create/rotate response):**
 
@@ -808,7 +808,7 @@ The webhook secret is encrypted at rest using AES-256-GCM, keyed by the environm
 
 - `webhooks.secret_hash` column: `SHA-256(secret)` in hex. Used for bearer auth lookups (constant-time comparison).
 - `webhooks.encrypted_secret` column (PG/SQLite): AES-256-GCM encrypted raw secret. Used to support lease-token reclamation and idempotency recovery on stale calls.
-- Environment variable `GOCLAW_ENCRYPTION_KEY` — required for webhook processing. Same key also encrypts LLM provider API keys. Format: base64-encoded 32-byte key.
+- Environment variable `ZALOSCLAW_ENCRYPTION_KEY` — required for webhook processing. Same key also encrypts LLM provider API keys. Format: base64-encoded 32-byte key.
 
 **Migration notes:**
 
@@ -819,12 +819,12 @@ The webhook secret is encrypted at rest using AES-256-GCM, keyed by the environm
 
 A database-layer attacker with read-only access to `webhooks` table **cannot** derive the raw secret or `hmac_signing_key`:
 - `secret_hash` alone does not reverse-engineer the secret (cryptographic hash).
-- `encrypted_secret` requires `GOCLAW_ENCRYPTION_KEY` to decrypt (environment-only, not in database).
+- `encrypted_secret` requires `ZALOSCLAW_ENCRYPTION_KEY` to decrypt (environment-only, not in database).
 - Attackers gain no actionable HMAC material.
 
 ### Environment Variable Security
 
-`GOCLAW_ENCRYPTION_KEY` must be:
+`ZALOSCLAW_ENCRYPTION_KEY` must be:
 - Stored securely (e.g., sealed in a secret manager, not in `config.json`).
 - Same across all gateway instances in a cluster (standard multi-replica key).
 - Rotated as part of incident response — rotation requires re-encrypting all webhook secrets (automated migration).

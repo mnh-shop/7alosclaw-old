@@ -8,13 +8,13 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 	"golang.org/x/time/rate"
 )
 
 // perKeyRateLimiter is a minimal per-key token-bucket limiter used to cap
 // external GitHub API usage initiated through /v1/packages/github-releases.
-// Key is userID (header X-GoClaw-User-Id) or RemoteAddr when anonymous.
+// Key is userID (header X-ZalosClaw-User-Id) or RemoteAddr when anonymous.
 //
 // Stale-entry eviction is amortized: every perKeyRateLimiterSweepInterval
 // accepted requests trigger an inline scan. This avoids a background
@@ -103,7 +103,7 @@ var packagesWriteLimiter = newPerKeyRateLimiter(10, 3)
 
 // rateLimitKeyFromRequest returns the authenticated user ID if present (from
 // the request context populated by enrichContext/requireAuth), else falls
-// back to the raw X-GoClaw-User-Id header, else the remote IP.
+// back to the raw X-ZalosClaw-User-Id header, else the remote IP.
 //
 // Preferring context over header means an admin with a leaked token can't
 // rotate the header mid-session to dodge the per-user bucket — the context

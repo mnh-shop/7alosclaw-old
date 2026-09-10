@@ -1,4 +1,4 @@
-// WebSocket v3 client for GoClaw gateway RPC protocol
+// WebSocket v3 client for ZalosClaw gateway RPC protocol
 
 import type { Frame, ResponseFrame, EventFrame, EventHandler, PendingRequest } from './ws-types'
 import {
@@ -54,7 +54,7 @@ export class WsClient {
         token: this.token,
         user_id: 'system',
         sender_id: 'desktop',
-        locale: localStorage.getItem('goclaw:language') || navigator.language.split('-')[0] || 'en',
+        locale: localStorage.getItem('zalosclaw:language') || navigator.language.split('-')[0] || 'en',
         protocol_version: 3,
       },
     })

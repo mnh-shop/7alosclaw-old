@@ -150,7 +150,7 @@
       "cancel": "취소",
       "extractors": {
         "defuddle": "Defuddle (Cloudflare Worker)",
-        "defuddleDesc": "Defuddle 라이브러리를 사용하여 fetch.goclaw.sh를 통해 깨끗한 마크다운을 추출합니다.",
+        "defuddleDesc": "Defuddle 라이브러리를 사용하여 fetch.zalosclaw.sh를 통해 깨끗한 마크다운을 추출합니다.",
         "html-to-markdown": "내장 HTML→Markdown",
         "html-to-markdownDesc": "숨겨진 요소 감지 기능이 있는 인-프로세스 DOM 기반 변환기입니다."
       }

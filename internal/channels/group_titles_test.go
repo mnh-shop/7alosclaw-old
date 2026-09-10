@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
 )
 
 type groupTitleTestChannel struct {

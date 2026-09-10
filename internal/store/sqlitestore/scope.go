@@ -6,8 +6,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/store/base"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store/base"
 )
 
 // scopeClause extracts QueryScope from context and generates SQLite WHERE conditions.

@@ -129,7 +129,7 @@ SET is_system = 0,
     status = 'archived',
     frontmatter = json_set(
         CASE WHEN json_valid(frontmatter) THEN frontmatter ELSE '{}' END,
-        '$._goclaw_recovery',
+        '$._zalosclaw_recovery',
         'bundled_slug_collision'
     ),
     version = CASE WHEN version > 1 THEN version - 1 ELSE 1 END,

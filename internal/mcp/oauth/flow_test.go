@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/security"
+	"github.com/nextlevelbuilder/zalosclaw/internal/security"
 )
 
 func TestPKCEVerifierMatchesChallenge(t *testing.T) {
@@ -53,7 +53,7 @@ func TestStartFlowReturnsPKCEAuthURL(t *testing.T) {
 		TenantID:        uuid.New(),
 		DiscoveryResult: disc,
 		ClientID:        "test-client",
-		RedirectURI:     "https://goclaw.example.com/v1/mcp/oauth/callback",
+		RedirectURI:     "https://zalosclaw.example.com/v1/mcp/oauth/callback",
 		GrantType:       "pkce",
 	})
 	if err != nil {
@@ -90,7 +90,7 @@ func TestStartFlowIncludesExtraAuthParams(t *testing.T) {
 		TenantID:        uuid.New(),
 		DiscoveryResult: disc,
 		ClientID:        "test-client",
-		RedirectURI:     "https://goclaw.example.com/v1/mcp/oauth/callback",
+		RedirectURI:     "https://zalosclaw.example.com/v1/mcp/oauth/callback",
 		GrantType:       "pkce",
 		ExtraAuthParams: url.Values{"token_access_type": {"offline"}},
 	})
@@ -113,7 +113,7 @@ func TestStartFlowDoesNotOverrideStandardParams(t *testing.T) {
 		TenantID:        uuid.New(),
 		DiscoveryResult: disc,
 		ClientID:        "test-client",
-		RedirectURI:     "https://goclaw.example.com/v1/mcp/oauth/callback",
+		RedirectURI:     "https://zalosclaw.example.com/v1/mcp/oauth/callback",
 		GrantType:       "pkce",
 		ExtraAuthParams: url.Values{"client_id": {"evil"}},
 	})

@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // bitrixCreds maps the credentials JSON from channel_instances.credentials.
@@ -83,7 +83,7 @@ type bitrixInstanceConfig struct {
 	ChatBehavior *config.ChatBehaviorConfig `json:"chat_behavior,omitempty"`
 
 	// Webhook endpoint override. Bitrix24 imbot.register requires absolute
-	// URLs for EVENT_MESSAGE_ADD etc. GoClaw has no global GOCLAW_PUBLIC_URL
+	// URLs for EVENT_MESSAGE_ADD etc. ZalosClaw has no global ZALOSCLAW_PUBLIC_URL
 	// setting — we let operators configure it per-instance so multiple
 	// gateways fronting different ingresses can co-exist.
 	//

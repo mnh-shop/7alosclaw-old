@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/skills"
+	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
 )
 
 func (r skillSlashCommandResult) systemPromptSection() string {

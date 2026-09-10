@@ -12,52 +12,52 @@ type contextKey string
 
 const (
 	// UserIDKey is the context key for the external user ID (TEXT, free-form).
-	UserIDKey contextKey = "goclaw_user_id"
+	UserIDKey contextKey = "zalosclaw_user_id"
 	// AgentIDKey is the context key for the agent UUID.
-	AgentIDKey contextKey = "goclaw_agent_id"
+	AgentIDKey contextKey = "zalosclaw_agent_id"
 	// AgentTypeKey is the context key for the agent type ("open" or "predefined").
-	AgentTypeKey contextKey = "goclaw_agent_type"
+	AgentTypeKey contextKey = "zalosclaw_agent_type"
 	// SenderIDKey is the original individual sender's ID (not group-scoped).
 	// In group chats, UserIDKey is group-scoped but SenderIDKey preserves
 	// the actual person who sent the message.
-	SenderIDKey contextKey = "goclaw_sender_id"
+	SenderIDKey contextKey = "zalosclaw_sender_id"
 	// SelfEvolveKey indicates whether a predefined agent can update its SOUL.md.
-	SelfEvolveKey contextKey = "goclaw_self_evolve"
+	SelfEvolveKey contextKey = "zalosclaw_self_evolve"
 	// LocaleKey is the context key for the user's preferred locale (e.g. "en", "vi", "zh").
-	LocaleKey contextKey = "goclaw_locale"
+	LocaleKey contextKey = "zalosclaw_locale"
 	// SharedMemoryKey indicates memory should be shared (no per-user scoping).
-	SharedMemoryKey contextKey = "goclaw_shared_memory"
+	SharedMemoryKey contextKey = "zalosclaw_shared_memory"
 	// SharedKGKey indicates KG should be shared across all users of the agent (no per-user scoping).
-	SharedKGKey contextKey = "goclaw_shared_kg"
+	SharedKGKey contextKey = "zalosclaw_shared_kg"
 	// SharedSessionsKey indicates sessions should be shared across all users (no per-group scoping).
-	SharedSessionsKey contextKey = "goclaw_shared_sessions"
+	SharedSessionsKey contextKey = "zalosclaw_shared_sessions"
 	// SharedContextKey indicates context files should be read/written at agent scope.
-	SharedContextKey contextKey = "goclaw_shared_context"
+	SharedContextKey contextKey = "zalosclaw_shared_context"
 	// ShellDenyGroupsKey holds per-agent shell deny group overrides.
-	ShellDenyGroupsKey contextKey = "goclaw_shell_deny_groups"
+	ShellDenyGroupsKey contextKey = "zalosclaw_shell_deny_groups"
 	// AgentKeyKey is the context key for the agent key/name (string identifier, e.g. "default").
-	AgentKeyKey contextKey = "goclaw_agent_key"
+	AgentKeyKey contextKey = "zalosclaw_agent_key"
 	// AgentContextWindowKey carries the calling agent's configured context window.
-	AgentContextWindowKey contextKey = "goclaw_agent_context_window"
+	AgentContextWindowKey contextKey = "zalosclaw_agent_context_window"
 	// AgentMaxTokensKey carries the calling agent's configured output reserve.
-	AgentMaxTokensKey contextKey = "goclaw_agent_max_tokens"
+	AgentMaxTokensKey contextKey = "zalosclaw_agent_max_tokens"
 	// TenantIDKey is the context key for the tenant UUID.
-	TenantIDKey contextKey = "goclaw_tenant_id"
+	TenantIDKey contextKey = "zalosclaw_tenant_id"
 	// CrossTenantKey indicates the caller has cross-tenant access (owner/system admin).
-	CrossTenantKey contextKey = "goclaw_cross_tenant"
+	CrossTenantKey contextKey = "zalosclaw_cross_tenant"
 	// TenantSlugKey stores the tenant's URL-safe slug for filesystem paths.
-	TenantSlugKey contextKey = "goclaw_tenant_slug"
+	TenantSlugKey contextKey = "zalosclaw_tenant_slug"
 	// RoleKey is the context key for the caller's permission role (e.g. "admin", "operator", "viewer").
-	RoleKey contextKey = "goclaw_role"
+	RoleKey contextKey = "zalosclaw_role"
 	// CredentialUserIDKey holds the resolved tenant user identity for credential lookups.
 	// Falls back to UserIDFromContext if not set.
-	CredentialUserIDKey contextKey = "goclaw_credential_user_id"
+	CredentialUserIDKey contextKey = "zalosclaw_credential_user_id"
 	// SenderNameKey is the display name from channel metadata (for bootstrap auto-contact).
-	SenderNameKey contextKey = "goclaw_sender_name"
+	SenderNameKey contextKey = "zalosclaw_sender_name"
 	// ChannelContextScopeKey carries the channel/group/user scope for runtime grants and credentials.
-	ChannelContextScopeKey contextKey = "goclaw_channel_context_scope"
+	ChannelContextScopeKey contextKey = "zalosclaw_channel_context_scope"
 	// AgentAudioKey carries the immutable agent audio snapshot for TTS tool dispatch.
-	AgentAudioKey contextKey = "goclaw_agent_audio"
+	AgentAudioKey contextKey = "zalosclaw_agent_audio"
 )
 
 // AgentAudioSnapshot is an immutable snapshot of agent audio config carried through

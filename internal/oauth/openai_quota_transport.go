@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 var quotaHTTPClient = &http.Client{Timeout: openAIQuotaTimeout}

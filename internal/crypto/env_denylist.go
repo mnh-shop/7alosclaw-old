@@ -54,7 +54,7 @@ var deniedExact = map[string]struct{}{
 // Keep in sync with ENV_DENYLIST_PREFIXES in ui/web/src/pages/cli-credentials/cli-credential-grant-env-section.tsx.
 var deniedPrefixes = []string{
 	"DYLD_",
-	"GOCLAW_",
+	"ZALOSCLAW_",
 	"LD_",
 	"NPM_CONFIG_", // npm lifecycle overrides (rc-style, loads modules); case-insensitive match via ToUpper
 }

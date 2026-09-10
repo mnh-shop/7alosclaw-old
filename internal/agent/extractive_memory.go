@@ -5,7 +5,7 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 // Regex patterns for extractive memory fallback.

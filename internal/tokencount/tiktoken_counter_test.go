@@ -3,7 +3,7 @@ package tokencount
 import (
 	"testing"
 
-	"github.com/nextlevelbuilder/goclaw/internal/providers"
+	"github.com/nextlevelbuilder/zalosclaw/internal/providers"
 )
 
 func TestCount_CL100K(t *testing.T) {

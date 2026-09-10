@@ -4,7 +4,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/skills"
+	"github.com/nextlevelbuilder/zalosclaw/internal/skills"
 )
 
 type parsedSkillSlashCommand struct {

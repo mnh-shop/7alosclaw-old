@@ -8,12 +8,12 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/nextlevelbuilder/goclaw/internal/agent"
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/scheduler"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/agent"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/scheduler"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 func TestCronJobHandlerInjectsPayloadCredentialUserID(t *testing.T) {
@@ -245,7 +245,7 @@ type fakeCronSessionStore struct {
 func (f *fakeCronSessionStore) Reset(context.Context, string)      { f.resetCount++ }
 func (f *fakeCronSessionStore) Save(context.Context, string) error { return nil }
 
-// A stateless cron run must start fresh by clearing BOTH the goclaw session
+// A stateless cron run must start fresh by clearing BOTH the zalosclaw session
 // store and the Claude CLI on-disk session; a stateful run must keep both.
 func TestCronJobHandler_StatelessResetsSession(t *testing.T) {
 	cases := []struct {

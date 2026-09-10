@@ -31,7 +31,7 @@ Docs impact expected:
 
 - Modify: `docs/project-changelog.md` if implementation lands.
 - Maybe modify: `docs/05-channels-messaging.md`.
-- GitHub issue: `digitopvn/goclaw#67`.
+- GitHub issue: `digitopvn/zalosclaw#67`.
 
 ## Implementation Steps
 

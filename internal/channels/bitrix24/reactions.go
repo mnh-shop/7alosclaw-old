@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
 )
 
 // Compile-time guarantee the Bitrix24 channel provides status reactions.
@@ -20,7 +20,7 @@ var _ channels.ReactionChannel = (*Channel)(nil)
 // (done/error) bypass the debounce so the final outcome always lands.
 const reactionDebounceInterval = 700 * time.Millisecond
 
-// statusReaction maps a GoClaw agent status to a Bitrix24 v2 reaction code.
+// statusReaction maps a ZalosClaw agent status to a Bitrix24 v2 reaction code.
 // Codes come from imbot.v2.Chat.Message.Reaction.add's documented set.
 var statusReaction = map[string]string{
 	"queued":    "eyes",                // 👀 waiting to process

@@ -162,7 +162,7 @@ func (p *OpenAIProvider) Name() string         { return p.name }
 func (p *OpenAIProvider) DefaultModel() string { return p.defaultModel }
 
 // SupportsThinking returns false for Ollama endpoints, which disable thinking by default
-// (models like qwq and deepseek-r1 have thinking on by default and goclaw suppresses it).
+// (models like qwq and deepseek-r1 have thinking on by default and zalosclaw suppresses it).
 func (p *OpenAIProvider) SupportsThinking() bool { return !p.isOllamaEndpoint() }
 func (p *OpenAIProvider) APIKey() string         { return p.apiKey }
 func (p *OpenAIProvider) APIBase() string        { return p.apiBase }

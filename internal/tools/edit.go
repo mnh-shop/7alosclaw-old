@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/nextlevelbuilder/goclaw/internal/sandbox"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/sandbox"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // EditTool performs search-and-replace edits on files.
@@ -17,7 +17,7 @@ type EditTool struct {
 	workspace       string
 	restrict        bool
 	allowedPrefixes []string // extra allowed path prefixes (cross-drive on Windows)
-	deniedPrefixes  []string // path prefixes to deny access to (e.g. .goclaw)
+	deniedPrefixes  []string // path prefixes to deny access to (e.g. .zalosclaw)
 	sandboxMgr      sandbox.Manager
 	contextFileIntc *ContextFileInterceptor
 	memIntc         *MemoryInterceptor

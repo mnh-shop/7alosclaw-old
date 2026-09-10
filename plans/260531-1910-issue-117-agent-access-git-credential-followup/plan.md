@@ -55,8 +55,8 @@ Approach:
 ## Dependencies
 
 - Prior completed plan: `plans/260531-1545-agent-scoped-git-credentials/`.
-- Related issue: `digitopvn/goclaw#117`.
-- Related merged PRs: `digitopvn/goclaw#120`, `digitopvn/goclaw#96`.
+- Related issue: `digitopvn/zalosclaw#117`.
+- Related merged PRs: `digitopvn/zalosclaw#120`, `digitopvn/zalosclaw#96`.
 - Runtime evidence: production logs show `credential_source=agent` for both PAT
   and SSH paths, so this is an adapter/validation problem, not a missing
   credential lookup problem.

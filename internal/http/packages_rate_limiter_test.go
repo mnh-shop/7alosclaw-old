@@ -37,7 +37,7 @@ func TestPerKeyRateLimiter_Disabled(t *testing.T) {
 func TestRateLimitKeyFromRequest(t *testing.T) {
 	// Authenticated user: prefix with uid:.
 	r := httptest.NewRequest(http.MethodGet, "/x", nil)
-	r.Header.Set("X-GoClaw-User-Id", "alice")
+	r.Header.Set("X-ZalosClaw-User-Id", "alice")
 	if got := rateLimitKeyFromRequest(r); got != "uid:alice" {
 		t.Errorf("want uid:alice, got %s", got)
 	}
@@ -57,7 +57,7 @@ func TestEnforceGitHubReleasesLimit_Writes429(t *testing.T) {
 	defer func() { githubReleasesLimiter = prev }()
 
 	r := httptest.NewRequest(http.MethodGet, "/x", nil)
-	r.Header.Set("X-GoClaw-User-Id", "bob")
+	r.Header.Set("X-ZalosClaw-User-Id", "bob")
 
 	w1 := httptest.NewRecorder()
 	if !enforceGitHubReleasesLimit(w1, r) {

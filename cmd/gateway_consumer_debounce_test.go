@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
 )
 
 // TestApplyMediaFloor_NoMediaNoFloor: msg without media → debounceMs returned unchanged (0).

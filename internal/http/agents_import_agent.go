@@ -9,8 +9,8 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
 // doImportNewAgent creates a new agent from the archive, returning import summary.

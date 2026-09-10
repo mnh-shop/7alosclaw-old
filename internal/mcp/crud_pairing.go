@@ -9,11 +9,11 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/bus"
-	"github.com/nextlevelbuilder/goclaw/internal/channels"
-	"github.com/nextlevelbuilder/goclaw/internal/config"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	"github.com/nextlevelbuilder/goclaw/internal/systemmessages"
+	"github.com/nextlevelbuilder/zalosclaw/internal/bus"
+	"github.com/nextlevelbuilder/zalosclaw/internal/channels"
+	"github.com/nextlevelbuilder/zalosclaw/internal/config"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/systemmessages"
 )
 
 // validMCPSenderIDRe mirrors internal/gateway/methods/pairing.go's
@@ -72,12 +72,12 @@ func notifyPairingApproved(ctx context.Context, deps pairingCRUDDeps, paired *st
 	slog.Info("pairing approval notification sent", "channel", paired.Channel, "chat_id", paired.ChatID)
 }
 
-// registerPairingCRUDTools registers the goclaw_pairing_device_* and
-// goclaw_pairing_browser_status MCP tools backed by store.PairingStore.
+// registerPairingCRUDTools registers the zalosclaw_pairing_device_* and
+// zalosclaw_pairing_browser_status MCP tools backed by store.PairingStore.
 // Mirrors internal/gateway/methods/pairing.go, including the approve-callback
 // (channel notification) and event-broadcast side effects.
 func registerPairingCRUDTools(srv *mcpserver.MCPServer, deps pairingCRUDDeps) {
-	srv.AddTool(mcpgo.NewTool("goclaw_pairing_device_request",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_pairing_device_request",
 		mcpgo.WithDescription("Request a device pairing code."),
 		mcpgo.WithString("sender_id", mcpgo.Required(), mcpgo.Description("Sender identifier.")),
 		mcpgo.WithString("channel", mcpgo.Required(), mcpgo.Description("Channel name.")),
@@ -85,30 +85,30 @@ func registerPairingCRUDTools(srv *mcpserver.MCPServer, deps pairingCRUDDeps) {
 		mcpgo.WithString("account_id", mcpgo.Description("Account ID; defaults to \"default\".")),
 	), handlePairingDeviceRequest(deps.pairing))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_pairing_device_approve",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_pairing_device_approve",
 		mcpgo.WithDescription("Approve a pending pairing code."),
 		mcpgo.WithString("code", mcpgo.Required(), mcpgo.Description("Pairing code.")),
 		mcpgo.WithString("approved_by", mcpgo.Description("Approver identifier; defaults to \"operator\".")),
 	), handlePairingDeviceApprove(deps))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_pairing_device_deny",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_pairing_device_deny",
 		mcpgo.WithDescription("Deny a pending pairing code."),
 		mcpgo.WithString("code", mcpgo.Required(), mcpgo.Description("Pairing code.")),
 	), handlePairingDeviceDeny(deps.pairing))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_pairing_device_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_pairing_device_list",
 		mcpgo.WithDescription("List pending and paired devices."),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handlePairingDeviceList(deps.pairing))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_pairing_device_revoke",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_pairing_device_revoke",
 		mcpgo.WithDescription("Revoke an approved device pairing."),
 		mcpgo.WithString("sender_id", mcpgo.Required(), mcpgo.Description("Sender identifier.")),
 		mcpgo.WithString("channel", mcpgo.Required(), mcpgo.Description("Channel name.")),
 		mcpgo.WithDestructiveHintAnnotation(true),
 	), handlePairingDeviceRevoke(deps))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_pairing_browser_status",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_pairing_browser_status",
 		mcpgo.WithDescription("Check the pairing status for a pending browser client."),
 		mcpgo.WithString("sender_id", mcpgo.Required(), mcpgo.Description("Sender identifier.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),

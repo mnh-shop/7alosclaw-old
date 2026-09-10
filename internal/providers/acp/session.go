@@ -14,7 +14,7 @@ func (p *ACPProcess) Initialize(ctx context.Context) error {
 	defer cancel()
 	req := InitializeRequest{
 		ProtocolVersion: 1,
-		ClientInfo:      ClientInfo{Name: "GoClaw", Version: "1.0"},
+		ClientInfo:      ClientInfo{Name: "ZalosClaw", Version: "1.0"},
 		Capabilities:    ClientCaps{},
 	}
 	var resp InitializeResponse
@@ -82,8 +82,8 @@ func (p *ACPProcess) Prompt(ctx context.Context, sessionID string, content []Con
 	p.registerUpdateFn(sessionID, onUpdate)
 	defer p.unregisterUpdateFn(sessionID)
 
-	goclawSession := goclawSessionFromCtx(ctx)
-	slog.Info("acp: session/prompt", "session", goclawSession, "sid", sessionID)
+	zalosclawSession := zalosclawSessionFromCtx(ctx)
+	slog.Info("acp: session/prompt", "session", zalosclawSession, "sid", sessionID)
 	req := PromptRequest{
 		SessionID: sessionID,
 		Prompt:    content,
@@ -98,7 +98,7 @@ func (p *ACPProcess) Prompt(ctx context.Context, sessionID string, content []Con
 	p.lastActive = time.Now()
 	p.mu.Unlock()
 
-	slog.Info("acp: session/prompt completed", "session", goclawSession, "sid", sessionID, "stopReason", resp.StopReason)
+	slog.Info("acp: session/prompt completed", "session", zalosclawSession, "sid", sessionID, "stopReason", resp.StopReason)
 	return &resp, nil
 }
 

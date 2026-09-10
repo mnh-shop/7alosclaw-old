@@ -22,14 +22,14 @@ func roundTrip[T any](t *testing.T, v T) ([]byte, T) {
 
 func TestInitializeRequest_RoundTrip(t *testing.T) {
 	req := InitializeRequest{
-		ClientInfo: ClientInfo{Name: "goclaw", Version: "1.0"},
+		ClientInfo: ClientInfo{Name: "zalosclaw", Version: "1.0"},
 		Capabilities: ClientCaps{
 			Fs:       &FsCaps{ReadTextFile: true, WriteTextFile: false},
 			Terminal: &TerminalCaps{Enabled: true},
 		},
 	}
 	_, got := roundTrip(t, req)
-	if got.ClientInfo.Name != "goclaw" {
+	if got.ClientInfo.Name != "zalosclaw" {
 		t.Errorf("ClientInfo.Name: got %q", got.ClientInfo.Name)
 	}
 	if got.ClientInfo.Version != "1.0" {

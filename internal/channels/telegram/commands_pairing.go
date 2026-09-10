@@ -9,7 +9,7 @@ import (
 	"github.com/mymmrac/telego"
 	tu "github.com/mymmrac/telego/telegoutil"
 
-	"github.com/nextlevelbuilder/goclaw/internal/systemmessages"
+	"github.com/nextlevelbuilder/zalosclaw/internal/systemmessages"
 )
 
 // --- Pairing UX ---
@@ -113,7 +113,7 @@ func (c *Channel) SendPairingApproved(ctx context.Context, chatID, botName strin
 		return fmt.Errorf("invalid chat ID: %w", err)
 	}
 	if botName == "" {
-		botName = "GoClaw"
+		botName = "ZalosClaw"
 	}
 
 	msg := tu.Message(tu.ID(id), c.SystemMessage("", systemmessages.KeyPairingApproved, systemmessages.Vars{

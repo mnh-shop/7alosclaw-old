@@ -171,7 +171,7 @@ export function BitrixPortalFormStep({ onSuccess, onCancel }: BitrixPortalFormSt
         setServerError(
           t("bitrix24.create.errors.gatewayURLUnknown", {
             defaultValue:
-              "Open the goclaw UI via your public URL first (not localhost), then retry.",
+              "Open the zalosclaw UI via your public URL first (not localhost), then retry.",
           }),
         );
         return;

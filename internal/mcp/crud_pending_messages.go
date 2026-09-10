@@ -6,28 +6,28 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerPendingMessagesCRUDTools registers the goclaw_pending_messages_*
+// registerPendingMessagesCRUDTools registers the zalosclaw_pending_messages_*
 // MCP tools backed by store.PendingMessageStore — closes a CLI-vs-MCP
-// coverage gap (`goclaw channels pending`/`pending-messages list/send`).
+// coverage gap (`zalosclaw channels pending`/`pending-messages list/send`).
 // "send" isn't included: pending messages are queued group-chat context
-// awaiting a mention, not an outbound send path (see goclaw_send for that).
+// awaiting a mention, not an outbound send path (see zalosclaw_send for that).
 func registerPendingMessagesCRUDTools(srv *mcpserver.MCPServer, pending store.PendingMessageStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_pending_messages_groups",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_pending_messages_groups",
 		mcpgo.WithDescription("List all pending-message groups (channel+historyKey) with counts."),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handlePendingMessagesGroups(pending))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_pending_messages_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_pending_messages_list",
 		mcpgo.WithDescription("List queued pending messages for one channel+historyKey group."),
 		mcpgo.WithString("channel_name", mcpgo.Required(), mcpgo.Description("Channel name.")),
 		mcpgo.WithString("history_key", mcpgo.Required(), mcpgo.Description("History key (thread/group identifier).")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handlePendingMessagesList(pending))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_pending_messages_delete",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_pending_messages_delete",
 		mcpgo.WithDescription("Delete all pending messages for one channel+historyKey group."),
 		mcpgo.WithString("channel_name", mcpgo.Required(), mcpgo.Description("Channel name.")),
 		mcpgo.WithString("history_key", mcpgo.Required(), mcpgo.Description("History key (thread/group identifier).")),

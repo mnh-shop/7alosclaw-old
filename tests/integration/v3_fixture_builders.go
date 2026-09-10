@@ -11,8 +11,8 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/nextlevelbuilder/goclaw/internal/store"
-	pgstore "github.com/nextlevelbuilder/goclaw/internal/store/pg"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
+	pgstore "github.com/nextlevelbuilder/zalosclaw/internal/store/pg"
 )
 
 // seedTwoTenants creates 2 independent tenants with agents for isolation testing.

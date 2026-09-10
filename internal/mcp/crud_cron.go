@@ -6,12 +6,12 @@ import (
 	mcpgo "github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"github.com/nextlevelbuilder/goclaw/internal/store"
+	"github.com/nextlevelbuilder/zalosclaw/internal/store"
 )
 
-// registerCronCRUDTools registers the goclaw_cron_* MCP tools backed by store.CronStore.
+// registerCronCRUDTools registers the zalosclaw_cron_* MCP tools backed by store.CronStore.
 func registerCronCRUDTools(srv *mcpserver.MCPServer, cron store.CronStore) {
-	srv.AddTool(mcpgo.NewTool("goclaw_cron_list",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_cron_list",
 		mcpgo.WithDescription("List scheduled cron jobs."),
 		mcpgo.WithBoolean("include_disabled", mcpgo.Description("Include disabled jobs (default false).")),
 		mcpgo.WithString("agent_id", mcpgo.Description("Filter by agent ID.")),
@@ -19,17 +19,17 @@ func registerCronCRUDTools(srv *mcpserver.MCPServer, cron store.CronStore) {
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleCronList(cron))
 
-	// goclaw_cron_get is a goclaw-specific extra (not present in the
+	// zalosclaw_cron_get is a zalosclaw-specific extra (not present in the
 	// reference tool set, which only exposes cron.status for scheduler-wide
 	// state) — kept for convenience since store.CronStore.GetJob supports it
 	// directly and it's useful for single-job lookups.
-	srv.AddTool(mcpgo.NewTool("goclaw_cron_get",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_cron_get",
 		mcpgo.WithDescription("Get a single cron job by ID."),
 		mcpgo.WithString("job_id", mcpgo.Required(), mcpgo.Description("Cron job ID.")),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleCronGet(cron))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_cron_create",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_cron_create",
 		mcpgo.WithDescription("Create a message-delivery cron job (schedule kind \"at\", \"every\", or \"cron\")."),
 		mcpgo.WithString("name", mcpgo.Required(), mcpgo.Description("Job name.")),
 		mcpgo.WithString("schedule_kind", mcpgo.Required(), mcpgo.Enum("at", "every", "cron"), mcpgo.Description("Schedule kind.")),
@@ -45,7 +45,7 @@ func registerCronCRUDTools(srv *mcpserver.MCPServer, cron store.CronStore) {
 		mcpgo.WithString("user_id", mcpgo.Description("Owning user ID.")),
 	), handleCronCreate(cron))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_cron_update",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_cron_update",
 		mcpgo.WithDescription("Apply a partial update to an existing cron job."),
 		mcpgo.WithString("job_id", mcpgo.Required(), mcpgo.Description("Cron job ID.")),
 		mcpgo.WithString("name", mcpgo.Description("New job name.")),
@@ -61,25 +61,25 @@ func registerCronCRUDTools(srv *mcpserver.MCPServer, cron store.CronStore) {
 		mcpgo.WithString("deliver_to", mcpgo.Description("New delivery recipient/chat ID.")),
 	), handleCronUpdate(cron))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_cron_delete",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_cron_delete",
 		mcpgo.WithDescription("Delete a cron job by ID."),
 		mcpgo.WithString("job_id", mcpgo.Required(), mcpgo.Description("Cron job ID.")),
 		mcpgo.WithDestructiveHintAnnotation(true),
 	), handleCronDelete(cron))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_cron_toggle",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_cron_toggle",
 		mcpgo.WithDescription("Enable or disable a cron job."),
 		mcpgo.WithString("job_id", mcpgo.Required(), mcpgo.Description("Cron job ID.")),
 		mcpgo.WithBoolean("enabled", mcpgo.Required(), mcpgo.Description("Desired enabled state.")),
 	), handleCronToggle(cron))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_cron_run",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_cron_run",
 		mcpgo.WithDescription("Trigger an immediate (background) run of a cron job."),
 		mcpgo.WithString("job_id", mcpgo.Required(), mcpgo.Description("Cron job ID.")),
 		mcpgo.WithString("mode", mcpgo.Enum("force", "due"), mcpgo.Description("\"force\" runs regardless of schedule; \"due\" (default) only runs if due.")),
 	), handleCronRun(cron))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_cron_runs",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_cron_runs",
 		mcpgo.WithDescription("Return the run log entries for a cron job."),
 		mcpgo.WithString("job_id", mcpgo.Description("Cron job ID; empty returns entries across all jobs, if supported.")),
 		mcpgo.WithNumber("limit", mcpgo.Description("Maximum entries to return.")),
@@ -87,7 +87,7 @@ func registerCronCRUDTools(srv *mcpserver.MCPServer, cron store.CronStore) {
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleCronRuns(cron))
 
-	srv.AddTool(mcpgo.NewTool("goclaw_cron_status",
+	srv.AddTool(mcpgo.NewTool("zalosclaw_cron_status",
 		mcpgo.WithDescription("Return the cron scheduler's overall status."),
 		mcpgo.WithReadOnlyHintAnnotation(true),
 	), handleCronStatus(cron))

@@ -27,7 +27,7 @@ func TestShouldSkipEnrichment_FilenamePreservation(t *testing.T) {
 		{"voice_note_uuid", "550e8400-e29b-41d4-a716-446655440000.ogg", true},
 		{"clipboard_uuid_png", "00000000-0000-0000-0000-000000000001.png", true},
 		// Other pre-existing skip rules must still fire.
-		{"goclaw_gen", "goclaw_gen_12345.png", true},
+		{"zalosclaw_gen", "zalosclaw_gen_12345.png", true},
 		{"too_short", "ab.pdf", true},
 		{"digits_only", "12345.pdf", true},
 		{"pure_hex_hash", "a1b2c3d4e5f67890.bin", true},
