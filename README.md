@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="_statics/goclaw-logo.svg" alt="GoClaw" height="200" />
+  <img src="_statics/goclaw-logo.svg" alt="7alosclaw" height="200" />
 </p>
 
-<p align="center"><strong>Multi-Tenant AI Agent Platform</strong></p>
+<p align="center"><strong>7alosclaw</strong> — multi-tenant AI agent runtime (7alos fork of goclaw)</p>
 
 <p align="center">
 Multi-agent AI gateway built in Go. 20+ LLM providers. 7 channels. Multi-tenant PostgreSQL.<br/>
