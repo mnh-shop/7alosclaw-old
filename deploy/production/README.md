@@ -60,7 +60,7 @@ cp deploy/production/zalosclaw.service ~/.config/systemd/user/
 systemctl --user daemon-reload && systemctl --user enable --now zalosclaw.service
 
 # 5. provision tenants + run the acceptance drill
-scripts/provision-tenant.sh acme "Acme Corp"
+scripts/provision-tenant.sh demo "Demo Tenant"
 scripts/isolation-smoke-test.sh
 ```
 
