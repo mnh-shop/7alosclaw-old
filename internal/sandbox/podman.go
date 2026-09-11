@@ -35,8 +35,8 @@ func CheckRuntimeAvailable(ctx context.Context) error {
 	return nil
 }
 
-// DockerSandbox is a sandbox backed by a Docker container.
-type DockerSandbox struct {
+// PodmanSandbox is a sandbox backed by a Podman container.
+type PodmanSandbox struct {
 	containerID string
 	config      Config
 	workspace   string
@@ -46,15 +46,15 @@ type DockerSandbox struct {
 	mu          sync.Mutex // protects lastUsed
 }
 
-// newDockerSandbox creates and starts a Docker container for sandboxed execution.
+// newPodmanSandbox creates and starts a Podman container for sandboxed execution.
 // Matching TS buildSandboxCreateArgs() + createSandboxContainer().
-func newDockerSandbox(
+func newPodmanSandbox(
 	ctx context.Context,
 	name string,
 	cfg Config,
 	workspace string,
 	readOnlyMounts ...ReadOnlyMount,
-) (*DockerSandbox, error) {
+) (*PodmanSandbox, error) {
 	args := []string{
 		"run", "-d",
 		"--name", name,
@@ -112,7 +112,7 @@ func newDockerSandbox(
 		args = append(args, "--network", cfg.Network)
 	}
 
-	args, sensitiveMountRoots, err := appendDockerMountArgs(
+	args, sensitiveMountRoots, err := appendPodmanMountArgs(
 		ctx,
 		args,
 		cfg,
@@ -168,7 +168,7 @@ func newDockerSandbox(
 	}
 
 	now := time.Now()
-	return &DockerSandbox{
+	return &PodmanSandbox{
 		containerID: containerID,
 		config:      cfg,
 		workspace:   workspace,
@@ -178,8 +178,8 @@ func newDockerSandbox(
 }
 
 // Exec runs a command inside the container.
-// Optional ExecOption (e.g. WithEnv) injects per-call env vars via docker exec -e.
-func (s *DockerSandbox) Exec(ctx context.Context, command []string, workDir string, opts ...ExecOption) (*ExecResult, error) {
+// Optional ExecOption (e.g. WithEnv) injects per-call env vars via podman exec -e.
+func (s *PodmanSandbox) Exec(ctx context.Context, command []string, workDir string, opts ...ExecOption) (*ExecResult, error) {
 	s.mu.Lock()
 	s.lastUsed = time.Now()
 	s.mu.Unlock()
@@ -223,7 +223,7 @@ func (s *DockerSandbox) Exec(ctx context.Context, command []string, workDir stri
 		if exitErr, ok := err.(*exec.ExitError); ok {
 			exitCode = exitErr.ExitCode()
 		} else {
-			return nil, fmt.Errorf("docker exec: %w", err)
+			return nil, fmt.Errorf("podman exec: %w", err)
 		}
 	}
 
@@ -242,7 +242,7 @@ func (s *DockerSandbox) Exec(ctx context.Context, command []string, workDir stri
 }
 
 // Destroy removes the container.
-func (s *DockerSandbox) Destroy(ctx context.Context) error {
+func (s *PodmanSandbox) Destroy(ctx context.Context) error {
 	if s.destroyFunc != nil {
 		return s.destroyFunc(ctx)
 	}
@@ -256,33 +256,48 @@ func (s *DockerSandbox) Destroy(ctx context.Context) error {
 }
 
 // ID returns the container ID.
-func (s *DockerSandbox) ID() string { return s.containerID }
+func (s *PodmanSandbox) ID() string { return s.containerID }
 
-// DockerManager manages Docker sandbox containers based on scope.
-type DockerManager struct {
+// PodmanManager manages Podman sandbox containers based on scope.
+type PodmanManager struct {
 	config    Config
-	sandboxes map[string]*DockerSandbox
+	sandboxes map[string]*PodmanSandbox
 	mu        sync.RWMutex
 	stopCh    chan struct{} // signals pruning goroutine to stop
+	boxSlots  chan struct{} // live-box cap: token held from creation until destroy (nil = unlimited)
 }
 
-var _ Manager = (*DockerManager)(nil)
+var _ Manager = (*PodmanManager)(nil)
 
-// NewDockerManager creates a manager for Docker sandboxes.
+// NewPodmanManager creates a manager for Podman sandboxes.
 // Automatically starts background pruning if configured.
-func NewDockerManager(cfg Config) *DockerManager {
-	m := &DockerManager{
+func NewPodmanManager(cfg Config) *PodmanManager {
+	m := &PodmanManager{
 		config:    cfg,
-		sandboxes: make(map[string]*DockerSandbox),
+		sandboxes: make(map[string]*PodmanSandbox),
 		stopCh:    make(chan struct{}),
+	}
+	if cfg.MaxConcurrentBoxes > 0 {
+		m.boxSlots = make(chan struct{}, cfg.MaxConcurrentBoxes)
 	}
 	m.startPruning()
 	return m
 }
 
+// releaseBoxSlot frees a live-box slot (no-op when no cap is configured).
+func (m *PodmanManager) releaseBoxSlot() {
+	if m.boxSlots == nil {
+		return
+	}
+	select {
+	case <-m.boxSlots:
+	default:
+	}
+}
+
 // Get returns an existing sandbox or creates a new one for the given key.
 // If cfgOverride is non-nil, it is used for new containers instead of the global config.
-func (m *DockerManager) Get(
+func (m *PodmanManager) Get(
 	ctx context.Context,
 	key string,
 	workspace string,
@@ -302,7 +317,7 @@ func (m *DockerManager) Get(
 	if err != nil {
 		return nil, err
 	}
-	cacheKey := dockerCacheKey(key, workspace, cfg, readOnlyMounts...)
+	cacheKey := podmanCacheKey(key, workspace, cfg, readOnlyMounts...)
 
 	m.mu.RLock()
 	if sb, ok := m.sandboxes[cacheKey]; ok {
@@ -311,11 +326,24 @@ func (m *DockerManager) Get(
 	}
 	m.mu.RUnlock()
 
-	m.mu.Lock()
-	defer m.mu.Unlock()
+	// Live-box cap: acquire a slot for the box's lifetime (released on
+	// destroy). Bursts queue here instead of OOM-ing the host.
+	if m.boxSlots != nil {
+		select {
+		case m.boxSlots <- struct{}{}:
+		case <-time.After(30 * time.Second):
+			return nil, fmt.Errorf("sandbox box limit reached (%d live boxes); retry shortly", cap(m.boxSlots))
+		case <-ctx.Done():
+			return nil, ctx.Err()
+		}
+	}
 
-	// Double-check
+	m.mu.Lock()
+	// Double-check: another caller may have created the box while we waited
+	// for a slot.
 	if sb, ok := m.sandboxes[cacheKey]; ok {
+		m.mu.Unlock()
+		m.releaseBoxSlot()
 		return sb, nil
 	}
 
@@ -324,17 +352,20 @@ func (m *DockerManager) Get(
 		prefix = "zalosclaw-sbx-"
 	}
 	name := prefix + sanitizeKey(cacheKey)
-	sb, err := newDockerSandbox(ctx, name, cfg, workspace, readOnlyMounts...)
+	sb, err := newPodmanSandbox(ctx, name, cfg, workspace, readOnlyMounts...)
 	if err != nil {
+		m.mu.Unlock()
+		m.releaseBoxSlot()
 		return nil, err
 	}
 
 	m.sandboxes[cacheKey] = sb
+	m.mu.Unlock()
 	return sb, nil
 }
 
 // Release destroys a sandbox by key.
-func (m *DockerManager) Release(ctx context.Context, key string) error {
+func (m *PodmanManager) Release(ctx context.Context, key string) error {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
@@ -348,19 +379,23 @@ func (m *DockerManager) Release(ctx context.Context, key string) error {
 				continue
 			}
 			delete(m.sandboxes, cacheKey)
+			m.releaseBoxSlot()
 		}
 	}
 	return firstErr
 }
 
 // ReleaseAll destroys all active sandboxes.
-func (m *DockerManager) ReleaseAll(ctx context.Context) error {
+func (m *PodmanManager) ReleaseAll(ctx context.Context) error {
 	m.mu.Lock()
-	sbs := make(map[string]*DockerSandbox, len(m.sandboxes))
+	sbs := make(map[string]*PodmanSandbox, len(m.sandboxes))
 	maps.Copy(sbs, m.sandboxes)
-	m.sandboxes = make(map[string]*DockerSandbox)
+	m.sandboxes = make(map[string]*PodmanSandbox)
 	m.mu.Unlock()
 
+	for range sbs {
+		m.releaseBoxSlot()
+	}
 	for key, sb := range sbs {
 		if err := sb.Destroy(ctx); err != nil {
 			slog.Warn("failed to release sandbox", "key", key, "error", err)
@@ -370,7 +405,7 @@ func (m *DockerManager) ReleaseAll(ctx context.Context) error {
 }
 
 // Stats returns information about active sandboxes.
-func (m *DockerManager) Stats() map[string]any {
+func (m *PodmanManager) Stats() map[string]any {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
 
@@ -389,7 +424,7 @@ func (m *DockerManager) Stats() map[string]any {
 
 // Stop signals the pruning goroutine to stop.
 // Called during shutdown before ReleaseAll.
-func (m *DockerManager) Stop() {
+func (m *PodmanManager) Stop() {
 	select {
 	case <-m.stopCh:
 		// already closed
@@ -400,7 +435,7 @@ func (m *DockerManager) Stop() {
 
 // startPruning launches a background goroutine that periodically prunes idle/old containers.
 // Matching TS maybePruneSandboxes().
-func (m *DockerManager) startPruning() {
+func (m *PodmanManager) startPruning() {
 	interval := time.Duration(m.config.PruneIntervalMin) * time.Minute
 	if interval <= 0 {
 		interval = 5 * time.Minute
@@ -425,7 +460,7 @@ func (m *DockerManager) startPruning() {
 
 // Prune removes containers that are idle too long or exceed max age.
 // Matching TS SandboxPruneSettings (idleHours, maxAgeDays).
-func (m *DockerManager) Prune(ctx context.Context) {
+func (m *PodmanManager) Prune(ctx context.Context) {
 	idleHours := m.config.IdleHours
 	if idleHours <= 0 {
 		idleHours = 24
@@ -473,6 +508,7 @@ func (m *DockerManager) Prune(ctx context.Context) {
 			} else {
 				slog.Info("pruned idle sandbox container", "key", key, "container", sb.containerID)
 			}
+			m.releaseBoxSlot()
 		}
 	}
 

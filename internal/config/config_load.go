@@ -397,6 +397,12 @@ func (c *Config) applyEnvOverrides() {
 		ensureSandbox()
 		c.Agents.Defaults.Sandbox.Network = v
 	}
+	if v := os.Getenv("ZALOSCLAW_SANDBOX_MAX_BOXES"); v != "" {
+		ensureSandbox()
+		if n, err := strconv.Atoi(v); err == nil && n > 0 {
+			c.Agents.Defaults.Sandbox.MaxConcurrentBoxes = n
+		}
+	}
 
 	// Browser (for Docker-compose browser sidecar overlay)
 	envStr("ZALOSCLAW_BROWSER_REMOTE_URL", &c.Tools.Browser.RemoteURL)

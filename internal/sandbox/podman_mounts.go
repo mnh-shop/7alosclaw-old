@@ -95,7 +95,7 @@ func containerPathStrictlyWithin(root, target string) bool {
 	return strings.HasPrefix(target, strings.TrimSuffix(root, "/")+"/")
 }
 
-func appendDockerMountArgs(
+func appendPodmanMountArgs(
 	ctx context.Context,
 	args []string,
 	cfg Config,
@@ -156,7 +156,7 @@ func redactMountRoots(message string, roots []string) string {
 	return message
 }
 
-func dockerCacheKey(key, workspace string, cfg Config, mounts ...ReadOnlyMount) string {
+func podmanCacheKey(key, workspace string, cfg Config, mounts ...ReadOnlyMount) string {
 	if workspace == "" && len(mounts) == 0 {
 		return key
 	}

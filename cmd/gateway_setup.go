@@ -71,7 +71,7 @@ func setupToolRegistry(
 			os.Exit(1)
 		}
 		resolved := sbCfg.ToSandboxConfig()
-		sandboxMgr = sandbox.NewDockerManager(resolved)
+		sandboxMgr = sandbox.NewPodmanManager(resolved)
 		slog.Info("sandbox enabled", "mode", string(resolved.Mode), "image", resolved.Image, "scope", string(resolved.Scope))
 	}
 

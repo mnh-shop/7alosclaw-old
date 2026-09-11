@@ -433,6 +433,9 @@ type SandboxConfig struct {
 	IdleHours        int `json:"idle_hours,omitempty"`         // prune containers idle > N hours (default 24)
 	MaxAgeDays       int `json:"max_age_days,omitempty"`       // prune containers older than N days (default 7)
 	PruneIntervalMin int `json:"prune_interval_min,omitempty"` // check interval in minutes (default 5)
+
+	// Capacity
+	MaxConcurrentBoxes int `json:"max_concurrent_boxes,omitempty"` // cap on LIVE sandbox boxes per instance; bursts queue (default 16)
 }
 
 // ToSandboxConfig converts config.SandboxConfig → sandbox.Config with defaults applied.
@@ -520,6 +523,9 @@ func (sc *SandboxConfig) ToSandboxConfig() sandbox.Config {
 	}
 	if sc.PruneIntervalMin > 0 {
 		cfg.PruneIntervalMin = sc.PruneIntervalMin
+	}
+	if sc.MaxConcurrentBoxes > 0 {
+		cfg.MaxConcurrentBoxes = sc.MaxConcurrentBoxes
 	}
 
 	return cfg

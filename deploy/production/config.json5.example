@@ -18,6 +18,8 @@
         // network: "sbx-egress",           // reserved for the egress tier
         tmpfs_size_mb: 256,
         read_only_root: true,
+        max_concurrent_boxes: 16,           // bursts queue instead of OOM-ing the host
+        idle_hours: 2,                      // reclaim idle boxes fast — 12x fewer live boxes vs 24h default
       },
     },
   },

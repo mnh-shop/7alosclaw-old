@@ -3,6 +3,7 @@ package cron
 import (
 	"fmt"
 	"log/slog"
+	"os"
 	"sync"
 )
 
@@ -16,6 +17,7 @@ type Service struct {
 	loopWG    sync.WaitGroup
 	jobWG     sync.WaitGroup
 	mu        sync.Mutex
+	lockFile  *os.File      // exclusive lock on storePath; held for the service lifetime
 	runLog    []RunLogEntry // in-memory run history (last 200 entries)
 	retryCfg  RetryConfig   // retry config for failed jobs
 }
@@ -52,6 +54,14 @@ func (cs *Service) Start() error {
 	defer cs.mu.Unlock()
 
 	if cs.running {
+		return nil
+	}
+
+	// Leader gate: a second harness instance sharing this store path must not
+	// double-fire jobs. Losing the lock disables cron on this instance only.
+	if err := cs.acquireStoreLock(); err != nil {
+		slog.Warn("cron: job store locked by another harness instance — cron disabled on this instance",
+			"path", cs.storePath, "error", err)
 		return nil
 	}
 
@@ -116,7 +126,36 @@ func (cs *Service) Stop() {
 
 	cs.loopWG.Wait()
 	cs.jobWG.Wait()
+	cs.releaseStoreLock()
 	slog.Info("cron service stopped")
+}
+
+// acquireStoreLock takes an exclusive lock on the cron store file for the
+// service lifetime. Unix uses flock; Windows (desktop, single instance) is a
+// no-op.
+func (cs *Service) acquireStoreLock() error {
+	if cs.storePath == "" {
+		return nil
+	}
+	f, err := os.OpenFile(cs.storePath, os.O_CREATE|os.O_RDWR, 0o600)
+	if err != nil {
+		return fmt.Errorf("open store: %w", err)
+	}
+	if err := lockStoreFile(f); err != nil {
+		f.Close()
+		return err
+	}
+	cs.lockFile = f
+	return nil
+}
+
+// releaseStoreLock drops the store lock (idempotent).
+func (cs *Service) releaseStoreLock() {
+	if cs.lockFile != nil {
+		unlockStoreFile(cs.lockFile)
+		cs.lockFile.Close()
+		cs.lockFile = nil
+	}
 }
 
 // AddJob creates and registers a new cron job.

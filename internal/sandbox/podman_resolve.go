@@ -12,13 +12,13 @@ import (
 )
 
 // resolveHostWorkspacePath maps a container-local path to its host-side
-// equivalent for Docker-out-of-Docker (DooD) sibling container mounts.
+// equivalent for container-out-of-container (sibling) mounts (Docker or Podman).
 // When ZalosClaw runs inside a container and spawns sandbox containers, the
 // workspace path (e.g., /app/workspace) only exists inside the ZalosClaw
 // container — the sandbox needs the corresponding host path or volume name
 // to mount it correctly.
 //
-// If not running in Docker (no /.dockerenv), returns localPath as-is.
+// If not running in a container (no /.dockerenv or /run/.containerenv), returns localPath as-is.
 func resolveHostWorkspacePath(ctx context.Context, localPath string) string {
 	// Not in a container — local path is the host path.
 	if _, err := os.Stat("/.dockerenv"); err != nil {
@@ -31,7 +31,7 @@ func resolveHostWorkspacePath(ctx context.Context, localPath string) string {
 		return localPath
 	}
 
-	// Short timeout to avoid blocking on a stuck Docker daemon.
+	// Short timeout to avoid blocking on a stuck container engine.
 	inspectCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
@@ -112,7 +112,7 @@ func resolveHostWorkspacePath(ctx context.Context, localPath string) string {
 	return localPath
 }
 
-// detectContainerID returns the current Docker container ID using multiple
+// detectContainerID returns the current container ID using multiple
 // strategies for reliability:
 //  1. /proc/self/mountinfo — parse the container ID from cgroup mount paths
 //  2. HOSTNAME env var — usually the short container ID (but can be overridden)
@@ -134,7 +134,7 @@ func detectContainerID() string {
 		}
 	}
 
-	// Strategy 2: HOSTNAME env var (common Docker default).
+	// Strategy 2: HOSTNAME env var (Docker and Podman both set it to the short ID).
 	if h := os.Getenv("HOSTNAME"); h != "" {
 		return h
 	}

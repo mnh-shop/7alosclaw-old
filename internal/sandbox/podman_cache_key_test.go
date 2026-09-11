@@ -9,17 +9,17 @@ func TestDockerCacheKeyIncludesWorkspaceAndConfig(t *testing.T) {
 	cfg := DefaultConfig()
 	key := "agent:default:session"
 
-	first := dockerCacheKey(key, "/srv/zalosclaw/workspace/tenant-a", cfg)
-	second := dockerCacheKey(key, "/srv/zalosclaw/workspace/tenant-b", cfg)
+	first := podmanCacheKey(key, "/srv/zalosclaw/workspace/tenant-a", cfg)
+	second := podmanCacheKey(key, "/srv/zalosclaw/workspace/tenant-b", cfg)
 	if first == second {
-		t.Fatalf("dockerCacheKey reused key for different workspaces: %q", first)
+		t.Fatalf("podmanCacheKey reused key for different workspaces: %q", first)
 	}
 
 	ro := cfg
 	ro.WorkspaceAccess = AccessRO
-	third := dockerCacheKey(key, "/srv/zalosclaw/workspace/tenant-a", ro)
+	third := podmanCacheKey(key, "/srv/zalosclaw/workspace/tenant-a", ro)
 	if first == third {
-		t.Fatalf("dockerCacheKey reused key for different workspace access: %q", first)
+		t.Fatalf("podmanCacheKey reused key for different workspace access: %q", first)
 	}
 }
 
@@ -27,15 +27,15 @@ func TestDockerCacheKeyPreservesEmptyWorkspaceCompatibility(t *testing.T) {
 	cfg := DefaultConfig()
 	key := "agent:default:session"
 
-	if got := dockerCacheKey(key, "", cfg); got != key {
-		t.Fatalf("dockerCacheKey empty workspace = %q, want original key %q", got, key)
+	if got := podmanCacheKey(key, "", cfg); got != key {
+		t.Fatalf("podmanCacheKey empty workspace = %q, want original key %q", got, key)
 	}
 }
 
 func TestDockerCacheKeyDoesNotExposeMountRoots(t *testing.T) {
 	cfg := DefaultConfig()
 	hostRoot := "/sensitive/runtime/delegation/inputs"
-	got := dockerCacheKey(
+	got := podmanCacheKey(
 		"delegation:9db9",
 		"/sensitive/runtime/delegation/outputs",
 		cfg,
@@ -47,7 +47,7 @@ func TestDockerCacheKeyDoesNotExposeMountRoots(t *testing.T) {
 	)
 
 	if strings.Contains(got, "/sensitive/") || strings.Contains(got, hostRoot) {
-		t.Fatalf("dockerCacheKey exposed mount root: %q", got)
+		t.Fatalf("podmanCacheKey exposed mount root: %q", got)
 	}
 }
 
@@ -59,9 +59,9 @@ func TestDockerCacheKeyIncludesDelegationIdentity(t *testing.T) {
 		Destination: "/workspace/inputs",
 	}
 
-	first := dockerCacheKey("delegation:first", "/runtime/outputs", cfg, mount)
-	second := dockerCacheKey("delegation:second", "/runtime/outputs", cfg, mount)
+	first := podmanCacheKey("delegation:first", "/runtime/outputs", cfg, mount)
+	second := podmanCacheKey("delegation:second", "/runtime/outputs", cfg, mount)
 	if first == second {
-		t.Fatalf("dockerCacheKey reused identity across delegation keys: %q", first)
+		t.Fatalf("podmanCacheKey reused identity across delegation keys: %q", first)
 	}
 }

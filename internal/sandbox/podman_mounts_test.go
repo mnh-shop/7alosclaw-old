@@ -152,7 +152,7 @@ func TestAppendDockerMountArgsAddsSortedReadOnlyMounts(t *testing.T) {
 	zeta := canonicalTempDir(t)
 	cfg := DefaultConfig()
 
-	got, roots, err := appendDockerMountArgs(
+	got, roots, err := appendPodmanMountArgs(
 		context.Background(),
 		nil,
 		cfg,
@@ -164,7 +164,7 @@ func TestAppendDockerMountArgsAddsSortedReadOnlyMounts(t *testing.T) {
 		nil,
 	)
 	if err != nil {
-		t.Fatalf("appendDockerMountArgs() error = %v", err)
+		t.Fatalf("appendPodmanMountArgs() error = %v", err)
 	}
 
 	want := []string{
@@ -173,7 +173,7 @@ func TestAppendDockerMountArgsAddsSortedReadOnlyMounts(t *testing.T) {
 		"-v", zeta + ":/workspace/zeta:ro",
 	}
 	if !slices.Equal(got, want) {
-		t.Fatalf("appendDockerMountArgs() = %#v, want %#v", got, want)
+		t.Fatalf("appendPodmanMountArgs() = %#v, want %#v", got, want)
 	}
 	for _, root := range []string{workspace, alpha, zeta} {
 		if !slices.Contains(roots, root) {
@@ -190,27 +190,27 @@ func TestDockerCacheKeyIncludesDeterministicReadOnlyMountSet(t *testing.T) {
 	first := ReadOnlyMount{Name: "alpha", HostPath: firstHost, Destination: "/workspace/alpha"}
 	second := ReadOnlyMount{Name: "zeta", HostPath: secondHost, Destination: "/workspace/zeta"}
 
-	forward := dockerCacheKey(key, "/workspace/output", cfg, first, second)
-	reverse := dockerCacheKey(key, "/workspace/output", cfg, second, first)
+	forward := podmanCacheKey(key, "/workspace/output", cfg, first, second)
+	reverse := podmanCacheKey(key, "/workspace/output", cfg, second, first)
 	if forward != reverse {
 		t.Fatalf("mount ordering changed cache identity: %q != %q", forward, reverse)
 	}
 
 	changedDestination := first
 	changedDestination.Destination = "/workspace/other"
-	if got := dockerCacheKey(key, "/workspace/output", cfg, changedDestination, second); got == forward {
+	if got := podmanCacheKey(key, "/workspace/output", cfg, changedDestination, second); got == forward {
 		t.Fatalf("destination change did not change cache identity: %q", got)
 	}
 
 	changedName := first
 	changedName.Name = "other"
-	if got := dockerCacheKey(key, "/workspace/output", cfg, changedName, second); got == forward {
+	if got := podmanCacheKey(key, "/workspace/output", cfg, changedName, second); got == forward {
 		t.Fatalf("name change did not change cache identity: %q", got)
 	}
 
 	changedHost := first
 	changedHost.HostPath = secondHost
-	if got := dockerCacheKey(key, "/workspace/output", cfg, changedHost, second); got == forward {
+	if got := podmanCacheKey(key, "/workspace/output", cfg, changedHost, second); got == forward {
 		t.Fatalf("host change did not change cache identity: %q", got)
 	}
 }
@@ -241,15 +241,15 @@ func TestApplyGetOptsCopiesMounts(t *testing.T) {
 	}
 }
 
-func TestDockerManagerReleaseRetainsSandboxWhenDestroyFails(t *testing.T) {
+func TestPodmanManagerReleaseRetainsSandboxWhenDestroyFails(t *testing.T) {
 	destroyErr := errors.New("destroy failed")
-	sb := &DockerSandbox{
+	sb := &PodmanSandbox{
 		containerID: "container-1",
 		destroyFunc: func(context.Context) error {
 			return destroyErr
 		},
 	}
-	manager := &DockerManager{sandboxes: map[string]*DockerSandbox{"w123:delegation": sb}}
+	manager := &PodmanManager{sandboxes: map[string]*PodmanSandbox{"w123:delegation": sb}}
 
 	err := manager.Release(context.Background(), "delegation")
 	if !errors.Is(err, destroyErr) {
@@ -268,11 +268,11 @@ func TestDockerManagerReleaseRetainsSandboxWhenDestroyFails(t *testing.T) {
 	}
 }
 
-func TestDockerManagerReleaseFailureRemainsVisibleConcurrently(t *testing.T) {
+func TestPodmanManagerReleaseFailureRemainsVisibleConcurrently(t *testing.T) {
 	destroyStarted := make(chan struct{})
 	allowDestroy := make(chan struct{})
 	destroyErr := errors.New("destroy failed")
-	sb := &DockerSandbox{
+	sb := &PodmanSandbox{
 		containerID: "container-1",
 		destroyFunc: func(context.Context) error {
 			close(destroyStarted)
@@ -280,7 +280,7 @@ func TestDockerManagerReleaseFailureRemainsVisibleConcurrently(t *testing.T) {
 			return destroyErr
 		},
 	}
-	manager := &DockerManager{sandboxes: map[string]*DockerSandbox{"delegation": sb}}
+	manager := &PodmanManager{sandboxes: map[string]*PodmanSandbox{"delegation": sb}}
 
 	releaseDone := make(chan error, 1)
 	go func() {

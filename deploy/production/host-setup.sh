@@ -36,7 +36,27 @@ else
     echo "  Fix: remount with -o pquota (default on modern xfs) or migrate to an XFS volume."
 fi
 
-# 6. Cloud metadata exposure — sandbox boxes with network can reach it
+# 6. User-slice memory cap — sandbox boxes live in the USER slice, not the
+#    harness unit's cgroup. Without this, one tenant's bursts OOM the host
+#    while the harness service looks clean.
+UID_N=$(id -u "$SERVICE_USER")
+MEM_KB=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
+SLICE_CAP="$(( MEM_KB * 90 / 100 ))K"
+systemctl set-property "user-${UID_N}.slice" MemoryMax="$SLICE_CAP"
+echo "capped user-${UID_N}.slice MemoryMax=$SLICE_CAP (90% of RAM) — covers podman boxes too"
+
+# 7. journald rate limits — sandbox box streams can flood the journal
+mkdir -p /etc/systemd/journald.conf.d
+cat > /etc/systemd/journald.conf.d/60-zalosclaw.conf <<'EOF'
+[Journal]
+RateLimitIntervalSec=30s
+RateLimitBurst=10000
+SystemMaxUse=2G
+EOF
+systemctl try-restart systemd-journald
+echo "journald rate limits installed"
+
+# 8. Cloud metadata exposure — sandbox boxes with network can reach it
 if ip route show | grep -q 169.254.169.254; then
     echo "NOTE: cloud metadata route present (169.254.169.254)."
     echo "  Harden: AWS → enable IMDSv2 with hop limit 1, or delete the route:"

@@ -42,7 +42,7 @@ func (b *FsBridge) ReadFile(ctx context.Context, path string) (string, error) {
 		return "", err
 	}
 
-	stdout, stderr, exitCode, err := b.dockerExec(ctx, nil, "cat", "--", realPath)
+	stdout, stderr, exitCode, err := b.podmanExec(ctx, nil, "cat", "--", realPath)
 	if err != nil {
 		return "", fmt.Errorf("fsbridge read: %w", err)
 	}
@@ -68,7 +68,7 @@ func (b *FsBridge) WriteFile(ctx context.Context, path, content string, appendMo
 		if err := b.validateParentBeforeCreate(ctx, dir); err != nil {
 			return err
 		}
-		_, stderr, exitCode, err := b.dockerExec(ctx, nil, "mkdir", "-p", "--", dir)
+		_, stderr, exitCode, err := b.podmanExec(ctx, nil, "mkdir", "-p", "--", dir)
 		if err != nil {
 			return fmt.Errorf("fsbridge mkdir: %w", err)
 		}
@@ -85,7 +85,7 @@ func (b *FsBridge) WriteFile(ctx context.Context, path, content string, appendMo
 	// being interpreted as commands inside the sandbox container.
 	// "--" terminates option parsing so paths starting with "-" are safe.
 	teeArgs := fsBridgeWriteTeeArgs(resolved, appendMode)
-	_, stderr, exitCode, err := b.dockerExec(ctx, []byte(content), teeArgs...)
+	_, stderr, exitCode, err := b.podmanExec(ctx, []byte(content), teeArgs...)
 	if err != nil {
 		return fmt.Errorf("fsbridge write: %w", err)
 	}
@@ -115,7 +115,7 @@ func (b *FsBridge) ListDir(ctx context.Context, path string) (string, error) {
 	}
 
 	// Use ls -la for detailed listing
-	stdout, stderr, exitCode, err := b.dockerExec(ctx, nil, "ls", "-la", "--", realPath)
+	stdout, stderr, exitCode, err := b.podmanExec(ctx, nil, "ls", "-la", "--", realPath)
 	if err != nil {
 		return "", fmt.Errorf("fsbridge list: %w", err)
 	}
@@ -134,7 +134,7 @@ func (b *FsBridge) Stat(ctx context.Context, path string) (string, error) {
 		return "", err
 	}
 
-	stdout, stderr, exitCode, err := b.dockerExec(ctx, nil, "stat", "--", realPath)
+	stdout, stderr, exitCode, err := b.podmanExec(ctx, nil, "stat", "--", realPath)
 	if err != nil {
 		return "", fmt.Errorf("fsbridge stat: %w", err)
 	}
@@ -174,7 +174,7 @@ func fsBridgePathWithin(root, target string) bool {
 }
 
 func (b *FsBridge) containerRealPath(ctx context.Context, path string) (string, error) {
-	stdout, stderr, exitCode, err := b.dockerExec(ctx, nil, "realpath", "-e", "--", path)
+	stdout, stderr, exitCode, err := b.podmanExec(ctx, nil, "realpath", "-e", "--", path)
 	if err != nil {
 		return "", fmt.Errorf("fsbridge realpath: %w", err)
 	}
@@ -240,8 +240,8 @@ func (b *FsBridge) validateParentBeforeCreate(ctx context.Context, dir string) e
 	}
 }
 
-// dockerExec runs a command inside the container and returns stdout, stderr, exit code.
-func (b *FsBridge) dockerExec(ctx context.Context, stdin []byte, args ...string) (string, string, int, error) {
+// podmanExec runs a command inside the container and returns stdout, stderr, exit code.
+func (b *FsBridge) podmanExec(ctx context.Context, stdin []byte, args ...string) (string, string, int, error) {
 	dockerArgs := []string{"exec"}
 	if stdin != nil {
 		dockerArgs = append(dockerArgs, "-i")

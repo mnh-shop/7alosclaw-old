@@ -1,6 +1,6 @@
-// Package sandbox provides Docker-based code execution isolation.
+// Package sandbox provides Podman-based code execution isolation.
 //
-// Agents can run tool commands (exec, shell) inside Docker containers
+// Agents can run tool commands (exec, shell) inside Podman containers
 // instead of the host system. Sandbox modes:
 //   - off: no sandboxing, execute directly on host
 //   - non-main: all agents except "main" run in sandbox
@@ -51,7 +51,7 @@ const (
 )
 
 // Config configures the sandbox system.
-// Matches TS SandboxDockerSettings + SandboxConfig.
+// Matches the TS sandbox settings.
 type Config struct {
 	Mode                Mode              `json:"mode"`
 	Image               string            `json:"image"`
@@ -70,7 +70,7 @@ type Config struct {
 	ReadOnlyRoot    bool     `json:"read_only_root"`
 	CapDrop         []string `json:"cap_drop,omitempty"`
 	Tmpfs           []string `json:"tmpfs,omitempty"`         // e.g. "/tmp", "/tmp:size=64m"
-	TmpfsSizeMB     int      `json:"tmpfs_size_mb,omitempty"` // default size for tmpfs mounts without explicit :size= (0 = Docker default)
+	TmpfsSizeMB     int      `json:"tmpfs_size_mb,omitempty"` // default size for tmpfs mounts without explicit :size= (0 = runtime default)
 	PidsLimit       int      `json:"pids_limit,omitempty"`
 	User            string   `json:"user,omitempty"`             // container user (e.g. "1000:1000", "nobody")
 	MaxOutputBytes  int      `json:"max_output_bytes,omitempty"` // limit exec stdout+stderr capture (default 1MB, 0 = unlimited)
@@ -82,30 +82,34 @@ type Config struct {
 	IdleHours        int `json:"idle_hours,omitempty"`         // prune containers idle > N hours (default 24)
 	MaxAgeDays       int `json:"max_age_days,omitempty"`       // prune containers older than N days (default 7)
 	PruneIntervalMin int `json:"prune_interval_min,omitempty"` // check interval in minutes (default 5)
+
+	// Capacity
+	MaxConcurrentBoxes int `json:"max_concurrent_boxes,omitempty"` // cap on LIVE boxes per instance; bursts queue up to 30s then fail (0 = unlimited)
 }
 
 // DefaultConfig returns sensible defaults matching TS sandbox defaults.
 func DefaultConfig() Config {
 	return Config{
-		Mode:             ModeOff,
-		Image:            "zalosclaw-sandbox:bookworm-slim",
-		WorkspaceAccess:  AccessRW,
-		Scope:            ScopeSession,
-		MemoryMB:         512,
-		CPUs:             1.0,
-		TimeoutSec:       300,
-		NetworkEnabled:   false,
-		ReadOnlyRoot:     true,
-		CapDrop:          []string{"ALL"},
-		Tmpfs:            []string{"/tmp", "/var/tmp", "/run"},
-		TmpfsSizeMB:      256, // cap tmpfs so per-box tmp usage can't eat host RAM
-		PidsLimit:        256,
-		MaxOutputBytes:   1 << 20, // 1MB
-		ContainerPrefix:  "zalosclaw-sbx-",
-		Workdir:          "/workspace",
-		IdleHours:        24,
-		MaxAgeDays:       7,
-		PruneIntervalMin: 5,
+		Mode:               ModeOff,
+		Image:              "zalosclaw-sandbox:bookworm-slim",
+		WorkspaceAccess:    AccessRW,
+		Scope:              ScopeSession,
+		MemoryMB:           512,
+		CPUs:               1.0,
+		TimeoutSec:         300,
+		NetworkEnabled:     false,
+		ReadOnlyRoot:       true,
+		CapDrop:            []string{"ALL"},
+		Tmpfs:              []string{"/tmp", "/var/tmp", "/run"},
+		TmpfsSizeMB:        256, // cap tmpfs so per-box tmp usage can't eat host RAM
+		PidsLimit:          256,
+		MaxOutputBytes:     1 << 20, // 1MB
+		ContainerPrefix:    "zalosclaw-sbx-",
+		Workdir:            "/workspace",
+		IdleHours:          24,
+		MaxAgeDays:         7,
+		PruneIntervalMin:   5,
+		MaxConcurrentBoxes: 16,
 	}
 }
 

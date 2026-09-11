@@ -32,6 +32,7 @@ Fedora host
 | `config.json5.example` | `/data/7alosclaw/config.json5` |
 | `zalosclaw.service` | `~/.config/systemd/user/zalosclaw.service` (as service user) |
 | `zalosclaw-postgres.container` | `~/.config/containers/systemd/` (as service user) |
+| `zalosclaw-backup.service` + `.timer` | `~/.config/systemd/user/` — nightly pg_dump, 14-day retention |
 | `host-setup.sh` | run once as root, then finish as service user |
 | `../scripts/provision-tenant.sh` | operator workstation or host |
 | `../scripts/isolation-smoke-test.sh` | operator workstation or host |

@@ -1,0 +1,9 @@
+[Unit]
+Description=ZalosClaw nightly Postgres backup
+After=zalosclaw-postgres.service
+
+[Service]
+Type=oneshot
+ExecCondition=/usr/bin/podman container exists zalosclaw-postgres
+# pg_dump runs inside the postgres container via podman exec; 14-day retention.
+ExecStart=/bin/sh -c 'mkdir -p %h/7alosclaw/backups && podman exec zalosclaw-postgres pg_dump -U zalosclaw zalosclaw | gzip > %h/7alosclaw/backups/zalosclaw-$$(date +%%Y%%m%%d_%%H%%M).sql.gz && find %h/7alosclaw/backups -name "*.sql.gz" -mtime +14 -delete'

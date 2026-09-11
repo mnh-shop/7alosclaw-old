@@ -1,6 +1,7 @@
 name: Dev CI and Beta Release
 
 on:
+  workflow_dispatch:
   push:
     branches: [dev]
   workflow_dispatch:

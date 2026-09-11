@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"log/slog"
 	"maps"
+	"os"
+	"strings"
 	"sync"
 	"time"
 
@@ -18,6 +20,35 @@ import (
 	"github.com/mnh-shop/7alosclaw/internal/store"
 	usagecaps "github.com/mnh-shop/7alosclaw/internal/usage/caps"
 )
+
+// instanceShards parses ZALOSCLAW_INSTANCE_SHARDS once: a comma-separated list
+// of tenant UUIDs this harness instance is responsible for. Empty/absent = the
+// instance loads every tenant's channels (single-instance default). Enables
+// multi-instance sharding on one host without double-polling channel APIs.
+var instanceShards = sync.OnceValue(func() map[string]struct{} {
+	spec := strings.TrimSpace(os.Getenv("ZALOSCLAW_INSTANCE_SHARDS"))
+	if spec == "" {
+		return nil
+	}
+	out := make(map[string]struct{})
+	for _, s := range strings.Split(spec, ",") {
+		if s = strings.TrimSpace(s); s != "" {
+			out[strings.ToLower(s)] = struct{}{}
+		}
+	}
+	return out
+})
+
+// shardAllows reports whether this instance should load the given channel
+// instance's tenant.
+func (l *InstanceLoader) shardAllows(tenantID uuid.UUID) bool {
+	shards := instanceShards()
+	if len(shards) == 0 {
+		return true
+	}
+	_, ok := shards[strings.ToLower(tenantID.String())]
+	return ok
+}
 
 // reloadStartTimeout bounds how long Reload() will wait for a single channel's
 // Start() to return before abandoning it and continuing with the rest.
@@ -103,6 +134,9 @@ func (l *InstanceLoader) LoadAll(ctx context.Context) error {
 
 	registered := 0
 	for _, inst := range instances {
+		if !l.shardAllows(inst.TenantID) {
+			continue
+		}
 		// Don't start channels here — StartAll() will start them after all channels are registered.
 		if err := l.loadInstance(ctx, inst, false); err != nil {
 			slog.Error("failed to load channel instance",
@@ -148,6 +182,9 @@ func (l *InstanceLoader) Reload(ctx context.Context) {
 
 	registered := 0
 	for _, inst := range instances {
+		if !l.shardAllows(inst.TenantID) {
+			continue
+		}
 		// Reload must start channels immediately (StartAll was called at boot, not again).
 		if err := l.loadInstance(ctx, inst, true); err != nil {
 			slog.Error("failed to reload channel instance",

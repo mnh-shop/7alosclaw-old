@@ -6,6 +6,8 @@ Wants=network-online.target
 [Container]
 Image=docker.io/pgvector/pgvector:pg18
 ContainerName=zalosclaw-postgres
+# Headroom for multi-instance harness sharding (25 conns per instance + ops)
+Exec=postgres -c max_connections=150
 # Loopback only — unreachable from sandbox boxes (rootless pasta isolation)
 PublishPort=127.0.0.1:5432:5432
 Volume=zalosclaw-pgdata:/var/lib/postgresql/data:Z

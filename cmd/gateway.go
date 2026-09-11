@@ -45,6 +45,7 @@ import (
 	"github.com/mnh-shop/7alosclaw/internal/media"
 	"github.com/mnh-shop/7alosclaw/internal/orchestration"
 	"github.com/mnh-shop/7alosclaw/internal/providers"
+	"github.com/mnh-shop/7alosclaw/internal/sandbox"
 	"github.com/mnh-shop/7alosclaw/internal/scheduler"
 	"github.com/mnh-shop/7alosclaw/internal/security"
 	"github.com/mnh-shop/7alosclaw/internal/skills"
@@ -1030,6 +1031,8 @@ func runGateway() {
 	)
 	defer sched.Stop()
 
+	startUtilizationGauges(sched, sandboxMgr)
+
 	// Start cron + heartbeat ticker, wire wake functions and adaptive throttle.
 	heartbeatTicker := startCronAndHeartbeat(pgStores, server, sched, msgBus, providerRegistry, channelMgr, cfg, heartbeatTool, heartbeatMethods)
 
@@ -1135,4 +1138,28 @@ func resolveBackgroundProvider(cfg *config.Config, reg *providers.Registry) (pro
 		}
 	}
 	return nil, ""
+}
+
+// startUtilizationGauges logs utilization gauges every 30s: scheduler lane
+// saturation and live sandbox box count. These are the trigger metrics for the
+// scaling ladder (box caps, host upgrades, instance sharding). Runs for the
+// process lifetime; the ticker dies with the process at shutdown.
+func startUtilizationGauges(sched *scheduler.Scheduler, sandboxMgr sandbox.Manager) {
+	go func() {
+		t := time.NewTicker(30 * time.Second)
+		defer t.Stop()
+		for range t.C {
+			for _, l := range sched.LaneStats() {
+				if l.Active > 0 || l.Pending > 0 {
+					slog.Info("gauge: scheduler lane",
+						"lane", l.Name, "active", l.Active, "pending", l.Pending, "concurrency", l.Concurrency)
+				}
+			}
+			if sandboxMgr != nil {
+				if st := sandboxMgr.Stats(); st != nil {
+					slog.Info("gauge: sandbox", "active_boxes", st["active"])
+				}
+			}
+		}
+	}()
 }
