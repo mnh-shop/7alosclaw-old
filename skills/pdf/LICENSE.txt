@@ -1,9 +1,9 @@
-PRIVATE LICENSE - 7alosclaw
+PRIVATE LICENSE - MH8 LLC
 
-Copyright (c) 2025 7alosclaw. All rights reserved.
+Copyright (c) 2025-2026 MH8 LLC. All rights reserved.
 
 This software and associated documentation files (the "Software") are the
-proprietary and confidential property of 7alosclaw.
+proprietary and confidential property of MH8 LLC.
 
 LICENSE: Use of this Software is governed by this Private License. No rights
 are granted except as expressly stated herein.
@@ -22,7 +22,7 @@ ADDITIONAL RESTRICTIONS: Users may not:
 The receipt, viewing, or possession of this Software does not convey or
 imply any license or right beyond those expressly granted above.
 
-7alosclaw retains all right, title, and interest in this Software,
+MH8 LLC retains all right, title, and interest in this Software,
 including all copyrights, patents, trade secrets, and other intellectual
 property rights.
 
