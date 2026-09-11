@@ -1,0 +1,29 @@
+// ZalosClaw production config (native multi-tenant, sandbox enforced).
+// Secrets go in .env.local or the environment, never here.
+{
+  data_dir: "/data/7alosclaw/data",
+
+  agents: {
+    defaults: {
+      sandbox: {
+        mode: "all",                        // every agent execs inside a sandbox container
+        scope: "session",                   // one container per session = max isolation
+        workspace_access: "rw",
+        image: "zalosclaw-sandbox:bookworm-slim",
+        memory_mb: 2048,                    // hard limit (OOM-killed here)
+        memory_reservation_mb: 512,         // soft limit — tenant's fair share
+        cpus: 2,
+        timeout_sec: 300,
+        network_enabled: false,             // flip true + set network for OSINT/SWE tenants
+        // network: "sbx-egress",           // reserved for the egress tier
+        tmpfs_size_mb: 256,
+        read_only_root: true,
+      },
+    },
+  },
+
+  gateway: {
+    // public URL of this deployment, used for file/media URL signing
+    // public_url: "https://api.example.com",
+  },
+}

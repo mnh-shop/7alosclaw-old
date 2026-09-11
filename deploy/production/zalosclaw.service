@@ -1,0 +1,40 @@
+[Unit]
+Description=ZalosClaw agent harness (multi-tenant)
+After=network-online.target zalosclaw-postgres.service
+Wants=network-online.target
+Requires=zalosclaw-postgres.service
+
+[Service]
+Type=simple
+WorkingDirectory=%h/7alosclaw
+ExecStart=/usr/local/bin/zalosclaw
+Environment=ZALOSCLAW_CONFIG=%h/7alosclaw/config.json5
+EnvironmentFile=%h/7alosclaw/env
+
+# Tenant sandbox: enforced, podman, fail-closed on runtime loss
+Environment=ZALOSCLAW_SANDBOX_MODE=all
+Environment=ZALOSCLAW_SANDBOX_SCOPE=session
+Environment=ZALOSCLAW_SANDBOX_WORKSPACE_ACCESS=rw
+Environment=ZALOSCLAW_SANDBOX_IMAGE=zalosclaw-sandbox:bookworm-slim
+Environment=ZALOSCLAW_SANDBOX_MEMORY_MB=2048
+Environment=ZALOSCLAW_SANDBOX_CPUS=2
+Environment=ZALOSCLAW_SANDBOX_TIMEOUT_SEC=300
+Environment=ZALOSCLAW_SANDBOX_NETWORK=false
+
+Restart=on-failure
+RestartSec=5
+
+# Outer seatbelt — tenant exec runs in quota'd sandbox boxes, not here
+MemoryMax=4G
+CPUQuota=400%
+TasksMax=2048
+
+# Hardening
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%h/7alosclaw /data/tenants
+
+[Install]
+WantedBy=default.target

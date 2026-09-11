@@ -57,18 +57,22 @@ func setupToolRegistry(
 	toolsReg = tools.NewRegistry()
 	agentCfg = cfg.ResolveAgent("default")
 
-	// Sandbox manager (optional — routes tools through Docker containers)
+	// Sandbox manager (routes tools through Podman containers)
+	// Fail-closed: when a sandbox mode is configured but the runtime is
+	// unavailable, refuse to start rather than silently executing agents
+	// on the host (multi-tenant isolation would be lost).
 	if sbCfg := cfg.Agents.Defaults.Sandbox; sbCfg != nil && sbCfg.Mode != "" && sbCfg.Mode != "off" {
-		if err := sandbox.CheckDockerAvailable(context.Background()); err != nil {
-			slog.Warn("sandbox disabled: Docker not available",
+		if err := sandbox.CheckRuntimeAvailable(context.Background()); err != nil {
+			slog.Error("sandbox configured but container runtime unavailable — refusing to start (set sandbox mode=off to allow host exec)",
 				"configured_mode", sbCfg.Mode,
+				"runtime", os.Getenv("ZALOSCLAW_SANDBOX_BINARY"),
 				"error", err,
 			)
-		} else {
-			resolved := sbCfg.ToSandboxConfig()
-			sandboxMgr = sandbox.NewDockerManager(resolved)
-			slog.Info("sandbox enabled", "mode", string(resolved.Mode), "image", resolved.Image, "scope", string(resolved.Scope))
+			os.Exit(1)
 		}
+		resolved := sbCfg.ToSandboxConfig()
+		sandboxMgr = sandbox.NewDockerManager(resolved)
+		slog.Info("sandbox enabled", "mode", string(resolved.Mode), "image", resolved.Image, "scope", string(resolved.Scope))
 	}
 
 	// Register file tools + exec tool (with sandbox routing via FsBridge if enabled)

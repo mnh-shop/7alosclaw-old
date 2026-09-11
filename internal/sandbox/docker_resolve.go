@@ -35,9 +35,9 @@ func resolveHostWorkspacePath(ctx context.Context, localPath string) string {
 	inspectCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
-	out, err := exec.CommandContext(inspectCtx, "docker", "inspect", "--format", "{{json .Mounts}}", containerID).Output()
+	out, err := exec.CommandContext(inspectCtx, sandboxBinary(), "inspect", "--format", "{{json .Mounts}}", containerID).Output()
 	if err != nil {
-		slog.Warn("sandbox.resolve: docker inspect failed", "container", containerID, "error", err)
+		slog.Warn("sandbox.resolve: runtime inspect failed", "container", containerID, "error", err)
 		return localPath
 	}
 

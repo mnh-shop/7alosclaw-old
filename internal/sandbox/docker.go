@@ -6,21 +6,31 @@ import (
 	"fmt"
 	"log/slog"
 	"maps"
+	"os"
 	"os/exec"
 	"strings"
 	"sync"
 	"time"
 )
 
-// CheckDockerAvailable verifies that the Docker CLI and daemon are accessible.
-// Returns nil if Docker is ready, or an error describing the failure.
-func CheckDockerAvailable(ctx context.Context) error {
+// sandboxBinary returns the container runtime CLI used for sandbox containers.
+// Default: podman (rootless, no daemon). Override: ZALOSCLAW_SANDBOX_BINARY.
+func sandboxBinary() string {
+	if b := os.Getenv("ZALOSCLAW_SANDBOX_BINARY"); b != "" {
+		return b
+	}
+	return "podman"
+}
+
+// CheckRuntimeAvailable verifies that the container runtime CLI and engine are
+// accessible. Returns nil if the runtime is ready, or an error describing the failure.
+func CheckRuntimeAvailable(ctx context.Context) error {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
-	out, err := exec.CommandContext(ctx, "docker", "info", "--format", "{{.ServerVersion}}").CombinedOutput()
+	out, err := exec.CommandContext(ctx, sandboxBinary(), "info", "--format", "{{.ServerVersion}}").CombinedOutput()
 	if err != nil {
-		return fmt.Errorf("docker not available: %w (output: %s)", err, strings.TrimSpace(string(out)))
+		return fmt.Errorf("container runtime (%s) not available: %w (output: %s)", sandboxBinary(), err, strings.TrimSpace(string(out)))
 	}
 	return nil
 }
@@ -80,6 +90,9 @@ func newDockerSandbox(
 	}
 
 	// Resource limits
+	if cfg.MemoryReservationMB > 0 && cfg.MemoryReservationMB < cfg.MemoryMB {
+		args = append(args, "--memory-reservation", fmt.Sprintf("%dm", cfg.MemoryReservationMB))
+	}
 	if cfg.MemoryMB > 0 {
 		args = append(args, "--memory", fmt.Sprintf("%dm", cfg.MemoryMB))
 	}
@@ -93,6 +106,10 @@ func newDockerSandbox(
 	// Network
 	if !cfg.NetworkEnabled {
 		args = append(args, "--network", "none")
+	} else if cfg.Network != "" {
+		// Named network: the operator's egress-isolated bridge (internet yes,
+		// data-plane no, enforced by host firewall). Unset = runtime default bridge.
+		args = append(args, "--network", cfg.Network)
 	}
 
 	args, sensitiveMountRoots, err := appendDockerMountArgs(
@@ -123,14 +140,14 @@ func newDockerSandbox(
 		"additional_read_only_mounts", len(readOnlyMounts),
 	)
 
-	cmd := exec.CommandContext(ctx, "docker", args...)
+	cmd := exec.CommandContext(ctx, sandboxBinary(), args...)
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 
 	if err := cmd.Run(); err != nil {
 		safeStderr := redactMountRoots(stderr.String(), sensitiveMountRoots)
-		return nil, fmt.Errorf("docker run failed: %w\nstderr: %s", err, safeStderr)
+		return nil, fmt.Errorf("sandbox container create failed: %w\nstderr: %s", err, safeStderr)
 	}
 
 	containerID := strings.TrimSpace(stdout.String())
@@ -142,7 +159,7 @@ func newDockerSandbox(
 
 	// Run optional setup command (matching TS setupCommand)
 	if cfg.SetupCommand != "" {
-		setupCmd := exec.CommandContext(ctx, "docker", "exec", "-i", containerID, "sh", "-lc", cfg.SetupCommand)
+		setupCmd := exec.CommandContext(ctx, sandboxBinary(), "exec", "-i", containerID, "sh", "-lc", cfg.SetupCommand)
 		if out, err := setupCmd.CombinedOutput(); err != nil {
 			slog.Warn("sandbox setup command failed", "id", containerID, "error", err, "output", string(out))
 		} else {
@@ -188,7 +205,7 @@ func (s *DockerSandbox) Exec(ctx context.Context, command []string, workDir stri
 	args = append(args, s.containerID)
 	args = append(args, command...)
 
-	cmd := exec.CommandContext(execCtx, "docker", args...)
+	cmd := exec.CommandContext(execCtx, sandboxBinary(), args...)
 
 	// Limit output capture to prevent OOM from large command output
 	maxOut := s.config.MaxOutputBytes
@@ -229,7 +246,7 @@ func (s *DockerSandbox) Destroy(ctx context.Context) error {
 	if s.destroyFunc != nil {
 		return s.destroyFunc(ctx)
 	}
-	cmd := exec.CommandContext(ctx, "docker", "rm", "-f", s.containerID)
+	cmd := exec.CommandContext(ctx, sandboxBinary(), "rm", "-f", s.containerID)
 	if err := cmd.Run(); err != nil {
 		slog.Warn("failed to remove sandbox container", "id", s.containerID, "error", err)
 		return err

@@ -393,6 +393,10 @@ func (c *Config) applyEnvOverrides() {
 		ensureSandbox()
 		c.Agents.Defaults.Sandbox.NetworkEnabled = v == "true" || v == "1"
 	}
+	if v := os.Getenv("ZALOSCLAW_SANDBOX_NETWORK_NAME"); v != "" {
+		ensureSandbox()
+		c.Agents.Defaults.Sandbox.Network = v
+	}
 
 	// Browser (for Docker-compose browser sidecar overlay)
 	envStr("ZALOSCLAW_BROWSER_REMOTE_URL", &c.Tools.Browser.RemoteURL)

@@ -48,11 +48,12 @@ done
 exit 0
 `
 
-// installFakeDocker writes the fake docker script to tmp, prepends tmp to PATH,
+// installFakeDocker writes the fake runtime script to tmp, prepends tmp to PATH,
 // and sets DOCKER_LOG and optionally DOCKER_STDIN env vars for the test.
+// The fake binary is named "podman" — the sandbox package's default runtime.
 func installFakeDocker(t *testing.T, tmp, logPath, stdinPath string) {
 	t.Helper()
-	dockerPath := filepath.Join(tmp, "docker")
+	dockerPath := filepath.Join(tmp, "podman")
 	if err := os.WriteFile(dockerPath, []byte(fakeDockerScript), 0o755); err != nil {
 		t.Fatalf("write fake docker: %v", err)
 	}

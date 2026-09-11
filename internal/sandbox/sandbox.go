@@ -53,16 +53,18 @@ const (
 // Config configures the sandbox system.
 // Matches TS SandboxDockerSettings + SandboxConfig.
 type Config struct {
-	Mode              Mode              `json:"mode"`
-	Image             string            `json:"image"`
-	WorkspaceAccess   Access            `json:"workspace_access"`
-	Scope             Scope             `json:"scope"`
-	MemoryMB          int               `json:"memory_mb"`
-	CPUs              float64           `json:"cpus"`
-	TimeoutSec        int               `json:"timeout_sec"`
-	NetworkEnabled    bool              `json:"network_enabled"`
-	RestrictedDomains []string          `json:"restricted_domains,omitempty"`
-	Env               map[string]string `json:"env,omitempty"`
+	Mode                Mode              `json:"mode"`
+	Image               string            `json:"image"`
+	WorkspaceAccess     Access            `json:"workspace_access"`
+	Scope               Scope             `json:"scope"`
+	MemoryMB            int               `json:"memory_mb"`
+	MemoryReservationMB int               `json:"memory_reservation_mb,omitempty"` // soft limit (kernel reclaims/throttles before hitting MemoryMB; 0 = off)
+	CPUs                float64           `json:"cpus"`
+	TimeoutSec          int               `json:"timeout_sec"`
+	NetworkEnabled      bool              `json:"network_enabled"`
+	Network             string            `json:"network,omitempty"` // container network when network_enabled (e.g. egress-isolated bridge; empty = runtime default bridge)
+	RestrictedDomains   []string          `json:"restricted_domains,omitempty"`
+	Env                 map[string]string `json:"env,omitempty"`
 
 	// Security hardening (matching TS buildSandboxCreateArgs)
 	ReadOnlyRoot    bool     `json:"read_only_root"`
@@ -96,6 +98,7 @@ func DefaultConfig() Config {
 		ReadOnlyRoot:     true,
 		CapDrop:          []string{"ALL"},
 		Tmpfs:            []string{"/tmp", "/var/tmp", "/run"},
+		TmpfsSizeMB:      256, // cap tmpfs so per-box tmp usage can't eat host RAM
 		PidsLimit:        256,
 		MaxOutputBytes:   1 << 20, // 1MB
 		ContainerPrefix:  "zalosclaw-sbx-",

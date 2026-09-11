@@ -249,7 +249,7 @@ func (b *FsBridge) dockerExec(ctx context.Context, stdin []byte, args ...string)
 	dockerArgs = append(dockerArgs, b.containerID)
 	dockerArgs = append(dockerArgs, args...)
 
-	cmd := exec.CommandContext(ctx, "docker", dockerArgs...)
+	cmd := exec.CommandContext(ctx, sandboxBinary(), dockerArgs...)
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr

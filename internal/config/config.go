@@ -44,7 +44,7 @@ func (f *FlexibleStringSlice) UnmarshalJSON(data []byte) error {
 // Config is the root configuration for the ZalosClaw Gateway.
 type Config struct {
 	DataDir   string          `json:"data_dir,omitempty"` // persistent data directory (default: ~/.zalosclaw/data)
-	Branding  BrandingConfig  `json:"branding,omitempty"`
+	Branding  BrandingConfig  `json:"branding"`
 	Agents    AgentsConfig    `json:"agents"`
 	Channels  ChannelsConfig  `json:"channels"`
 	Providers ProvidersConfig `json:"providers"`
@@ -61,7 +61,7 @@ type Config struct {
 	Bindings  []AgentBinding  `json:"bindings,omitempty"`
 	Hooks     HooksConfig     `json:"hooks"`
 	Packages  PackagesConfig  `json:"packages"` // runtime package mgmt (GitHub updater)
-	Messages  SystemMsgConfig `json:"system_messages,omitempty"`
+	Messages  SystemMsgConfig `json:"system_messages"`
 	mu        sync.RWMutex
 }
 
@@ -141,9 +141,7 @@ func (s SystemMsgConfig) Clone() SystemMsgConfig {
 			continue
 		}
 		cp := make(LocalizedSystemMessage, len(byLocale))
-		for locale, template := range byLocale {
-			cp[locale] = template
-		}
+		maps.Copy(cp, byLocale)
 		out.Messages[key] = cp
 	}
 	return out
@@ -411,17 +409,19 @@ type DreamingConfig struct {
 // SandboxConfig configures Docker-based sandbox execution.
 // Matching TS agents.defaults.sandbox.
 type SandboxConfig struct {
-	Mode            string            `json:"mode,omitempty"`             // "off" (default), "non-main", "all"
-	Image           string            `json:"image,omitempty"`            // Docker image (default: "zalosclaw-sandbox:bookworm-slim")
-	WorkspaceAccess string            `json:"workspace_access,omitempty"` // "none", "ro", "rw" (default)
-	Scope           string            `json:"scope,omitempty"`            // "session" (default), "agent", "shared"
-	MemoryMB        int               `json:"memory_mb,omitempty"`        // memory limit in MB (default 512)
-	CPUs            float64           `json:"cpus,omitempty"`             // CPU limit (default 1.0)
-	TimeoutSec      int               `json:"timeout_sec,omitempty"`      // exec timeout in seconds (default 300)
-	NetworkEnabled  bool              `json:"network_enabled,omitempty"`  // enable network (default false)
-	ReadOnlyRoot    *bool             `json:"read_only_root,omitempty"`   // read-only root fs (default true)
-	SetupCommand    string            `json:"setup_command,omitempty"`    // run once after container creation
-	Env             map[string]string `json:"env,omitempty"`              // extra environment variables
+	Mode                string            `json:"mode,omitempty"`                  // "off" (default), "non-main", "all"
+	Image               string            `json:"image,omitempty"`                 // Docker image (default: "zalosclaw-sandbox:bookworm-slim")
+	WorkspaceAccess     string            `json:"workspace_access,omitempty"`      // "none", "ro", "rw" (default)
+	Scope               string            `json:"scope,omitempty"`                 // "session" (default), "agent", "shared"
+	MemoryMB            int               `json:"memory_mb,omitempty"`             // hard memory limit in MB (default 512)
+	MemoryReservationMB int               `json:"memory_reservation_mb,omitempty"` // soft memory limit in MB — kernel reclaims/throttles before the hard limit (0 = off)
+	CPUs                float64           `json:"cpus,omitempty"`                  // CPU limit (default 1.0)
+	TimeoutSec          int               `json:"timeout_sec,omitempty"`           // exec timeout in seconds (default 300)
+	NetworkEnabled      bool              `json:"network_enabled,omitempty"`       // enable network (default false)
+	Network             string            `json:"network,omitempty"`               // network name when enabled (e.g. "sbx-egress" egress-isolated bridge; empty = default bridge)
+	ReadOnlyRoot        *bool             `json:"read_only_root,omitempty"`        // read-only root fs (default true)
+	SetupCommand        string            `json:"setup_command,omitempty"`         // run once after container creation
+	Env                 map[string]string `json:"env,omitempty"`                   // extra environment variables
 
 	// Enhanced security
 	User           string `json:"user,omitempty"`             // container user (e.g. "1000:1000", "nobody")
@@ -474,6 +474,9 @@ func (sc *SandboxConfig) ToSandboxConfig() sandbox.Config {
 	if sc.MemoryMB > 0 {
 		cfg.MemoryMB = sc.MemoryMB
 	}
+	if sc.MemoryReservationMB > 0 {
+		cfg.MemoryReservationMB = sc.MemoryReservationMB
+	}
 	if sc.CPUs > 0 {
 		cfg.CPUs = sc.CPUs
 	}
@@ -481,6 +484,9 @@ func (sc *SandboxConfig) ToSandboxConfig() sandbox.Config {
 		cfg.TimeoutSec = sc.TimeoutSec
 	}
 	cfg.NetworkEnabled = sc.NetworkEnabled
+	if sc.Network != "" {
+		cfg.Network = sc.Network
+	}
 	if sc.ReadOnlyRoot != nil {
 		cfg.ReadOnlyRoot = *sc.ReadOnlyRoot
 	}

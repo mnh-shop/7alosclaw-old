@@ -1,0 +1,26 @@
+[Unit]
+Description=ZalosClaw PostgreSQL 18 + pgvector
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=docker.io/pgvector/pgvector:pg18
+ContainerName=zalosclaw-postgres
+# Loopback only — unreachable from sandbox boxes (rootless pasta isolation)
+PublishPort=127.0.0.1:5432:5432
+Volume=zalosclaw-pgdata:/var/lib/postgresql/data:Z
+Environment=POSTGRES_DB=zalosclaw
+Environment=POSTGRES_USER=zalosclaw
+Secret=zalosclaw_pg_password,type=env,target=POSTGRES_PASSWORD
+HealthCmd=pg_isready -U zalosclaw -d zalosclaw
+HealthInterval=30s
+HealthRetries=3
+HealthOnFailure=kill
+PodmanArgs=--cap-drop=ALL --cap-add=CHOWN,DAC_READ_SEARCH,FOWNER,SETGID,SETUID --security-opt no-new-privileges --memory=2g --pids-limit=400
+
+[Service]
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target
