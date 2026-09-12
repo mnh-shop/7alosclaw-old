@@ -8,8 +8,8 @@ backup/
 # — notably `railway up`).
 /openclaw-go
 /pkg-helper
-/goclaw.exe
-/goclaw-local.exe
+/zalosclaw.exe
+/zalosclaw-local.exe
 
 # Ad-hoc debug probes live here — never commit (they import internal/
 # packages from outside cmd/ and only exist for one-shot diagnostics).
@@ -32,7 +32,7 @@ backup/
 app
 browser-poc
 openclaw-go
-goclaw
+zalosclaw
 /config.json
 prompt.md
 *.bk.*
@@ -53,10 +53,10 @@ ui/desktop/frontend/wailsjs/
 ui/desktop/frontend/package.json.md5
 ui/desktop/build/bin/
 ui/desktop/desktop
-goclaw-lite
-goclaw-lite-*.dmg
-goclaw-lite-*.tar.gz
-goclaw-lite-*.zip
+zalosclaw-lite
+zalosclaw-lite-*.dmg
+zalosclaw-lite-*.tar.gz
+zalosclaw-lite-*.zip
 /desktop
 
 .mcp.json
@@ -68,7 +68,7 @@ deploy-*.sh
 !scripts/deploy-forkdev.sh
 
 # fork-dev integration worktree (created by scripts/deploy-forkdev.sh)
-.goclaw-forkdev/
+.zalosclaw-forkdev/
 
 docs/technical-diaries
 docs/zuey
@@ -81,9 +81,9 @@ tests/**/creds.json
 ui/simple-saas
 *.tar
 # SQLite database files
-goclaw.db
-goclaw.db-wal
-goclaw.db-shm
+zalosclaw.db
+zalosclaw.db-wal
+zalosclaw.db-shm
 # Update backup files
 *.app.bak
 *.exe.bak
@@ -108,7 +108,7 @@ compose.d/*
 /mise
 /.mise
 *.test
-goclaw-patched-linux-amd64
+zalosclaw-patched-linux-amd64
 ui/web/nginx.staging.conf
 
 # Local scratchpad / one-shot artifacts (never commit)
