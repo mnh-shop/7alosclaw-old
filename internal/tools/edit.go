@@ -164,7 +164,10 @@ func (t *EditTool) Execute(ctx context.Context, args map[string]any) *Result {
 
 	// Sandbox routing
 	sandboxKey := ToolSandboxKeyFromCtx(ctx)
-	if t.sandboxMgr != nil && sandboxKey != "" {
+	if t.sandboxMgr != nil {
+		if sandboxKey == "" {
+			return ErrorResult("sandbox is enabled but no sandbox session key is present — refusing host access")
+		}
 		return t.executeInSandbox(ctx, path, oldStr, newStr, replaceAll, sandboxKey)
 	}
 

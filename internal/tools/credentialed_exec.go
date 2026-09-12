@@ -506,6 +506,11 @@ func (t *ExecTool) executeCredentialed(ctx context.Context, cred *store.SecureCL
 	if inSandbox {
 		return t.executeCredentialedSandbox(ctx, absPath, args, cwd, sandboxKey, envMap, timeout)
 	}
+	// A sandbox manager is active but no session key was provided: fail closed
+	// rather than run a credentialed binary on the harness host.
+	if t.sandboxMgr != nil {
+		return ErrorResult("sandbox is enabled but no sandbox session key is present — refusing host credentialed exec")
+	}
 	return t.executeCredentialedHost(ctx, absPath, args, cwd, envMap, timeout)
 }
 
