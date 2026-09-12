@@ -3,6 +3,7 @@ package sandbox
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log/slog"
 	"os"
 	"os/exec"
@@ -18,20 +19,22 @@ import (
 // container — the sandbox needs the corresponding host path or volume name
 // to mount it correctly.
 //
-// If not running in a container (no /.dockerenv or /run/.containerenv), returns localPath as-is.
-func resolveHostWorkspacePath(ctx context.Context, localPath string) string {
+// If not running in a container (no /.dockerenv or /run/.containerenv), returns
+// localPath as-is. When containerized, resolution failures are FATAL (return an
+// error): binding a guessed container-local path would silently mount the wrong
+// source into the sandbox, so we refuse rather than fail open.
+func resolveHostWorkspacePath(ctx context.Context, localPath string) (string, error) {
 	// Not in a container — local path is the host path. Rootless Podman
 	// containers expose /run/.containerenv (not only Docker's /.dockerenv).
 	if _, err := os.Stat("/.dockerenv"); err != nil {
 		if _, err := os.Stat("/run/.containerenv"); err != nil {
-			return localPath
+			return localPath, nil
 		}
 	}
 
 	containerID := detectContainerID()
 	if containerID == "" {
-		slog.Error("sandbox.resolve: cannot determine container ID — DooD volume mounts will fail")
-		return localPath
+		return "", fmt.Errorf("sandbox.resolve: cannot determine container ID — refusing to guess a host mount source")
 	}
 
 	// Short timeout to avoid blocking on a stuck container engine.
@@ -40,8 +43,7 @@ func resolveHostWorkspacePath(ctx context.Context, localPath string) string {
 
 	out, err := exec.CommandContext(inspectCtx, sandboxBinary(), "inspect", "--format", "{{json .Mounts}}", containerID).Output()
 	if err != nil {
-		slog.Warn("sandbox.resolve: runtime inspect failed", "container", containerID, "error", err)
-		return localPath
+		return "", fmt.Errorf("sandbox.resolve: runtime inspect failed for container %s: %w", containerID, err)
 	}
 
 	var mounts []struct {
@@ -51,15 +53,13 @@ func resolveHostWorkspacePath(ctx context.Context, localPath string) string {
 		Name        string `json:"Name"`
 	}
 	if err := json.Unmarshal(out, &mounts); err != nil {
-		slog.Warn("sandbox.resolve: failed to parse mounts", "error", err)
-		return localPath
+		return "", fmt.Errorf("sandbox.resolve: failed to parse mount list: %w", err)
 	}
 
 	targetDir := filepath.Clean(localPath)
 
-	// Resolve symlinks so mount matching uses the canonical path.
-	// If the resolved path doesn't match any known mount, the mount-matching
-	// loop below will fall through to the "no matching mount" warning.
+	// Resolve symlinks so mount matching uses the canonical path. If the
+	// resolved path doesn't match a known mount, the loop below fails closed.
 	if resolved, err := filepath.EvalSymlinks(localPath); err == nil {
 		resolvedClean := filepath.Clean(resolved)
 		if resolvedClean != targetDir {
@@ -88,8 +88,7 @@ func resolveHostWorkspacePath(ctx context.Context, localPath string) string {
 	}
 
 	if bestDest == "" {
-		slog.Warn("sandbox.resolve: no matching mount found", "container", containerID)
-		return localPath
+		return "", fmt.Errorf("sandbox.resolve: no matching mount for %s in container %s", localPath, containerID)
 	}
 
 	// Named volume: return volume name if it's the exact mount, otherwise
@@ -97,10 +96,10 @@ func resolveHostWorkspacePath(ctx context.Context, localPath string) string {
 	if bestType == "volume" && bestName != "" {
 		if bestRel == "." {
 			slog.Debug("sandbox.resolve: resolved mount to named volume")
-			return bestName
+			return bestName, nil
 		}
 		if bestSource != "" {
-			return filepath.Join(bestSource, bestRel)
+			return filepath.Join(bestSource, bestRel), nil
 		}
 	}
 
@@ -108,11 +107,10 @@ func resolveHostWorkspacePath(ctx context.Context, localPath string) string {
 	if bestSource != "" {
 		resolved := filepath.Join(bestSource, bestRel)
 		slog.Debug("sandbox.resolve: resolved mount to host path")
-		return resolved
+		return resolved, nil
 	}
 
-	slog.Warn("sandbox.resolve: mount found but no source path")
-	return localPath
+	return "", fmt.Errorf("sandbox.resolve: mount %s found but has no source path", bestDest)
 }
 
 // detectContainerID returns the current container ID using multiple

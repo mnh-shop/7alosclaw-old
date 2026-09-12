@@ -409,7 +409,7 @@ type DreamingConfig struct {
 // SandboxConfig configures Docker-based sandbox execution.
 // Matching TS agents.defaults.sandbox.
 type SandboxConfig struct {
-	Mode                string            `json:"mode,omitempty"`                  // "off" (default), "non-main", "all"
+	Mode                string            `json:"mode,omitempty"`                  // "off" (default), "all"
 	Image               string            `json:"image,omitempty"`                 // Docker image (default: "zalosclaw-sandbox:bookworm-slim")
 	WorkspaceAccess     string            `json:"workspace_access,omitempty"`      // "none", "ro", "rw" (default)
 	Scope               string            `json:"scope,omitempty"`                 // "session" (default), "agent", "shared"
@@ -456,7 +456,11 @@ func (sc *SandboxConfig) ToSandboxConfig() sandbox.Config {
 	case "all":
 		cfg.Mode = sandbox.ModeAll
 	case "non-main":
-		cfg.Mode = sandbox.ModeNonMain
+		// Legacy value. The "main agent runs on host" path was never
+		// implemented and is a fail-open risk, so map it to "all" (fail safe)
+		// instead of silently running an agent unsandboxed.
+		slog.Warn("config.sandbox_mode_non_main_deprecated", "mapped_to", "all")
+		cfg.Mode = sandbox.ModeAll
 	default:
 		cfg.Mode = sandbox.ModeOff
 	}

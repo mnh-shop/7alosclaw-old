@@ -406,15 +406,32 @@ func NewManagedResolver(deps ResolverDeps) ResolverFunc {
 		}
 
 		// Load tenant-specific allowed paths (from system_configs['allowed_paths']).
-		// These extend filesystem tool access beyond the agent's workspace.
+		// These extend filesystem tool access beyond the agent's workspace, so a
+		// non-master tenant's entries MUST stay inside that tenant's own
+		// workspace/data roots — otherwise a tenant admin could widen file
+		// access to arbitrary host paths or another tenant's tree.
+		// Master tenant / owner keep global semantics.
 		var tenantAllowedPaths []string
-		if deps.SystemConfigs != nil && ag.TenantID != uuid.Nil {
+		if deps.SystemConfigs != nil && ag.TenantID != uuid.Nil && ag.TenantID != store.MasterTenantID {
 			tenantCtx := store.WithTenantID(ctx, ag.TenantID)
 			if raw, err := deps.SystemConfigs.Get(tenantCtx, "allowed_paths"); err == nil && raw != "" {
-				if json.Unmarshal([]byte(raw), &tenantAllowedPaths) == nil && len(tenantAllowedPaths) > 0 {
-					// Expand home directory in paths
-					for i, p := range tenantAllowedPaths {
-						tenantAllowedPaths[i] = config.ExpandHome(p)
+				var configured []string
+				if json.Unmarshal([]byte(raw), &configured) == nil && len(configured) > 0 {
+					tenantRoots := make([]string, 0, 2)
+					if deps.Workspace != "" {
+						tenantRoots = append(tenantRoots, config.TenantWorkspace(deps.Workspace, ag.TenantID, tenantSlug))
+					}
+					if deps.DataDir != "" {
+						tenantRoots = append(tenantRoots, config.TenantDataDir(deps.DataDir, ag.TenantID, tenantSlug))
+					}
+					for _, p := range configured {
+						abs, err := filepath.Abs(config.ExpandHome(p))
+						if err != nil || !pathWithinAny(abs, tenantRoots) {
+							slog.Warn("security.allowed_paths_rejected",
+								"agent", agentKey, "tenant", ag.TenantID, "path", p)
+							continue
+						}
+						tenantAllowedPaths = append(tenantAllowedPaths, abs)
 					}
 					slog.Debug("tenant allowed paths loaded", "agent", agentKey, "tenant", ag.TenantID, "paths", len(tenantAllowedPaths))
 				}
@@ -609,6 +626,21 @@ func (r *Router) InvalidateTenant(tenantID uuid.UUID) {
 		}
 	}
 	slog.Debug("invalidated tenant agent cache", "tenant", tenantID, "count", deleted)
+}
+
+// pathWithinAny reports whether abs is equal to or nested under any of roots.
+// Both are expected to be absolute, canonical paths.
+func pathWithinAny(abs string, roots []string) bool {
+	for _, root := range roots {
+		if root == "" {
+			continue
+		}
+		r := filepath.Clean(root)
+		if abs == r || strings.HasPrefix(abs, r+string(filepath.Separator)) {
+			return true
+		}
+	}
+	return false
 }
 
 // resolveTenantSlug looks up the tenant slug for workspace path resolution.

@@ -50,7 +50,7 @@ func effectiveSandboxWorkspace(ctx context.Context, globalWorkspace string) (str
 	if ws := ToolWorkspaceFromCtx(ctx); ws != "" {
 		return canonicalSandboxWorkspace(ws), nil
 	}
-	if globalWorkspace != "" && store.IsMasterScope(ctx) {
+	if globalWorkspace != "" && store.IsExplicitMasterScope(ctx) {
 		slog.Warn("security.sandbox_global_workspace_fallback",
 			"workspace", globalWorkspace,
 			"tenant_id", store.TenantIDFromContext(ctx),

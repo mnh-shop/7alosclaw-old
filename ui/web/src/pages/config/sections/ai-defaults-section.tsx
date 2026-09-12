@@ -234,7 +234,6 @@ export function AiDefaultsSection({ data, onSave, saving }: Props) {
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="off">Off</SelectItem>
-                  <SelectItem value="non-main">Non-Main Only</SelectItem>
                   <SelectItem value="all">All</SelectItem>
                 </SelectContent>
               </Select>

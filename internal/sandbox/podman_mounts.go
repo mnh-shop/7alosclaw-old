@@ -15,7 +15,10 @@ import (
 
 const redactedMountRoot = "[REDACTED_MOUNT_ROOT]"
 
-type mountPathResolver func(context.Context, string) string
+// mountPathResolver maps a container-local path to the path the runtime must
+// mount. It returns an error rather than guessing: inside a container, a wrong
+// host path would silently bind-mount the wrong source into the sandbox.
+type mountPathResolver func(context.Context, string) (string, error)
 
 func validateReadOnlyMounts(cfg Config, mounts []ReadOnlyMount) ([]ReadOnlyMount, error) {
 	if len(mounts) == 0 {
@@ -108,7 +111,7 @@ func appendPodmanMountArgs(
 		return nil, nil, err
 	}
 	if resolve == nil {
-		resolve = func(_ context.Context, path string) string { return path }
+		resolve = func(_ context.Context, path string) (string, error) { return path, nil }
 	}
 
 	sensitiveRoots := make([]string, 0, 2+len(normalized)*2)
@@ -118,14 +121,20 @@ func appendPodmanMountArgs(
 		if cfg.WorkspaceAccess == AccessRO {
 			mountOpt = "ro"
 		}
-		hostPath := resolve(ctx, workspace)
+		hostPath, err := resolve(ctx, workspace)
+		if err != nil {
+			return nil, nil, fmt.Errorf("resolve sandbox workspace mount source: %w", err)
+		}
 		sensitiveRoots = appendSensitiveRoot(sensitiveRoots, workspace)
 		sensitiveRoots = appendSensitiveRoot(sensitiveRoots, hostPath)
 		args = append(args, "-v", fmt.Sprintf("%s:%s:%s", hostPath, containerWorkdir, mountOpt))
 	}
 
 	for _, mount := range normalized {
-		hostPath := resolve(ctx, mount.HostPath)
+		hostPath, err := resolve(ctx, mount.HostPath)
+		if err != nil {
+			return nil, nil, fmt.Errorf("resolve sandbox read-only mount %q source: %w", mount.Name, err)
+		}
 		sensitiveRoots = appendSensitiveRoot(sensitiveRoots, mount.HostPath)
 		sensitiveRoots = appendSensitiveRoot(sensitiveRoots, hostPath)
 		args = append(args, "-v", fmt.Sprintf("%s:%s:ro", hostPath, mount.Destination))

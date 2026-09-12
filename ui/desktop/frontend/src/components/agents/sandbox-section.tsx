@@ -36,7 +36,6 @@ export function SandboxSection({ enabled, value, onToggle, onChange }: SandboxSe
           <label className="text-[11px] font-medium text-text-secondary">{t('configSections.sandbox.mode')}</label>
           <select value={value.mode ?? 'off'} onChange={(e) => update({ mode: e.target.value as SandboxConfig['mode'] })} className={selectCls}>
             <option value="off">off</option>
-            <option value="non-main">non-main</option>
             <option value="all">all</option>
           </select>
         </div>

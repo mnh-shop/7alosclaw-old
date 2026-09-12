@@ -467,6 +467,18 @@ func IsMasterScope(ctx context.Context) bool {
 	return tid == uuid.Nil || tid == MasterTenantID
 }
 
+// IsExplicitMasterScope is the strict variant for tenant-execution boundaries
+// (sandbox workspace resolution, host-exec fallback). Unlike IsMasterScope it
+// does NOT treat an unset tenant (uuid.Nil) as master: a request that lost its
+// tenant context must fail closed instead of resolving to the global root.
+// Real owner/system flows carry MasterTenantID or the owner role.
+func IsExplicitMasterScope(ctx context.Context) bool {
+	if IsOwnerRole(ctx) {
+		return true
+	}
+	return TenantIDFromContext(ctx) == MasterTenantID
+}
+
 // RoleOwner is the owner role constant for context checks.
 // Must match permissions.RoleOwner.
 const RoleOwner = "owner"

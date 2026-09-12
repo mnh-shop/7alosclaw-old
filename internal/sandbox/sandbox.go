@@ -3,7 +3,6 @@
 // Agents can run tool commands (exec, shell) inside Podman containers
 // instead of the host system. Sandbox modes:
 //   - off: no sandboxing, execute directly on host
-//   - non-main: all agents except "main" run in sandbox
 //   - all: every agent runs in sandbox
 //
 // Workspace access levels:
@@ -27,9 +26,8 @@ import (
 type Mode string
 
 const (
-	ModeOff     Mode = "off"      // no sandbox
-	ModeNonMain Mode = "non-main" // all except "main" agent
-	ModeAll     Mode = "all"      // every agent
+	ModeOff Mode = "off" // no sandbox
+	ModeAll Mode = "all" // every agent
 )
 
 // Access determines workspace filesystem permissions.
@@ -116,18 +114,6 @@ func DefaultConfig() Config {
 		MaxAgeDays:         7,
 		PruneIntervalMin:   5,
 		MaxConcurrentBoxes: 16,
-	}
-}
-
-// ShouldSandbox returns true if the given agent should run in a sandbox.
-func (c Config) ShouldSandbox(agentID string) bool {
-	switch c.Mode {
-	case ModeAll:
-		return true
-	case ModeNonMain:
-		return agentID != "main" && agentID != "default"
-	default:
-		return false
 	}
 }
 

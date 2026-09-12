@@ -74,7 +74,7 @@ export interface DeliveryBehaviorConfig {
 }
 
 export interface SandboxConfig {
-  mode?: "off" | "non-main" | "all";
+  mode?: "off" | "all";
   image?: string;
   workspace_access?: "none" | "ro" | "rw";
   scope?: "session" | "agent" | "shared";

@@ -310,9 +310,9 @@ Docker-based code isolation for shell command execution.
 
 ```mermaid
 flowchart TD
-    REQ["Exec request"] --> CHECK{"ShouldSandbox?"}
+    REQ["Exec request"] --> CHECK{"sandbox mode"}
     CHECK -->|off| HOST["Execute on host<br/>timeout: 60s"]
-    CHECK -->|non-main / all| SCOPE["ResolveScopeKey()"]
+    CHECK -->|all| SCOPE["ResolveScopeKey()"]
     SCOPE --> GET["DockerManager.Get(scopeKey)"]
     GET --> EXISTS{"Container exists?"}
     EXISTS -->|Yes| REUSE["Reuse existing container"]
@@ -327,8 +327,10 @@ flowchart TD
 | Mode | Behavior |
 |------|----------|
 | `off` (default) | Execute directly on host |
-| `non-main` | Sandbox all agents except main/default |
 | `all` | Sandbox every agent |
+
+The legacy `non-main` value is accepted but mapped to `all` (with a warning):
+the "main agent on host" path is not implemented and would be a fail-open risk.
 
 ### Container Scope
 

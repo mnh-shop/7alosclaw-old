@@ -680,8 +680,8 @@ func (t *ExecTool) executeInSandbox(ctx context.Context, command, cwd, sandboxKe
 	if err != nil {
 		if errors.Is(err, sandbox.ErrSandboxDisabled) {
 			// Sandbox is enabled at the deployment level; only a master-scope
-			// run may fall back to host (e.g. mode=non-main for the main agent).
-			if IsDelegationArtifactRun(ctx) || !store.IsMasterScope(ctx) {
+			// run may fall back to host (explicit owner/master scope only).
+			if IsDelegationArtifactRun(ctx) || !store.IsExplicitMasterScope(ctx) {
 				return ErrorResult(delegatedExecSandboxRequiredError)
 			}
 			return t.executeOnHost(ctx, command, cwd)

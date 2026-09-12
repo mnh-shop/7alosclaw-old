@@ -30,7 +30,7 @@ export function SandboxSection({ enabled, value, onToggle, onChange }: SandboxSe
     >
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="space-y-2">
-          <InfoLabel tip="'off' disables sandboxing, 'non-main' sandboxes only sub-agents, 'all' sandboxes every execution including the main agent.">{t(`${s}.mode`)}</InfoLabel>
+          <InfoLabel tip="'off' disables sandboxing, 'all' sandboxes every execution including the main agent.">{t(`${s}.mode`)}</InfoLabel>
           <Select
             value={value.mode ?? ""}
             onValueChange={(v) => onChange({ ...value, mode: v as SandboxConfig["mode"] })}
@@ -38,7 +38,6 @@ export function SandboxSection({ enabled, value, onToggle, onChange }: SandboxSe
             <SelectTrigger><SelectValue placeholder="off" /></SelectTrigger>
             <SelectContent>
               <SelectItem value="off">off</SelectItem>
-              <SelectItem value="non-main">non-main</SelectItem>
               <SelectItem value="all">all</SelectItem>
             </SelectContent>
           </Select>
