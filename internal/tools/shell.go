@@ -687,7 +687,9 @@ func (t *ExecTool) executeInSandbox(ctx context.Context, command, cwd, sandboxKe
 		return ErrorResult(fmt.Sprintf("sandbox unavailable: %v (will not fall back to unsandboxed host execution)", err))
 	}
 
-	result, err := sb.Exec(ctx, []string{"sh", "-c", command}, containerCwd) //nolint: no ExecOption for normal exec
+	// Confine the shell to the tenant workspace with Landlock (defense-in-depth
+	// inside the sandbox; best-effort, no-op on kernels without Landlock).
+	result, err := sb.Exec(ctx, []string{"zalo-landlock", "--rw", containerCwd, "--", "sh", "-c", command}, containerCwd) //nolint: no ExecOption for normal exec
 	if err != nil {
 		return ErrorResult(fmt.Sprintf("sandbox exec: %v", err))
 	}

@@ -74,6 +74,12 @@ type Config struct {
 	PidsLimit       int      `json:"pids_limit,omitempty"`
 	User            string   `json:"user,omitempty"`             // container user (e.g. "1000:1000", "nobody")
 	MaxOutputBytes  int      `json:"max_output_bytes,omitempty"` // limit exec stdout+stderr capture (default 1MB, 0 = unlimited)
+
+	// Runtime selection / extra hardening
+	Runtime        string `json:"runtime,omitempty"`         // OCI runtime binary (e.g. "runsc" for gVisor, "kata-runtime"); empty = runtime default
+	Userns         string `json:"userns,omitempty"`          // user-namespace mode (e.g. "keep-id" for rootless Podman); empty = runtime default
+	SeccompProfile string `json:"seccomp_profile,omitempty"` // host path to a seccomp JSON profile; empty = runtime default profile
+	UlimitNofile   int    `json:"ulimit_nofile,omitempty"`   // RLIMIT_NOFILE for sandbox processes (0 = runtime default)
 	SetupCommand    string   `json:"setup_command,omitempty"`
 	ContainerPrefix string   `json:"container_prefix,omitempty"`
 	Workdir         string   `json:"workdir,omitempty"` // container workdir (default "/workspace")

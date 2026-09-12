@@ -87,7 +87,9 @@ COPY docker/requirements-base.txt docker/requirements-skills.txt /tmp/
 RUN set -eux; \
     apk add --no-cache ca-certificates wget su-exec tzdata; \
     if [ "$ENABLE_SANDBOX" = "true" ]; then \
-        apk add --no-cache docker-cli; \
+        # podman client drives the host's rootless Podman socket (docker-cli is
+        # kept for docker-based deployments).
+        apk add --no-cache docker-cli podman; \
     fi; \
     if [ "$ENABLE_FULL_SKILLS" = "true" ]; then \
         apk add --no-cache python3 py3-pip nodejs npm pandoc github-cli poppler-utils bash; \

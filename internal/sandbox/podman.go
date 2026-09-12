@@ -89,6 +89,28 @@ func newPodmanSandbox(
 		args = append(args, "--user", cfg.User)
 	}
 
+	// Runtime selection: swap the OCI runtime without code changes, e.g.
+	// "--runtime runsc" (gVisor) or a Kata runtime, for a stronger sandbox.
+	if cfg.Runtime != "" {
+		args = append(args, "--runtime", cfg.Runtime)
+	}
+
+	// User-namespace mode. Rootless Podman needs "keep-id" so the tenant
+	// workspace mount stays writable (container uid maps to the host uid).
+	if cfg.Userns != "" {
+		args = append(args, "--userns", cfg.Userns)
+	}
+
+	// Syscall filtering: a stricter-than-default seccomp profile.
+	if cfg.SeccompProfile != "" {
+		args = append(args, "--security-opt", "seccomp="+cfg.SeccompProfile)
+	}
+
+	// File-descriptor ceiling.
+	if cfg.UlimitNofile > 0 {
+		args = append(args, "--ulimit", fmt.Sprintf("nofile=%d:%d", cfg.UlimitNofile, cfg.UlimitNofile))
+	}
+
 	// Resource limits
 	if cfg.MemoryReservationMB > 0 && cfg.MemoryReservationMB < cfg.MemoryMB {
 		args = append(args, "--memory-reservation", fmt.Sprintf("%dm", cfg.MemoryReservationMB))

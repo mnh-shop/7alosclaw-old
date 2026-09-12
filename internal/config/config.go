@@ -429,6 +429,12 @@ type SandboxConfig struct {
 	MaxOutputBytes int    `json:"max_output_bytes,omitempty"` // limit exec output capture (default 1MB)
 	Workdir        string `json:"workdir,omitempty"`          // container workdir + workspace mount target (default "/workspace")
 
+	// Runtime selection / extra hardening
+	Runtime        string `json:"runtime,omitempty"`         // OCI runtime binary (e.g. "runsc"); empty = runtime default
+	Userns         string `json:"userns,omitempty"`          // user-namespace mode (e.g. "keep-id"); empty = runtime default
+	SeccompProfile string `json:"seccomp_profile,omitempty"` // host path to a seccomp JSON profile; empty = runtime default
+	UlimitNofile   int    `json:"ulimit_nofile,omitempty"`   // RLIMIT_NOFILE (0 = runtime default)
+
 	// Pruning (matching TS SandboxPruneSettings)
 	IdleHours        int `json:"idle_hours,omitempty"`         // prune containers idle > N hours (default 24)
 	MaxAgeDays       int `json:"max_age_days,omitempty"`       // prune containers older than N days (default 7)
@@ -512,6 +518,20 @@ func (sc *SandboxConfig) ToSandboxConfig() sandbox.Config {
 	}
 	if sc.Workdir != "" {
 		cfg.Workdir = sc.Workdir
+	}
+
+	// Runtime selection / extra hardening
+	if sc.Runtime != "" {
+		cfg.Runtime = sc.Runtime
+	}
+	if sc.Userns != "" {
+		cfg.Userns = sc.Userns
+	}
+	if sc.SeccompProfile != "" {
+		cfg.SeccompProfile = sc.SeccompProfile
+	}
+	if sc.UlimitNofile > 0 {
+		cfg.UlimitNofile = sc.UlimitNofile
 	}
 
 	// Pruning

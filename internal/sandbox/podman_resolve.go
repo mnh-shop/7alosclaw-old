@@ -20,9 +20,12 @@ import (
 //
 // If not running in a container (no /.dockerenv or /run/.containerenv), returns localPath as-is.
 func resolveHostWorkspacePath(ctx context.Context, localPath string) string {
-	// Not in a container — local path is the host path.
+	// Not in a container — local path is the host path. Rootless Podman
+	// containers expose /run/.containerenv (not only Docker's /.dockerenv).
 	if _, err := os.Stat("/.dockerenv"); err != nil {
-		return localPath
+		if _, err := os.Stat("/run/.containerenv"); err != nil {
+			return localPath
+		}
 	}
 
 	containerID := detectContainerID()

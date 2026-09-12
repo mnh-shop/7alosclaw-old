@@ -403,6 +403,25 @@ func (c *Config) applyEnvOverrides() {
 			c.Agents.Defaults.Sandbox.MaxConcurrentBoxes = n
 		}
 	}
+	// Runtime selection / extra hardening
+	if v := os.Getenv("ZALOSCLAW_SANDBOX_RUNTIME"); v != "" {
+		ensureSandbox()
+		c.Agents.Defaults.Sandbox.Runtime = v
+	}
+	if v := os.Getenv("ZALOSCLAW_SANDBOX_USERNS"); v != "" {
+		ensureSandbox()
+		c.Agents.Defaults.Sandbox.Userns = v
+	}
+	if v := os.Getenv("ZALOSCLAW_SANDBOX_SECCOMP_PROFILE"); v != "" {
+		ensureSandbox()
+		c.Agents.Defaults.Sandbox.SeccompProfile = v
+	}
+	if v := os.Getenv("ZALOSCLAW_SANDBOX_ULIMIT_NOFILE"); v != "" {
+		ensureSandbox()
+		if n, err := strconv.Atoi(v); err == nil && n > 0 {
+			c.Agents.Defaults.Sandbox.UlimitNofile = n
+		}
+	}
 
 	// Browser (for Docker-compose browser sidecar overlay)
 	envStr("ZALOSCLAW_BROWSER_REMOTE_URL", &c.Tools.Browser.RemoteURL)

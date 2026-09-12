@@ -1,3 +1,16 @@
+# syntax=docker/dockerfile:1
+
+# ── Stage 1: build the Landlock exec launcher ────────────────────────────────
+# Separate Go module (cmd/sandbox-exec) so its go-landlock dependency never
+# touches the gateway module. `go mod tidy` resolves the dependency here.
+FROM golang:1.26-bookworm AS launcher
+WORKDIR /src
+COPY cmd/sandbox-exec/go.mod ./
+COPY cmd/sandbox-exec/main.go ./
+RUN go mod tidy \
+  && CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o /out/zalo-landlock .
+
+# ── Stage 2: sandbox runtime image ───────────────────────────────────────────
 FROM debian:bookworm-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -14,8 +27,11 @@ RUN apt-get update \
     ripgrep \
   && rm -rf /var/lib/apt/lists/*
 
+COPY --from=launcher /out/zalo-landlock /usr/local/bin/zalo-landlock
+
 RUN useradd --create-home --shell /bin/bash sandbox
 USER sandbox
-WORKDIR /home/sandbox
+# Match sandbox.DefaultConfig().Workdir; the tenant workspace is mounted here.
+WORKDIR /workspace
 
 CMD ["sleep", "infinity"]
