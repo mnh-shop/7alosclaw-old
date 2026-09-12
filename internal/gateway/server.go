@@ -221,7 +221,7 @@ func (s *Server) BuildMux() *http.ServeMux {
 
 	// Direct tool invocation
 	if s.tools != nil {
-		toolsHandler := httpapi.NewToolsInvokeHandler(s.tools, s.agentStore, s.cfg.Workspace)
+		toolsHandler := httpapi.NewToolsInvokeHandler(s.tools, s.agentStore, s.cfg.Agents.Defaults.Workspace)
 		mux.Handle("/v1/tools/invoke", toolsHandler)
 	}
 
@@ -1111,7 +1111,7 @@ func StartTestServer(s *Server, ctx context.Context) (addr string, start func())
 	mux.Handle("/v1/responses", responsesHandler)
 
 	if s.tools != nil {
-		toolsHandler := httpapi.NewToolsInvokeHandler(s.tools, s.agentStore, s.cfg.Workspace)
+		toolsHandler := httpapi.NewToolsInvokeHandler(s.tools, s.agentStore, s.cfg.Agents.Defaults.Workspace)
 		mux.Handle("/v1/tools/invoke", toolsHandler)
 	}
 

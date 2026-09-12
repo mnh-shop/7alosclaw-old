@@ -28,7 +28,10 @@ func CheckRuntimeAvailable(ctx context.Context) error {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
-	out, err := exec.CommandContext(ctx, sandboxBinary(), "info", "--format", "{{.ServerVersion}}").CombinedOutput()
+	// No Go-template field: podman >= 5.7 removed `.ServerVersion` from the
+	// `info` report, and `podman info` already exits non-zero when the engine
+	// is unreachable, so the template is unnecessary and version-fragile.
+	out, err := exec.CommandContext(ctx, sandboxBinary(), "info").CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("container runtime (%s) not available: %w (output: %s)", sandboxBinary(), err, strings.TrimSpace(string(out)))
 	}
