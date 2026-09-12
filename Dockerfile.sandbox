@@ -2,7 +2,7 @@
 
 # ── Stage 1: build the Landlock exec launcher ────────────────────────────────
 # Separate Go module (cmd/sandbox-exec) so its go-landlock dependency never
-# touches the gateway module. `go mod tidy` resolves the dependency here.
+# touches the harness module. `go mod tidy` resolves the dependency here.
 FROM golang:1.26-bookworm AS launcher
 WORKDIR /src
 COPY cmd/sandbox-exec/go.mod ./
