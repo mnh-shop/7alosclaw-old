@@ -456,13 +456,19 @@ func (t *ExecTool) Execute(ctx context.Context, args map[string]any) *Result {
 		}
 	}
 
-	// Sandbox routing (sandboxKey from ctx — thread-safe)
+	// Sandbox routing (sandboxKey from ctx — thread-safe).
+	// When a sandbox manager is active, a missing session key MUST fail closed:
+	// falling through to host exec would run the command in the harness process
+	// with the global workspace and secrets (cross-tenant escape).
 	sandboxKey := ToolSandboxKeyFromCtx(ctx)
-	if t.sandboxMgr != nil && sandboxKey != "" {
+	if t.sandboxMgr != nil {
+		if sandboxKey == "" {
+			return ErrorResult("sandbox is enabled but no sandbox session key is present — refusing host execution")
+		}
 		return t.executeInSandbox(ctx, command, cwd, sandboxKey)
 	}
 
-	// Host execution
+	// Host execution (sandbox disabled at the deployment level)
 	return t.executeOnHost(ctx, command, cwd)
 }
 
@@ -673,7 +679,9 @@ func (t *ExecTool) executeInSandbox(ctx context.Context, command, cwd, sandboxKe
 	sb, err := acquireToolSandbox(ctx, t.sandboxMgr, sandboxKey, mountWorkspace)
 	if err != nil {
 		if errors.Is(err, sandbox.ErrSandboxDisabled) {
-			if IsDelegationArtifactRun(ctx) {
+			// Sandbox is enabled at the deployment level; only a master-scope
+			// run may fall back to host (e.g. mode=non-main for the main agent).
+			if IsDelegationArtifactRun(ctx) || !store.IsMasterScope(ctx) {
 				return ErrorResult(delegatedExecSandboxRequiredError)
 			}
 			return t.executeOnHost(ctx, command, cwd)

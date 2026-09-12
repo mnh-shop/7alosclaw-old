@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"net/http"
 
+	"github.com/mnh-shop/7alosclaw/internal/config"
 	"github.com/mnh-shop/7alosclaw/internal/i18n"
 	"github.com/mnh-shop/7alosclaw/internal/permissions"
 	"github.com/mnh-shop/7alosclaw/internal/store"
@@ -13,15 +14,17 @@ import (
 
 // ToolsInvokeHandler handles POST /v1/tools/invoke (direct tool invocation).
 type ToolsInvokeHandler struct {
-	registry   *tools.Registry
-	agentStore store.AgentStore // nil if not configured
+	registry      *tools.Registry
+	agentStore    store.AgentStore // nil if not configured
+	workspaceBase string           // global workspace root, for tenant-scoped sandbox mounts
 }
 
 // NewToolsInvokeHandler creates a handler for the tools invoke endpoint.
-func NewToolsInvokeHandler(registry *tools.Registry, agentStore store.AgentStore) *ToolsInvokeHandler {
+func NewToolsInvokeHandler(registry *tools.Registry, agentStore store.AgentStore, workspaceBase string) *ToolsInvokeHandler {
 	return &ToolsInvokeHandler{
-		registry:   registry,
-		agentStore: agentStore,
+		registry:      registry,
+		agentStore:    agentStore,
+		workspaceBase: workspaceBase,
 	}
 }
 
@@ -125,7 +128,22 @@ func (h *ToolsInvokeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		args["action"] = req.Action
 	}
 
-	result := h.registry.ExecuteWithContext(ctx, req.Tool, args, "http", "api", "direct", "", nil)
+	// Sandbox routing: derive a tenant-scoped session key and mount the tenant
+	// workspace so sandbox-aware tools run in a per-session sandbox instead of
+	// the host. With sandboxing enabled, exec fails closed without these.
+	sessionKey := req.SessionKey
+	if sessionKey == "" {
+		sessionKey = "http:" + store.TenantIDFromContext(ctx).String()
+	}
+	if h.workspaceBase != "" && !store.IsMasterScope(ctx) {
+		ctx = tools.WithToolWorkspace(ctx, config.TenantWorkspace(
+			h.workspaceBase,
+			store.TenantIDFromContext(ctx),
+			store.TenantSlugFromContext(ctx),
+		))
+	}
+
+	result := h.registry.ExecuteWithContext(ctx, req.Tool, args, "http", "api", "direct", sessionKey, nil)
 
 	if result.IsError {
 		writeToolError(w, http.StatusBadRequest, "TOOL_ERROR", result.ForLLM)

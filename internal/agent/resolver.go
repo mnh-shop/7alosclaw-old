@@ -289,9 +289,11 @@ func NewManagedResolver(deps ResolverDeps) ResolverFunc {
 				workspace = config.TenantWorkspace(deps.Workspace, ag.TenantID, tenantSlug)
 			}
 		}
-		// Fallback to global workspace if per-agent workspace is empty
+		// No per-agent workspace: use the tenant-scoped path (never the global
+		// root). TenantWorkspace returns the base for the master tenant and an
+		// id-based path when the slug is momentarily empty.
 		if workspace == "" && deps.Workspace != "" {
-			workspace = deps.Workspace
+			workspace = config.TenantWorkspace(deps.Workspace, ag.TenantID, tenantSlug)
 		}
 		if workspace != "" {
 			if err := os.MkdirAll(workspace, 0755); err != nil {
