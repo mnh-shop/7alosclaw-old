@@ -24,7 +24,7 @@ func TestIssue1034_Bug1_VerifyEmptyBody(t *testing.T) {
 	db := testDB(t)
 	tenantID, _ := seedTenantAgent(t, db)
 
-	pstore := pg.NewPGProviderStore(db, "")
+	pstore := pg.NewPGProviderStore(db, testEncryptionKey)
 	suffix := uuid.NewString()[:8]
 	p := &store.LLMProviderData{
 		Name:         "openai-compat-bug1-" + suffix,
@@ -60,7 +60,7 @@ func TestIssue1034_Bug1_VerifyEmptyBodyACPProvider(t *testing.T) {
 	db := testDB(t)
 	tenantID, _ := seedTenantAgent(t, db)
 
-	pstore := pg.NewPGProviderStore(db, "")
+	pstore := pg.NewPGProviderStore(db, testEncryptionKey)
 	suffix := uuid.NewString()[:8]
 	p := &store.LLMProviderData{
 		Name:         "acp-bug1-" + suffix,
@@ -101,7 +101,7 @@ func TestIssue1034_Bug1_VerifyMalformedBody(t *testing.T) {
 	db := testDB(t)
 	tenantID, _ := seedTenantAgent(t, db)
 
-	pstore := pg.NewPGProviderStore(db, "")
+	pstore := pg.NewPGProviderStore(db, testEncryptionKey)
 	suffix := uuid.NewString()[:8]
 	p := &store.LLMProviderData{
 		Name:         "openai-compat-bug1m-" + suffix,
@@ -138,7 +138,7 @@ func TestIssue1034_Bug2_DeleteProviderWithHeartbeat(t *testing.T) {
 	db := testDB(t)
 	tenantID, agentID := seedTenantAgent(t, db)
 
-	pstore := pg.NewPGProviderStore(db, "")
+	pstore := pg.NewPGProviderStore(db, testEncryptionKey)
 	suffix := uuid.NewString()[:8]
 	p := &store.LLMProviderData{
 		Name:         "openai-compat-bug2-" + suffix,
@@ -194,7 +194,7 @@ func TestIssue1034_Bug2_DeleteProviderCrossTenantIsolation(t *testing.T) {
 	tenantA, _ := seedTenantAgent(t, db)
 	tenantB, agentB := seedTenantAgent(t, db)
 
-	pstore := pg.NewPGProviderStore(db, "")
+	pstore := pg.NewPGProviderStore(db, testEncryptionKey)
 	suffix := uuid.NewString()[:8]
 
 	// Provider lives in tenant B.
@@ -250,7 +250,7 @@ func TestIssue1034_Bug3_DoctorDisplayNameEmpty(t *testing.T) {
 	db := testDB(t)
 	tenantID, _ := seedTenantAgent(t, db)
 
-	pstore := pg.NewPGProviderStore(db, "")
+	pstore := pg.NewPGProviderStore(db, testEncryptionKey)
 	suffix := uuid.NewString()[:8]
 	canonicalName := "openai-compat-ollama-" + suffix
 	p := &store.LLMProviderData{

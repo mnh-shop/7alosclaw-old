@@ -16,16 +16,27 @@ import (
 // PGProviderStore implements store.ProviderStore backed by Postgres.
 type PGProviderStore struct {
 	db     *sql.DB
-	encKey string // AES-256 encryption key for API keys (empty = plain text)
+	encKey string // AES-256 encryption key for API keys
 }
 
 func NewPGProviderStore(db *sql.DB, encryptionKey string) *PGProviderStore {
-	if encryptionKey != "" {
-		slog.Info("provider store: API key encryption enabled")
+	if encryptionKey == "" {
+		// Defense in depth: NewPGStores rejects this at startup for the PG path.
+		// API key writes are rejected by encryptKey rather than stored plaintext.
+		slog.Error("provider store: ZALOSCLAW_ENCRYPTION_KEY not set; API key storage disabled")
 	} else {
-		slog.Warn("provider store: API key encryption disabled (plain text storage)")
+		slog.Info("provider store: API key encryption enabled")
 	}
 	return &PGProviderStore{db: db, encKey: encryptionKey}
+}
+
+// encryptKey encrypts an API key for at-rest storage. It refuses to fall back
+// to plaintext when no encryption key is configured (fail closed).
+func (s *PGProviderStore) encryptKey(apiKey string) (string, error) {
+	if s.encKey == "" {
+		return "", fmt.Errorf("%w: cannot store provider API key in plaintext", ErrEncryptionKeyRequired)
+	}
+	return crypto.Encrypt(apiKey, s.encKey)
 }
 
 func (s *PGProviderStore) CreateProvider(ctx context.Context, p *store.LLMProviderData) error {
@@ -34,8 +45,8 @@ func (s *PGProviderStore) CreateProvider(ctx context.Context, p *store.LLMProvid
 	}
 
 	apiKey := p.APIKey
-	if s.encKey != "" && apiKey != "" {
-		encrypted, err := crypto.Encrypt(apiKey, s.encKey)
+	if apiKey != "" {
+		encrypted, err := s.encryptKey(apiKey)
 		if err != nil {
 			return fmt.Errorf("encrypt api key: %w", err)
 		}
@@ -141,9 +152,9 @@ func (s *PGProviderStore) ListAllProviders(ctx context.Context) ([]store.LLMProv
 }
 
 func (s *PGProviderStore) UpdateProvider(ctx context.Context, id uuid.UUID, updates map[string]any) error {
-	if apiKey, ok := updates["api_key"]; ok && s.encKey != "" {
+	if apiKey, ok := updates["api_key"]; ok {
 		if keyStr, ok := apiKey.(string); ok && keyStr != "" {
-			encrypted, err := crypto.Encrypt(keyStr, s.encKey)
+			encrypted, err := s.encryptKey(keyStr)
 			if err != nil {
 				return fmt.Errorf("encrypt api key: %w", err)
 			}

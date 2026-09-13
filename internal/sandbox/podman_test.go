@@ -152,6 +152,80 @@ func TestFsBridgeResolvePathRejectsWorkspaceEscapes(t *testing.T) {
 	}
 }
 
+func TestWorkspaceInstallEnvRedirectsToWorkspace(t *testing.T) {
+	cfg := Config{WorkspaceAccess: AccessRW, Workdir: "/workspace"}
+	got := workspaceInstallEnv(cfg, "/host/tenant")
+
+	want := map[string]string{
+		"HOME":              "/workspace/.home",
+		"PIP_USER":          "1",
+		"PYTHONUSERBASE":    "/workspace/.home/.local",
+		"NPM_CONFIG_PREFIX": "/workspace/.home/.npm-global",
+		"PATH":              "/workspace/.local/bin:/workspace/.home/.local/bin:/workspace/.home/.npm-global/bin:" + defaultSandboxPath,
+	}
+	if len(got) != len(want) {
+		t.Fatalf("workspaceInstallEnv() = %#v, want %#v", got, want)
+	}
+	for k, v := range want {
+		if got[k] != v {
+			t.Errorf("workspaceInstallEnv()[%q] = %q, want %q", k, got[k], v)
+		}
+	}
+}
+
+func TestWorkspaceInstallEnvSkipsNonWritableWorkspaces(t *testing.T) {
+	tests := []struct {
+		name      string
+		cfg       Config
+		workspace string
+	}{
+		{name: "read-only", cfg: Config{WorkspaceAccess: AccessRO}, workspace: "/host/tenant"},
+		{name: "none", cfg: Config{WorkspaceAccess: AccessNone}, workspace: "/host/tenant"},
+		{name: "no workspace mount", cfg: Config{WorkspaceAccess: AccessRW}},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			if got := workspaceInstallEnv(tc.cfg, tc.workspace); got != nil {
+				t.Fatalf("workspaceInstallEnv() = %#v, want nil", got)
+			}
+		})
+	}
+}
+
+func TestWorkspaceInstallEnvExplicitCallerKeysWin(t *testing.T) {
+	cfg := Config{
+		WorkspaceAccess: AccessRW,
+		Workdir:         "/workspace",
+		Env: map[string]string{
+			"HOME": "/custom/home",
+			"PATH": "/custom/bin",
+		},
+	}
+	got := workspaceInstallEnv(cfg, "/host/tenant")
+
+	if v, ok := got["HOME"]; ok {
+		t.Fatalf("explicit HOME was overridden: %q", v)
+	}
+	if v, ok := got["PATH"]; ok {
+		t.Fatalf("explicit PATH was overridden: %q", v)
+	}
+	if got["PIP_USER"] != "1" {
+		t.Fatalf("non-conflicting key missing: %#v", got)
+	}
+}
+
+func TestWorkspaceInstallEnvUsesContainerPaths(t *testing.T) {
+	cfg := Config{WorkspaceAccess: AccessRW, Workdir: "/workspace/sub"}
+	got := workspaceInstallEnv(cfg, "/host/tenant")
+
+	if got["HOME"] != "/workspace/sub/.home" {
+		t.Fatalf("HOME = %q, want container-joined path", got["HOME"])
+	}
+	if got["PYTHONUSERBASE"] != "/workspace/sub/.home/.local" {
+		t.Fatalf("PYTHONUSERBASE = %q", got["PYTHONUSERBASE"])
+	}
+}
+
 func TestFsBridgePathWithinUsesPathBoundaries(t *testing.T) {
 	tests := []struct {
 		name   string

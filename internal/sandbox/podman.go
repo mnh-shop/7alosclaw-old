@@ -8,10 +8,54 @@ import (
 	"maps"
 	"os"
 	"os/exec"
+	"path"
 	"strings"
 	"sync"
 	"time"
 )
+
+// workspacePersistBins are the tool-bin directories (relative to the container
+// workdir) that user-space installs land in; prepended to PATH on rw workspaces.
+var workspacePersistBins = []string{
+	".local/bin",
+	".home/.local/bin",
+	".home/.npm-global/bin",
+}
+
+// defaultSandboxPath is the PATH shipped by the default sandbox image
+// (debian bookworm-slim). It is used only when the caller set no PATH of their
+// own; container paths use the runtime's PATH as-is otherwise.
+const defaultSandboxPath = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+// workspaceInstallEnv redirects user-space tool installs (pip --user, npm -g)
+// into the read-write workspace mount so they survive sandbox re-creation: the
+// container root is read-only, so the default HOME is not writable. Returns nil
+// unless the workspace is mounted rw. Keys already set in cfg.Env win.
+func workspaceInstallEnv(cfg Config, workspace string) map[string]string {
+	if workspace == "" || cfg.WorkspaceAccess != AccessRW {
+		return nil
+	}
+	workdir := cfg.ContainerWorkdir()
+	home := path.Join(workdir, ".home")
+
+	env := map[string]string{
+		"HOME":              home,
+		"PIP_USER":          "1",
+		"PYTHONUSERBASE":    path.Join(home, ".local"),
+		"NPM_CONFIG_PREFIX": path.Join(home, ".npm-global"),
+	}
+	if _, ok := cfg.Env["PATH"]; !ok {
+		bins := make([]string, 0, len(workspacePersistBins))
+		for _, bin := range workspacePersistBins {
+			bins = append(bins, path.Join(workdir, bin))
+		}
+		env["PATH"] = strings.Join(bins, ":") + ":" + defaultSandboxPath
+	}
+	for k := range cfg.Env {
+		delete(env, k) // explicit caller env wins
+	}
+	return env
+}
 
 // sandboxBinary returns the container runtime CLI used for sandbox containers.
 // Default: podman (rootless, no daemon). Override: ZALOSCLAW_SANDBOX_BINARY.
@@ -154,6 +198,10 @@ func newPodmanSandbox(
 	for k, v := range cfg.Env {
 		args = append(args, "-e", k+"="+v)
 	}
+	// Persist user-space installs in the rw workspace (non-conflicting keys only).
+	for k, v := range workspaceInstallEnv(cfg, workspace) {
+		args = append(args, "-e", k+"="+v)
+	}
 
 	// Image + keep-alive command
 	args = append(args, cfg.Image, "sleep", "infinity")
@@ -181,6 +229,16 @@ func newPodmanSandbox(
 	}
 
 	slog.Info("sandbox container created", "id", containerID, "name", name, "image", cfg.Image)
+
+	// Ensure the persisted HOME root exists before any tool runs. mkdir -p is
+	// idempotent; a failure (e.g. unwritable mount) is logged, never fatal.
+	if persistEnv := workspaceInstallEnv(cfg, workspace); persistEnv != nil {
+		homeDir := persistEnv["HOME"]
+		mkdir := exec.CommandContext(ctx, sandboxBinary(), "exec", containerID, "mkdir", "-p", homeDir)
+		if out, err := mkdir.CombinedOutput(); err != nil {
+			slog.Warn("sandbox persist home create failed", "id", containerID, "dir", homeDir, "error", err, "output", string(out))
+		}
+	}
 
 	// Run optional setup command (matching TS setupCommand)
 	if cfg.SetupCommand != "" {

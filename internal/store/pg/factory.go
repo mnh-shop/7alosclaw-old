@@ -1,14 +1,30 @@
 package pg
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/mnh-shop/7alosclaw/internal/config"
+	"github.com/mnh-shop/7alosclaw/internal/crypto"
 	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
+// ErrEncryptionKeyRequired is returned when the PostgreSQL backend is started
+// without a usable encryption key. The multi-tenant/PG path fails closed:
+// provider API keys and other credentials must never be stored in plaintext.
+var ErrEncryptionKeyRequired = errors.New("postgres backend: ZALOSCLAW_ENCRYPTION_KEY is required")
+
 // NewPGStores creates all stores backed by Postgres.
 func NewPGStores(cfg store.StoreConfig) (*store.Stores, error) {
+	// Fail closed: refusing to start is safer than silently persisting secrets
+	// (provider API keys, tokens) as plaintext in the shared multi-tenant DB.
+	if cfg.EncryptionKey == "" {
+		return nil, fmt.Errorf("%w: refusing to start with plaintext secret storage; set it to a 32-byte key (64 hex chars, 44-char base64, or raw 32 bytes)", ErrEncryptionKeyRequired)
+	}
+	if _, err := crypto.DeriveKey(cfg.EncryptionKey); err != nil {
+		return nil, fmt.Errorf("%w: %v", ErrEncryptionKeyRequired, err)
+	}
+
 	db, err := OpenDB(cfg.PostgresDSN)
 	if err != nil {
 		return nil, fmt.Errorf("open postgres: %w", err)
