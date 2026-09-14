@@ -69,7 +69,7 @@ func (s *PGMCPServerStore) CreateServer(ctx context.Context, srv *store.MCPServe
 const mcpServerSelectCols = `id, name, COALESCE(display_name, '') AS display_name, transport,
 		 COALESCE(command, '') AS command, args, COALESCE(url, '') AS url, headers, env,
 		 COALESCE(api_key, '') AS api_key, COALESCE(tool_prefix, '') AS tool_prefix,
-		 timeout_sec, settings, enabled, require_user_credentials, created_by, created_at, updated_at`
+		 timeout_sec, settings, enabled, require_user_credentials, created_by, created_at, updated_at, tenant_id`
 
 func (s *PGMCPServerStore) GetServer(ctx context.Context, id uuid.UUID) (*store.MCPServerData, error) {
 	q := `SELECT ` + mcpServerSelectCols + ` FROM mcp_servers WHERE id = $1`

@@ -262,10 +262,58 @@ type resolvedServer struct {
 	hasUserCreds bool
 }
 
+// serverTenantAllowed is the fail-closed tenant guard at the MCP connect
+// boundary. Every DB-backed connection funnels through
+// resolveServerCredentials, so this is the single narrow point that sees both
+// the persistent connect path (LoadForAgent → connectAndFilter → pool/per-agent)
+// and the on-demand discovery path (ListToolsForAgent → discoverRawTools).
+//
+// Defence-in-depth: the primary gate remains the tenant-scoped ListAccessible
+// query (scopeClauseAlias on mcp_servers.tenant_id), which cannot return another
+// tenant's server. This guard makes the connect boundary itself fail closed if a
+// future or mis-constructed caller hands it a record that did not come from that
+// query. Query-layer isolation is not replaced or duplicated.
+//
+// IsExplicitMasterScope is used deliberately over IsMasterScope: IsMasterScope
+// treats an unset tenant (uuid.Nil) as master, which would let a lost tenant
+// context resolve to global/root scope. IsExplicitMasterScope requires the owner
+// role or MasterTenantID, so a lost context fails closed. Master-owned servers
+// remain legitimate: the explicit MasterTenantID match keeps them connectable.
+func serverTenantAllowed(ctx context.Context, srv store.MCPServerData) bool {
+	if store.IsExplicitMasterScope(ctx) {
+		return true
+	}
+	caller := store.TenantIDFromContext(ctx)
+	if caller == uuid.Nil {
+		// Lost tenant context — fail closed, never resolve to a global scope.
+		return false
+	}
+	switch srv.TenantID {
+	case uuid.Nil:
+		// Server ownership unknown — fail closed.
+		return false
+	case store.MasterTenantID:
+		// Master-registered servers are legitimate and shared.
+		return true
+	default:
+		return srv.TenantID == caller
+	}
+}
+
 // resolveServerCredentials merges server defaults with per-user credentials.
 // Returns nil if the server should be skipped (disabled or missing required creds).
 func (m *Manager) resolveServerCredentials(ctx context.Context, info store.MCPAccessInfo, userID string) *resolvedServer {
 	srv := info.Server
+	if !serverTenantAllowed(ctx, srv) {
+		slog.Warn("security.mcp.server_cross_tenant_blocked",
+			"server", srv.Name,
+			"server_id", srv.ID,
+			"server_tenant", srv.TenantID,
+			"caller_tenant", store.TenantIDFromContext(ctx),
+			"user", userID,
+		)
+		return nil
+	}
 	if !srv.Enabled {
 		return nil
 	}

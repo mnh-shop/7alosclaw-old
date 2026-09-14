@@ -22,6 +22,14 @@ func (f *fakeOAuthProvider) GetValidToken(_ context.Context, _ uuid.UUID, _ uuid
 	return f.token, f.err
 }
 
+var oauthTestTenantID = uuid.MustParse("11111111-1111-1111-1111-111111111111")
+
+// oauthTestCtx carries a valid tenant: resolveServerCredentials now fails closed
+// without a tenant context (see serverTenantAllowed).
+func oauthTestCtx() context.Context {
+	return store.WithTenantID(context.Background(), oauthTestTenantID)
+}
+
 func oauthAccessInfo(apiKey string) store.MCPAccessInfo {
 	return store.MCPAccessInfo{Server: store.MCPServerData{
 		BaseModel: store.BaseModel{ID: uuid.New()},
@@ -31,6 +39,7 @@ func oauthAccessInfo(apiKey string) store.MCPAccessInfo {
 		APIKey:    apiKey,
 		Enabled:   true,
 		Settings:  json.RawMessage(`{"oauth":{"auth_type":"oauth"}}`),
+		TenantID:  oauthTestTenantID,
 	}}
 }
 
@@ -40,7 +49,7 @@ func TestResolveServerCredentials_OAuthSkipsWithoutToken(t *testing.T) {
 	prov := &fakeOAuthProvider{token: ""}
 	m := &Manager{oauthTokenProvider: prov}
 
-	rs := m.resolveServerCredentials(context.Background(), oauthAccessInfo("shared-server-key"), "")
+	rs := m.resolveServerCredentials(oauthTestCtx(), oauthAccessInfo("shared-server-key"), "")
 	if rs != nil {
 		t.Fatalf("expected nil (skip) for OAuth server without token, got headers=%v", rs.headers)
 	}
@@ -53,7 +62,7 @@ func TestResolveServerCredentials_OAuthSkipsWithoutToken(t *testing.T) {
 func TestResolveServerCredentials_OAuthUsesTokenNotApiKey(t *testing.T) {
 	m := &Manager{oauthTokenProvider: &fakeOAuthProvider{token: "tok-123"}}
 
-	rs := m.resolveServerCredentials(context.Background(), oauthAccessInfo("shared-server-key"), "")
+	rs := m.resolveServerCredentials(oauthTestCtx(), oauthAccessInfo("shared-server-key"), "")
 	if rs == nil {
 		t.Fatal("expected resolved server when token present")
 	}
@@ -66,7 +75,7 @@ func TestResolveServerCredentials_OAuthUsesTokenNotApiKey(t *testing.T) {
 func TestResolveServerCredentials_OAuthNoProviderSkips(t *testing.T) {
 	m := &Manager{} // oauthTokenProvider == nil
 
-	rs := m.resolveServerCredentials(context.Background(), oauthAccessInfo("shared-server-key"), "")
+	rs := m.resolveServerCredentials(oauthTestCtx(), oauthAccessInfo("shared-server-key"), "")
 	if rs != nil {
 		t.Fatal("expected nil (skip) for OAuth server with no provider wired")
 	}
@@ -82,9 +91,10 @@ func TestResolveServerCredentials_NonOAuthUsesApiKey(t *testing.T) {
 		URL:       "http://127.0.0.1:1/mcp",
 		APIKey:    "shared-server-key",
 		Enabled:   true,
+		TenantID:  oauthTestTenantID,
 	}}
 
-	rs := m.resolveServerCredentials(context.Background(), info, "")
+	rs := m.resolveServerCredentials(oauthTestCtx(), info, "")
 	if rs == nil {
 		t.Fatal("expected resolved server for non-OAuth")
 	}

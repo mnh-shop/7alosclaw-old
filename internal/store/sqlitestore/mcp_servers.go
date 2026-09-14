@@ -17,7 +17,7 @@ import (
 )
 
 const mcpServerSelectCols = `id, name, display_name, transport, command, args, url, headers, env,
-		 api_key, tool_prefix, timeout_sec, settings, enabled, require_user_credentials, created_by, created_at, updated_at`
+		 api_key, tool_prefix, timeout_sec, settings, enabled, require_user_credentials, created_by, created_at, updated_at, tenant_id`
 
 // SQLiteMCPServerStore implements store.MCPServerStore backed by SQLite.
 type SQLiteMCPServerStore struct {

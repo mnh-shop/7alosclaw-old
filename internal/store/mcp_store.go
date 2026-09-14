@@ -31,6 +31,9 @@ type MCPServerData struct {
 	// channel factories can filter mcp_servers directly.
 	RequireUserCredentials bool   `json:"require_user_credentials" db:"require_user_credentials"`
 	CreatedBy              string `json:"created_by" db:"created_by"`
+	// TenantID is the owning tenant for connect-boundary isolation checks.
+	// json:"-" keeps it out of API responses (internal isolation metadata).
+	TenantID uuid.UUID `json:"-" db:"tenant_id"`
 }
 
 // MCPAgentGrant represents an MCP server grant to an agent.
