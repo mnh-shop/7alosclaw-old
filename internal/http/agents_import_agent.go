@@ -41,7 +41,7 @@ func (h *AgentsHandler) doImportNewAgent(ctx context.Context, r *http.Request, a
 	// Sandbox containment is a host-security boundary: strip tenant-supplied
 	// sandbox_config from the archive rather than persisting an override that
 	// the update path already refuses.
-	if !store.IsMasterScope(ctx) {
+	if !store.IsExplicitMasterScope(ctx) {
 		if _, ok := arc.agentConfig["sandbox_config"]; ok {
 			slog.Warn("security.agent_sandbox_config_tenant_denied",
 				"source", "import",

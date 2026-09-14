@@ -284,6 +284,22 @@ func (h *AgentsHandler) handleCreate(w http.ResponseWriter, r *http.Request) {
 		req.TenantID = store.TenantIDFromContext(r.Context())
 	}
 
+	// Sandbox containment (network, read-only root, etc.) is a host-security
+	// boundary that only explicit master/owner scope may set at creation — same
+	// rule as PUT /v1/agents/{id}. handleCreate unmarshals the full AgentData
+	// (including sandbox_config), so without this guard a tenant admin could set
+	// containment at creation and bypass the update-path check. Reject rather
+	// than strip for parity with the update path; IsExplicitMasterScope makes a
+	// request with missing tenant context fail closed.
+	if len(req.SandboxConfig) > 0 && !store.IsExplicitMasterScope(r.Context()) {
+		slog.Warn("security.agent_sandbox_config_tenant_denied",
+			"source", "create",
+			"tenant_id", req.TenantID,
+			"user_id", userID)
+		writeError(w, http.StatusForbidden, protocol.ErrUnauthorized, i18n.T(locale, i18n.MsgMasterScopeRequired))
+		return
+	}
+
 	if req.AgentType == "" || req.AgentType == store.AgentTypeOpen {
 		req.AgentType = store.AgentTypePredefined // v3: open agents deprecated, default to predefined
 	}
@@ -450,7 +466,7 @@ func (h *AgentsHandler) handleUpdate(w http.ResponseWriter, r *http.Request) {
 	// Sandbox containment (network, read-only root, etc.) is a host-security
 	// boundary. Tenant admins must not weaken it; only master/owner scope may
 	// set sandbox_config.
-	if _, ok := allowed["sandbox_config"]; ok && !store.IsMasterScope(r.Context()) {
+	if _, ok := allowed["sandbox_config"]; ok && !store.IsExplicitMasterScope(r.Context()) {
 		slog.Warn("security.agent_sandbox_config_tenant_denied",
 			"agent_id", id,
 			"tenant_id", store.TenantIDFromContext(r.Context()),

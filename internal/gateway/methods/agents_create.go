@@ -66,6 +66,17 @@ func (m *AgentsMethods) handleCreate(ctx context.Context, client *gateway.Client
 		return
 	}
 
+	// Sandbox containment (network, read-only root, etc.) is a host-security
+	// boundary that only explicit master/owner scope may set — same rule as
+	// agents.update and PUT /v1/agents/{id}. Reject rather than silently strip:
+	// a tenant attempting to weaken containment must get a visible authorization
+	// error, matching the update path. IsExplicitMasterScope (not IsMasterScope)
+	// so a request that lost its tenant context fails closed.
+	if len(params.SandboxConfig) > 0 && !store.IsExplicitMasterScope(ctx) {
+		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrUnauthorized, i18n.T(locale, i18n.MsgMasterScopeRequired)))
+		return
+	}
+
 	agentType := params.AgentType
 	if agentType == "" || agentType == store.AgentTypeOpen {
 		agentType = store.AgentTypePredefined // v3: open agents deprecated, default to predefined
