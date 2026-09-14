@@ -2,6 +2,7 @@ import type { UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -22,10 +23,20 @@ interface McpSettingsFieldsProps {
   form: UseFormReturn<MCPFormData>;
   /** Pass server id when editing — used to show "existing secret" placeholder. */
   isEditing?: boolean;
+  /** Number of stored env keys (redacted values); 0 hides the stored hint. */
+  storedEnvCount?: number;
+  envCleared?: boolean;
+  onToggleClearEnv?: () => void;
 }
 
 /** Renders env vars, OAuth config, tool prefix, timeout, enabled, requireUserCredentials fields. */
-export function McpSettingsFields({ form, isEditing }: McpSettingsFieldsProps) {
+export function McpSettingsFields({
+  form,
+  isEditing,
+  storedEnvCount = 0,
+  envCleared = false,
+  onToggleClearEnv,
+}: McpSettingsFieldsProps) {
   const { t } = useTranslation("mcp");
   const { watch, setValue } = form;
   const transport = watch("transport");
@@ -55,6 +66,25 @@ export function McpSettingsFields({ form, isEditing }: McpSettingsFieldsProps) {
           addLabel={t("form.addVariable")}
           maskValue={isSensitiveEnv}
         />
+        {isEditing && (
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="text-xs text-muted-foreground">
+              {envCleared
+                ? t("form.secretWillClear")
+                : storedEnvCount > 0
+                  ? t("form.storedSecrets", { count: storedEnvCount })
+                  : t("form.secretsHidden")}
+            </p>
+            <Button
+              type="button"
+              variant={envCleared ? "secondary" : "outline"}
+              size="sm"
+              onClick={onToggleClearEnv}
+            >
+              {envCleared ? t("form.keepSecret") : t("form.clearSecret")}
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* OAuth 2.1 configuration — only for network transports (SSE / Streamable HTTP) */}

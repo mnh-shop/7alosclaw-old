@@ -17,6 +17,7 @@ import { mcpFormSchema, type MCPFormData } from "@/schemas/mcp.schema";
 import { McpConnectionFields } from "./mcp-connection-fields";
 import { McpSettingsFields } from "./mcp-settings-fields";
 import { formatShellArgs, parseShellArgs } from "./mcp-args";
+import { buildSecretFields } from "./mcp-secret-fields";
 
 interface MCPFormDialogProps {
   open: boolean;
@@ -44,6 +45,9 @@ export function MCPFormDialog({ open, onOpenChange, server, onSubmit, onTest, on
   const [error, setError] = useState("");
   // Tracks a server created via handleAuthorize (ADD mode) to prevent duplicate POST on "Create" click.
   const [createdServer, setCreatedServer] = useState<MCPServerData | null>(null);
+  // Explicit "clear stored secrets" intent for the write-only headers/env maps.
+  // Default is keep: an untouched field is omitted from update payloads.
+  const [clearSecret, setClearSecret] = useState({ headers: false, env: false });
 
   const form = useForm<MCPFormData>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -85,6 +89,17 @@ export function MCPFormDialog({ open, onOpenChange, server, onSubmit, onTest, on
   const oauthEnabled = watch("oauthEnabled");
   const isStdio = transport === "stdio";
 
+  // Only headers/env keys survive redaction; values never do. Use the surviving
+  // keys (if any) to tell the user a stored secret exists without revealing it.
+  const storedHeaderCount = server?.headers ? Object.keys(server.headers).length : 0;
+  const storedEnvCount = server?.env ? Object.keys(server.env).length : 0;
+
+  const toggleClearSecret = (field: "headers" | "env") => {
+    const next = !clearSecret[field];
+    if (next) form.setValue(field, {});
+    setClearSecret((prev) => ({ ...prev, [field]: next }));
+  };
+
   useEffect(() => {
     if (open) {
       const oauth = server?.settings?.oauth;
@@ -95,8 +110,10 @@ export function MCPFormDialog({ open, onOpenChange, server, onSubmit, onTest, on
         command: server?.command ?? "",
         args: Array.isArray(server?.args) ? formatShellArgs(server.args) : "",
         url: server?.url ?? "",
-        headers: server?.headers ?? {},
-        env: server?.env ?? {},
+        // headers/env are write-only and redacted from responses — never pre-fill
+        // them, otherwise an untouched save would overwrite the stored secret with "".
+        headers: {},
+        env: {},
         toolPrefix: server?.tool_prefix ?? "",
         timeout: server?.timeout_sec ?? 60,
         enabled: server?.enabled ?? true,
@@ -118,6 +135,7 @@ export function MCPFormDialog({ open, onOpenChange, server, onSubmit, onTest, on
       setError("");
       setTestResult(null);
       setCreatedServer(null);
+      setClearSecret({ headers: false, env: false });
     }
   }, [open, server, reset]);
 
@@ -137,11 +155,10 @@ export function MCPFormDialog({ open, onOpenChange, server, onSubmit, onTest, on
       }
     }
 
-    // Always send the collection fields (even when emptied) so clearing all rows
-    // actually clears them server-side. UpdateServer applies a partial update keyed
-    // by the fields present in the request body — omitting an emptied field would
-    // leave the previous value untouched, making it impossible to delete the last
-    // header/env/arg. stdio servers don't use headers/url; remote servers don't use args.
+    // Connection fields as currently entered. Used by "Test connection" and as the
+    // non-secret base for the save payload. Secret maps (headers/env) are handled
+    // separately by buildSecretFields so an unchanged field is never re-sent.
+    // stdio servers don't use headers/url; remote servers don't use args.
     return {
       transport,
       command: isStdio ? resolvedCommand : undefined,
@@ -185,10 +202,27 @@ export function MCPFormDialog({ open, onOpenChange, server, onSubmit, onTest, on
         ...(data.oauthScope.trim() ? { scope: data.oauthScope.trim() } : {}),
       };
     }
+    const connection = buildConnectionData();
+    const { dirtyFields } = form.formState;
+    const secretFields = buildSecretFields({
+      isEditing: !!server,
+      isStdio,
+      headers: data.headers,
+      env: data.env,
+      headersDirty: !!dirtyFields.headers,
+      envDirty: !!dirtyFields.env,
+      headersCleared: clearSecret.headers,
+      envCleared: clearSecret.env,
+    });
     return {
       name: data.name.trim(),
       display_name: data.displayName.trim() || undefined,
-      ...buildConnectionData(),
+      transport: connection.transport,
+      command: connection.command,
+      args: connection.args,
+      url: connection.url,
+      // Write-only secrets: never resend a redacted/untouched value on update.
+      ...secretFields,
       tool_prefix: data.toolPrefix.trim() || undefined,
       timeout_sec: data.timeout,
       settings,
@@ -291,8 +325,20 @@ export function MCPFormDialog({ open, onOpenChange, server, onSubmit, onTest, on
         </DialogHeader>
 
         <div className="grid gap-4 py-2 -mx-4 px-4 sm:-mx-6 sm:px-6 overflow-y-auto min-h-0">
-          <McpConnectionFields form={form} />
-          <McpSettingsFields form={form} isEditing={!!server} />
+          <McpConnectionFields
+            form={form}
+            isEditing={!!server}
+            storedHeaderCount={storedHeaderCount}
+            headersCleared={clearSecret.headers}
+            onToggleClearHeaders={() => toggleClearSecret("headers")}
+          />
+          <McpSettingsFields
+            form={form}
+            isEditing={!!server}
+            storedEnvCount={storedEnvCount}
+            envCleared={clearSecret.env}
+            onToggleClearEnv={() => toggleClearSecret("env")}
+          />
           {error && <p className="text-sm text-destructive">{error}</p>}
           {Object.keys(form.formState.errors).length > 0 && !error && (
             <p className="text-sm text-destructive">

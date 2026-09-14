@@ -19,10 +19,22 @@ const TRANSPORTS = [
 
 interface McpConnectionFieldsProps {
   form: UseFormReturn<MCPFormData>;
+  /** Editing an existing server — headers are write-only and kept unless replaced. */
+  isEditing?: boolean;
+  /** Number of stored header keys (redacted values); 0 hides the stored hint. */
+  storedHeaderCount?: number;
+  headersCleared?: boolean;
+  onToggleClearHeaders?: () => void;
 }
 
 /** Renders transport selector plus stdio command/args or HTTP url/headers fields. */
-export function McpConnectionFields({ form }: McpConnectionFieldsProps) {
+export function McpConnectionFields({
+  form,
+  isEditing,
+  storedHeaderCount = 0,
+  headersCleared = false,
+  onToggleClearHeaders,
+}: McpConnectionFieldsProps) {
   const { t } = useTranslation("mcp");
   const { register, watch, setValue, formState: { errors } } = form;
   const transport = watch("transport");
@@ -96,6 +108,25 @@ export function McpConnectionFields({ form }: McpConnectionFieldsProps) {
               addLabel={t("form.addHeader")}
               maskValue={isSensitiveHeader}
             />
+            {isEditing && (
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="text-xs text-muted-foreground">
+                  {headersCleared
+                    ? t("form.secretWillClear")
+                    : storedHeaderCount > 0
+                      ? t("form.storedSecrets", { count: storedHeaderCount })
+                      : t("form.secretsHidden")}
+                </p>
+                <Button
+                  type="button"
+                  variant={headersCleared ? "secondary" : "outline"}
+                  size="sm"
+                  onClick={onToggleClearHeaders}
+                >
+                  {headersCleared ? t("form.keepSecret") : t("form.clearSecret")}
+                </Button>
+              </div>
+            )}
           </div>
         </>
       )}
