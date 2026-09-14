@@ -3,6 +3,7 @@ package http
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log/slog"
@@ -113,11 +114,18 @@ func (h *MCPHandler) doMCPImport(ctx context.Context, r io.Reader, userID string
 		if len(srv.Args) > 0 {
 			_ = json.Unmarshal(srv.Args, &args)
 		}
-		if err := mcp.ValidateServerConfig(srv.Transport, srv.Command, args, srv.URL); err != nil {
-			slog.Warn("security.mcp.import_rejected",
-				"name", srv.Name,
-				"reason", err.Error(),
-				"transport", srv.Transport)
+		if err := mcp.ValidateServerConfigForCaller(ctx, srv.Transport, srv.Command, args, srv.URL); err != nil {
+			if errors.Is(err, mcp.ErrStdioMasterScopeRequired) {
+				slog.Warn("security.mcp.stdio_tenant_rejected",
+					"name", srv.Name,
+					"transport", srv.Transport,
+					"reason", err.Error())
+			} else {
+				slog.Warn("security.mcp.import_rejected",
+					"name", srv.Name,
+					"reason", err.Error(),
+					"transport", srv.Transport)
+			}
 			summary.ServersSkipped++
 			continue
 		}

@@ -2,6 +2,7 @@ package http
 
 import (
 	"encoding/json"
+	"errors"
 	"log/slog"
 	"net/http"
 
@@ -32,7 +33,12 @@ func (h *MCPHandler) handleTestConnection(w http.ResponseWriter, r *http.Request
 		writeJSON(w, http.StatusBadRequest, map[string]string{"error": i18n.T(locale, i18n.MsgRequired, "transport")})
 		return
 	}
-	if err := mcpbridge.ValidateServerConfig(req.Transport, req.Command, req.Args, req.URL); err != nil {
+	if err := mcpbridge.ValidateServerConfigForCaller(r.Context(), req.Transport, req.Command, req.Args, req.URL); err != nil {
+		// A stdio scope violation is an authorization failure, not a config error.
+		if errors.Is(err, mcpbridge.ErrStdioMasterScopeRequired) {
+			writeJSON(w, http.StatusForbidden, map[string]string{"error": err.Error()})
+			return
+		}
 		writeJSON(w, http.StatusOK, map[string]any{
 			"success": false,
 			"error":   err.Error(),

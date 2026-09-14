@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"log/slog"
 	"net/http"
 	"strings"
@@ -140,6 +141,31 @@ type mcpServerWithCounts struct {
 	AgentCount int `json:"agent_count"`
 }
 
+// redactMCPServerSecrets clears write-only credential fields before a server is
+// serialized into an API response. api_key/headers/env are accepted on input but
+// must never be echoed back (list, get, or create).
+func redactMCPServerSecrets(srv *store.MCPServerData) {
+	srv.APIKey = ""
+	srv.Headers = nil
+	srv.Env = nil
+}
+
+// writeMCPConfigError writes the HTTP status for a caller-supplied MCP config
+// validation failure. A stdio scope violation is an authorization failure (403);
+// other validation failures stay 400.
+func writeMCPConfigError(w http.ResponseWriter, r *http.Request, transport string, err error) {
+	userID := store.UserIDFromContext(r.Context())
+	slog.Warn("security.mcp.server_rejected",
+		"user_id", userID,
+		"reason", err.Error(),
+		"transport", transport)
+	status := http.StatusBadRequest
+	if errors.Is(err, mcp.ErrStdioMasterScopeRequired) {
+		status = http.StatusForbidden
+	}
+	writeJSON(w, status, map[string]string{"error": err.Error()})
+}
+
 func (h *MCPHandler) handleListServers(w http.ResponseWriter, r *http.Request) {
 	servers, err := h.store.ListServers(r.Context())
 	if err != nil {
@@ -153,6 +179,7 @@ func (h *MCPHandler) handleListServers(w http.ResponseWriter, r *http.Request) {
 	counts, _ := h.store.CountAgentGrantsByServer(r.Context())
 	result := make([]mcpServerWithCounts, len(servers))
 	for i, srv := range servers {
+		redactMCPServerSecrets(&srv)
 		result[i] = mcpServerWithCounts{MCPServerData: srv, AgentCount: counts[srv.ID]}
 	}
 
@@ -184,13 +211,8 @@ func (h *MCPHandler) handleCreateServer(w http.ResponseWriter, r *http.Request) 
 			return
 		}
 	}
-	if err := mcp.ValidateServerConfig(srv.Transport, srv.Command, args, srv.URL); err != nil {
-		userID := store.UserIDFromContext(r.Context())
-		slog.Warn("security.mcp.server_rejected",
-			"user_id", userID,
-			"reason", err.Error(),
-			"transport", srv.Transport)
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": err.Error()})
+	if err := mcp.ValidateServerConfigForCaller(r.Context(), srv.Transport, srv.Command, args, srv.URL); err != nil {
+		writeMCPConfigError(w, r, srv.Transport, err)
 		return
 	}
 
@@ -207,6 +229,7 @@ func (h *MCPHandler) handleCreateServer(w http.ResponseWriter, r *http.Request) 
 
 	h.emitCacheInvalidate()
 	emitAudit(h.msgBus, r, "mcp_server.created", "mcp_server", srv.ID.String())
+	redactMCPServerSecrets(&srv)
 	writeJSON(w, http.StatusCreated, srv)
 }
 
@@ -224,6 +247,7 @@ func (h *MCPHandler) handleGetServer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	redactMCPServerSecrets(srv)
 	writeJSON(w, http.StatusOK, srv)
 }
 
@@ -332,14 +356,8 @@ func (h *MCPHandler) handleUpdateServer(w http.ResponseWriter, r *http.Request) 
 			_ = json.Unmarshal(existingSrv.Args, &args)
 		}
 
-		if err := mcp.ValidateServerConfig(transport, command, args, url); err != nil {
-			userID := store.UserIDFromContext(r.Context())
-			slog.Warn("security.mcp.server_update_rejected",
-				"user_id", userID,
-				"server_id", id,
-				"reason", err.Error(),
-				"transport", transport)
-			writeJSON(w, http.StatusBadRequest, map[string]string{"error": err.Error()})
+		if err := mcp.ValidateServerConfigForCaller(r.Context(), transport, command, args, url); err != nil {
+			writeMCPConfigError(w, r, transport, err)
 			return
 		}
 	}

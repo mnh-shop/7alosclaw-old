@@ -38,6 +38,19 @@ func (h *AgentsHandler) doImportNewAgent(ctx context.Context, r *http.Request, a
 	// Dedup: suffix with -N if key already exists
 	agentKey = h.dedupAgentKey(ctx, agentKey)
 
+	// Sandbox containment is a host-security boundary: strip tenant-supplied
+	// sandbox_config from the archive rather than persisting an override that
+	// the update path already refuses.
+	if !store.IsMasterScope(ctx) {
+		if _, ok := arc.agentConfig["sandbox_config"]; ok {
+			slog.Warn("security.agent_sandbox_config_tenant_denied",
+				"source", "import",
+				"tenant_id", tenantID,
+				"user_id", userID)
+			delete(arc.agentConfig, "sandbox_config")
+		}
+	}
+
 	ag := h.buildAgentFromArchive(arc.agentConfig, agentKey, displayName, tenantID, userID)
 
 	if progressFn != nil {

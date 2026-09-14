@@ -1,6 +1,8 @@
 package mcp
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"net/url"
 	"os"
@@ -10,6 +12,7 @@ import (
 	"sync/atomic"
 
 	"github.com/mnh-shop/7alosclaw/internal/security"
+	"github.com/mnh-shop/7alosclaw/internal/store"
 )
 
 // Allowed commands for stdio transport (basename only).
@@ -464,6 +467,27 @@ func ValidateServerConfig(transport, command string, args []string, url string) 
 	}
 
 	return nil
+}
+
+// ErrStdioMasterScopeRequired is returned when a caller outside master/owner
+// scope attempts to register, import, or test a stdio MCP transport.
+var ErrStdioMasterScopeRequired = errors.New("stdio MCP transport requires master/owner scope")
+
+// ValidateServerConfigForCaller is ValidateServerConfig plus the tenant-scope
+// authorization gate for stdio transports. stdio spawns a caller-controlled
+// process inside the gateway container that inherits the gateway's full
+// environment (platform secrets), so it is an owner/master-only capability.
+//
+// This is the single authorization boundary for caller-supplied MCP server
+// configs: create, update, test-connection, and import all route through it.
+// Internal paths that operate on an already-registered server intentionally
+// keep calling ValidateServerConfig, so master-registered stdio servers remain
+// usable by tenant agents. Non-stdio transports are unaffected.
+func ValidateServerConfigForCaller(ctx context.Context, transport, command string, args []string, url string) error {
+	if transport == "stdio" && !store.IsMasterScope(ctx) {
+		return ErrStdioMasterScopeRequired
+	}
+	return ValidateServerConfig(transport, command, args, url)
 }
 
 // ValidateHeaders validates header values for env: references.

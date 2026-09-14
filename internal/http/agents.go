@@ -447,6 +447,18 @@ func (h *AgentsHandler) handleUpdate(w http.ResponseWriter, r *http.Request) {
 	allowed := filterAllowedKeys(updates, agentAllowedFields)
 	allowed["restrict_to_workspace"] = true
 
+	// Sandbox containment (network, read-only root, etc.) is a host-security
+	// boundary. Tenant admins must not weaken it; only master/owner scope may
+	// set sandbox_config.
+	if _, ok := allowed["sandbox_config"]; ok && !store.IsMasterScope(r.Context()) {
+		slog.Warn("security.agent_sandbox_config_tenant_denied",
+			"agent_id", id,
+			"tenant_id", store.TenantIDFromContext(r.Context()),
+			"user_id", userID)
+		writeError(w, http.StatusForbidden, protocol.ErrUnauthorized, i18n.T(locale, i18n.MsgMasterScopeRequired))
+		return
+	}
+
 	// If agent_key is being changed, enforce the slug format. The router
 	// cache uses `tenantID:agentKey` as its canonical key and splits on the
 	// last colon for exact-segment invalidation — a colon inside agent_key

@@ -70,6 +70,14 @@ func (m *AgentsMethods) handleUpdate(ctx context.Context, client *gateway.Client
 		return
 	}
 
+	// Sandbox containment (network, read-only root, etc.) is a host-security
+	// boundary that only master/owner scope may set — same rule as the HTTP
+	// PUT /v1/agents/{id} handler.
+	if len(params.SandboxConfig) > 0 && !store.IsMasterScope(ctx) {
+		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrUnauthorized, i18n.T(locale, i18n.MsgMasterScopeRequired)))
+		return
+	}
+
 	if m.agentStore != nil {
 		// --- DB-backed: update agent in store ---
 		ag, err := m.agentStore.GetByKey(ctx, params.AgentID)
