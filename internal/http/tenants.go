@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/google/uuid"
 
@@ -96,8 +97,15 @@ func (h *TenantsHandler) handleCreate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := h.tenantStore.CreateTenant(r.Context(), tenant); err != nil {
+		// The slug is unique across all tenants, including archived ones, so a
+		// retry after a decommission collides here. That is a conflict the
+		// caller can act on, not a server fault.
+		if strings.Contains(err.Error(), "duplicate key") || strings.Contains(err.Error(), "23505") {
+			writeJSON(w, http.StatusConflict, map[string]string{"error": i18n.T(locale, i18n.MsgAlreadyExists, "tenant", input.Slug)})
+			return
+		}
 		slog.Error("tenants.create failed", "error", err)
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": i18n.T(locale, i18n.MsgFailedToCreate, "tenant", err.Error())})
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": i18n.T(locale, i18n.MsgFailedToCreate, "tenant", "internal error")})
 		return
 	}
 
