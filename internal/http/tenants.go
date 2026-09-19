@@ -97,9 +97,9 @@ func (h *TenantsHandler) handleCreate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := h.tenantStore.CreateTenant(r.Context(), tenant); err != nil {
-		// The slug is unique across all tenants, including archived ones, so a
-		// retry after a decommission collides here. That is a conflict the
-		// caller can act on, not a server fault.
+		// The slug is unique across all tenants, including archived ones, so
+		// reusing the slug of an archived tenant collides here. That is a
+		// conflict the caller can act on, not a server fault.
 		if strings.Contains(err.Error(), "duplicate key") || strings.Contains(err.Error(), "23505") {
 			writeJSON(w, http.StatusConflict, map[string]string{"error": i18n.T(locale, i18n.MsgAlreadyExists, "tenant", input.Slug)})
 			return
@@ -183,7 +183,7 @@ func (h *TenantsHandler) handleUpdate(w http.ResponseWriter, r *http.Request) {
 
 	if err := h.tenantStore.UpdateTenant(r.Context(), id, updates); err != nil {
 		slog.Error("tenants.update failed", "error", err)
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": i18n.T(locale, i18n.MsgFailedToUpdate, "tenant", err.Error())})
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": i18n.T(locale, i18n.MsgFailedToUpdate, "tenant", "internal error")})
 		return
 	}
 
@@ -256,7 +256,7 @@ func (h *TenantsHandler) handleUsersAdd(w http.ResponseWriter, r *http.Request) 
 
 	if err := h.tenantStore.AddUser(r.Context(), id, input.UserID, input.Role); err != nil {
 		slog.Error("tenants.users.add failed", "error", err)
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": i18n.T(locale, i18n.MsgFailedToCreate, "tenant user", err.Error())})
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": i18n.T(locale, i18n.MsgFailedToCreate, "tenant user", "internal error")})
 		return
 	}
 
@@ -286,7 +286,7 @@ func (h *TenantsHandler) handleUsersRemove(w http.ResponseWriter, r *http.Reques
 
 	if err := h.tenantStore.RemoveUser(r.Context(), id, userID); err != nil {
 		slog.Error("tenants.users.remove failed", "error", err)
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": i18n.T(locale, i18n.MsgFailedToDelete, "tenant user", err.Error())})
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": i18n.T(locale, i18n.MsgFailedToDelete, "tenant user", "internal error")})
 		return
 	}
 
