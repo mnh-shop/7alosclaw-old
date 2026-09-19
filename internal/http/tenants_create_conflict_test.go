@@ -47,6 +47,12 @@ func TestTenantsCreate_DuplicateSlugIsConflict(t *testing.T) {
 			wantBodyContains: slug,
 		},
 		{
+			name:             "SQLite's UNIQUE constraint spelling is also a conflict",
+			createErr:        errors.New("UNIQUE constraint failed: tenants.slug"),
+			wantStatus:       http.StatusConflict,
+			wantBodyContains: slug,
+		},
+		{
 			name:           "generic store error stays a 500 without the raw text",
 			createErr:      errors.New("connection reset"),
 			wantStatus:     http.StatusInternalServerError,

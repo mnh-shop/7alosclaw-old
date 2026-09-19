@@ -61,6 +61,21 @@ func (h *TenantsHandler) handleList(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, map[string]any{"tenants": tenants})
 }
 
+// isDuplicateKey reports whether err is a unique-constraint violation. The
+// three spellings cover pgx, SQLite and the bare SQLSTATE, matching the
+// breadth of internal/gateway/methods/bitrix_portals.go's isDuplicateKeyErr
+// rather than the narrower check in internal/http/agents.go.
+func isDuplicateKey(err error) bool {
+	if err == nil {
+		return false
+	}
+	msg := err.Error()
+	return strings.Contains(msg, "duplicate key") ||
+		strings.Contains(msg, "unique constraint") ||
+		strings.Contains(msg, "UNIQUE constraint") ||
+		strings.Contains(msg, "23505")
+}
+
 func (h *TenantsHandler) handleCreate(w http.ResponseWriter, r *http.Request) {
 	locale := extractLocale(r)
 	if !store.IsOwnerRole(r.Context()) {
@@ -100,7 +115,11 @@ func (h *TenantsHandler) handleCreate(w http.ResponseWriter, r *http.Request) {
 		// The slug is unique across all tenants, including archived ones, so
 		// reusing the slug of an archived tenant collides here. That is a
 		// conflict the caller can act on, not a server fault.
-		if strings.Contains(err.Error(), "duplicate key") || strings.Contains(err.Error(), "23505") {
+		// Three spellings, because the stores differ: pgx says "duplicate key",
+		// SQLite says "UNIQUE constraint failed", and 23505 is the SQLSTATE.
+		// internal/http/agents.go matches only the first two; bitrix_portals.go's
+		// isDuplicateKeyErr matches all three. These belong in one place.
+		if isDuplicateKey(err) {
 			writeJSON(w, http.StatusConflict, map[string]string{"error": i18n.T(locale, i18n.MsgAlreadyExists, "tenant", input.Slug)})
 			return
 		}
