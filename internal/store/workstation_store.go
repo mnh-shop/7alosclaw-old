@@ -82,6 +82,9 @@ func (ws *Workstation) SanitizedView() *SanitizedWorkstation {
 				"port":   m.Port,
 				"user":   m.User,
 				"hasKey": m.PrivateKey != "",
+				"knownHostsFingerprint": m.KnownHostsFingerprint,
+				"hostCaKey":             m.HostCAKey,
+				"allowInsecureHostKey":  m.AllowInsecureHostKey,
 			}
 		}
 	case BackendDocker:
@@ -186,6 +189,25 @@ func ValidateMetadata(backend WorkstationBackend, raw []byte) error {
 	default:
 		return fmt.Errorf("unknown backend: %s", backend)
 	}
+}
+
+// MergeMetadataJSON overlays a JSON-object patch onto existing workstation metadata.
+// Missing keys retain their stored value, including credentials omitted from API views.
+func MergeMetadataJSON(base, patch []byte) ([]byte, error) {
+	merged := map[string]json.RawMessage{}
+	if len(base) > 0 {
+		if err := json.Unmarshal(base, &merged); err != nil {
+			return nil, fmt.Errorf("existing metadata: %w", err)
+		}
+	}
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(patch, &fields); err != nil {
+		return nil, fmt.Errorf("metadata patch: %w", err)
+	}
+	for key, value := range fields {
+		merged[key] = value
+	}
+	return json.Marshal(merged)
 }
 
 // WorkstationStore defines CRUD operations for workstations (tenant-scoped).

@@ -218,7 +218,13 @@ func (m *WorkstationsMethods) handleUpdate(ctx context.Context, client *gateway.
 				i18n.T(locale, i18n.MsgInternalError, err.Error())))
 			return
 		}
-		metaBytes, err := json.Marshal(params.Updates["metadata"])
+		patchBytes, err := json.Marshal(params.Updates["metadata"])
+		if err != nil {
+			client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInvalidRequest,
+				i18n.T(locale, i18n.MsgInvalidMetadataShape, string(current.BackendType), err.Error())))
+			return
+		}
+		metaBytes, err := store.MergeMetadataJSON(current.Metadata, patchBytes)
 		if err != nil {
 			client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInvalidRequest,
 				i18n.T(locale, i18n.MsgInvalidMetadataShape, string(current.BackendType), err.Error())))
@@ -229,6 +235,7 @@ func (m *WorkstationsMethods) handleUpdate(ctx context.Context, client *gateway.
 				i18n.T(locale, i18n.MsgInvalidMetadataShape, string(current.BackendType), err.Error())))
 			return
 		}
+		params.Updates["metadata"] = metaBytes
 	}
 	if err := m.wsStore.Update(ctx, id, params.Updates); err != nil {
 		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal,

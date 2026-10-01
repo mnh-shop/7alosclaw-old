@@ -213,7 +213,13 @@ func (h *WorkstationsHandler) handleUpdate(w http.ResponseWriter, r *http.Reques
 				i18n.T(locale, i18n.MsgInternalError, err.Error()))
 			return
 		}
-		metaBytes, err := json.Marshal(updates["metadata"])
+		patchBytes, err := json.Marshal(updates["metadata"])
+		if err != nil {
+			writeError(w, http.StatusBadRequest, protocol.ErrInvalidRequest,
+				i18n.T(locale, i18n.MsgInvalidMetadataShape, string(current.BackendType), err.Error()))
+			return
+		}
+		metaBytes, err := store.MergeMetadataJSON(current.Metadata, patchBytes)
 		if err != nil {
 			writeError(w, http.StatusBadRequest, protocol.ErrInvalidRequest,
 				i18n.T(locale, i18n.MsgInvalidMetadataShape, string(current.BackendType), err.Error()))
@@ -224,6 +230,7 @@ func (h *WorkstationsHandler) handleUpdate(w http.ResponseWriter, r *http.Reques
 				i18n.T(locale, i18n.MsgInvalidMetadataShape, string(current.BackendType), err.Error()))
 			return
 		}
+		updates["metadata"] = metaBytes
 	}
 	if err := h.wsStore.Update(ctx, id, updates); err != nil {
 		writeError(w, http.StatusInternalServerError, protocol.ErrInternal,
