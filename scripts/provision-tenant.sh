@@ -36,7 +36,8 @@ mkdir -p "$TENANT_DIR"
 chmod 0750 "$TENANT_DIR"
 
 # 2. XFS project quota (kernel-enforced disk cap)
-PROJID=$((10000 + $(awk -F: '{print $2}' /etc/projid 2>/dev/null | sort -n | tail -1)+0 || 10000))
+MAX_PROJID=$(awk -F: '{print $2}' /etc/projid 2>/dev/null | sort -n | tail -1 || true)
+PROJID=$((10000 + ${MAX_PROJID:-0}))
 grep -q "^${SLUG}:" /etc/projid 2>/dev/null || echo "${SLUG}:${PROJID}" >> /etc/projid
 grep -q ":${PROJID}:" /etc/projects 2>/dev/null || echo "${PROJID}:${TENANT_DIR}" >> /etc/projects
 xfs_quota -x -c "project -s ${SLUG}" "$WORKSPACE_ROOT"
