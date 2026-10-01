@@ -182,10 +182,10 @@ func (s *PGAPIKeyStore) Revoke(ctx context.Context, id uuid.UUID, ownerID string
 		args = append(args, ownerID)
 		argIdx++
 	}
-	if !store.IsCrossTenant(ctx) {
+	if !store.IsCrossTenant(ctx) && !store.IsOwnerRole(ctx) {
 		tid := store.TenantIDFromContext(ctx)
 		if tid != uuid.Nil {
-			q += fmt.Sprintf(" AND (tenant_id = $%d OR tenant_id IS NULL)", argIdx)
+			q += fmt.Sprintf(" AND tenant_id = $%d", argIdx)
 			args = append(args, tid)
 		}
 	}
