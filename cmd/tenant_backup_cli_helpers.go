@@ -23,6 +23,10 @@ func openTenantBackupDB(cfg *config.Config) (*sql.DB, error) {
 	if err != nil {
 		return nil, fmt.Errorf("open db: %w", err)
 	}
+	// PGTenantStore reads through the package-global sqlx wrapper, which only
+	// NewPGStores otherwise initialises; without this the caller's GetTenant/
+	// GetTenantBySlug nil-panics.
+	pg.InitSqlx(db)
 	return db, nil
 }
 
