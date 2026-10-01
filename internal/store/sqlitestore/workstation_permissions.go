@@ -26,6 +26,28 @@ func NewSQLiteWorkstationPermissionStore(db *sql.DB) *SQLiteWorkstationPermissio
 
 const sqliteWPSelectCols = `id, workstation_id, tenant_id, pattern, enabled, created_by, created_at`
 
+func (s *SQLiteWorkstationPermissionStore) GetByID(ctx context.Context, id uuid.UUID) (*store.WorkstationPermission, error) {
+	tid := store.TenantIDFromContext(ctx)
+	if tid == uuid.Nil {
+		return nil, fmt.Errorf("tenant_id required")
+	}
+	rows, err := s.db.QueryContext(ctx,
+		`SELECT `+sqliteWPSelectCols+` FROM workstation_permissions WHERE id = ? AND tenant_id = ?`,
+		id.String(), tid.String())
+	if err != nil {
+		return nil, fmt.Errorf("workstation_permissions get: %w", err)
+	}
+	defer rows.Close()
+	perms, err := sqliteScanPermRows(rows)
+	if err != nil {
+		return nil, err
+	}
+	if len(perms) == 0 {
+		return nil, sql.ErrNoRows
+	}
+	return &perms[0], nil
+}
+
 func (s *SQLiteWorkstationPermissionStore) ListForWorkstation(ctx context.Context, workstationID uuid.UUID) ([]store.WorkstationPermission, error) {
 	tid := store.TenantIDFromContext(ctx)
 	if tid == uuid.Nil {
