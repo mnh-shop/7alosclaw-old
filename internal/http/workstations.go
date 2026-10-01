@@ -233,6 +233,11 @@ func (h *WorkstationsHandler) handleUpdate(w http.ResponseWriter, r *http.Reques
 		updates["metadata"] = metaBytes
 	}
 	if err := h.wsStore.Update(ctx, id, updates); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			writeError(w, http.StatusNotFound, protocol.ErrNotFound,
+				i18n.T(locale, i18n.MsgWorkstationNotFound, idStr))
+			return
+		}
 		writeError(w, http.StatusInternalServerError, protocol.ErrInternal,
 			i18n.T(locale, i18n.MsgFailedToUpdate, "workstation", err.Error()))
 		return
@@ -254,6 +259,11 @@ func (h *WorkstationsHandler) handleDelete(w http.ResponseWriter, r *http.Reques
 		return
 	}
 	if err := h.wsStore.Delete(ctx, id); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			writeError(w, http.StatusNotFound, protocol.ErrNotFound,
+				i18n.T(locale, i18n.MsgWorkstationNotFound, idStr))
+			return
+		}
 		writeError(w, http.StatusInternalServerError, protocol.ErrInternal,
 			i18n.T(locale, i18n.MsgFailedToDelete, "workstation", err.Error()))
 		return

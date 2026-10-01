@@ -238,6 +238,11 @@ func (m *WorkstationsMethods) handleUpdate(ctx context.Context, client *gateway.
 		params.Updates["metadata"] = metaBytes
 	}
 	if err := m.wsStore.Update(ctx, id, params.Updates); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrNotFound,
+				i18n.T(locale, i18n.MsgWorkstationNotFound, params.ID)))
+			return
+		}
 		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal,
 			i18n.T(locale, i18n.MsgFailedToUpdate, "workstation", err.Error())))
 		return
@@ -263,6 +268,11 @@ func (m *WorkstationsMethods) handleDelete(ctx context.Context, client *gateway.
 		return
 	}
 	if err := m.wsStore.Delete(ctx, id); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrNotFound,
+				i18n.T(locale, i18n.MsgWorkstationNotFound, params.ID)))
+			return
+		}
 		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal,
 			i18n.T(locale, i18n.MsgFailedToDelete, "workstation", err.Error())))
 		return

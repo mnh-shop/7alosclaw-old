@@ -51,6 +51,9 @@ type Client struct {
 	upgradeURL string
 }
 
+// OutboundForTest exposes the outbound frame channel to in-process handler tests.
+func (c *Client) OutboundForTest() <-chan []byte { return c.send }
+
 func NewClient(conn *websocket.Conn, server *Server, remoteIP string) *Client {
 	return &Client{
 		id:          uuid.NewString(),

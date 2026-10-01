@@ -143,6 +143,31 @@ func execMapUpdateWhereTenant(ctx context.Context, db *sql.DB, table string, upd
 	return err
 }
 
+// execMapUpdateWhereTenantChecked returns sql.ErrNoRows when no tenant-scoped
+// row matched, without changing the silent-success contract of other callers.
+func execMapUpdateWhereTenantChecked(ctx context.Context, db *sql.DB, table string, updates map[string]any, id, tenantID uuid.UUID) error {
+	query, args, err := base.BuildMapUpdateWhereTenant(pgDialect, table, updates, id, tenantID)
+	if err != nil {
+		slog.Warn("security.invalid_column_name", "table", table, "error", err)
+		return err
+	}
+	if query == "" {
+		return nil
+	}
+	res, err := db.ExecContext(ctx, query, args...)
+	if err != nil {
+		return err
+	}
+	n, err := res.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if n == 0 {
+		return sql.ErrNoRows
+	}
+	return nil
+}
+
 // tableHasUpdatedAt returns true if the table has an updated_at column.
 var tableHasUpdatedAt = base.TableHasUpdatedAt
 

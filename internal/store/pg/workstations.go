@@ -213,7 +213,7 @@ func (s *PGWorkstationStore) Update(ctx context.Context, id uuid.UUID, updates m
 	if tid == uuid.Nil {
 		return fmt.Errorf("tenant_id required for update")
 	}
-	return execMapUpdateWhereTenant(ctx, s.db, "workstations", updates, id, tid)
+	return execMapUpdateWhereTenantChecked(ctx, s.db, "workstations", updates, id, tid)
 }
 
 func (s *PGWorkstationStore) SetActive(ctx context.Context, id uuid.UUID, active bool) error {
@@ -225,9 +225,19 @@ func (s *PGWorkstationStore) Delete(ctx context.Context, id uuid.UUID) error {
 	if tid == uuid.Nil {
 		return fmt.Errorf("tenant_id required")
 	}
-	_, err := s.db.ExecContext(ctx,
+	res, err := s.db.ExecContext(ctx,
 		`DELETE FROM workstations WHERE id = $1 AND tenant_id = $2`, id, tid)
-	return err
+	if err != nil {
+		return err
+	}
+	n, err := res.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if n == 0 {
+		return sql.ErrNoRows
+	}
+	return nil
 }
 
 func (s *PGWorkstationStore) scanRow(row *sql.Row) (*store.Workstation, error) {
