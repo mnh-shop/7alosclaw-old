@@ -97,8 +97,10 @@ func TestExecDelegationArtifactUsesSandboxWithManagerAndKey(t *testing.T) {
 	if manager.key != "delegated-session" {
 		t.Fatalf("sandbox manager key = %q, want delegated-session", manager.key)
 	}
-	if got := strings.Join(manager.sandbox.command, " "); got != "sh -c echo sandboxed" {
-		t.Fatalf("sandbox command = %q, want sandbox shell path", got)
+	// executeInSandbox wraps commands with the landlock launcher for
+	// defense-in-depth confinement inside the sandbox container.
+	if got := strings.Join(manager.sandbox.command, " "); got != "zalo-landlock --rw /workspace -- sh -c echo sandboxed" {
+		t.Fatalf("sandbox command = %q, want landlock-wrapped shell path", got)
 	}
 }
 
@@ -154,7 +156,8 @@ func TestExecNonDelegatedSandboxDisabledStillFallsBackToHost(t *testing.T) {
 	}
 	manager := &disabledDelegationSandboxManager{}
 	tool := NewSandboxedExecTool(canonicalWorkspace, true, manager)
-	ctx := WithToolSandboxKey(context.Background(), "ordinary-session")
+	// Host fallback requires explicit master scope (strict tenant boundary).
+	ctx := store.WithTenantID(WithToolSandboxKey(context.Background(), "ordinary-session"), store.MasterTenantID)
 
 	result := tool.Execute(ctx, map[string]any{"command": "echo ordinary-fallback"})
 
@@ -163,6 +166,25 @@ func TestExecNonDelegatedSandboxDisabledStillFallsBackToHost(t *testing.T) {
 	}
 	if !strings.Contains(result.ForLLM, "ordinary-fallback") {
 		t.Fatalf("non-delegated host fallback output = %q", result.ForLLM)
+	}
+}
+
+func TestExecNonDelegatedSandboxDisabledFailsClosedForTenantScope(t *testing.T) {
+	workspace := t.TempDir()
+	canonicalWorkspace, err := filepath.EvalSymlinks(workspace)
+	if err != nil {
+		t.Fatal(err)
+	}
+	manager := &disabledDelegationSandboxManager{}
+	tool := NewSandboxedExecTool(canonicalWorkspace, true, manager)
+	// Tenant-scoped (non-master) runs must never fall back to the host when
+	// the sandbox is disabled — fail closed with the stable sandbox error.
+	ctx := WithToolSandboxKey(WithToolWorkspace(context.Background(), canonicalWorkspace), "tenant-session")
+
+	result := tool.Execute(ctx, map[string]any{"command": "echo tenant-fallback"})
+
+	if !result.IsError || result.ForLLM != delegatedExecSandboxRequiredError {
+		t.Fatalf("tenant-scoped disabled sandbox result = %#v, want stable sandbox-required error", result)
 	}
 }
 
