@@ -47,6 +47,7 @@ func TenantTables() []TableDef {
 		{Name: "llm_providers", Tier: 2, HasTenantID: true},
 		{Name: "hooks", Tier: 2, HasTenantID: true},
 		{Name: "tenant_hook_budget", Tier: 2, HasTenantID: true, OrderBy: "tenant_id"}, // PK tenant_id — no id column
+		{Name: "workstations", Tier: 2, HasTenantID: true},
 
 		// Tier 3: FK to Tier 2
 		{Name: "agent_context_files", Tier: 3, HasTenantID: true},
@@ -73,6 +74,8 @@ func TenantTables() []TableDef {
 		{Name: "mcp_user_grants", Tier: 3, HasTenantID: true},
 		{Name: "mcp_access_requests", Tier: 3, HasTenantID: true},
 		{Name: "mcp_user_credentials", Tier: 3, HasTenantID: true},
+		{Name: "agent_workstation_links", Tier: 3, HasTenantID: true, OrderBy: "agent_id, workstation_id"},
+		{Name: "workstation_permissions", Tier: 3, HasTenantID: true},
 		{Name: "secure_cli_agent_grants", Tier: 3, HasTenantID: true},
 		{Name: "secure_cli_user_credentials", Tier: 3, HasTenantID: true},
 		{Name: "system_configs", Tier: 3, HasTenantID: true, OrderBy: "key"},                        // PK (key, tenant_id) — no id column

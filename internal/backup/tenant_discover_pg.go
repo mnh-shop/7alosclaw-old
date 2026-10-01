@@ -8,6 +8,16 @@ import (
 	"log/slog"
 )
 
+var skippedTenantTables = map[string]bool{
+	"traces": true, "spans": true, "usage_snapshots": true,
+	"activity_logs": true, "embedding_cache": true,
+	"pairing_requests": true, "paired_devices": true,
+	"channel_pending_messages": true, "cron_run_logs": true,
+	"team_user_grants": true,
+	"workstation_activity": true,
+	"hook_executions": true, "webhook_calls": true,
+}
+
 // DiscoverTenantTables queries information_schema for all tables with a tenant_id column.
 // Returns table names as a set. Used to detect unregistered tables at backup time.
 func DiscoverTenantTables(ctx context.Context, db *sql.DB) (map[string]bool, error) {
@@ -46,20 +56,9 @@ func ValidateTableRegistry(ctx context.Context, db *sql.DB) []string {
 		registered[t.Name] = true
 	}
 
-	// Ephemeral tables intentionally excluded from backup
-	skipped := map[string]bool{
-		"traces": true, "spans": true, "usage_snapshots": true,
-		"activity_logs": true, "embedding_cache": true,
-		"pairing_requests": true, "paired_devices": true,
-		"channel_pending_messages": true, "cron_run_logs": true,
-		"team_user_grants": true,
-		// Ephemeral hook/webhook run history — not restored (regenerated at runtime).
-		"hook_executions": true, "webhook_calls": true,
-	}
-
 	var warnings []string
 	for table := range discovered {
-		if !registered[table] && !skipped[table] {
+		if !registered[table] && !skippedTenantTables[table] {
 			warnings = append(warnings, "table "+table+" has tenant_id but is not in backup registry — data will be skipped")
 		}
 	}
