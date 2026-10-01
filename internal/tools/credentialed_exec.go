@@ -727,7 +727,7 @@ func (t *ExecTool) executeCredentialedSandbox(ctx context.Context, absPath strin
 	if err != nil {
 		return ErrorResult(err.Error())
 	}
-	containerCwd, cwdErr := sandboxCwdForHostPath(cwd, mountWorkspace, sandbox.DefaultContainerWorkdir)
+	containerCwd, cwdErr := sandboxCwdForHostPath(cwd, mountWorkspace, sandboxContainerWorkdir(ctx))
 	if cwdErr != nil {
 		return ErrorResult(fmt.Sprintf("credentialed sandbox path mapping: %v", cwdErr))
 	}
@@ -739,8 +739,9 @@ func (t *ExecTool) executeCredentialedSandbox(ctx context.Context, absPath strin
 		return ErrorResult("credentialed exec requires sandbox but sandbox is unavailable: " + err.Error())
 	}
 
-	// Direct exec inside sandbox: [absPath, args...] with env injection
-	command := append([]string{absPath}, args...)
+	// Confine credentialed sandbox commands with the same Landlock launcher as
+	// ordinary sandbox commands; the launcher execs argv directly and inherits env.
+	command := append([]string{"zalo-landlock", "--rw", containerCwd, "--", absPath}, args...)
 	result, err := sb.Exec(ctx, command, containerCwd, sandbox.WithEnv(envMap))
 	if err != nil {
 		return ErrorResult(fmt.Sprintf("credentialed sandbox exec: %v", err))
