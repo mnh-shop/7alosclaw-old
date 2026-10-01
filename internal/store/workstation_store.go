@@ -3,11 +3,16 @@ package store
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"time"
 
 	"github.com/google/uuid"
 )
+
+// ErrAgentDefaultConflict reports a concurrent attempt to make two workstation
+// links the default for the same agent.
+var ErrAgentDefaultConflict = errors.New("agent workstation default conflict")
 
 // SanitizedWorkstation is the safe API view of a Workstation — no secret fields.
 // Used in all HTTP/WS responses to prevent credentials from reaching clients.

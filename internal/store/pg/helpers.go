@@ -12,6 +12,13 @@ import (
 	"github.com/mnh-shop/7alosclaw/internal/store/base"
 )
 
+func isUniqueViolation(err error) bool {
+	if err == nil {
+		return false
+	}
+	return strings.Contains(err.Error(), "23505") || strings.Contains(err.Error(), "duplicate key")
+}
+
 // --- Nullable helpers (delegated to base/) ---
 
 var (
@@ -179,4 +186,3 @@ func scopeClauseAlias(ctx context.Context, startParam int, alias string) (clause
 	clause, args, nextParam = base.BuildScopeClauseAlias(pgDialect, bScope, startParam, alias)
 	return clause, args, nextParam, nil
 }
-

@@ -307,12 +307,19 @@ func (m *WorkstationsMethods) handleLinkAgent(ctx context.Context, client *gatew
 		WorkstationID: wsID,
 		IsDefault:     params.IsDefault,
 	}
-	if err := m.linkStore.Link(ctx, link); err != nil {
+	switch err := m.linkStore.Link(ctx, link); {
+	case err == nil:
+		client.SendResponse(protocol.NewOKResponse(req.ID, map[string]any{"linked": true}))
+	case errors.Is(err, sql.ErrNoRows):
+		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrNotFound,
+			i18n.T(locale, i18n.MsgWorkstationNotFound, params.WorkstationID)))
+	case errors.Is(err, store.ErrAgentDefaultConflict):
+		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrAlreadyExists,
+			i18n.T(locale, i18n.MsgAlreadyExists, "agent_workstation_link", params.AgentID)))
+	default:
 		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal,
 			i18n.T(locale, i18n.MsgFailedToCreate, "agent_workstation_link", err.Error())))
-		return
 	}
-	client.SendResponse(protocol.NewOKResponse(req.ID, map[string]any{"linked": true}))
 }
 
 func (m *WorkstationsMethods) handleUnlinkAgent(ctx context.Context, client *gateway.Client, req *protocol.RequestFrame) {

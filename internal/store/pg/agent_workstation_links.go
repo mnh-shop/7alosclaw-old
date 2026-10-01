@@ -28,13 +28,42 @@ func (s *PGAgentWorkstationLinkStore) Link(ctx context.Context, link *store.Agen
 	}
 	link.TenantID = tid
 	link.CreatedAt = time.Now()
-	_, err := s.db.ExecContext(ctx,
+	tx, err := s.db.BeginTx(ctx, nil)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback() //nolint:errcheck
+
+	var endpointsExist bool
+	if err := tx.QueryRowContext(ctx,
+		`SELECT EXISTS (SELECT 1 FROM agents WHERE id = $1 AND tenant_id = $3)
+		    AND EXISTS (SELECT 1 FROM workstations WHERE id = $2 AND tenant_id = $3)`,
+		link.AgentID, link.WorkstationID, tid,
+	).Scan(&endpointsExist); err != nil {
+		return err
+	}
+	if !endpointsExist {
+		return sql.ErrNoRows
+	}
+	if link.IsDefault {
+		if _, err := tx.ExecContext(ctx,
+			`UPDATE agent_workstation_links SET is_default = FALSE
+			 WHERE agent_id = $1 AND tenant_id = $2 AND is_default = TRUE`, link.AgentID, tid); err != nil {
+			return err
+		}
+	}
+	if _, err := tx.ExecContext(ctx,
 		`INSERT INTO agent_workstation_links (agent_id, workstation_id, tenant_id, is_default, created_at)
 		 VALUES ($1,$2,$3,$4,$5)
-		 ON CONFLICT (agent_id, workstation_id) DO NOTHING`,
+		 ON CONFLICT (agent_id, workstation_id) DO UPDATE SET is_default = EXCLUDED.is_default`,
 		link.AgentID, link.WorkstationID, tid, link.IsDefault, link.CreatedAt,
-	)
-	return err
+	); err != nil {
+		if isUniqueViolation(err) {
+			return store.ErrAgentDefaultConflict
+		}
+		return err
+	}
+	return tx.Commit()
 }
 
 func (s *PGAgentWorkstationLinkStore) Unlink(ctx context.Context, agentID, workstationID uuid.UUID) error {
