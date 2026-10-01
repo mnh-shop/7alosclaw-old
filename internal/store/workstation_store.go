@@ -106,8 +106,8 @@ type AgentWorkstationLink struct {
 
 // SSHMetadata contains SSH-specific connection parameters.
 // Either PrivateKey (inline PEM) or Password must be set for auth.
-// KnownHostsFingerprint is the SHA256 fingerprint of the host's public key (base64).
-// If empty on first connect, TOFU (Trust On First Use) accepts and logs the fingerprint.
+// KnownHostsFingerprint is the expected SHA256 fingerprint of the host's public key.
+// HostCAKey is an SSH CA public key trusted to sign host certificates.
 type SSHMetadata struct {
 	Host     string `json:"host"`
 	Port     int    `json:"port"`
@@ -117,8 +117,11 @@ type SSHMetadata struct {
 	// Password is optional; prefer key-based auth.
 	Password              string `json:"password,omitempty"`
 	// KnownHostsFingerprint is the expected SHA256 fingerprint (e.g. "SHA256:abc...").
-	// Empty → TOFU on first connect; subsequent calls must match.
 	KnownHostsFingerprint string `json:"knownHostsFingerprint,omitempty"`
+	// HostCAKey is an authorized_keys-format SSH CA public key for host certificates.
+	HostCAKey string `json:"hostCaKey,omitempty"`
+	// AllowInsecureHostKey explicitly opts into accepting any host key (development only).
+	AllowInsecureHostKey bool `json:"allowInsecureHostKey,omitempty"`
 	// ConnectTimeoutSec overrides the default 10s TCP dial timeout.
 	ConnectTimeoutSec int `json:"connectTimeoutSec,omitempty"`
 }

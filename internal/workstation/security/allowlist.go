@@ -35,8 +35,9 @@ type allowlistEntry struct {
 
 // AllowlistChecker validates exec requests against a per-workstation binary allowlist.
 // Architecture:
-//   - C1 fix: argv-exec model — cmd is the binary name (argv[0]), not a shell command string.
-//     Shell injection is impossible because the SSH backend never invokes sh -c.
+//   - C1 fix: default-deny on the binary name (argv[0]); the SSH backend sends a
+//     shell command string, so buildCmdString shell-quotes each cmd/arg before
+//     `sh -c` and validateLauncherArgs rejects dangerous command launchers.
 //   - C2 fix: NFKC normalization applied to cmd and each arg before any check.
 //   - Default-deny: if no enabled pattern matches cmd's binary name → deny.
 //   - Cache: allowlist loaded from DB with configurable TTL (default 30s).
@@ -160,10 +161,9 @@ func (c *AllowlistChecker) CheckEnv(ctx context.Context, ws *store.Workstation, 
 //   - Prefix glob:   "python*" matches "python3", "python3.11", "python"
 //   - No catch-all:  "*" alone is rejected as too permissive — returns false
 //
-// This is intentionally simple. Matching only the binary name is safe because:
-//   - Shell injection requires a shell; the SSH backend uses argv exec (no sh -c).
-//   - Argument validation is the remote shell's / OS's responsibility once the
-//     binary is allowed.
+// This is intentionally simple. The SSH backend sends a shell command string;
+// arguments are quoted by buildCmdString, and an allowed binary's arguments are
+// otherwise its own responsibility.
 func MatchAllowedBinary(pattern, binaryName string) bool {
 	// Reject the lone wildcard — it would allow everything including shells.
 	if pattern == "*" {
