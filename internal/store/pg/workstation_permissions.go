@@ -24,6 +24,20 @@ func NewPGWorkstationPermissionStore(db *sql.DB) *PGWorkstationPermissionStore {
 
 const wpSelectCols = `id, workstation_id, tenant_id, pattern, enabled, created_by, created_at`
 
+func (s *PGWorkstationPermissionStore) GetByID(ctx context.Context, id uuid.UUID) (*store.WorkstationPermission, error) {
+	tid := store.TenantIDFromContext(ctx)
+	if tid == uuid.Nil {
+		return nil, fmt.Errorf("tenant_id required")
+	}
+	var p store.WorkstationPermission
+	if err := s.db.QueryRowContext(ctx,
+		`SELECT `+wpSelectCols+` FROM workstation_permissions WHERE id = $1 AND tenant_id = $2`, id, tid,
+	).Scan(&p.ID, &p.WorkstationID, &p.TenantID, &p.Pattern, &p.Enabled, &p.CreatedBy, &p.CreatedAt); err != nil {
+		return nil, err
+	}
+	return &p, nil
+}
+
 func (s *PGWorkstationPermissionStore) ListForWorkstation(ctx context.Context, workstationID uuid.UUID) ([]store.WorkstationPermission, error) {
 	tid := store.TenantIDFromContext(ctx)
 	if tid == uuid.Nil {

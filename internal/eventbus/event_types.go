@@ -143,3 +143,9 @@ type VaultDocUpsertedPayload struct {
 	ContentHash string // SHA-256 of content at write time
 	Workspace   string // absolute workspace path for file reading
 }
+
+// WorkstationChangedPayload carries a workstation ID without using SourceID,
+// which is deduplicated by the event bus.
+type WorkstationChangedPayload struct {
+	WorkstationID string
+}

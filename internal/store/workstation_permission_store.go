@@ -26,6 +26,7 @@ type WorkstationPermission struct {
 // WorkstationPermissionStore manages per-workstation binary allowlist entries.
 // All queries are tenant-scoped; never cross-tenant reads/writes.
 type WorkstationPermissionStore interface {
+	GetByID(ctx context.Context, id uuid.UUID) (*WorkstationPermission, error)
 	// ListForWorkstation returns all entries for the given workstation (any enabled state).
 	// Caller must filter by enabled if needed.
 	ListForWorkstation(ctx context.Context, workstationID uuid.UUID) ([]WorkstationPermission, error)

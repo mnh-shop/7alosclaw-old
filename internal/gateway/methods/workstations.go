@@ -8,6 +8,7 @@ import (
 
 	"github.com/google/uuid"
 
+	"github.com/mnh-shop/7alosclaw/internal/eventbus"
 	"github.com/mnh-shop/7alosclaw/internal/gateway"
 	"github.com/mnh-shop/7alosclaw/internal/i18n"
 	"github.com/mnh-shop/7alosclaw/internal/permissions"
@@ -23,7 +24,10 @@ type WorkstationsMethods struct {
 	linkStore     store.AgentWorkstationLinkStore
 	permStore     store.WorkstationPermissionStore     // may be nil if Phase 6 not wired
 	activityStore store.WorkstationActivityStore       // may be nil if Phase 7 not wired
+	domainBus     eventbus.DomainEventBus
 }
+
+func (m *WorkstationsMethods) SetDomainBus(bus eventbus.DomainEventBus) { m.domainBus = bus }
 
 // NewWorkstationsMethods creates WorkstationsMethods with the given stores.
 func NewWorkstationsMethods(wsStore store.WorkstationStore, linkStore store.AgentWorkstationLinkStore) *WorkstationsMethods {
@@ -178,6 +182,7 @@ func (m *WorkstationsMethods) handleCreate(ctx context.Context, client *gateway.
 			i18n.T(locale, i18n.MsgFailedToCreate, "workstation", err.Error())))
 		return
 	}
+	workstation.PublishWorkstationEvent(ctx, m.domainBus, eventbus.EventWorkstationUpdated, ws.ID)
 	client.SendResponse(protocol.NewOKResponse(req.ID, map[string]any{"workstation": ws.SanitizedView()}))
 }
 
@@ -247,6 +252,7 @@ func (m *WorkstationsMethods) handleUpdate(ctx context.Context, client *gateway.
 			i18n.T(locale, i18n.MsgFailedToUpdate, "workstation", err.Error())))
 		return
 	}
+	workstation.PublishWorkstationEvent(ctx, m.domainBus, eventbus.EventWorkstationUpdated, id)
 	client.SendResponse(protocol.NewOKResponse(req.ID, map[string]any{"id": id}))
 }
 
@@ -277,6 +283,7 @@ func (m *WorkstationsMethods) handleDelete(ctx context.Context, client *gateway.
 			i18n.T(locale, i18n.MsgFailedToDelete, "workstation", err.Error())))
 		return
 	}
+	workstation.PublishWorkstationEvent(ctx, m.domainBus, eventbus.EventWorkstationDeleted, id)
 	client.SendResponse(protocol.NewOKResponse(req.ID, map[string]any{"id": id}))
 }
 
@@ -466,6 +473,7 @@ func (m *WorkstationsMethods) handlePermAdd(ctx context.Context, client *gateway
 			i18n.T(locale, i18n.MsgFailedToCreate, "permission", err.Error())))
 		return
 	}
+	workstation.PublishWorkstationEvent(ctx, m.domainBus, eventbus.EventWorkstationPermChanged, wsID)
 	client.SendResponse(protocol.NewOKResponse(req.ID, map[string]any{"permission": perm}))
 }
 
@@ -489,6 +497,15 @@ func (m *WorkstationsMethods) handlePermRemove(ctx context.Context, client *gate
 			i18n.T(locale, i18n.MsgInvalidID, "permission")))
 		return
 	}
+	perm, err := m.permStore.GetByID(ctx, id)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrNotFound, i18n.T(locale, i18n.MsgWorkstationPermNotFound, params.ID)))
+			return
+		}
+		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal, i18n.T(locale, i18n.MsgInternalError, err.Error())))
+		return
+	}
 	if err := m.permStore.Remove(ctx, id); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrNotFound,
@@ -499,6 +516,7 @@ func (m *WorkstationsMethods) handlePermRemove(ctx context.Context, client *gate
 			i18n.T(locale, i18n.MsgFailedToDelete, "permission", err.Error())))
 		return
 	}
+	workstation.PublishWorkstationEvent(ctx, m.domainBus, eventbus.EventWorkstationPermChanged, perm.WorkstationID)
 	client.SendResponse(protocol.NewOKResponse(req.ID, map[string]any{"id": id}))
 }
 
@@ -523,11 +541,21 @@ func (m *WorkstationsMethods) handlePermToggle(ctx context.Context, client *gate
 			i18n.T(locale, i18n.MsgInvalidID, "permission")))
 		return
 	}
+	perm, err := m.permStore.GetByID(ctx, id)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrNotFound, i18n.T(locale, i18n.MsgWorkstationPermNotFound, params.ID)))
+			return
+		}
+		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal, i18n.T(locale, i18n.MsgInternalError, err.Error())))
+		return
+	}
 	if err := m.permStore.SetEnabled(ctx, id, params.Enabled); err != nil {
 		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal,
 			i18n.T(locale, i18n.MsgFailedToUpdate, "permission", err.Error())))
 		return
 	}
+	workstation.PublishWorkstationEvent(ctx, m.domainBus, eventbus.EventWorkstationPermChanged, perm.WorkstationID)
 	client.SendResponse(protocol.NewOKResponse(req.ID, map[string]any{"id": id, "enabled": params.Enabled}))
 }
 

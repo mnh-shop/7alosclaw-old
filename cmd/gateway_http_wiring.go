@@ -383,6 +383,7 @@ func (d *gatewayDeps) wireHTTPHandlersOnServer(
 				d.pgStores.WorkstationLinks,
 				d.pgStores.Tenants,
 			)
+			wsH.SetDomainBus(d.domainBus)
 			if d.pgStores.WorkstationPermissions != nil {
 				wsH.SetPermStore(d.pgStores.WorkstationPermissions)
 			}

@@ -8,7 +8,6 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/mnh-shop/7alosclaw/internal/bus"
 	"github.com/mnh-shop/7alosclaw/internal/config"
 	"github.com/mnh-shop/7alosclaw/internal/edition"
@@ -215,6 +214,7 @@ func wireWorkstationTools(
 	}
 
 	backendCache := workstation.NewBackendCache(pgStores.Workstations, 10*time.Minute)
+	var allowlistChecker *security.AllowlistChecker
 
 	workstationExecTool := tools.NewWorkstationExecTool(
 		pgStores.Workstations,
@@ -226,7 +226,7 @@ func wireWorkstationTools(
 
 	// Phase 6: wire real permission checker (AllowlistChecker + rate limiter).
 	if pgStores.WorkstationPermissions != nil {
-		allowlistChecker := security.NewAllowlistChecker(pgStores.WorkstationPermissions, 30*time.Second)
+		allowlistChecker = security.NewAllowlistChecker(pgStores.WorkstationPermissions, 30*time.Second)
 		rateLimiter := security.NewWorkstationRateLimiter()
 
 		workstationExecTool.SetPermCheck(func(ctx context.Context, ws *store.Workstation, cmd string, args []string, env map[string]string) error {
@@ -245,16 +245,6 @@ func wireWorkstationTools(
 		})
 		slog.Info("workstation tools registered (Standard edition; Phase 6 AllowlistChecker active)")
 
-		// Invalidate allowlist cache on permission changes.
-		if domainBus != nil {
-			domainBus.Subscribe(eventbus.EventWorkstationPermChanged, func(_ context.Context, e eventbus.DomainEvent) error {
-				if id, err := uuid.Parse(e.SourceID); err == nil {
-					allowlistChecker.Invalidate(id)
-					slog.Debug("workstation allowlist cache invalidated", "workstation_id", id)
-				}
-				return nil
-			})
-		}
 	} else {
 		slog.Warn("workstation tools registered with deny-all: WorkstationPermissions store not initialised")
 	}
@@ -262,32 +252,19 @@ func wireWorkstationTools(
 	toolsReg.Register(workstationExecTool)
 	toolsReg.Register(claudeRemoteTool)
 
-	// Subscribe to workstation update/delete events to evict stale BackendCache entries.
+	stopInvalidations := workstation.SubscribeWorkstationInvalidations(domainBus, backendCache, allowlistChecker)
 	if domainBus != nil {
-		domainBus.Subscribe(eventbus.EventWorkstationUpdated, func(_ context.Context, e eventbus.DomainEvent) error {
-			if id, err := uuid.Parse(e.SourceID); err == nil {
-				backendCache.Invalidate(id)
-				slog.Debug("workstation backend cache invalidated on update", "workstation_id", id)
-			}
-			return nil
-		})
-		domainBus.Subscribe(eventbus.EventWorkstationDeleted, func(_ context.Context, e eventbus.DomainEvent) error {
-			if id, err := uuid.Parse(e.SourceID); err == nil {
-				backendCache.Invalidate(id)
-				slog.Debug("workstation backend cache invalidated on delete", "workstation_id", id)
-			}
-			return nil
-		})
 
 		// Phase 7: wire activity audit sink (persists exec done events + nightly prune).
 		if pgStores.WorkstationActivity != nil {
 			stopSink := workstation.WireActivitySink(domainBus, pgStores.WorkstationActivity)
 			slog.Info("workstation activity audit sink registered")
 			return func() {
+				stopInvalidations()
 				stopSink()
 				pgStores.WorkstationActivity.Stop()
 			}
 		}
 	}
-	return func() {}
+	return stopInvalidations
 }
