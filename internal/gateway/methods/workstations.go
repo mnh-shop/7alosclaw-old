@@ -111,13 +111,7 @@ func (m *WorkstationsMethods) handleGet(ctx context.Context, client *gateway.Cli
 	}
 	ws, err := m.wsStore.GetByID(ctx, id)
 	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrNotFound,
-				i18n.T(locale, i18n.MsgWorkstationNotFound, params.ID)))
-			return
-		}
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal,
-			i18n.T(locale, i18n.MsgInternalError, err.Error())))
+		respondStoreError(ctx, client, req, "workstation", params.ID, err)
 		return
 	}
 	client.SendResponse(protocol.NewOKResponse(req.ID, map[string]any{"workstation": ws.SanitizedView()}))
@@ -178,8 +172,7 @@ func (m *WorkstationsMethods) handleCreate(ctx context.Context, client *gateway.
 		CreatedBy:      client.UserID(),
 	}
 	if err := m.wsStore.Create(ctx, ws); err != nil {
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInvalidRequest,
-			i18n.T(locale, i18n.MsgFailedToCreate, "workstation", err.Error())))
+		respondStoreError(ctx, client, req, "workstation", "", err)
 		return
 	}
 	workstation.PublishWorkstationEvent(ctx, m.domainBus, eventbus.EventWorkstationUpdated, ws.ID)
@@ -214,13 +207,7 @@ func (m *WorkstationsMethods) handleUpdate(ctx context.Context, client *gateway.
 	if _, hasMetadata := params.Updates["metadata"]; hasMetadata {
 		current, err := m.wsStore.GetByID(ctx, id)
 		if err != nil {
-			if errors.Is(err, sql.ErrNoRows) {
-				client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrNotFound,
-					i18n.T(locale, i18n.MsgWorkstationNotFound, params.ID)))
-				return
-			}
-			client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal,
-				i18n.T(locale, i18n.MsgInternalError, err.Error())))
+			respondStoreError(ctx, client, req, "workstation", params.ID, err)
 			return
 		}
 		patchBytes, err := json.Marshal(params.Updates["metadata"])
@@ -243,13 +230,7 @@ func (m *WorkstationsMethods) handleUpdate(ctx context.Context, client *gateway.
 		params.Updates["metadata"] = metaBytes
 	}
 	if err := m.wsStore.Update(ctx, id, params.Updates); err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrNotFound,
-				i18n.T(locale, i18n.MsgWorkstationNotFound, params.ID)))
-			return
-		}
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal,
-			i18n.T(locale, i18n.MsgFailedToUpdate, "workstation", err.Error())))
+		respondStoreError(ctx, client, req, "workstation", params.ID, err)
 		return
 	}
 	workstation.PublishWorkstationEvent(ctx, m.domainBus, eventbus.EventWorkstationUpdated, id)
@@ -274,24 +255,47 @@ func (m *WorkstationsMethods) handleDelete(ctx context.Context, client *gateway.
 		return
 	}
 	if err := m.wsStore.Delete(ctx, id); err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrNotFound,
-				i18n.T(locale, i18n.MsgWorkstationNotFound, params.ID)))
-			return
-		}
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal,
-			i18n.T(locale, i18n.MsgFailedToDelete, "workstation", err.Error())))
+		respondStoreError(ctx, client, req, "workstation", params.ID, err)
 		return
 	}
 	workstation.PublishWorkstationEvent(ctx, m.domainBus, eventbus.EventWorkstationDeleted, id)
 	client.SendResponse(protocol.NewOKResponse(req.ID, map[string]any{"id": id}))
 }
 
-// handleTestConnection is a stub — real implementation in Phase 2/3.
 func (m *WorkstationsMethods) handleTestConnection(ctx context.Context, client *gateway.Client, req *protocol.RequestFrame) {
 	locale := store.LocaleFromContext(ctx)
-	client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrNotImplemented,
-		i18n.T(locale, i18n.MsgNotImplemented, "workstations.testConnection")))
+	var params struct {
+		ID string `json:"id"`
+	}
+	if req.Params != nil {
+		if err := json.Unmarshal(req.Params, &params); err != nil {
+			client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInvalidRequest, "invalid params"))
+			return
+		}
+	}
+	id, err := uuid.Parse(params.ID)
+	if err != nil {
+		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInvalidRequest,
+			i18n.T(locale, i18n.MsgInvalidID, "workstation")))
+		return
+	}
+	// Resolve within the caller's tenant. GetByID scopes by tenant_id, so an
+	// unknown or cross-tenant id is indistinguishable here and answers
+	// NOT_FOUND before any probe runs against someone else's host.
+	ws, err := m.wsStore.GetByID(ctx, id)
+	if err != nil {
+		respondStoreError(ctx, client, req, "workstation", params.ID, err)
+		return
+	}
+	res, err := workstation.TestConnection(ctx, ws)
+	if err != nil {
+		// Diagnostic call: surface the backend's sanitized failure text so the
+		// operator can act. Backends phrase it "<backend>[<key>]: ..." and never
+		// include key material or passwords (see backends/container.go).
+		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal, err.Error()))
+		return
+	}
+	client.SendResponse(protocol.NewOKResponse(req.ID, res))
 }
 
 func (m *WorkstationsMethods) handleLinkAgent(ctx context.Context, client *gateway.Client, req *protocol.RequestFrame) {
@@ -334,8 +338,7 @@ func (m *WorkstationsMethods) handleLinkAgent(ctx context.Context, client *gatew
 		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrAlreadyExists,
 			i18n.T(locale, i18n.MsgAlreadyExists, "agent_workstation_link", params.AgentID)))
 	default:
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal,
-			i18n.T(locale, i18n.MsgFailedToCreate, "agent_workstation_link", err.Error())))
+		respondStoreError(ctx, client, req, "agent_workstation_link", params.WorkstationID, err)
 	}
 }
 
@@ -364,8 +367,7 @@ func (m *WorkstationsMethods) handleUnlinkAgent(ctx context.Context, client *gat
 		return
 	}
 	if err := m.linkStore.Unlink(ctx, agentID, wsID); err != nil {
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal,
-			i18n.T(locale, i18n.MsgFailedToDelete, "agent_workstation_link", err.Error())))
+		respondStoreError(ctx, client, req, "agent_workstation_link", params.WorkstationID, err)
 		return
 	}
 	client.SendResponse(protocol.NewOKResponse(req.ID, map[string]any{"unlinked": true}))

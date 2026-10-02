@@ -73,6 +73,15 @@ func (b *SSHBackend) HealthCheck(ctx context.Context) error {
 
 // OpenSession borrows a pooled *ssh.Client and returns an SSHSession.
 // The caller must call session.Close to return the client to the pool.
+// TestConnection reports the SSH transport is healthy. It has no runtime or
+// image to resolve.
+func (b *SSHBackend) TestConnection(ctx context.Context) (*workstation.ConnectionTestResult, error) {
+	if err := b.HealthCheck(ctx); err != nil {
+		return nil, err
+	}
+	return &workstation.ConnectionTestResult{Backend: b.Name(), Message: "ok"}, nil
+}
+
 func (b *SSHBackend) OpenSession(ctx context.Context, sessionID string) (workstation.Session, error) {
 	client, release, err := b.pool.Get(ctx, b.ws, b.meta, b.keyMaterial)
 	if err != nil {

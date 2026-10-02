@@ -122,9 +122,7 @@ func (m *HookMethods) handleList(ctx context.Context, client *gateway.Client, re
 
 	list, err := m.store.List(ctx, filter)
 	if err != nil {
-		locale := store.LocaleFromContext(ctx)
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInvalidRequest,
-			i18n.T(locale, i18n.MsgFailedToList, "hooks")+": "+err.Error()))
+		respondStoreError(ctx, client, req, "hooks", "", err)
 		return
 	}
 	client.SendResponse(protocol.NewOKResponse(req.ID, map[string]any{"hooks": list}))
@@ -166,8 +164,7 @@ func (m *HookMethods) handleCreate(ctx context.Context, client *gateway.Client, 
 
 	id, err := m.store.Create(ctx, *cfg)
 	if err != nil {
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInvalidRequest,
-			i18n.T(locale, i18n.MsgFailedToCreate, "hook", err.Error())))
+		respondStoreError(ctx, client, req, "hook", "", err)
 		return
 	}
 	client.SendResponse(protocol.NewOKResponse(req.ID, map[string]any{"hookId": id.String()}))
@@ -209,8 +206,12 @@ func (m *HookMethods) handleUpdate(ctx context.Context, client *gateway.Client, 
 	// Without this, admin-role callers could bypass edition gate, timeout
 	// bounds, and prompt matcher/template invariants (C3 fix).
 	current, err := m.store.GetByID(ctx, id)
-	if err != nil || current == nil {
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInvalidRequest,
+	if err != nil {
+		respondStoreError(ctx, client, req, "hook", params.HookID, err)
+		return
+	}
+	if current == nil {
+		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrNotFound,
 			i18n.T(locale, i18n.MsgNotFound, "hook", params.HookID)))
 		return
 	}
@@ -226,8 +227,7 @@ func (m *HookMethods) handleUpdate(ctx context.Context, client *gateway.Client, 
 				i18n.T(locale, i18n.MsgHookBuiltinReadOnly)))
 			return
 		}
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInvalidRequest,
-			i18n.T(locale, i18n.MsgFailedToUpdate, "hook", err.Error())))
+		respondStoreError(ctx, client, req, "hook", id.String(), err)
 		return
 	}
 	client.SendResponse(protocol.NewOKResponse(req.ID, map[string]any{"hookId": id.String()}))
@@ -317,8 +317,7 @@ func (m *HookMethods) handleDelete(ctx context.Context, client *gateway.Client, 
 				i18n.T(locale, i18n.MsgHookBuiltinReadOnly)))
 			return
 		}
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInvalidRequest,
-			i18n.T(locale, i18n.MsgFailedToDelete, "hook", err.Error())))
+		respondStoreError(ctx, client, req, "hook", params.HookID, err)
 		return
 	}
 	client.SendResponse(protocol.NewOKResponse(req.ID, map[string]any{"hookId": id.String()}))
@@ -340,8 +339,7 @@ func (m *HookMethods) handleToggle(ctx context.Context, client *gateway.Client, 
 		return
 	}
 	if err := m.store.Update(ctx, id, map[string]any{"enabled": params.Enabled}); err != nil {
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInvalidRequest,
-			i18n.T(locale, i18n.MsgFailedToUpdate, "hook", err.Error())))
+		respondStoreError(ctx, client, req, "hook", params.HookID, err)
 		return
 	}
 	client.SendResponse(protocol.NewOKResponse(req.ID, map[string]any{

@@ -3,7 +3,6 @@ package methods
 import (
 	"context"
 	"encoding/json"
-	"log/slog"
 
 	"github.com/google/uuid"
 
@@ -47,7 +46,7 @@ func (m *TeamsMethods) handleGet(ctx context.Context, client *gateway.Client, re
 
 	team, err := m.teamStore.GetTeam(ctx, teamID)
 	if err != nil {
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal, err.Error()))
+		respondStoreError(ctx, client, req, "team", params.TeamID, err)
 		return
 	}
 
@@ -62,7 +61,7 @@ func (m *TeamsMethods) handleGet(ctx context.Context, client *gateway.Client, re
 
 	members, err := m.teamStore.ListMembers(ctx, teamID)
 	if err != nil {
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal, err.Error()))
+		respondStoreError(ctx, client, req, "team members", params.TeamID, err)
 		return
 	}
 
@@ -116,7 +115,7 @@ func (m *TeamsMethods) handleDelete(ctx context.Context, client *gateway.Client,
 	members, _ := m.teamStore.ListMembers(ctx, teamID)
 
 	if err := m.teamStore.DeleteTeam(ctx, teamID); err != nil {
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal, i18n.T(locale, i18n.MsgFailedToDelete, "team", err.Error())))
+		respondStoreError(ctx, client, req, "team", params.TeamID, err)
 		return
 	}
 
@@ -178,8 +177,7 @@ func (m *TeamsMethods) handleTaskList(ctx context.Context, client *gateway.Clien
 	const dashboardLimit = 200
 	tasks, err := m.teamStore.ListTasks(ctx, teamID, "newest", params.Status, "", params.Channel, params.ChatID, dashboardLimit, 0)
 	if err != nil {
-		slog.Warn("teams.tasks.list failed", "team_id", teamID, "status_filter", params.Status, "error", err)
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal, err.Error()))
+		respondStoreError(ctx, client, req, "tasks", params.TeamID, err)
 		return
 	}
 
@@ -218,8 +216,7 @@ func (m *TeamsMethods) handleTaskActiveBySession(ctx context.Context, client *ga
 
 	tasks, err := m.teamStore.ListActiveTasksByChatID(ctx, params.SessionKey)
 	if err != nil {
-		slog.Warn("teams.tasks.active-by-session failed", "session_key", params.SessionKey, "error", err)
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal, err.Error()))
+		respondStoreError(ctx, client, req, "tasks", params.SessionKey, err)
 		return
 	}
 
@@ -293,7 +290,7 @@ func (m *TeamsMethods) handleUpdate(ctx context.Context, client *gateway.Client,
 	// Validate team exists
 	team, err := m.teamStore.GetTeam(ctx, teamID)
 	if err != nil {
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal, i18n.T(locale, i18n.MsgNotFound, "team", err.Error())))
+		respondStoreError(ctx, client, req, "team", params.TeamID, err)
 		return
 	}
 
@@ -359,7 +356,7 @@ func (m *TeamsMethods) handleUpdate(ctx context.Context, client *gateway.Client,
 		return
 	}
 	if err := m.teamStore.UpdateTeam(ctx, teamID, updates); err != nil {
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal, i18n.T(locale, i18n.MsgFailedToUpdate, "team", err.Error())))
+		respondStoreError(ctx, client, req, "team", params.TeamID, err)
 		return
 	}
 
@@ -417,7 +414,7 @@ func (m *TeamsMethods) handleKnownUsers(ctx context.Context, client *gateway.Cli
 
 	users, err := m.teamStore.KnownUserIDs(ctx, teamID, 100)
 	if err != nil {
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal, err.Error()))
+		respondStoreError(ctx, client, req, "users", params.TeamID, err)
 		return
 	}
 
@@ -458,8 +455,7 @@ func (m *TeamsMethods) handleScopes(ctx context.Context, client *gateway.Client,
 
 	scopes, err := m.teamStore.ListTaskScopes(ctx, teamID)
 	if err != nil {
-		slog.Warn("teams.scopes failed", "team_id", teamID, "error", err)
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal, err.Error()))
+		respondStoreError(ctx, client, req, "scopes", params.TeamID, err)
 		return
 	}
 
@@ -501,7 +497,7 @@ func (m *TeamsMethods) handleEventsList(ctx context.Context, client *gateway.Cli
 
 	events, err := m.teamStore.ListTeamEvents(ctx, teamID, params.Limit, params.Offset)
 	if err != nil {
-		client.SendResponse(protocol.NewErrorResponse(req.ID, protocol.ErrInternal, err.Error()))
+		respondStoreError(ctx, client, req, "events", params.TeamID, err)
 		return
 	}
 	if events == nil {

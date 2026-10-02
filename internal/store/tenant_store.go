@@ -2,7 +2,9 @@ package store
 
 import (
 	"context"
+	"database/sql"
 	"encoding/json"
+	"errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -27,6 +29,20 @@ const (
 	TenantRoleMember   = "member"
 	TenantRoleViewer   = "viewer"
 )
+
+// IsNotFound is the store-wide not-found contract: it reports whether err
+// means the requested row is absent — the driver's sql.ErrNoRows (wrapped or
+// raw) or one of the store's not-found sentinels. Consumers (the WS
+// respondStoreError and the MCP toolStoreError) classify with this so an
+// absent row stays distinguishable from a genuine server fault, regardless
+// of which store produced the error.
+func IsNotFound(err error) bool {
+	return errors.Is(err, sql.ErrNoRows) ||
+		errors.Is(err, ErrTaskNotFound) ||
+		errors.Is(err, ErrSubagentTaskNotFound) ||
+		errors.Is(err, ErrSessionNotFound) ||
+		errors.Is(err, ErrCronJobNotFound)
+}
 
 // TenantData represents a tenant in the database.
 type TenantData struct {

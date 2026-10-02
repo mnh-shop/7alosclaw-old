@@ -81,3 +81,48 @@ func Open(ws *store.Workstation) (Backend, error) {
 	}
 	return f(ws)
 }
+
+// ConnectionTestResult is what the workstations.testConnection RPC reports.
+type ConnectionTestResult struct {
+	Backend string `json:"backend"`
+	// Runtime is the resolved container runtime ("podman"/"docker"); empty for
+	// non-container backends.
+	Runtime string `json:"runtime,omitempty"`
+	// Image is the pinned image the backend will run; empty for non-container
+	// backends.
+	Image string `json:"image,omitempty"`
+	// ImagePresent reports whether Image exists in the remote runtime's store.
+	ImagePresent bool `json:"imagePresent"`
+	// RootfulSocket is true when the resolved runtime is a rootful docker
+	// daemon (host-root delegation even for a non-root uid).
+	RootfulSocket bool `json:"rootfulSocket,omitempty"`
+	// Message is an optional human-readable detail.
+	Message string `json:"message,omitempty"`
+}
+
+// ConnectionTester is implemented by backends that can validate their
+// connection AND report what they resolved (e.g. the container runtime and
+// whether the pinned image is present). It is what the workstations.testConnection
+// RPC calls. Kept separate from Backend so a backend that has nothing to resolve
+// need not grow a method, and existing implementations/tests keep compiling.
+type ConnectionTester interface {
+	// TestConnection returns a sanitized, user-facing report. A non-nil result
+	// may accompany a non-nil error (e.g. runtime resolved but image absent).
+	TestConnection(ctx context.Context) (*ConnectionTestResult, error)
+}
+
+// TestConnection opens a transient Backend for ws, runs its TestConnection, and
+// closes it. The workstations.testConnection RPC can probe a workstation without
+// holding a BackendCache.
+func TestConnection(ctx context.Context, ws *store.Workstation) (*ConnectionTestResult, error) {
+	b, err := Open(ws)
+	if err != nil {
+		return nil, err
+	}
+	defer b.Close()
+	tester, ok := b.(ConnectionTester)
+	if !ok {
+		return nil, fmt.Errorf("backend %q does not support connection testing", b.Name())
+	}
+	return tester.TestConnection(ctx)
+}
