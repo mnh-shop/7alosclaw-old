@@ -3,6 +3,7 @@ import { Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { EmptyState } from "@/components/shared/empty-state";
 import type { ClientInfo } from "./types";
 import { formatClientTime } from "./hooks/use-live-uptime";
 import { useContactResolver } from "@/hooks/use-contact-resolver";
@@ -19,10 +20,11 @@ export function ConnectedClientsCard({
   const userIds = useMemo(() => clients.map((c) => c.userId).filter(Boolean) as string[], [clients]);
   const { resolve } = useContactResolver(userIds);
   return (
-    <Card>
+    <Card className="gap-4">
       <CardHeader className="pb-3">
-        <CardTitle className="text-base flex items-center gap-2">
-          <Users className="h-4 w-4" /> {t("connectedClients.title")}
+        <CardTitle className="flex items-center gap-2 text-base">
+          <Users className="h-4 w-4 text-muted-foreground" />
+          {t("connectedClients.title")}
           {clients.length > 0 && (
             <Badge variant="secondary" className="ml-1">
               {clients.length}
@@ -32,12 +34,14 @@ export function ConnectedClientsCard({
       </CardHeader>
       <CardContent>
         {clients.length === 0 ? (
-          <p className="py-6 text-center text-sm text-muted-foreground">
-            {t("connectedClients.noClients")}
-          </p>
+          <EmptyState
+            icon={Users}
+            title={t("connectedClients.noClients")}
+            className="py-10"
+          />
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+          <div className="overflow-x-auto overscroll-contain">
+            <table className="w-full min-w-[600px] text-sm">
               <thead>
                 <tr className="border-b text-left text-muted-foreground">
                   <th className="pb-2 pr-3 font-medium">{t("connectedClients.columns.ip")}</th>
@@ -52,7 +56,7 @@ export function ConnectedClientsCard({
                   return (
                     <tr
                       key={c.id}
-                      className={`border-b last:border-0 ${isYou ? "bg-muted/50" : ""}`}
+                      className={`border-b last:border-0 ${isYou ? "bg-accent" : ""}`}
                     >
                       <td className="py-2 pr-3 font-mono text-xs">
                         {c.remoteAddr}

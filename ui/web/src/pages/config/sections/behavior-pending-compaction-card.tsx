@@ -63,7 +63,7 @@ export function BehaviorPendingCompactionCard({ value, onChange }: Props) {
         <div className="border-b py-4">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-start gap-3">
-              <Archive className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" />
+              <Archive className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
               <div className="space-y-1">
                 <Label className="text-sm font-medium">
                   {t("behavior.pendingCompactionThreshold")}
@@ -113,7 +113,7 @@ export function BehaviorPendingCompactionCard({ value, onChange }: Props) {
         <div className="py-4">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-start gap-3">
-              <Hash className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" />
+              <Hash className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
               <div className="space-y-1">
                 <Label className="text-sm font-medium">
                   {t("behavior.pendingCompactionMaxTokens")}
@@ -135,7 +135,7 @@ export function BehaviorPendingCompactionCard({ value, onChange }: Props) {
         </div>
 
         {/* Info banner */}
-        <div className="flex items-start gap-2 rounded-md border border-orange-200 bg-orange-50 px-3 py-2 text-xs text-orange-700 dark:border-orange-800 dark:bg-orange-950/30 dark:text-orange-300">
+        <div className="flex items-start gap-2 rounded-md border border-warning bg-warning px-3 py-2 text-xs text-warning dark:border-warning dark:bg-warning/30 dark:text-warning">
           <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
           <span>{t("behavior.pendingCompactionInfo")}</span>
         </div>

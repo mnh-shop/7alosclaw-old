@@ -128,7 +128,7 @@ export function ProviderListRow({
           <span
             className={cn(
               "inline-block h-2 w-2 shrink-0 rounded-full",
-              provider.enabled ? "bg-emerald-500" : "bg-muted-foreground/40",
+              provider.enabled ? "bg-success" : "bg-muted-foreground/40",
             )}
           />
           {hasPoolRole && (
@@ -174,7 +174,7 @@ export function ProviderListRow({
                   "shrink-0 font-medium",
                   oauthPool?.availability === "disabled"
                     ? "text-muted-foreground"
-                    : "text-amber-700 dark:text-amber-400",
+                    : "text-warning dark:text-warning",
                 )}
               >
                 {availabilityWarningLabel}

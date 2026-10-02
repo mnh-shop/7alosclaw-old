@@ -20,13 +20,12 @@ export const LOCAL_STORAGE_KEYS = {
   TIMEZONE: "zalosclaw:timezone",
 } as const;
 
-export const SUPPORTED_LANGUAGES = ["en", "vi", "zh", "ko", "ru"] as const;
+/** English only. With one locale there is nothing to select or detect — keep
+ *  this list honest rather than leaving a second entry with no translations
+ *  behind it. */
+export const SUPPORTED_LANGUAGES = ["en"] as const;
 export type Language = (typeof SUPPORTED_LANGUAGES)[number];
 
 export const LANGUAGE_LABELS: Record<Language, string> = {
   en: "English",
-  vi: "Tiếng Việt",
-  zh: "中文",
-  ko: "한국어",
-  ru: "Русский",
 };

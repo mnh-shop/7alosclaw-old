@@ -9,6 +9,7 @@ import { useDeferredLoading } from "@/hooks/use-deferred-loading";
 import { Button } from "@/components/ui/button";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { ConfirmDialog } from "@/components/shared/confirm-dialog";
+import { useCanWrite } from "@/components/shared/require-role";
 import { useTeams } from "./hooks/use-teams";
 import { TeamCard } from "./team-card";
 import { TeamListRow } from "./team-list-row";
@@ -29,6 +30,7 @@ export function TeamsListTab({ onSelectTeam }: TeamsListTabProps) {
   const [viewMode, setViewMode] = useState<"card" | "list">("card");
   const [createOpen, setCreateOpen] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
+  const canWrite = useCanWrite();
 
   useEffect(() => { load(); }, [load]);
 
@@ -44,9 +46,11 @@ export function TeamsListTab({ onSelectTeam }: TeamsListTabProps) {
       {/* Toolbar: search + create + view toggle */}
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <SearchInput value={search} onChange={setSearch} placeholder={t("searchPlaceholder")} className="max-w-sm" />
-        <Button onClick={() => setCreateOpen(true)} className="gap-1 ml-auto sm:ml-0">
-          <Plus className="h-4 w-4" /> {t("createTeam")}
-        </Button>
+        {canWrite && (
+          <Button onClick={() => setCreateOpen(true)} className="gap-1 ml-auto sm:ml-0">
+            <Plus className="h-4 w-4" /> {t("createTeam")}
+          </Button>
+        )}
         <TooltipProvider>
           <div className="sm:ml-auto flex items-center gap-0.5 rounded-md border p-0.5">
             <Tooltip>
@@ -87,13 +91,13 @@ export function TeamsListTab({ onSelectTeam }: TeamsListTabProps) {
               {viewMode === "card" ? (
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {pageItems.map((team) => (
-                    <TeamCard key={team.id} team={team} onClick={() => onSelectTeam(team.id)} onDelete={() => setDeleteTarget({ id: team.id, name: team.name })} />
+                    <TeamCard key={team.id} team={team} onClick={() => onSelectTeam(team.id)} onDelete={canWrite ? () => setDeleteTarget({ id: team.id, name: team.name }) : undefined} />
                   ))}
                 </div>
               ) : (
                 <div className="flex flex-col gap-2">
                   {pageItems.map((team) => (
-                    <TeamListRow key={team.id} team={team} onClick={() => onSelectTeam(team.id)} onDelete={() => setDeleteTarget({ id: team.id, name: team.name })} />
+                    <TeamListRow key={team.id} team={team} onClick={() => onSelectTeam(team.id)} onDelete={canWrite ? () => setDeleteTarget({ id: team.id, name: team.name }) : undefined} />
                   ))}
                 </div>
               )}

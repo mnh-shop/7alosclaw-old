@@ -140,7 +140,7 @@ export function ChannelContextsTab({
                     <div className="mt-1 truncate font-mono text-xs text-muted-foreground">{ctx.scope_key}</div>
                   </div>
                   {typeof ctx.member_count === "number" && (
-                    <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-xs font-medium tabular-nums">
+                    <span className="shrink-0 rounded-md bg-muted px-2 py-0.5 text-xs font-medium tabular-nums">
                       {ctx.member_count}
                     </span>
                   )}

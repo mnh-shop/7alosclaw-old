@@ -4,6 +4,7 @@ import type {
   AgentData, MemoryConfig, SubagentsConfig, ToolPolicyConfig,
 } from "@/types/agent";
 import { StickySaveBar } from "@/components/shared/sticky-save-bar";
+import { useCanWrite } from "@/components/shared/require-role";
 import { PersonalitySection } from "./overview-sections/personality-section";
 import { ModelBudgetSection } from "./overview-sections/model-budget-section";
 import { SkillsSection } from "./overview-sections/skills-section";
@@ -29,6 +30,7 @@ interface AgentOverviewTabProps {
 
 export function AgentOverviewTab({ agent, onUpdate, heartbeat, onManageCodexPool, onViewHooks, onAddHook }: AgentOverviewTabProps) {
   const { t } = useTranslation("agents");
+  const canWrite = useCanWrite();
 
   // Personality
   const [emoji, setEmoji] = useState(agent.emoji ?? "");
@@ -147,7 +149,7 @@ export function AgentOverviewTab({ agent, onUpdate, heartbeat, onManageCodexPool
 
       <ChatGPTOAuthRoutingSummarySection agent={agent} onManage={onManageCodexPool} />
       {provider !== agent.provider && !!agent.chatgpt_oauth_routing && (
-        <p className="text-xs text-amber-600 dark:text-amber-400 -mt-2 px-1">
+        <p className="text-xs text-warning dark:text-warning -mt-2 px-1">
           {t("chatgptOAuthRouting.providerChangedWarning")}
         </p>
       )}
@@ -194,13 +196,15 @@ export function AgentOverviewTab({ agent, onUpdate, heartbeat, onManageCodexPool
         onToolsChange={setTools}
       />
 
-      <StickySaveBar
-        onSave={handleSave}
-        saving={saving}
-        disabled={llmSaveBlocked}
-        label={t("general.saveChanges")}
-        savingLabel={t("general.saving")}
-      />
+      {canWrite && (
+        <StickySaveBar
+          onSave={handleSave}
+          saving={saving}
+          disabled={llmSaveBlocked}
+          label={t("general.saveChanges")}
+          savingLabel={t("general.saving")}
+        />
+      )}
     </div>
   );
 }

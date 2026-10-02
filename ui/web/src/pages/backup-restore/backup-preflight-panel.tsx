@@ -49,7 +49,7 @@ export function BackupPreflightPanel() {
       {checks.map((c) => (
         <div key={c.label} className="flex items-center gap-2 text-sm">
           {c.ok ? (
-            <CheckCircle2 className="h-4 w-4 text-green-500" />
+            <CheckCircle2 className="h-4 w-4 text-success" />
           ) : (
             <XCircle className="h-4 w-4 text-destructive" />
           )}
@@ -68,9 +68,9 @@ export function BackupPreflightPanel() {
 
       {data.warnings?.length > 0 && (
         <div className="space-y-1 pt-1">
-          <p className="text-xs font-medium text-amber-600 dark:text-amber-400">{t("backup.preflight.warnings")}</p>
+          <p className="text-xs font-medium text-warning dark:text-warning">{t("backup.preflight.warnings")}</p>
           {data.warnings.map((w, i) => (
-            <div key={i} className="flex items-start gap-1.5 text-xs text-amber-600 dark:text-amber-400">
+            <div key={i} className="flex items-start gap-1.5 text-xs text-warning dark:text-warning">
               <AlertTriangle className="h-3 w-3 mt-0.5 shrink-0" />
               <span>{w}</span>
             </div>
@@ -85,13 +85,13 @@ export function BackupPreflightPanel() {
       )}
 
       {!data.pg_dump_available && (
-        <Alert className="border-amber-200/70 bg-amber-50/70 text-amber-950 dark:border-amber-900/50 dark:bg-amber-950/20 dark:text-amber-100">
-          <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-300" />
-          <AlertTitle className="text-amber-900 dark:text-amber-100">
+        <Alert className="border-warning/70 bg-warning/70 text-warning dark:border-warning/50 dark:bg-warning/20 dark:text-warning">
+          <AlertTriangle className="h-4 w-4 text-warning dark:text-warning" />
+          <AlertTitle className="text-warning dark:text-warning">
             {t("backup.preflight.pgDumpMissing")}
           </AlertTitle>
-          <AlertDescription className="text-xs text-amber-800 dark:text-amber-200">
-            <Link to="/packages" className="underline font-medium hover:text-amber-950 dark:hover:text-amber-50">
+          <AlertDescription className="text-xs text-warning dark:text-warning">
+            <Link to="/packages" className="underline font-medium hover:text-warning dark:hover:text-warning">
               {t("backup.preflight.goToPackages")}
             </Link>
           </AlertDescription>

@@ -62,7 +62,7 @@ export function CliCredentialGrantEnvRow({ entry, hasError, onRemove, onUpdate }
         <X className="h-4 w-4" />
       </Button>
       {!entry.masked && entry.kind === "value" && (
-        <p className="basis-full text-xs text-amber-700 dark:text-amber-300">
+        <p className="basis-full text-xs text-warning dark:text-warning">
           {isSuspiciousPlaintextEnv(entry.key, entry.value)
             ? t("form.envValueSuspicious")
             : t("form.envValueWarning")}

@@ -6,14 +6,14 @@ describe("resolveGraphNodeDisplayColor", () => {
     expect(resolveGraphNodeDisplayColor({
       entityType: "person",
       color: "#E85D24",
-    }, false)).toBe("#E85D24");
+    })).toBe("#E85D24");
   });
 
-  it("uses theme-aware vault colors for vault document nodes", () => {
+  it("uses the dark vault colors for vault document nodes", () => {
     expect(resolveGraphNodeDisplayColor({
       docType: "document",
       entityType: "document",
       color: "#8b5cf6",
-    }, false)).toBe("#0891b2");
+    })).toBe("#22d3ee");
   });
 });

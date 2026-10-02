@@ -237,7 +237,7 @@ function HowItWorksCard() {
         onClick={() => setOpen(!open)}
         className="flex w-full items-center gap-2 rounded-lg border bg-muted/30 px-4 py-2.5 text-left text-sm transition-colors hover:bg-muted/50"
       >
-        <Info className="h-4 w-4 shrink-0 text-blue-500" />
+        <Info className="h-4 w-4 shrink-0 text-info" />
         <span className="font-medium">{t("howItWorks.title")}</span>
         {open ? (
           <ChevronUp className="ml-auto h-4 w-4 text-muted-foreground" />
@@ -248,15 +248,15 @@ function HowItWorksCard() {
       {open && (
         <div className="rounded-b-lg border border-t-0 bg-muted/10 px-4 py-3 space-y-2.5 text-sm text-muted-foreground">
           <div className="flex gap-2.5">
-            <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500/10 text-xs font-semibold text-blue-600">1</span>
+            <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-info/10 text-xs font-semibold text-info">1</span>
             <p>{t("howItWorks.step1")}</p>
           </div>
           <div className="flex gap-2.5">
-            <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500/10 text-xs font-semibold text-blue-600">2</span>
+            <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-info/10 text-xs font-semibold text-info">2</span>
             <p>{t("howItWorks.step2")}</p>
           </div>
           <div className="flex gap-2.5">
-            <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500/10 text-xs font-semibold text-blue-600">3</span>
+            <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-info/10 text-xs font-semibold text-info">3</span>
             <p>{t("howItWorks.step3")}</p>
           </div>
           <hr className="border-border/50" />

@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useContactResolver } from "@/hooks/use-contact-resolver";
 import { useAgentInstances, type UserInstance } from "../hooks/use-agent-instances";
 import { UserPickerCombobox } from "@/components/shared/user-picker-combobox";
+import { useCanWrite } from "@/components/shared/require-role";
 import { buildAgentInstanceDisplay, getAgentInstanceResolveIds } from "./agent-instance-display-utils";
 
 interface AgentInstancesTabProps {
@@ -18,6 +19,7 @@ interface AgentInstancesTabProps {
 export function AgentInstancesTab({ agentId }: AgentInstancesTabProps) {
   const { t } = useTranslation("agents");
   const { instances, loading, saving, getFiles, setFile } = useAgentInstances(agentId);
+  const canWrite = useCanWrite();
   const [selected, setSelected] = useState<string | null>(null);
   const [content, setContent] = useState("");
   const [originalContent, setOriginalContent] = useState("");
@@ -137,13 +139,16 @@ export function AgentInstancesTab({ agentId }: AgentInstancesTabProps) {
               onChange={(e) => setContent(e.target.value)}
               placeholder="(empty)"
               style={{ minHeight: 300 }}
+              readOnly={!canWrite}
             />
-            <div className="flex items-center justify-end gap-2">
-              <Button onClick={handleSave} disabled={saving || !isDirty} size="sm">
-                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-                {saving ? t("instances.saving") : t("instances.save")}
-              </Button>
-            </div>
+            {canWrite && (
+              <div className="flex items-center justify-end gap-2">
+                <Button onClick={handleSave} disabled={saving || !isDirty} size="sm">
+                  {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+                  {saving ? t("instances.saving") : t("instances.save")}
+                </Button>
+              </div>
+            )}
           </>
         )}
       </div>

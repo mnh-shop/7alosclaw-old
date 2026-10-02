@@ -8,20 +8,21 @@ import {
   DialogHeader, DialogTitle,
 } from "@/components/ui/dialog";
 import { formatRelativeTime } from "@/lib/format";
+import { useCanWrite } from "@/components/shared/require-role";
 import type { EvolutionSuggestion } from "@/types/evolution";
 
 const TYPE_COLORS: Record<string, string> = {
-  threshold: "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300",
-  tool_order: "bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-300",
-  skill_add: "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300",
+  threshold: "bg-primary/15 text-primary",
+  tool_order: "bg-warning text-warning dark:bg-warning dark:text-warning",
+  skill_add: "bg-success text-success dark:bg-success dark:text-success",
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  pending: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300",
-  approved: "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300",
-  applied: "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300",
-  rejected: "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300",
-  rolled_back: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
+  pending: "bg-warning text-warning dark:bg-warning dark:text-warning",
+  approved: "bg-primary/15 text-primary",
+  applied: "bg-success text-success dark:bg-success dark:text-success",
+  rejected: "bg-destructive text-destructive dark:bg-destructive dark:text-destructive",
+  rolled_back: "bg-muted text-muted-foreground",
 };
 
 interface Props {
@@ -34,6 +35,7 @@ export function EvolutionSuggestionsTable({ suggestions, loading, onUpdateStatus
   const { t } = useTranslation("agents");
   const [confirm, setConfirm] = useState<{ id: string; action: "approved" | "rejected" | "rolled_back" } | null>(null);
   const [acting, setActing] = useState(false);
+  const canWrite = useCanWrite();
 
   const handleConfirm = async () => {
     if (!confirm) return;
@@ -90,11 +92,11 @@ export function EvolutionSuggestionsTable({ suggestions, loading, onUpdateStatus
                   </td>
                   <td className="px-3 py-2 text-right">
                     <div className="flex items-center justify-end gap-1">
-                      {s.status === "pending" && (
+                      {canWrite && s.status === "pending" && (
                         <>
                           <Button
                             size="sm" variant="ghost"
-                            className="h-7 w-7 p-0 text-green-600 hover:text-green-700"
+                            className="h-7 w-7 p-0 text-success hover:text-success"
                             title={t("detail.evolution.approve")}
                             onClick={() => setConfirm({ id: s.id, action: "approved" })}
                           >
@@ -102,7 +104,7 @@ export function EvolutionSuggestionsTable({ suggestions, loading, onUpdateStatus
                           </Button>
                           <Button
                             size="sm" variant="ghost"
-                            className="h-7 w-7 p-0 text-red-600 hover:text-red-700"
+                            className="h-7 w-7 p-0 text-destructive hover:text-destructive"
                             title={t("detail.evolution.reject")}
                             onClick={() => setConfirm({ id: s.id, action: "rejected" })}
                           >
@@ -110,10 +112,10 @@ export function EvolutionSuggestionsTable({ suggestions, loading, onUpdateStatus
                           </Button>
                         </>
                       )}
-                      {s.status === "applied" && (
+                      {canWrite && s.status === "applied" && (
                         <Button
                           size="sm" variant="ghost"
-                          className="h-7 w-7 p-0 text-orange-600 hover:text-orange-700"
+                          className="h-7 w-7 p-0 text-warning hover:text-warning"
                           title={t("detail.evolution.rollback")}
                           onClick={() => setConfirm({ id: s.id, action: "rolled_back" })}
                         >

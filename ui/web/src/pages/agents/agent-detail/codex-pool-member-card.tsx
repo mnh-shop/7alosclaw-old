@@ -214,12 +214,12 @@ export function CodexPoolMemberCard({
             {totalOutcomes > 0 ? (
               <>
                 <div
-                  className="h-full bg-emerald-500 transition-all"
+                  className="h-full bg-success transition-all"
                   style={{ width: `${barWidths.success}%` }}
                 />
                 {barWidths.failure > 0 && (
                   <div
-                    className="h-full bg-rose-500/80 transition-all"
+                    className="h-full bg-destructive/80 transition-all"
                     style={{ width: `${barWidths.failure}%` }}
                   />
                 )}

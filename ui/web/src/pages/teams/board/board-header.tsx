@@ -8,6 +8,7 @@ import type { TeamData, TeamMemberData } from "@/types/team";
 import { TeamFeaturesModal } from "../team-features-modal";
 import { TeamAuditLogsModal } from "../team-audit-logs-modal";
 import { InlineEditText } from "@/components/ui/inline-edit-text";
+import { useCanWrite } from "@/components/shared/require-role";
 import { toast } from "@/stores/use-toast-store";
 
 interface BoardHeaderProps {
@@ -24,6 +25,7 @@ export function BoardHeader({ team, members, onBack, onDelete, onSettings, onMem
   const { t } = useTranslation("teams");
   const [featuresOpen, setFeaturesOpen] = useState(false);
   const [auditLogsOpen, setAuditLogsOpen] = useState(false);
+  const canWrite = useCanWrite();
   const leadMember = members.find((m) => m.role === "lead");
   const leadName = leadMember?.display_name || leadMember?.agent_key
     || team.lead_display_name || team.lead_agent_key;
@@ -43,7 +45,7 @@ export function BoardHeader({ team, members, onBack, onDelete, onSettings, onMem
       {/* Team info */}
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
-          {onRenameTeam ? (
+          {canWrite && onRenameTeam ? (
             <InlineEditText
               value={team.name}
               onSave={onRenameTeam}
@@ -60,7 +62,7 @@ export function BoardHeader({ team, members, onBack, onDelete, onSettings, onMem
             {team.status}
           </Badge>
           <button type="button" className="relative inline-flex items-center" onClick={() => setFeaturesOpen(true)}>
-            <Badge className="bg-gradient-to-r from-orange-500 to-amber-500 text-2xs px-2 py-0.5 text-white border-0 font-semibold hover:from-orange-600 hover:to-amber-600">
+            <Badge className="bg-gradient-to-r from-warning to-warning text-2xs px-2 py-0.5 text-white border-0 font-semibold hover:from-warning hover:to-warning">
               v2 Super Team
             </Badge>
           </button>
@@ -78,27 +80,33 @@ export function BoardHeader({ team, members, onBack, onDelete, onSettings, onMem
       </div>
 
       {/* Actions */}
-      <Button variant="ghost" size="sm" onClick={onMembers} className="shrink-0 gap-1.5">
-        <Users className="h-4 w-4" />
-        <span className="hidden sm:inline">{t("members.title")}</span>
-      </Button>
+      {canWrite && (
+        <Button variant="ghost" size="sm" onClick={onMembers} className="shrink-0 gap-1.5">
+          <Users className="h-4 w-4" />
+          <span className="hidden sm:inline">{t("members.title")}</span>
+        </Button>
+      )}
       <Button variant="ghost" size="sm" onClick={() => setAuditLogsOpen(true)} className="shrink-0 gap-1.5">
         <Clock className="h-4 w-4" />
         <span className="hidden sm:inline">{t("auditLogs.title")}</span>
       </Button>
-      <Button variant="ghost" size="sm" onClick={onSettings} className="shrink-0 gap-1.5">
-        <Settings className="h-4 w-4" />
-        <span className="hidden sm:inline">{t("detail.tabs.settings")}</span>
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        className="shrink-0 gap-1.5 text-muted-foreground hover:text-destructive"
-        onClick={onDelete}
-      >
-        <Trash2 className="h-4 w-4" />
-        <span className="hidden sm:inline">{t("delete.title")}</span>
-      </Button>
+      {canWrite && (
+        <Button variant="ghost" size="sm" onClick={onSettings} className="shrink-0 gap-1.5">
+          <Settings className="h-4 w-4" />
+          <span className="hidden sm:inline">{t("detail.tabs.settings")}</span>
+        </Button>
+      )}
+      {canWrite && (
+        <Button
+          variant="ghost"
+          size="sm"
+          className="shrink-0 gap-1.5 text-muted-foreground hover:text-destructive"
+          onClick={onDelete}
+        >
+          <Trash2 className="h-4 w-4" />
+          <span className="hidden sm:inline">{t("delete.title")}</span>
+        </Button>
+      )}
 
       <TeamFeaturesModal open={featuresOpen} onOpenChange={setFeaturesOpen} />
       <TeamAuditLogsModal open={auditLogsOpen} onOpenChange={setAuditLogsOpen} teamId={team.id} />

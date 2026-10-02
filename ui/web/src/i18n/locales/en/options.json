@@ -1,0 +1,28 @@
+{
+  "title": "Options",
+  "description": "Personal preferences for language, time and tenant.",
+  "account": {
+    "title": "Account",
+    "signedInAs": "Signed in as",
+    "tenant": "Tenant"
+  },
+  "language": {
+    "title": "Language",
+    "description": "Interface language for this browser."
+  },
+  "timezone": {
+    "title": "Timezone",
+    "description": "Used to display times and chart buckets."
+  },
+  "tenant": {
+    "title": "Tenant",
+    "description": "Switch the workspace this console operates on. Switching reloads the app.",
+    "current": "Current tenant",
+    "single": "You have access to a single tenant."
+  },
+  "systemSettings": {
+    "title": "Engine system settings",
+    "description": "Embedding, compaction, knowledge-graph and background-worker configuration.",
+    "open": "Open system settings"
+  }
+}

@@ -5,6 +5,7 @@ import { useWs } from "@/hooks/use-ws";
 import { queryKeys } from "@/lib/query-keys";
 import { toast } from "@/stores/use-toast-store";
 import { Methods } from "@/api/protocol";
+import type { TenantUpdateParams } from "../tenant-update";
 import type { TenantData, TenantUserData } from "@/types/tenant";
 
 export function useTenantDetail(tenantId: string) {
@@ -34,6 +35,21 @@ export function useTenantDetail(tenantId: string) {
   const invalidateUsers = useCallback(
     () => queryClient.invalidateQueries({ queryKey: queryKeys.tenants.users(tenantId) }),
     [queryClient, tenantId],
+  );
+
+  const updateTenant = useCallback(
+    async (params: TenantUpdateParams) => {
+      try {
+        await ws.call(Methods.TENANTS_UPDATE, params as Record<string, unknown>);
+        await queryClient.invalidateQueries({ queryKey: queryKeys.tenants.detail(tenantId) });
+        await queryClient.invalidateQueries({ queryKey: queryKeys.tenants.all });
+        toast.success(i18next.t("tenants:editTenant"), i18next.t("tenants:name") + ": " + params.name);
+      } catch (err) {
+        toast.error(i18next.t("tenants:editTenant"), err instanceof Error ? err.message : "");
+        throw err;
+      }
+    },
+    [ws, tenantId, queryClient],
   );
 
   const addUser = useCallback(
@@ -71,6 +87,7 @@ export function useTenantDetail(tenantId: string) {
     usersLoading,
     usersRefreshing,
     refreshUsers: invalidateUsers,
+    updateTenant,
     addUser,
     removeUser,
   };

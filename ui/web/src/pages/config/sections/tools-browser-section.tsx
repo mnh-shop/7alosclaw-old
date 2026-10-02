@@ -129,7 +129,7 @@ export function ToolsBrowserSection({ data, onSave, saving }: Props) {
 
         <div className="flex items-center justify-between gap-4 rounded-md border px-3 py-2.5">
           <div className="flex items-start gap-3">
-            <Cookie className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
+            <Cookie className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
             <div className="space-y-1">
               <Label className="text-sm font-medium">{t("browser.cookieSync")}</Label>
               <p className="text-xs text-muted-foreground">{t("browser.cookieSyncHint")}</p>

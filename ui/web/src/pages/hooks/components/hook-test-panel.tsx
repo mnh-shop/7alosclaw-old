@@ -16,9 +16,9 @@ interface HookTestPanelProps {
 }
 
 const DECISION_STYLES: Record<string, string> = {
-  allow: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300",
-  block: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
-  error: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
+  allow: "bg-success text-success dark:bg-success/30 dark:text-success",
+  block: "bg-destructive text-destructive dark:bg-destructive/30 dark:text-destructive",
+  error: "bg-warning text-warning dark:bg-warning/30 dark:text-warning",
   timeout: "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
 };
 
@@ -237,7 +237,7 @@ export function HookTestPanel({ hook }: HookTestPanelProps) {
             {/* Decision pill row */}
             <div className="flex flex-wrap items-center gap-3">
               <span
-                className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold ${DECISION_STYLES[result.decision] ?? "bg-muted text-muted-foreground"}`}
+                className={`inline-flex items-center rounded-md px-3 py-1 text-sm font-semibold ${DECISION_STYLES[result.decision] ?? "bg-muted text-muted-foreground"}`}
               >
                 {t(`decision.${result.decision}`)}
               </span>

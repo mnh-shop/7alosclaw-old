@@ -11,7 +11,7 @@ import type { EpisodicSummary, EpisodicSearchResult } from "@/types/memory";
 const SOURCE_COLORS: Record<string, string> = {
   session: "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300",
   v2_daily: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
-  manual: "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300",
+  manual: "bg-success text-success dark:bg-success dark:text-success",
 };
 
 interface Props {

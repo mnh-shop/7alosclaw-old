@@ -233,7 +233,7 @@ export function StepAgent({ provider, model, onComplete, onBack, existingAgent }
                     key={preset.label}
                     type="button"
                     onClick={() => handleSelectPreset(idx)}
-                    className={`cursor-pointer rounded-full border px-2.5 py-0.5 text-xs transition-colors ${
+                    className={`cursor-pointer rounded-md border px-2.5 py-0.5 text-xs transition-colors ${
                       selectedPresetIdx === idx
                         ? "border-primary bg-primary/10 text-primary font-medium"
                         : "hover:bg-accent"
@@ -280,8 +280,8 @@ export function StepAgent({ provider, model, onComplete, onBack, existingAgent }
               <p
                 className={`rounded-md border px-3 py-2 text-xs ${
                   gatewayOperatorNotice.variant === "success"
-                    ? "border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-200"
-                    : "border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200"
+                    ? "border-success bg-success text-success dark:border-success dark:bg-success dark:text-success"
+                    : "border-warning bg-warning text-warning dark:border-warning dark:bg-warning dark:text-warning"
                 }`}
               >
                 {gatewayOperatorNotice.message}

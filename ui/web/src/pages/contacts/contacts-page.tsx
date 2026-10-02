@@ -19,11 +19,14 @@ import { useMinLoading } from "@/hooks/use-min-loading";
 import { useDeferredLoading } from "@/hooks/use-deferred-loading";
 import { useContacts } from "./hooks/use-contacts";
 import { useContactMerge } from "./hooks/use-contact-merge";
+import { useCanWrite } from "@/components/shared/require-role";
+import { CHANNEL_TYPES } from "@/constants/channels";
 import { MergeContactsDialog } from "./merge-contacts-dialog";
 import { ContactsTable } from "./contacts-table";
 
-const CHANNEL_TYPES = ["telegram", "discord", "slack", "whatsapp", "zalo_oa", "zalo_personal", "feishu", "bitrix24"];
-const PERM_CHANNELS = ["telegram", "discord", "zalo", "slack", "feishu", "bitrix24"] as const;
+/** Channel names that have a `permissionsNote.<name>` string in the locale
+ *  files. Keep this to names that exist — an unknown name renders the raw key. */
+const PERM_CHANNELS = ["telegram", "discord", "slack"] as const;
 
 export function ContactsPage() {
   const { t } = useTranslation("contacts");
@@ -55,6 +58,7 @@ export function ContactsPage() {
   const spinning = useMinLoading(fetching);
   const showSkeleton = useDeferredLoading(loading && contacts.length === 0);
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  const canWrite = useCanWrite();
 
   // Clear selection on page/filter change
   useEffect(() => {
@@ -146,7 +150,7 @@ export function ContactsPage() {
           <SelectContent>
             <SelectItem value="all">{t("filters.allChannels")}</SelectItem>
             {CHANNEL_TYPES.map((ct) => (
-              <SelectItem key={ct} value={ct}>{ct}</SelectItem>
+              <SelectItem key={ct.value} value={ct.value}>{ct.label}</SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -165,23 +169,25 @@ export function ContactsPage() {
       </div>
 
       {/* Selection toolbar — always rendered to avoid layout shift */}
-      <div className="mt-3 flex items-center gap-2 rounded-md border px-3 py-2 transition-colors"
-        style={{ visibility: selectedIds.size > 0 ? "visible" : "hidden" }}
-      >
-        <span className="text-sm font-medium">
-          {t("selectedCount", { count: selectedIds.size })}
-        </span>
-        <div className="ml-auto flex gap-2">
-          <Button size="sm" variant="default" className="gap-1" onClick={() => setMergeDialogOpen(true)}>
-            <Merge className="h-3.5 w-3.5" /> {t("merge.button")}
-          </Button>
-          {allSelectedMerged && (
-            <Button size="sm" variant="outline" className="gap-1" onClick={handleUnmerge}>
-              <Unlink className="h-3.5 w-3.5" /> {t("merge.unmergeButton")}
+      {canWrite && (
+        <div className="mt-3 flex items-center gap-2 rounded-md border px-3 py-2 transition-colors"
+          style={{ visibility: selectedIds.size > 0 ? "visible" : "hidden" }}
+        >
+          <span className="text-sm font-medium">
+            {t("selectedCount", { count: selectedIds.size })}
+          </span>
+          <div className="ml-auto flex gap-2">
+            <Button size="sm" variant="default" className="gap-1" onClick={() => setMergeDialogOpen(true)}>
+              <Merge className="h-3.5 w-3.5" /> {t("merge.button")}
             </Button>
-          )}
+            {allSelectedMerged && (
+              <Button size="sm" variant="outline" className="gap-1" onClick={handleUnmerge}>
+                <Unlink className="h-3.5 w-3.5" /> {t("merge.unmergeButton")}
+              </Button>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Table */}
       <div className="mt-2">
@@ -201,8 +207,8 @@ export function ContactsPage() {
             page={page}
             pageSize={pageSize}
             totalPages={totalPages}
-            onToggleSelect={toggleSelect}
-            onToggleSelectAll={toggleSelectAll}
+            onToggleSelect={canWrite ? toggleSelect : undefined}
+            onToggleSelectAll={canWrite ? toggleSelectAll : undefined}
             onPageChange={setPage}
             onPageSizeChange={(s) => { setPageSize(s); setPage(1); }}
           />
@@ -229,22 +235,20 @@ function PermissionsNote() {
   const p = "permissionsNote";
 
   return (
-    <div className="mt-4 rounded-md border border-blue-200 bg-blue-50/50 dark:border-blue-900 dark:bg-blue-950/30">
+    <div className="mt-4 rounded-md border border-info/25 bg-info/10">
       <button
         type="button"
         onClick={() => setOpen(!open)}
         className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm"
       >
-        <Info className="h-4 w-4 text-blue-500 shrink-0" />
-        <span className="font-medium text-blue-700 dark:text-blue-400">{t(`${p}.title`)}</span>
-        <ChevronDown className={`ml-auto h-4 w-4 text-blue-400 transition-transform ${open ? "rotate-180" : ""}`} />
+        <Info className="h-4 w-4 text-info shrink-0" />
+        <span className="font-medium text-info">{t(`${p}.title`)}</span>
+        <ChevronDown className={`ml-auto h-4 w-4 text-info transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
       {open && (
         <ul className="px-3 pb-3 space-y-1 text-xs text-muted-foreground">
           {PERM_CHANNELS.map((ch) => (
-            <li key={ch} className={ch === "feishu" ? "text-amber-600 dark:text-amber-400 font-medium" : ""}>
-              {t(`${p}.${ch}`)}
-            </li>
+            <li key={ch}>{t(`${p}.${ch}`)}</li>
           ))}
         </ul>
       )}

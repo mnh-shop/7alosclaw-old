@@ -234,7 +234,7 @@ export function TaskList({
               <div className="flex flex-wrap items-center gap-1">
                 <Badge variant={taskStatusBadgeVariant(task.status)}>{task.status.replace(/_/g, " ")}</Badge>
                 {isTeamV2 && task.followup_at && task.status === "in_progress" && (
-                  <Badge variant="outline" className="border-amber-500/50 bg-amber-500/10 text-2xs text-amber-700 dark:text-amber-400">
+                  <Badge variant="outline" className="border-warning/50 bg-warning/10 text-2xs text-warning dark:text-warning">
                     {t("tasks.badges.awaitingReply")}
                   </Badge>
                 )}

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, lazy, Suspense } from "react";
 import { DetailPageSkeleton } from "@/components/shared/loading-skeleton";
 import { ConfirmDeleteDialog } from "@/components/shared/confirm-delete-dialog";
+import { useCanWrite } from "@/components/shared/require-role";
 import { useTranslation } from "react-i18next";
 import { useTeams } from "./hooks/use-teams";
 import { BoardHeader } from "./board/board-header";
@@ -37,6 +38,7 @@ export function TeamDetailPage({ teamId, onBack }: TeamDetailPageProps) {
   const [members, setMembers] = useState<TeamMemberData[]>([]);
   const [scopes, setScopes] = useState<ScopeEntry[]>([]);
   const [loading, setLoading] = useState(true);
+  const canWrite = useCanWrite();
 
   // Dialog states
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -119,10 +121,10 @@ export function TeamDetailPage({ teamId, onBack }: TeamDetailPageProps) {
         getTeamTasks={getTeamTasks}
         getTaskDetail={getTaskDetail}
         getTaskLight={getTaskLight}
-        deleteTask={deleteTask}
-        deleteTasksBulk={deleteTasksBulk}
-        addTaskComment={handleAddComment}
-        onWorkspace={() => setWorkspaceOpen(true)}
+        deleteTask={canWrite ? deleteTask : undefined}
+        deleteTasksBulk={canWrite ? deleteTasksBulk : undefined}
+        addTaskComment={canWrite ? handleAddComment : undefined}
+        onWorkspace={canWrite ? () => setWorkspaceOpen(true) : undefined}
       />
 
       {/* Team info + settings + members dialog */}

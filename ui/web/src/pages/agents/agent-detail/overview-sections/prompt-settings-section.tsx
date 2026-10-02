@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/stores/use-toast-store";
 import { useAuthStore } from "@/stores/use-auth-store";
+import { useCanWrite } from "@/components/shared/require-role";
 import type { AgentData } from "@/types/agent";
 import { readPromptMode } from "../agent-display-utils";
 import { PromptModeCards, type PromptMode } from "../../prompt-mode-cards";
@@ -35,6 +36,7 @@ interface Props {
 }
 
 export function PromptSettingsSection({ agent, onUpdate }: Props) {
+  const canWrite = useCanWrite();
   const { t } = useTranslation("agents");
   const { t: tTts } = useTranslation("tts");
   const isOwner = useAuthStore((s) => s.isOwner);
@@ -130,7 +132,7 @@ export function PromptSettingsSection({ agent, onUpdate }: Props) {
     <section className="space-y-3 rounded-lg border p-3 sm:p-4">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-medium">{t("detail.prompt.title")}</h3>
-        {dirty && (
+        {canWrite && dirty && (
           <Button size="sm" onClick={handleSave} disabled={saving}>
             {saving ? t("saving", "Saving...") : t("save", "Save")}
           </Button>

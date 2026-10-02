@@ -1,8 +1,7 @@
 import { useRef, useMemo, useState, useCallback } from "react";
 import type Sigma from "sigma";
 import { useTranslation } from "react-i18next";
-import { buildVaultGraphFromDTO, VAULT_TYPE_COLORS_LIGHT, VAULT_TYPE_COLORS_DARK } from "@/adapters/vault-graph-adapter";
-import { useUiStore } from "@/stores/use-ui-store";
+import { buildVaultGraphFromDTO, VAULT_TYPE_COLORS_DARK } from "@/adapters/vault-graph-adapter";
 import { SigmaGraphContainer } from "@/components/graph/sigma-graph-container";
 import { SigmaGraphControls } from "@/components/graph/sigma-graph-controls";
 import { SigmaGraphSearch } from "@/components/graph/sigma-graph-search";
@@ -31,11 +30,8 @@ export function VaultGraphView({ agentId, teamId, selectedDocId, onNodeSelect, o
   const [hiddenTypes, setHiddenTypes] = useState<Set<string>>(new Set());
   const [filtersOpen, setFiltersOpen] = useState(false);
 
-  // Theme-aware node colors — derive from store, not DOM class (avoids stale reads)
-  const theme = useUiStore((s) => s.theme);
-  const isDark = theme === "dark" || (theme === "system"
-    && typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches);
-  const typeColors = isDark ? VAULT_TYPE_COLORS_DARK : VAULT_TYPE_COLORS_LIGHT;
+  // Dark-only node colors — the console has no light theme.
+  const typeColors = VAULT_TYPE_COLORS_DARK;
 
   const { nodes, edges, totalNodes, totalEdges, loading } = useVaultGraphData(agentId, { teamId, limit: nodeLimit });
 

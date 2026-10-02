@@ -1,10 +1,12 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router";
 import { AlertTriangle, X, Settings2 } from "lucide-react";
 import { useHttp } from "@/hooks/use-ws";
 import { useWsEvent } from "@/hooks/use-ws-event";
 import { useAuthStore } from "@/stores/use-auth-store";
 import { Button } from "@/components/ui/button";
+import { ROUTES } from "@/lib/constants";
 
 interface ProviderErrorPayload {
   reason: string;
@@ -13,13 +15,10 @@ interface ProviderErrorPayload {
   timestamp: string;
 }
 
-interface BackgroundErrorBannerProps {
-  settingsOpen: boolean;
-  onOpenSettings: () => void;
-}
-
-export function BackgroundErrorBanner({ settingsOpen, onOpenSettings }: BackgroundErrorBannerProps) {
+export function BackgroundErrorBanner() {
   const { t } = useTranslation("system-settings");
+  const navigate = useNavigate();
+  const location = useLocation();
   const http = useHttp();
   const role = useAuthStore((s) => s.role);
   const isAdmin = role === "admin" || role === "owner";
@@ -40,15 +39,9 @@ export function BackgroundErrorBanner({ settingsOpen, onOpenSettings }: Backgrou
       .catch(() => { setError(null); }); // 404 = no alert
   }, [http, isAdmin]);
 
-  // Fetch on mount
-  useEffect(() => { fetchAlert(); }, [fetchAlert]);
-
-  // Re-fetch when settings modal closes (user may have fixed the issue)
-  const prevSettingsOpen = useRef(settingsOpen);
-  useEffect(() => {
-    if (prevSettingsOpen.current && !settingsOpen) fetchAlert();
-    prevSettingsOpen.current = settingsOpen;
-  }, [settingsOpen, fetchAlert]);
+  // Fetch on mount and on every route change: the admin fixes the provider in the
+  // engine settings on the Options page and then comes back, which is this signal.
+  useEffect(() => { fetchAlert(); }, [location.key, fetchAlert]);
 
   // Real-time WS event
   useWsEvent("background.error", useCallback((payload: unknown) => {
@@ -67,7 +60,7 @@ export function BackgroundErrorBanner({ settingsOpen, onOpenSettings }: Backgrou
       <span className="flex-1">
         {t("alert.message", { reason: reasonText })}
       </span>
-      <Button variant="outline" size="sm" onClick={onOpenSettings} className="shrink-0 gap-1.5 h-7 text-xs">
+      <Button variant="outline" size="sm" onClick={() => navigate(ROUTES.OPTIONS)} className="shrink-0 gap-1.5 h-7 text-xs">
         <Settings2 className="h-3.5 w-3.5" />
         {t("alert.openSettings")}
       </Button>

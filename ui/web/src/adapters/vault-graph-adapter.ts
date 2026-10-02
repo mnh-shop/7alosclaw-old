@@ -4,34 +4,22 @@ import type { VaultGraphNode, VaultGraphEdge } from "@/types/graph-dto";
 import { getNodeSize, truncateMiddle } from "@/components/graph/graph-utils";
 
 // Colors per vault document type — matches DOC_TYPE_ICONS in vault-tree.tsx
-// Light mode: Tailwind -600 variants for contrast on white/light backgrounds
-// Dark mode: Tailwind -400 variants for visibility on dark backgrounds
-export const VAULT_TYPE_COLORS_LIGHT: Record<string, string> = {
-  context: "#2563eb",  // blue-600 (matches text-blue-600)
-  memory: "#9333ea",   // purple-600 (matches text-purple-600)
-  note: "#d97706",     // amber-600 (matches text-amber-600)
-  skill: "#059669",    // emerald-600 (matches text-emerald-600)
-  episodic: "#ea580c", // orange-600 (matches text-orange-600)
-  media: "#e11d48",    // rose-600 (matches text-rose-600)
-  document: "#0891b2", // cyan-600 (matches text-cyan-600)
-};
+// The console is dark only, so these are the Tailwind -400 variants that stay
+// visible on the dark background.
 export const VAULT_TYPE_COLORS_DARK: Record<string, string> = {
   context: "#60a5fa",  // blue-400 (matches dark:text-blue-400)
   memory: "#c084fc",   // purple-400 (matches dark:text-purple-400)
-  note: "#fbbf24",     // amber-400 (matches dark:text-amber-400)
-  skill: "#34d399",    // emerald-400 (matches dark:text-emerald-400)
-  episodic: "#fb923c", // orange-400 (matches dark:text-orange-400)
-  media: "#fb7185",    // rose-400 (matches dark:text-rose-400)
+  note: "#fbbf24",     // amber-400 (matches dark:text-warning)
+  skill: "#34d399",    // emerald-400 (matches dark:text-success)
+  episodic: "#fb923c", // orange-400 (matches dark:text-warning)
+  media: "#fb7185",    // rose-400 (matches dark:text-destructive)
   document: "#22d3ee", // cyan-400 (matches dark:text-cyan-400)
 };
-const DEFAULT_COLOR_LIGHT = "#475569"; // slate-600
 const DEFAULT_COLOR_DARK = "#94a3b8";  // slate-400
 
-/** Get node color based on doc type and theme */
-export function getVaultNodeColor(docType: string, isDark: boolean): string {
-  const colors = isDark ? VAULT_TYPE_COLORS_DARK : VAULT_TYPE_COLORS_LIGHT;
-  const fallback = isDark ? DEFAULT_COLOR_DARK : DEFAULT_COLOR_LIGHT;
-  return colors[docType] ?? fallback;
+/** Get node color for a doc type. */
+export function getVaultNodeColor(docType: string): string {
+  return VAULT_TYPE_COLORS_DARK[docType] ?? DEFAULT_COLOR_DARK;
 }
 
 /** Limit documents by degree centrality (highest-connected first). */
@@ -60,7 +48,7 @@ export function buildVaultGraphFromDTO(nodes: VaultGraphNode[], edges: VaultGrap
       label: truncateMiddle(n.t || n.p.split("/").pop() || n.id.slice(0, 8), 28),
       x: 0, y: 0,
       size: getNodeSize(n.deg, nodes.length),
-      color: VAULT_TYPE_COLORS_LIGHT[n.dt] ?? DEFAULT_COLOR_LIGHT,
+      color: VAULT_TYPE_COLORS_DARK[n.dt] ?? DEFAULT_COLOR_DARK,
       docType: n.dt,
     });
   }
@@ -103,8 +91,8 @@ export function buildVaultGraph(
       x: 0,
       y: 0,
       size: getNodeSize(degree, documents.length),
-      // Color set by nodeReducer based on theme; use light as initial fallback
-      color: VAULT_TYPE_COLORS_LIGHT[doc.doc_type] ?? DEFAULT_COLOR_LIGHT,
+      // Color set by nodeReducer; use dark as the initial fallback
+      color: VAULT_TYPE_COLORS_DARK[doc.doc_type] ?? DEFAULT_COLOR_DARK,
       docType: doc.doc_type,
     });
   }

@@ -3,11 +3,16 @@ import { useAuthStore } from "@/stores/use-auth-store";
 import { cn } from "@/lib/utils";
 import { cleanVersion } from "@/lib/clean-version";
 
-const ROLE_STYLES: Record<string, string> = {
-  admin: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
-  owner: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
-  operator: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
-  viewer: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
+/** Role chips, exported because the Options page reuses them. This console has
+ *  no red/amber/green any more, so the four roles are separated by brand hue and
+ *  weight instead: owner violet (highest), admin cyan, operator the neutral
+ *  slate, viewer muted. Admin must NOT use `destructive` — with the status
+ *  palette now violet, that would collide with owner and read as an error. */
+export const ROLE_STYLES: Record<string, string> = {
+  owner: "bg-secondary/15 text-brand-secondary",
+  admin: "bg-primary/15 text-primary",
+  operator: "bg-info/15 text-info",
+  viewer: "bg-muted text-muted-foreground",
 };
 
 export function ConnectionStatus({ collapsed }: { collapsed?: boolean }) {
@@ -24,7 +29,7 @@ export function ConnectionStatus({ collapsed }: { collapsed?: boolean }) {
         <div className="flex items-center justify-between gap-1.5 text-xs overflow-hidden">
           <span className="truncate font-medium text-foreground/80">{tenantName}</span>
           {role && (
-            <span className={cn("shrink-0 rounded-full px-1.5 py-0.5 text-2xs font-medium", ROLE_STYLES[role] ?? ROLE_STYLES.viewer)}>
+            <span className={cn("shrink-0 rounded-md px-1.5 py-0.5 text-2xs font-medium", ROLE_STYLES[role] ?? ROLE_STYLES.viewer)}>
               {role}
             </span>
           )}
@@ -36,7 +41,7 @@ export function ConnectionStatus({ collapsed }: { collapsed?: boolean }) {
         <span
           className={cn(
             "h-2 w-2 shrink-0 rounded-full",
-            connected ? "bg-green-500" : "bg-red-500",
+            connected ? "bg-success" : "bg-destructive",
           )}
         />
         {!collapsed && (

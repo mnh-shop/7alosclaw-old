@@ -1,5 +1,5 @@
 {
-  "title": "Traces",
+  "title": "Activity Monitor",
   "description": "LLM call traces and performance data",
   "filterPlaceholder": "Filter by agent ID...",
   "filter": "Filter",

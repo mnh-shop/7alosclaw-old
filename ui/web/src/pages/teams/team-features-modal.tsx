@@ -40,7 +40,7 @@ export function TeamFeaturesModal({ open, onOpenChange }: TeamFeaturesModalProps
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {t("settings.versionModal.title")}
-            <Badge className="bg-gradient-to-r from-orange-500 to-amber-500 text-2xs px-2 py-0.5 text-white border-0 font-semibold">
+            <Badge className="bg-gradient-to-r from-warning to-warning text-2xs px-2 py-0.5 text-white border-0 font-semibold">
               Beta
             </Badge>
           </DialogTitle>
@@ -68,7 +68,7 @@ export function TeamFeaturesModal({ open, onOpenChange }: TeamFeaturesModalProps
                     </div>
                   </div>
                   <div className="flex justify-center">
-                    <Check className="h-4 w-4 text-green-600 dark:text-green-400" />
+                    <Check className="h-4 w-4 text-success dark:text-success" />
                   </div>
                 </div>
               );

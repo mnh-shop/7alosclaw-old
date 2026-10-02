@@ -19,7 +19,7 @@ interface OperationProgressProps {
 function StepIcon({ status }: { status: ProgressStep["status"] }) {
   switch (status) {
     case "done":
-      return <CheckCircle2 className="h-4 w-4 shrink-0 text-green-500" />;
+      return <CheckCircle2 className="h-4 w-4 shrink-0 text-success" />;
     case "error":
       return <XCircle className="h-4 w-4 shrink-0 text-destructive" />;
     case "running":

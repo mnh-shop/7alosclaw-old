@@ -81,7 +81,7 @@ function DropZoneImportTab({
               <div key={i} className="flex items-center gap-2 px-4 py-2">
                 {e.type === "skipped"
                   ? <SkipForward className="h-4 w-4 text-muted-foreground" />
-                  : <CheckCircle2 className="h-4 w-4 text-green-500" />}
+                  : <CheckCircle2 className="h-4 w-4 text-success" />}
                 <span>{e.label}</span>
                 <span className="ml-auto text-xs font-medium tabular-nums">{e.value}</span>
               </div>

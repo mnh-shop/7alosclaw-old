@@ -10,8 +10,8 @@ import type { TeamTaskData } from "@/types/team";
 const PRIORITY_LABELS: Record<number, { label: string; color: string }> = {
   0: { label: "P-0", color: "text-slate-400" },
   1: { label: "P-1", color: "text-blue-500" },
-  2: { label: "P-2", color: "text-amber-500" },
-  3: { label: "P-3", color: "text-red-500" },
+  2: { label: "P-2", color: "text-warning" },
+  3: { label: "P-3", color: "text-destructive" },
 };
 
 const PRIORITY_TOOLTIPS: Record<number, string> = {
@@ -49,7 +49,7 @@ export const KanbanCard = memo(function KanbanCard({ task, isTeamV2, emojiLookup
       transition={{ type: "spring", stiffness: 350, damping: 30 }}
       className={
         "group relative cursor-pointer rounded-lg border bg-card p-3 shadow-sm transition-colors hover:bg-accent/50" +
-        (locked ? " border-l-2 border-l-green-500" : blocked ? " border-l-2 border-l-amber-500" : "")
+        (locked ? " border-l-2 border-l-success" : blocked ? " border-l-2 border-l-warning" : "")
       }
       onClick={onClick}
     >
@@ -68,8 +68,8 @@ export const KanbanCard = memo(function KanbanCard({ task, isTeamV2, emojiLookup
         </div>
         <div className="flex items-center gap-1.5">
           {locked && (
-            <span className="flex items-center gap-1 text-2xs text-green-600 dark:text-green-400">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
+            <span className="flex items-center gap-1 text-2xs text-success dark:text-success">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-success" />
               {t("board.running")}
             </span>
           )}
@@ -89,7 +89,7 @@ export const KanbanCard = memo(function KanbanCard({ task, isTeamV2, emojiLookup
 
       {/* Blocked-by row */}
       {hasBlockers && (
-        <p className="mt-1 flex items-center gap-1 text-2xs text-amber-600 dark:text-amber-400">
+        <p className="mt-1 flex items-center gap-1 text-2xs text-warning dark:text-warning">
           <Ban className="h-3 w-3 shrink-0" />
           <span className="truncate">
             {task.blocked_by!.map((id) => taskLookup?.get(id) || id.slice(0, 8)).join(", ")}

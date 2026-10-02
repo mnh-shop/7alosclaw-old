@@ -8,8 +8,8 @@ const SOURCE_CLASSES: Record<string, string> = {
   github:
     "bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100",
   pip: "bg-blue-100 text-blue-900 dark:bg-blue-900/40 dark:text-blue-200",
-  npm: "bg-amber-100 text-amber-900 dark:bg-amber-900/40 dark:text-amber-200",
-  apk: "bg-emerald-100 text-emerald-900 dark:bg-emerald-900/40 dark:text-emerald-200",
+  npm: "bg-warning text-warning dark:bg-warning/40 dark:text-warning",
+  apk: "bg-success text-success dark:bg-success/40 dark:text-success",
 };
 
 const NEUTRAL =
@@ -23,7 +23,7 @@ export function SourcePill({ source }: Props) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium",
+        "inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium",
         classes,
       )}
     >

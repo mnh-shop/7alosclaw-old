@@ -77,7 +77,6 @@ export interface SandboxConfig {
   mode?: "off" | "all";
   image?: string;
   workspace_access?: "none" | "ro" | "rw";
-  scope?: "session" | "agent" | "shared";
   memory_mb?: number;
   cpus?: number;
   timeout_sec?: number;

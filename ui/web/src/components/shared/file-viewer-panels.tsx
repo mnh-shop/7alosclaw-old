@@ -130,8 +130,8 @@ export function CsvViewer({ content }: { content: string }) {
           {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
         </button>
       </div>
-      <div className="overflow-auto flex-1 min-h-0">
-        <table className="w-full text-[13px] border-collapse">
+      <div className="overflow-x-auto overflow-y-auto overscroll-contain flex-1 min-h-0">
+        <table className="w-full min-w-[600px] text-[13px] border-collapse">
           <thead className="sticky top-0 z-10">
             <tr className="bg-muted/70">
               {header.map((col, i) => (

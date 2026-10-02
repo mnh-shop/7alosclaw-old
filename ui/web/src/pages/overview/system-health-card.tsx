@@ -1,15 +1,4 @@
-import {
-  Timer,
-  Monitor,
-  Database,
-  Wrench,
-  Radio,
-  Users,
-  CheckCircle2,
-  XCircle,
-  Minus,
-  Tag,
-} from "lucide-react";
+import { Monitor, CheckCircle2, XCircle, Minus, Tag } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { HealthPayload, ChannelStatusEntry } from "./types";
@@ -23,34 +12,27 @@ function StatusDot({ ok }: { ok: boolean | undefined }) {
   if (ok === undefined)
     return <Minus className="h-3.5 w-3.5 text-muted-foreground/40" />;
   return ok ? (
-    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+    <CheckCircle2 className="h-3.5 w-3.5 text-success" />
   ) : (
-    <XCircle className="h-3.5 w-3.5 text-red-500" />
+    <XCircle className="h-3.5 w-3.5 text-destructive" />
   );
 }
 
-function HealthCell({
+function HealthFact({
   label,
-  icon: Icon,
   value,
   statusOk,
 }: {
   label: string;
-  icon: React.ElementType;
   value: string;
   statusOk?: boolean;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-lg border bg-muted/30 p-3">
-      <div className="rounded-md bg-muted p-2">
-        <Icon className="h-4 w-4 text-muted-foreground" />
-      </div>
-      <div className="min-w-0">
-        <p className="text-xs text-muted-foreground">{label}</p>
-        <div className="flex items-center gap-1.5">
-          {statusOk !== undefined && <StatusDot ok={statusOk} />}
-          <p className="text-sm font-semibold tabular-nums truncate">{value}</p>
-        </div>
+    <div className="min-w-0">
+      <p className="brand-eyebrow text-muted-foreground">{label}</p>
+      <div className="mt-1.5 flex items-center gap-1.5">
+        {statusOk !== undefined && <StatusDot ok={statusOk} />}
+        <p className="text-sm font-medium break-words tabular-nums">{value}</p>
       </div>
     </div>
   );
@@ -64,6 +46,11 @@ export function SystemHealthCard({
   clientCount,
   channelEntries,
   runtimeEntries,
+  agentRunning,
+  agentTotal,
+  channelOnline,
+  channelTotal,
+  channelsNeedingAttention,
 }: {
   health: HealthPayload | null;
   liveUptime: number | undefined;
@@ -72,6 +59,11 @@ export function SystemHealthCard({
   clientCount: number;
   channelEntries: [string, ChannelStatusEntry][];
   runtimeEntries?: RuntimeInfo[];
+  agentRunning: number;
+  agentTotal: number;
+  channelOnline: number;
+  channelTotal: number;
+  channelsNeedingAttention: number | null;
 }) {
   const { t } = useTranslation("overview");
   const degradedCount = channelEntries.filter(
@@ -89,11 +81,12 @@ export function SystemHealthCard({
     );
 
   return (
-    <Card className="gap-4">
+    <Card className="gap-5">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-base flex items-center gap-2">
-            <Monitor className="h-4 w-4" /> {t("systemHealth.title")}
+        <div className="flex items-start justify-between gap-3">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Monitor className="h-4 w-4 text-muted-foreground" />
+            {t("systemHealth.title")}
           </CardTitle>
           {health?.version && (
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -102,10 +95,10 @@ export function SystemHealthCard({
                 {cleanVersion(health.version)}
               </span>
               {health.updateAvailable === false && (
-                <CheckCircle2 className="h-3 w-3 text-emerald-500" />
+                <CheckCircle2 className="h-3 w-3 text-success" />
               )}
               {health.updateAvailable && health.latestVersion && (
-                <span className="ml-1 rounded-full bg-amber-500/15 px-2 py-0.5 text-xs font-medium text-amber-600 dark:text-amber-400">
+                <span className="ml-1 rounded-md bg-warning/15 px-2 py-0.5 text-xs font-medium text-warning">
                   {health.latestVersion} available
                 </span>
               )}
@@ -113,17 +106,15 @@ export function SystemHealthCard({
           )}
         </div>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <HealthCell
+      <CardContent className="space-y-5">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3 lg:grid-cols-4">
+          <HealthFact
             label={t("systemHealth.uptime")}
-            icon={Timer}
             value={formatUptime(liveUptime)}
           />
           {health?.database && (
-            <HealthCell
+            <HealthFact
               label={t("systemHealth.database")}
-              icon={Database}
               value={
                 health.database === "ok"
                   ? t("common:connected", "Connected")
@@ -132,9 +123,8 @@ export function SystemHealthCard({
               statusOk={health.database === "ok"}
             />
           )}
-          <HealthCell
+          <HealthFact
             label={t("systemHealth.providers")}
-            icon={Radio}
             value={
               enabledProviderCount > 0
                 ? t("systemHealth.active", { count: enabledProviderCount })
@@ -142,36 +132,48 @@ export function SystemHealthCard({
             }
             statusOk={enabledProviderCount > 0}
           />
-          <HealthCell
-            label={t("systemHealth.tools")}
-            icon={Wrench}
-            value={String(health?.tools ?? 0)}
+          <HealthFact
+            label={t("statCards.agents")}
+            value={agentTotal > 0 ? `${agentRunning} / ${agentTotal}` : "0"}
           />
-          <HealthCell
+          <HealthFact
+            label={t("systemHealth.channels")}
+            value={
+              channelTotal > 0 ? `${channelOnline} / ${channelTotal}` : "0"
+            }
+            statusOk={
+              channelsNeedingAttention == null
+                ? undefined
+                : channelsNeedingAttention === 0
+            }
+          />
+          <HealthFact
             label={t("systemHealth.sessions")}
-            icon={Monitor}
             value={String(sessions)}
           />
-          <HealthCell
+          <HealthFact
             label={t("systemHealth.clients")}
-            icon={Users}
             value={String(clientCount)}
+          />
+          <HealthFact
+            label={t("systemHealth.tools")}
+            value={String(health?.tools ?? 0)}
           />
         </div>
 
         {runtimeEntries && runtimeEntries.length > 0 && (
-          <div className="border-t pt-4">
-            <p className="mb-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+          <div className="border-t pt-5">
+            <p className="brand-eyebrow mb-3 text-muted-foreground">
               {t("systemHealth.runtimes")}
             </p>
             <div className="flex flex-wrap gap-1.5">
               {runtimeEntries.map((rt) => (
                 <span
                   key={rt.name}
-                  className="inline-flex items-center gap-1.5 rounded-md bg-muted/50 px-2 py-1 text-xs"
+                  className="inline-flex items-center gap-1.5 rounded-md bg-muted px-2 py-1 text-xs"
                 >
                   <span
-                    className={`h-1.5 w-1.5 rounded-full ${rt.available ? "bg-emerald-500" : "bg-red-400"}`}
+                    className={`h-1.5 w-1.5 rounded-full ${rt.available ? "bg-success" : "bg-destructive"}`}
                   />
                   {rt.name}
                   {rt.version && (
@@ -184,9 +186,9 @@ export function SystemHealthCard({
         )}
 
         {channelEntries.length > 0 && (
-          <div className="border-t pt-4">
-            <div className="mb-2 flex items-center justify-between gap-2">
-              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+          <div className="border-t pt-5">
+            <div className="mb-3 flex items-center justify-between gap-2">
+              <p className="brand-eyebrow text-muted-foreground">
                 {t("systemHealth.channels")}
               </p>
               {(degradedCount > 0 || failedCount > 0) && (
@@ -214,7 +216,7 @@ export function SystemHealthCard({
                 return (
                   <span
                     key={name}
-                    className="inline-flex items-center gap-1.5 rounded-md bg-muted/50 px-2 py-1 text-xs"
+                    className="inline-flex items-center gap-1.5 rounded-md bg-muted px-2 py-1 text-xs"
                   >
                     <span
                       className={`h-1.5 w-1.5 rounded-full ${meta.dotClass}`}

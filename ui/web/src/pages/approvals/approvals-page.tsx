@@ -11,6 +11,7 @@ import { formatRelativeTime } from "@/lib/format";
 import { useApprovals, type PendingApproval } from "./hooks/use-approvals";
 import { useMinLoading } from "@/hooks/use-min-loading";
 import { useDeferredLoading } from "@/hooks/use-deferred-loading";
+import { useCanWrite } from "@/components/shared/require-role";
 
 export function ApprovalsPage() {
   const { t } = useTranslation("approvals");
@@ -20,6 +21,7 @@ export function ApprovalsPage() {
   const showSkeleton = useDeferredLoading(loading && pending.length === 0);
   const [denyTarget, setDenyTarget] = useState<PendingApproval | null>(null);
   const [approveTarget, setApproveTarget] = useState<{ approval: PendingApproval; always: boolean } | null>(null);
+  const canWrite = useCanWrite();
 
   return (
     <div className="p-4 sm:p-6 pb-10">
@@ -63,31 +65,33 @@ export function ApprovalsPage() {
                       {approval.command}
                     </pre>
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <Button
-                      size="sm"
-                      onClick={() => setApproveTarget({ approval, always: false })}
-                      className="gap-1"
-                    >
-                      <Check className="h-3.5 w-3.5" /> {t("allowOnce")}
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setApproveTarget({ approval, always: true })}
-                      className="gap-1"
-                    >
-                      <Check className="h-3.5 w-3.5" /> {t("allowAlways")}
-                    </Button>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => setDenyTarget(approval)}
-                      className="gap-1"
-                    >
-                      <X className="h-3.5 w-3.5" /> {t("deny")}
-                    </Button>
-                  </div>
+                  {canWrite && (
+                    <div className="flex flex-col gap-2">
+                      <Button
+                        size="sm"
+                        onClick={() => setApproveTarget({ approval, always: false })}
+                        className="gap-1"
+                      >
+                        <Check className="h-3.5 w-3.5" /> {t("allowOnce")}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setApproveTarget({ approval, always: true })}
+                        className="gap-1"
+                      >
+                        <Check className="h-3.5 w-3.5" /> {t("allowAlways")}
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => setDenyTarget(approval)}
+                        className="gap-1"
+                      >
+                        <X className="h-3.5 w-3.5" /> {t("deny")}
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

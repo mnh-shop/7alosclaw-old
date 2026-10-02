@@ -114,7 +114,7 @@ export function LinkBadge({ link, docNames, t }: { link: VaultLink; docNames?: R
 
   if (confirmDelete) {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs bg-destructive/10 border-destructive/30">
+      <span className="inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs bg-destructive/10 border-destructive/30">
         <span className="text-destructive">{t("deleteLink")}?</span>
         <button onClick={handleDelete} className="text-destructive font-bold hover:underline">✓</button>
         <button onClick={() => setConfirmDelete(false)} className="text-muted-foreground hover:underline">✗</button>

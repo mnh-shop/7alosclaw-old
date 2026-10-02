@@ -22,10 +22,10 @@ export function RuntimesStickyHeader() {
         {runtimes?.runtimes?.map((rt) => (
           <span
             key={rt.name}
-            className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium border ${
+            className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-medium border ${
               rt.available
-                ? "border-green-200 bg-green-50 text-green-800 dark:border-green-900/50 dark:bg-green-950/20 dark:text-green-300"
-                : "border-red-200 bg-red-50 text-red-800 dark:border-red-900/50 dark:bg-red-950/20 dark:text-red-300"
+                ? "border-success bg-success text-success dark:border-success/50 dark:bg-success/20 dark:text-success"
+                : "border-destructive bg-destructive text-destructive dark:border-destructive/50 dark:bg-destructive/20 dark:text-destructive"
             }`}
           >
             {rt.available ? (

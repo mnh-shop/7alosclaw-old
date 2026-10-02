@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { AreaChart, Area, ResponsiveContainer } from "recharts";
 import { TrendingUp, TrendingDown } from "lucide-react";
 
@@ -18,21 +19,22 @@ export function StatCard({
 }) {
   const sparkData = sparkline?.map((v) => ({ v }));
   const hasTrend = trend != null && trend !== 0;
+  // Unique per card so several sparklines don't share one SVG gradient id.
+  const gradientId = `spark-${useId().replace(/:/g, "")}`;
 
   return (
-    <div className="rounded-lg border bg-card p-5">
-      <div className="flex items-center gap-3">
-        <div className="rounded-md bg-muted p-2">
-          <Icon className="h-4 w-4 text-muted-foreground" />
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="text-sm text-muted-foreground">{label}</p>
-          <div className="flex items-center gap-2">
-            <p className="text-2xl font-semibold">{value}</p>
+    <div className="rounded-xl border bg-card p-5 shadow-sm sm:p-6">
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0">
+          <p className="brand-eyebrow text-muted-foreground">{label}</p>
+          <div className="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+            <p className="text-3xl font-semibold tracking-tight tabular-nums">
+              {value}
+            </p>
             {hasTrend && (
               <span
-                className={`flex items-center gap-0.5 text-xs font-medium ${
-                  trend > 0 ? "text-green-600" : "text-red-600"
+                className={`inline-flex items-center gap-0.5 text-xs font-medium ${
+                  trend > 0 ? "text-success" : "text-destructive"
                 }`}
               >
                 {trend > 0 ? (
@@ -44,15 +46,18 @@ export function StatCard({
               </span>
             )}
           </div>
-          {sub && <p className="text-xs text-muted-foreground">{sub}</p>}
+          {sub && <p className="mt-1.5 text-sm text-muted-foreground">{sub}</p>}
         </div>
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+          <Icon className="h-4 w-4" />
+        </span>
       </div>
       {sparkData && sparkData.length > 1 && (
-        <div className="mt-3 h-[40px]">
+        <div className="mt-5 h-10">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={sparkData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
               <defs>
-                <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
+                <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="var(--color-primary)" stopOpacity={0.3} />
                   <stop offset="95%" stopColor="var(--color-primary)" stopOpacity={0} />
                 </linearGradient>
@@ -62,7 +67,7 @@ export function StatCard({
                 dataKey="v"
                 stroke="var(--color-primary)"
                 strokeWidth={1.5}
-                fill="url(#sparkGrad)"
+                fill={`url(#${gradientId})`}
                 dot={false}
                 isAnimationActive={false}
               />

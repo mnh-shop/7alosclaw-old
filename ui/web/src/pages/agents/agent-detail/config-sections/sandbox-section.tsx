@@ -67,30 +67,14 @@ export function SandboxSection({ enabled, value, onToggle, onChange }: SandboxSe
           onChange={(e) => onChange({ ...value, image: e.target.value || undefined })}
         />
       </div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="space-y-2">
-          <InfoLabel tip="Container lifecycle scope. 'session' = one container per chat session, 'agent' = shared across sessions, 'shared' = shared across all agents.">{t(`${s}.scope`)}</InfoLabel>
-          <Select
-            value={value.scope ?? ""}
-            onValueChange={(v) => onChange({ ...value, scope: v as SandboxConfig["scope"] })}
-          >
-            <SelectTrigger><SelectValue placeholder="session" /></SelectTrigger>
-            <SelectContent>
-              <SelectItem value="session">session</SelectItem>
-              <SelectItem value="agent">agent</SelectItem>
-              <SelectItem value="shared">shared</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="space-y-2">
-          <InfoLabel tip="Maximum execution time in seconds for each command run inside the sandbox.">{t(`${s}.timeout`)}</InfoLabel>
-          <Input
-            type="number"
-            placeholder="300"
-            value={value.timeout_sec ?? ""}
-            onChange={(e) => onChange({ ...value, timeout_sec: numOrUndef(e.target.value) })}
-          />
-        </div>
+      <div className="space-y-2">
+        <InfoLabel tip="Maximum execution time in seconds for each command run inside the sandbox.">{t(`${s}.timeout`)}</InfoLabel>
+        <Input
+          type="number"
+          placeholder="300"
+          value={value.timeout_sec ?? ""}
+          onChange={(e) => onChange({ ...value, timeout_sec: numOrUndef(e.target.value) })}
+        />
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="space-y-2">

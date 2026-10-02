@@ -7,6 +7,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { useAgentSkills } from "@/pages/agents/hooks/use-agent-skills";
+import { useCanWrite } from "@/components/shared/require-role";
 import type { AgentData } from "@/types/agent";
 
 interface Props {
@@ -22,6 +23,7 @@ function readPinnedSkills(agent: AgentData): string[] {
 }
 
 export function PinnedSkillsSection({ agent, onUpdate }: Props) {
+  const canWrite = useCanWrite();
   const { t } = useTranslation("agents");
   const { skills, loading: skillsLoading } = useAgentSkills(agent.id);
   const savedPinned = readPinnedSkills(agent);
@@ -76,11 +78,11 @@ export function PinnedSkillsSection({ agent, onUpdate }: Props) {
     <section className="space-y-2.5 rounded-lg border p-3 sm:p-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Pin className="h-4 w-4 text-orange-500 shrink-0" />
+          <Pin className="h-4 w-4 text-warning shrink-0" />
           <h3 className="text-sm font-medium">{t("detail.prompt.pinnedLabel", "Pinned Skills")}</h3>
           <span className="text-xs text-muted-foreground">({pinned.length}/{MAX_PINNED})</span>
         </div>
-        {dirty && (
+        {canWrite && dirty && (
           <Button size="xs" onClick={handleSave} disabled={saving}>
             {saving ? t("saving", "Saving...") : t("save", "Save")}
           </Button>
@@ -94,7 +96,7 @@ export function PinnedSkillsSection({ agent, onUpdate }: Props) {
             <Badge
               key={slug} variant="secondary"
               className="text-xs gap-1 pr-1 cursor-pointer hover:bg-destructive/20"
-              onClick={() => removePinned(slug)}
+              onClick={() => canWrite && removePinned(slug)}
             >
               {skillName(slug)}
               <X className="h-3 w-3" />
@@ -104,7 +106,7 @@ export function PinnedSkillsSection({ agent, onUpdate }: Props) {
       )}
 
       {/* Add skill select */}
-      {pinned.length < MAX_PINNED && !skillsLoading && availableSkills.length > 0 && (
+      {canWrite && pinned.length < MAX_PINNED && !skillsLoading && availableSkills.length > 0 && (
         <Select value="" onValueChange={addPinned}>
           <SelectTrigger className="w-[220px] text-base md:text-sm h-8">
             <SelectValue placeholder={t("detail.prompt.pinnedPlaceholder", "Add a skill...")} />

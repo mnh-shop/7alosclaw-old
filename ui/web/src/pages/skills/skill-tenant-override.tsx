@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useCanWrite } from "@/components/shared/require-role";
 import type { SkillInfo } from "./hooks/use-skills";
 
 interface SkillTenantOverrideProps {
@@ -21,6 +22,7 @@ export function SkillTenantOverride({
   onDeleteTenantConfig,
 }: SkillTenantOverrideProps) {
   const { t } = useTranslation("skills");
+  const canWrite = useCanWrite();
   const hasOverride = skill.tenant_enabled !== null && skill.tenant_enabled !== undefined;
   const checked = hasOverride ? (skill.tenant_enabled ?? false) : (skill.enabled !== false);
   const label = hasOverride
@@ -47,14 +49,16 @@ export function SkillTenantOverride({
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <Switch
-        size="sm"
-        checked={checked}
-        disabled={toggling}
-        onCheckedChange={(val) => onSetTenantConfig(skill.id!, val)}
-        aria-label={t("tenant.overrideHint")}
-      />
-      {hasOverride && (
+      {canWrite && (
+        <Switch
+          size="sm"
+          checked={checked}
+          disabled={toggling}
+          onCheckedChange={(val) => onSetTenantConfig(skill.id!, val)}
+          aria-label={t("tenant.overrideHint")}
+        />
+      )}
+      {canWrite && hasOverride && (
         <TooltipProvider delayDuration={200}>
           <Tooltip>
             <TooltipTrigger asChild>

@@ -109,7 +109,7 @@ function PackageSectionBody({ title, placeholder, packages, loading, onInstall, 
                     <td className="py-2 px-3 text-muted-foreground font-mono text-sm">{pkg.version}</td>
                     <td className="py-2 px-3 text-right">
                       {status === "success" ? (
-                        <CheckCircle2 className="h-4 w-4 text-green-500 inline" />
+                        <CheckCircle2 className="h-4 w-4 text-success inline" />
                       ) : (
                         <Button
                           variant="ghost" size="sm"

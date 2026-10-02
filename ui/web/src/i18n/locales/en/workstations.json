@@ -1,12 +1,12 @@
 {
   "title": "Workstations",
-  "description": "Manage remote workstation connections (SSH, Docker) for agents to execute commands.",
+  "description": "Manage remote workstations for agents to run commands: a direct SSH host, or a container runtime on a remote host reached over SSH.",
   "addWorkstation": "Add Workstation",
   "emptyTitle": "No workstations configured",
   "emptyDescription": "Add a workstation to allow agents to run commands on remote machines.",
   "backend": {
     "ssh": "SSH",
-    "docker": "Docker"
+    "docker": "Remote container (over SSH)"
   },
   "status": {
     "active": "Active",
@@ -37,7 +37,7 @@
     "keyHint": "Lowercase letters, digits, hyphens. Used by agents to reference this workstation.",
     "backendLabel": "Backend Type",
     "sshOption": "SSH",
-    "dockerOption": "Docker",
+    "dockerOption": "Remote container (over SSH)",
     "hostLabel": "Host",
     "hostPlaceholder": "192.168.1.100",
     "portLabel": "Port",
@@ -52,12 +52,17 @@
     "passwordLabel": "SSH Password",
     "passwordPlaceholder": "Password for the SSH user",
     "passwordHint": "Prefer key-based auth where possible.",
-    "containerLabel": "Container Name / ID",
-    "containerPlaceholder": "my-container",
     "imageLabel": "Image",
     "imagePlaceholder": "ubuntu:24.04",
-    "socketPathLabel": "Docker Socket Path (optional)",
-    "socketPathPlaceholder": "unix:///var/run/docker.sock",
+    "imageHint": "Execution always passes --pull=never, so this image must already exist in the runtime on the remote host. The gateway never pulls it for you.",
+    "runtimeLabel": "Container runtime",
+    "runtimeAutoOption": "Automatic (prefers podman)",
+    "runtimePodmanOption": "podman (rootless)",
+    "runtimeDockerOption": "docker (rootful daemon)",
+    "runtimeHint": "Automatic resolution uses podman when it is installed, and only falls back to docker with the opt-in below. Executions run with --network=none, so the workload has no network access.",
+    "allowRootfulLabel": "Allow rootful docker socket",
+    "allowRootfulHint": "A rootful docker daemon socket hands the workload host root even when the SSH user is not root. Enable only if you accept that.",
+    "rootfulRequiredWarning": "docker is selected but the rootful socket is not accepted. Pick podman, or turn the option on above to accept the risk.",
     "cancel": "Cancel",
     "create": "Create",
     "errors": {
@@ -67,9 +72,13 @@
       "sshPortRange": "Port must be between 1 and 65535.",
       "sshPrivateKeyRequired": "A private key is required for key-based authentication.",
       "sshPasswordRequired": "A password is required for password authentication.",
-      "dockerContainerRequired": "Container name is required for the Docker backend.",
-      "dockerImageRequired": "Image is required for the Docker backend.",
-      "createFailed": "Failed to create workstation."
+      "dockerImageRequired": "Image is required for the container backend.",
+      "dockerRootfulRequired": "The docker runtime needs the rootful docker socket option enabled.",
+      "createFailed": "Failed to create workstation.",
+      "hostFingerprintShape": "The fingerprint must start with \"SHA256:\" followed by 43 base64 characters.",
+      "hostCaKeyShape": "The CA key must be one authorized_keys line, for example \"ssh-ed25519 AAAA… comment\".",
+      "hostCaKeyNotSingleLine": "The CA key must be a single line, with no line breaks.",
+      "hostCaKeyIsPrivateKey": "That looks like a private key. Paste the CA's public key instead — never a private key."
     }
   },
   "deleteDialog": {
@@ -78,8 +87,20 @@
     "confirmLabel": "Delete"
   },
   "testResult": {
-    "success": "Connection successful",
-    "notImplemented": "Connection test is not yet available"
+    "title": "Connection test",
+    "hint": "Dials the host over SSH and checks the transport. For a remote container it also resolves the runtime and confirms the pinned image is present. This can take a few seconds.",
+    "action": "Test connection",
+    "running": "Testing connection…",
+    "success": "Connected",
+    "backendLabel": "Backend",
+    "runtimeLabel": "Runtime",
+    "imageLabel": "Image",
+    "imagePresent": "present on the remote host",
+    "imageAbsent": "not present on the remote host",
+    "rootfulWarning": "The resolved runtime is a rootful docker daemon: it delegates host root even to a non-root user.",
+    "failed": "Connection failed.",
+    "legacyTitle": "This workstation predates the SSH transport",
+    "legacyReason": "It was created before the container backend moved onto SSH, so it has no host, user or credentials and cannot be opened or tested. Re-create it as a remote container workstation."
   },
   "activity": {
     "title": "Recent Activity",
@@ -98,5 +119,30 @@
       "deny": "Denied"
     },
     "loadMore": "Load more"
+  },
+  "hostTrust": {
+    "sectionTitle": "Host verification",
+    "sectionHint": "How this workstation proves it is the host you meant to reach.",
+    "fingerprintLabel": "Host key fingerprint",
+    "fingerprintPlaceholder": "SHA256:…",
+    "fingerprintHint": "Pins one exact host key. Best when the host's key never changes. Get it from the server with \"ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub\".",
+    "caKeyLabel": "Host CA public key",
+    "caKeyPlaceholder": "ssh-ed25519 AAAA…",
+    "caKeyHint": "Trusts any host certificate signed by this CA. Best when hosts are rebuilt — the host key changes, but the CA that signs it does not.",
+    "precedenceHint": "Both are set: the CA key is checked first, then the fingerprint.",
+    "noAnchorWarning": "No host verification set. With nothing here, the gateway refuses to connect to this workstation — the command will fail with \"refusing connection: no host trust anchor configured\". Add a fingerprint or a CA key, or turn on insecure mode below.",
+    "insecureLabel": "Skip host verification (development only)",
+    "insecureHint": "Accepts any host key on first contact. Every connection logs a security warning and can be redirected by anyone on the network path.",
+    "insecureWarning": "Host verification is off. Do not use this for anything but local development."
+  },
+  "editDialog": {
+    "title": "Edit workstation",
+    "description": "Change the display name and host verification settings. Stored credentials are left as they are.",
+    "save": "Save changes",
+    "trustUnavailable": "Host verification settings aren't available for this workstation type, so they're left untouched. The gateway still uses the anchor it stored at creation.",
+    "errors": {
+      "nameRequired": "Display name is required.",
+      "saveFailed": "Failed to save workstation."
+    }
   }
 }

@@ -7,11 +7,11 @@ describe("runtime branding", () => {
     document.head.innerHTML = "";
   });
 
-  it("falls back to built-in ZalosClaw branding", () => {
+  it("falls back to built-in 7alosclaw branding", () => {
     expect(getRuntimeBranding()).toEqual({
-      appName: "ZalosClaw",
-      appShortName: "ZalosClaw",
-      logoUrl: "/zalosclaw-icon.svg",
+      appName: "7alosclaw",
+      appShortName: "7alosclaw",
+      logoUrl: "/7alos-mark.svg",
     });
   });
 

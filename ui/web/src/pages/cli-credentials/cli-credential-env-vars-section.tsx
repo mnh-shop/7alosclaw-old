@@ -142,7 +142,7 @@ export function CliCredentialEnvVarsSection({
               </label>
             </RadioGroup>
             {entry.kind === "value" && (
-              <p className="text-xs text-amber-700 dark:text-amber-300">
+              <p className="text-xs text-warning dark:text-warning">
                 {isSuspiciousPlaintextEnv(entry.key, entry.value)
                   ? t("form.envValueSuspicious")
                   : t("form.envValueWarning")}

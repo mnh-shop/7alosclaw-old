@@ -230,7 +230,7 @@ export function AiDefaultsSection({ data, onSave, saving }: Props) {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="grid gap-1.5">
               <Label>{t("agents.sandbox.mode")}</Label>
-              <Select value={sandbox.mode ?? "off"} onValueChange={(v) => updateNested("sandbox", { mode: v })}>
+              <Select value={sandbox.mode ?? "all"} onValueChange={(v) => updateNested("sandbox", { mode: v })}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="off">Off</SelectItem>

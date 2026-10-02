@@ -10,6 +10,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { useAuthStore } from "@/stores/use-auth-store";
+import { useCanWrite } from "@/components/shared/require-role";
 import type { AgentData, BootstrapFile } from "@/types/agent";
 import {
   FileSidebar,
@@ -39,6 +40,7 @@ export function AgentFilesTab({
 }: AgentFilesTabProps) {
   const { t } = useTranslation("agents");
   const userId = useAuthStore((s) => s.userId);
+  const canWrite = useCanWrite();
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
@@ -51,7 +53,7 @@ export function AgentFilesTab({
   const isOpen = agent.agent_type === "open";
   const isPredefined = agent.agent_type === "predefined";
   const isOwner = agent.owner_id === userId;
-  const canEdit = !isPredefined || isOwner;
+  const canEdit = (!isPredefined || isOwner) && canWrite;
 
   const displayFiles = files.filter(
     (f) =>
@@ -108,7 +110,7 @@ export function AgentFilesTab({
     return <OpenAgentEmptyState files={displayFiles} />;
   }
 
-  const aiActions = isPredefined && isOwner && (
+  const aiActions = isPredefined && isOwner && canWrite && (
     <>
       {onResummon && (
         <Button
@@ -138,8 +140,8 @@ export function AgentFilesTab({
   return (
     <div className="space-y-3">
       {isPredefined && !isOwner && (
-        <div className="flex items-start gap-3 rounded-lg border border-amber-500/30 bg-amber-500/5 p-4">
-          <Lock className="mt-0.5 h-5 w-5 shrink-0 text-amber-600 dark:text-amber-400" />
+        <div className="flex items-start gap-3 rounded-lg border border-warning/30 bg-warning/5 p-4">
+          <Lock className="mt-0.5 h-5 w-5 shrink-0 text-warning dark:text-warning" />
           <div className="text-sm">
             <p className="font-medium">{t("files.readOnly")}</p>
             <p className="text-muted-foreground">{t("files.readOnlyDesc")}</p>

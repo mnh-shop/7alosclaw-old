@@ -4,6 +4,7 @@ import {
   type WorkstationCreateFormState,
 } from "../workstation-create-dialog-helpers";
 import type { Workstation } from "../hooks/use-workstations";
+import { Methods } from "@/api/protocol";
 
 function form(overrides: Partial<WorkstationCreateFormState> = {}): WorkstationCreateFormState {
   return {
@@ -16,9 +17,12 @@ function form(overrides: Partial<WorkstationCreateFormState> = {}): WorkstationC
     authMethod: "privateKey",
     privateKey: "-----BEGIN OPENSSH PRIVATE KEY-----\nabc\n-----END OPENSSH PRIVATE KEY-----",
     password: "",
-    container: "",
     image: "",
-    socketPath: "",
+    runtime: "auto",
+    allowRootfulSocket: false,
+    knownHostsFingerprint: "",
+    hostCaKey: "",
+    allowInsecureHostKey: false,
     ...overrides,
   };
 }
@@ -79,19 +83,80 @@ describe("workstation create payload contract", () => {
     ).toEqual({ kind: "error", errorKey: "sshPasswordRequired" });
   });
 
-  it("maps the Docker container name onto host and requires an image", () => {
+  it("sends the container backend as a full SSH transport plus an image", () => {
     const ok = buildWorkstationCreatePayload(
-      form({ backend: "docker", container: "my-box", image: "ubuntu:24.04", socketPath: "" }),
+      form({ backend: "docker", host: "10.0.0.9", user: "deploy", image: "ubuntu:24.04" }),
     );
     if (ok.kind !== "ok") throw new Error("expected ok");
 
-    // store.DockerMetadata carries the container name in `host` and requires
-    // `image`; the old payload sent {container, docker_host} and always failed.
-    expect(ok.payload.metadata).toEqual({ host: "my-box", image: "ubuntu:24.04" });
+    // store.ContainerMetadata embeds store.SSHMetadata: the container backend
+    // runs podman/docker on a REMOTE host over SSH, so it needs host, port, user
+    // and a credential, plus the image. The old payload sent {host, image} with
+    // no transport and the tightened validator rejects it.
+    expect(ok.payload.metadata).toEqual({
+      host: "10.0.0.9",
+      port: 22,
+      user: "deploy",
+      privateKey: expect.stringContaining("BEGIN OPENSSH PRIVATE KEY"),
+      image: "ubuntu:24.04",
+    });
+    // socketPath is dead for creation: there is no local daemon.
+    expect(ok.payload.metadata).not.toHaveProperty("socketPath");
+
+    // transport rules are shared with the ssh backend
+    expect(
+      buildWorkstationCreatePayload(form({ backend: "docker", image: "ubuntu:24.04", user: "" })),
+    ).toEqual({ kind: "error", errorKey: "sshHostUserRequired" });
 
     expect(
-      buildWorkstationCreatePayload(form({ backend: "docker", container: "my-box", image: "" })),
+      buildWorkstationCreatePayload(form({ backend: "docker", image: "" })),
     ).toEqual({ kind: "error", errorKey: "dockerImageRequired" });
+  });
+
+  it("omits runtime for auto and sends podman/docker when pinned", () => {
+    const auto = buildWorkstationCreatePayload(form({ backend: "docker", image: "ubuntu:24.04" }));
+    if (auto.kind !== "ok") throw new Error("expected ok");
+    // "" resolves on the remote host and always prefers podman, so auto sends
+    // no runtime member at all.
+    expect(auto.payload.metadata).not.toHaveProperty("runtime");
+
+    const podman = buildWorkstationCreatePayload(
+      form({ backend: "docker", image: "ubuntu:24.04", runtime: "podman" }),
+    );
+    if (podman.kind !== "ok") throw new Error("expected ok");
+    expect(podman.payload.metadata).toMatchObject({ runtime: "podman" });
+    expect(podman.payload.metadata).not.toHaveProperty("allowRootfulSocket");
+  });
+
+  it("refuses docker unless the rootful socket opt-in is explicit", () => {
+    expect(
+      buildWorkstationCreatePayload(
+        form({ backend: "docker", image: "ubuntu:24.04", runtime: "docker" }),
+      ),
+    ).toEqual({ kind: "error", errorKey: "dockerRootfulRequired" });
+
+    const accepted = buildWorkstationCreatePayload(
+      form({
+        backend: "docker",
+        image: "ubuntu:24.04",
+        runtime: "docker",
+        allowRootfulSocket: true,
+      }),
+    );
+    if (accepted.kind !== "ok") throw new Error("expected ok");
+    expect(accepted.payload.metadata).toMatchObject({
+      runtime: "docker",
+      allowRootfulSocket: true,
+    });
+  });
+
+  it("carries the trust anchor for the container backend too", () => {
+    const fp = "SHA256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    const ok = buildWorkstationCreatePayload(
+      form({ backend: "docker", image: "ubuntu:24.04", knownHostsFingerprint: fp }),
+    );
+    if (ok.kind !== "ok") throw new Error("expected ok");
+    expect(ok.payload.metadata).toMatchObject({ knownHostsFingerprint: fp });
   });
 
   it("requires a workstation key before hitting the network", () => {
@@ -99,6 +164,22 @@ describe("workstation create payload contract", () => {
       kind: "error",
       errorKey: "keyRequired",
     });
+  });
+});
+
+describe("workstation RPC contract", () => {
+  // The constants with no call site are the dangerous ones: a drifted value
+  // cannot surface as a failing page, only as an unknown-method error the first
+  // time somebody wires the feature up. WORKSTATIONS_TEST drifted exactly that
+  // way ("workstations.test" against the gateway's "workstations.testConnection")
+  // and, having zero call sites, nothing caught it. Values must match
+  // pkg/protocol/methods.go verbatim.
+  it.each([
+    ["WORKSTATIONS_TEST", Methods.WORKSTATIONS_TEST, "workstations.testConnection"],
+    ["WORKSTATIONS_LINK_AGENT", Methods.WORKSTATIONS_LINK_AGENT, "workstations.linkAgent"],
+    ["WORKSTATIONS_UNLINK_AGENT", Methods.WORKSTATIONS_UNLINK_AGENT, "workstations.unlinkAgent"],
+  ])("pins %s to the method the gateway registers", (_name, actual, want) => {
+    expect(actual).toBe(want);
   });
 });
 
@@ -131,5 +212,22 @@ describe("workstation list contract", () => {
     expect(Number.isNaN(new Date(ws.createdAt).getTime())).toBe(false);
     expect(ws.name).toBe("Aether");
     expect(ws.active).toBe(true);
+  });
+
+  it("carries the host trust anchor, because the gateway fails closed without it", () => {
+    const fp = "SHA256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    const ok = buildWorkstationCreatePayload(form({ knownHostsFingerprint: fp }));
+    if (ok.kind !== "ok") throw new Error("expected ok");
+    expect(ok.payload.metadata).toMatchObject({ knownHostsFingerprint: fp });
+
+    // empty and off values are omitted, so the stored metadata stays clean
+    const clean = buildWorkstationCreatePayload(form());
+    if (clean.kind !== "ok") throw new Error("expected ok");
+    expect(clean.payload.metadata).not.toHaveProperty("knownHostsFingerprint");
+    expect(clean.payload.metadata).not.toHaveProperty("allowInsecureHostKey");
+
+    // a typo must not reach the dial
+    expect(buildWorkstationCreatePayload(form({ knownHostsFingerprint: "not-a-fingerprint" })))
+      .toEqual({ kind: "error", errorKey: "hostFingerprintShape" });
   });
 });

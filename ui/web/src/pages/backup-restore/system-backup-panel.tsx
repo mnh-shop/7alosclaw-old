@@ -75,7 +75,7 @@ export function SystemBackupPanel() {
   if (backup.status === "complete") {
     return (
       <div className="space-y-4">
-        <h3 className="text-sm font-medium text-green-600">{t("backup.complete")}</h3>
+        <h3 className="text-sm font-medium text-success">{t("backup.complete")}</h3>
         <OperationProgress steps={backup.steps} elapsed={backup.elapsed} />
 
         {backup.result && (

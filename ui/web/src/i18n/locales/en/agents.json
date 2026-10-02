@@ -860,7 +860,6 @@
       "mode": "Mode",
       "workspaceAccess": "Workspace Access",
       "image": "Image",
-      "scope": "Scope",
       "timeout": "Timeout (sec)",
       "memoryMb": "Memory (MB)",
       "cpus": "CPUs",

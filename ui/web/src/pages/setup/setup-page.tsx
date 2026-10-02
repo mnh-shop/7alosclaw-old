@@ -10,11 +10,10 @@ import { StepAgent } from "./step-agent";
 import { StepChannel } from "./step-channel";
 import { SetupCompleteModal } from "./setup-complete-modal";
 import { Building2 } from "lucide-react";
-import { ROUTES, SUPPORTED_LANGUAGES, LANGUAGE_LABELS, LOCAL_STORAGE_KEYS } from "@/lib/constants";
+import { ROUTES, LOCAL_STORAGE_KEYS } from "@/lib/constants";
 import { markSetupSkipped } from "@/lib/setup-skip";
 import { useChatGPTOAuthProviderStatuses } from "@/pages/providers/hooks/use-chatgpt-oauth-provider-statuses";
 import { useAuthStore } from "@/stores/use-auth-store";
-import { useUiStore } from "@/stores/use-ui-store";
 import { useTenants } from "@/hooks/use-tenants";
 import type { ProviderData } from "@/types/provider";
 import type { AgentData } from "@/types/agent";
@@ -23,28 +22,6 @@ function PageLoader() {
   return (
     <div className="flex h-32 items-center justify-center">
       <div className="h-6 w-6 animate-spin rounded-full border-2 border-muted-foreground border-t-transparent" />
-    </div>
-  );
-}
-
-function LanguageSelector() {
-  const { language, setLanguage } = useUiStore();
-  return (
-    <div className="flex items-center gap-1.5">
-      {SUPPORTED_LANGUAGES.map((lang) => (
-        <button
-          key={lang}
-          type="button"
-          onClick={() => setLanguage(lang)}
-          className={`text-xs px-2 py-1 rounded transition-colors ${
-            language === lang
-              ? "text-foreground font-medium bg-muted"
-              : "text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          {LANGUAGE_LABELS[lang]}
-        </button>
-      ))}
     </div>
   );
 }
@@ -194,7 +171,6 @@ export function SetupPage() {
           </button>
           <div className="flex items-center gap-4">
             <TenantSwitcher />
-            <LanguageSelector />
           </div>
         </div>
       )}

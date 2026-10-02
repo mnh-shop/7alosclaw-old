@@ -1,12 +1,9 @@
+/** The messengers this console offers. The engine supports more (Bitrix24,
+ *  Feishu/Lark, Pancake, Zalo) but we ship these five. */
 export const CHANNEL_TYPES = [
-  { value: "bitrix24", label: "Bitrix24" },
   { value: "discord", label: "Discord" },
   { value: "facebook", label: "Facebook" },
-  { value: "feishu", label: "Feishu / Lark" },
-  { value: "pancake", label: "Pancake (pages.fm)" },
   { value: "slack", label: "Slack" },
   { value: "telegram", label: "Telegram" },
   { value: "whatsapp", label: "WhatsApp" },
-  { value: "zalo_oa", label: "Zalo OA" },
-  { value: "zalo_personal", label: "Zalo Personal" },
 ] as const;

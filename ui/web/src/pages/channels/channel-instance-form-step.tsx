@@ -150,7 +150,7 @@ export function ChannelInstanceFormStep({
         {instance && wizard?.steps.includes("auth") && (
           <div className="rounded-md border border-blue-200 bg-blue-50 dark:border-blue-900 dark:bg-blue-950 p-3">
             <div className="flex items-center gap-2">
-              <span className={`h-2 w-2 rounded-full ${instance.has_credentials ? "bg-green-500" : "bg-amber-500"}`} />
+              <span className={`h-2 w-2 rounded-full ${instance.has_credentials ? "bg-success" : "bg-warning"}`} />
               <span className="text-sm">
                 {instance.has_credentials ? t("form.authStatus.authenticated") : t("form.authStatus.notAuthenticated")}
               </span>

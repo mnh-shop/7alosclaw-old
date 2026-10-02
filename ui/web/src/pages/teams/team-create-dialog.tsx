@@ -194,7 +194,7 @@ export function TeamCreateDialog({ open, onOpenChange, onCreate }: TeamCreateDia
               </div>
             )}
             {lead && members.length === 0 && memberOptions.length > 0 && (
-              <p className="text-xs text-amber-600 dark:text-amber-400">{t("create.needMembers")}</p>
+              <p className="text-xs text-warning dark:text-warning">{t("create.needMembers")}</p>
             )}
           </div>
         </div>

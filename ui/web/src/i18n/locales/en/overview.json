@@ -61,6 +61,18 @@
     "noJobs": "No cron jobs configured",
     "disabled": "disabled"
   },
+  "approvals": {
+    "title": "Approvals",
+    "empty": "Nothing is waiting for approval.",
+    "review": "Review",
+    "waiting": "{{count}} waiting"
+  },
+  "recentSessions": {
+    "title": "Recent Sessions",
+    "empty": "No sessions yet.",
+    "viewAll": "All sessions",
+    "messages": "{{count}} messages"
+  },
   "recentRequests": {
     "title": "Recent Requests",
     "viewAll": "View All",

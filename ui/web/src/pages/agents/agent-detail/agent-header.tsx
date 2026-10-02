@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import type { AgentData } from "@/types/agent";
 import type { HeartbeatConfig } from "@/pages/agents/hooks/use-agent-heartbeat";
 import { useCountdown } from "@/hooks/use-countdown";
+import { useCanWrite } from "@/components/shared/require-role";
 import { agentDisplayName, agentKeyDisplay, hasActiveChatGPTOAuthRouting, readPromptMode } from "./agent-display-utils";
 import { cn } from "@/lib/utils";
 import { promptModeBadgeClass } from "./prompt-mode-badge-utils";
@@ -25,6 +26,7 @@ interface AgentHeaderProps {
 export function AgentHeader({ agent, heartbeat, onBack, onDelete, onAdvanced, onHeartbeat, onSystemPrompt }: AgentHeaderProps) {
   const { t } = useTranslation("agents");
   const [v3Open, setV3Open] = useState(false);
+  const canWrite = useCanWrite();
 
   const emoji = agent.emoji ?? "";
   const selfEvolve = Boolean(agent.self_evolve);
@@ -56,7 +58,7 @@ export function AgentHeader({ agent, heartbeat, onBack, onDelete, onAdvanced, on
           <div className="flex items-center gap-1.5 flex-wrap">
             <h2 className="truncate text-base font-semibold">{title}</h2>
             {agent.is_default && (
-              <Star className="h-3.5 w-3.5 shrink-0 fill-amber-400 text-amber-400" />
+              <Star className="h-3.5 w-3.5 shrink-0 fill-warning text-warning" />
             )}
             <Tooltip>
               <TooltipTrigger asChild>
@@ -64,7 +66,7 @@ export function AgentHeader({ agent, heartbeat, onBack, onDelete, onAdvanced, on
                   className={cn(
                     "inline-block h-2.5 w-2.5 shrink-0 rounded-full",
                     agent.status === "active"
-                      ? "bg-emerald-500"
+                      ? "bg-success"
                       : agent.status === "summon_failed"
                         ? "bg-destructive"
                         : "bg-muted-foreground/50",
@@ -100,7 +102,7 @@ export function AgentHeader({ agent, heartbeat, onBack, onDelete, onAdvanced, on
                 <TooltipTrigger asChild>
                   <Badge
                     variant={selfEvolve ? "default" : "outline"}
-                    className={`text-2xs ${selfEvolve ? "bg-orange-100 text-orange-700 hover:bg-orange-100 dark:bg-orange-900/30 dark:text-orange-300" : "text-muted-foreground"}`}
+                    className={`text-2xs ${selfEvolve ? "bg-warning text-warning hover:bg-warning dark:bg-warning/30 dark:text-warning" : "text-muted-foreground"}`}
                   >
                     <Sparkles className="h-2.5 w-2.5 sm:mr-0.5" />
                     <span className="hidden sm:inline">{selfEvolve ? t("detail.evolving") : t("detail.static")}</span>
@@ -141,43 +143,49 @@ export function AgentHeader({ agent, heartbeat, onBack, onDelete, onAdvanced, on
           <span className="hidden sm:inline">{t("files.systemPromptPreview")}</span>
         </Button>
         {/* Heartbeat action */}
-        <Button variant="ghost" size="sm" onClick={onHeartbeat} className="shrink-0 gap-1.5 size-9 sm:w-auto sm:px-3">
-          <Heart className={`h-4 w-4 ${hbEnabled ? "fill-rose-500 text-rose-500 animate-pulse" : hbConfigured ? "text-rose-400" : "text-muted-foreground"}`} />
-          <span className={`hidden sm:inline ${hbEnabled ? "text-rose-600 dark:text-rose-400" : ""}`}>
-            {!hbConfigured
-              ? t("heartbeat.notSet")
-              : !hbEnabled
-                ? t("heartbeat.off")
-                : countdown
-                  ? t("heartbeat.nextIn", { time: countdown })
-                  : t("heartbeat.on")}
-          </span>
-        </Button>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon" onClick={onAdvanced} className="shrink-0 size-9">
-              <Settings className="h-4 w-4" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" className="text-xs">
-            {t("detail.advanced")}
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onDelete}
-              className="shrink-0 size-9 text-destructive hover:text-destructive hover:bg-destructive/10"
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" className="text-xs">
-            {t("delete.title")}
-          </TooltipContent>
-        </Tooltip>
+        {canWrite && (
+          <Button variant="ghost" size="sm" onClick={onHeartbeat} className="shrink-0 gap-1.5 size-9 sm:w-auto sm:px-3">
+            <Heart className={`h-4 w-4 ${hbEnabled ? "fill-destructive text-destructive animate-pulse" : hbConfigured ? "text-destructive" : "text-muted-foreground"}`} />
+            <span className={`hidden sm:inline ${hbEnabled ? "text-destructive dark:text-destructive" : ""}`}>
+              {!hbConfigured
+                ? t("heartbeat.notSet")
+                : !hbEnabled
+                  ? t("heartbeat.off")
+                  : countdown
+                    ? t("heartbeat.nextIn", { time: countdown })
+                    : t("heartbeat.on")}
+            </span>
+          </Button>
+        )}
+        {canWrite && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" size="icon" onClick={onAdvanced} className="shrink-0 size-9">
+                <Settings className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="text-xs">
+              {t("detail.advanced")}
+            </TooltipContent>
+          </Tooltip>
+        )}
+        {canWrite && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={onDelete}
+                className="shrink-0 size-9 text-destructive hover:text-destructive hover:bg-destructive/10"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="text-xs">
+              {t("delete.title")}
+            </TooltipContent>
+          </Tooltip>
+        )}
       </div>
       <V3CapabilitiesModal open={v3Open} onOpenChange={setV3Open} />
     </TooltipProvider>

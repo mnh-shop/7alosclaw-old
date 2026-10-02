@@ -5,6 +5,7 @@ import { Plus, RefreshCw, Pencil, Trash2, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useMinLoading } from "@/hooks/use-min-loading";
 import { ConfirmDialog } from "@/components/shared/confirm-dialog";
+import { useCanWrite } from "@/components/shared/require-role";
 import { useAgents } from "@/pages/agents/hooks/use-agents";
 import { useAgentLinks, type AgentLinkData } from "../hooks/use-agent-links";
 import { LinkCreateDialog } from "./link-create-dialog";
@@ -32,6 +33,7 @@ export function TeamLinksTab() {
   const [editLink, setEditLink] = useState<AgentLinkData | null>(null);
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const canWrite = useCanWrite();
 
   const agentIds = useMemo(
     () => agents.filter((a) => a.status === "active").map((a) => a.id),
@@ -91,10 +93,12 @@ export function TeamLinksTab() {
           <Button variant="outline" size="sm" onClick={load} disabled={spinning} className="gap-1">
             <RefreshCw className={"h-3.5 w-3.5" + (spinning ? " animate-spin" : "")} />
           </Button>
-          <Button size="sm" className="gap-1.5" onClick={() => setCreateOpen(true)}>
-            <Plus className="h-3.5 w-3.5" />
-            {t("links.create")}
-          </Button>
+          {canWrite && (
+            <Button size="sm" className="gap-1.5" onClick={() => setCreateOpen(true)}>
+              <Plus className="h-3.5 w-3.5" />
+              {t("links.create")}
+            </Button>
+          )}
         </div>
       </div>
 
@@ -149,24 +153,26 @@ export function TeamLinksTab() {
                     {link.description || "—"}
                   </td>
                   <td className="px-4 py-3">
-                    <div className="flex items-center justify-end gap-1">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7"
-                        onClick={() => { setEditLink(link); setCreateOpen(true); }}
-                      >
-                        <Pencil className="h-3.5 w-3.5" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
-                        onClick={() => setDeleteTargetId(link.id)}
-                      >
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </Button>
-                    </div>
+                    {canWrite ? (
+                      <div className="flex items-center justify-end gap-1">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-7 w-7"
+                          onClick={() => { setEditLink(link); setCreateOpen(true); }}
+                        >
+                          <Pencil className="h-3.5 w-3.5" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                          onClick={() => setDeleteTargetId(link.id)}
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </Button>
+                      </div>
+                    ) : null}
                   </td>
                 </tr>
               ))

@@ -69,7 +69,7 @@ export function HookDiffViewer({ before, after }: HookDiffViewerProps) {
             {beforeLines.map((line, i) => (
               <div
                 key={i}
-                className={`px-3 py-px leading-5 whitespace-pre ${line.changed ? "bg-red-50 dark:bg-red-950/20" : ""}`}
+                className={`px-3 py-px leading-5 whitespace-pre ${line.changed ? "bg-destructive dark:bg-destructive/20" : ""}`}
                 // highlight.js output is safe escaped HTML
                 dangerouslySetInnerHTML={{ __html: highlight(line.text) || "\u00a0" }}
               />
@@ -83,7 +83,7 @@ export function HookDiffViewer({ before, after }: HookDiffViewerProps) {
             {afterLines.map((line, i) => (
               <div
                 key={i}
-                className={`px-3 py-px leading-5 whitespace-pre ${line.changed ? "bg-green-50 dark:bg-green-950/20" : ""}`}
+                className={`px-3 py-px leading-5 whitespace-pre ${line.changed ? "bg-success dark:bg-success/20" : ""}`}
                 dangerouslySetInnerHTML={{ __html: highlight(line.text) || "\u00a0" }}
               />
             ))}

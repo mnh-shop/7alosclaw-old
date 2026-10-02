@@ -14,12 +14,12 @@ function QuotaBar({ used, limit }: { used: number; limit: number }) {
   const pct = Math.min((used / limit) * 100, 100);
   const color =
     pct > 85
-      ? "bg-red-500"
+      ? "bg-destructive"
       : pct > 60
-        ? "bg-amber-500"
-        : "bg-emerald-500";
+        ? "bg-warning"
+        : "bg-success";
   return (
-    <div className="h-1.5 w-full rounded-full bg-muted">
+    <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
       <div
         className={`h-full rounded-full transition-all ${color}`}
         style={{ width: `${pct}%` }}
@@ -46,14 +46,14 @@ export function QuotaUsageCard({ quota }: { quota: QuotaUsageResult }) {
   const userIds = useMemo(() => quota.entries.map((e) => e.userId).filter(Boolean) as string[], [quota.entries]);
   const { resolve } = useContactResolver(userIds);
   return (
-    <Card>
+    <Card className="gap-4">
       <CardHeader className="flex flex-row items-center justify-between pb-3">
         <CardTitle className="text-base">{t("quotaUsage.title")}</CardTitle>
         <StatusBadge status="success" label={t("common:enabled", "Enabled")} />
       </CardHeader>
       <CardContent>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+        <div className="overflow-x-auto overscroll-contain">
+          <table className="w-full min-w-[600px] text-sm">
             <thead>
               <tr className="border-b text-left text-muted-foreground">
                 <th className="pb-2 pr-4 font-medium">{t("quotaUsage.columns.userGroup")}</th>

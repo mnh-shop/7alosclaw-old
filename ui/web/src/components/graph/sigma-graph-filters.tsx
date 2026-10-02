@@ -87,7 +87,7 @@ export function SigmaGraphFilters({
         <Filter className="h-3 w-3" />
         Filter
         {hiddenTypes.size > 0 && (
-          <span className="ml-1 text-2xs rounded-full bg-primary/10 text-primary px-1.5">
+          <span className="ml-1 text-2xs rounded-md bg-primary/10 text-primary px-1.5">
             {hiddenTypes.size} hidden
           </span>
         )}

@@ -48,7 +48,7 @@ export function BetaInfoCard() {
           <span className="text-sm font-medium text-blue-900 dark:text-blue-100">
             {t("beta.title")}
           </span>
-          <span className="rounded-full bg-blue-200/80 px-1.5 py-0.5 text-2xs font-semibold uppercase text-blue-800 dark:bg-blue-800/40 dark:text-blue-200">
+          <span className="rounded-md bg-blue-200/80 px-1.5 py-0.5 text-2xs font-semibold uppercase text-blue-800 dark:bg-blue-800/40 dark:text-blue-200">
             {t("beta.badge")}
           </span>
           <div className="flex-1" />

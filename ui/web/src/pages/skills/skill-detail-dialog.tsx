@@ -31,6 +31,7 @@ import { normalizeSkillDetailTab, parseSkillDetailVersionParam, shouldLoadSkillD
 import { getSkillAccessModeKey } from "./lib/skill-access-mode";
 import type { SkillExportFormat } from "./lib/skill-export-download";
 import { SkillEvolutionPanel } from "./skill-evolution-panel";
+import { useCanWrite } from "@/components/shared/require-role";
 
 interface SkillDetailDialogProps {
   skill: SkillInfo & { content: string };
@@ -68,7 +69,8 @@ export function SkillDetailDialog({
   const { t } = useTranslation("skills");
   const hasFiles = !!skill.id;
   const hasEvolution = !!skill.id;
-  const canEditContent = !!skill.id && !skill.is_system && !!onSaveContent;
+  const canWrite = useCanWrite();
+  const canEditContent = !!skill.id && !skill.is_system && !!onSaveContent && canWrite;
 
   // Content editing state (raw SKILL.md, including frontmatter, edited in place)
   const [editingContent, setEditingContent] = useState(false);

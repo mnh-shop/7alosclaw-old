@@ -23,6 +23,7 @@ const SkillUploadDialog = lazy(() =>
 );
 import { MissingDepsPanel } from "./missing-deps-panel";
 import { SkillTableRow } from "./skill-table-row";
+import { useCanWrite } from "@/components/shared/require-role";
 import { useRuntimes } from "./hooks/use-runtimes";
 import { useMinLoading } from "@/hooks/use-min-loading";
 import { useDeferredLoading } from "@/hooks/use-deferred-loading";
@@ -77,6 +78,7 @@ export function SkillsPage() {
   const [rescanning, setRescanning] = useState(false);
   const [installingDeps, setInstallingDeps] = useState(false);
   const [toggling, setToggling] = useState<string | null>(null);
+  const canWrite = useCanWrite();
 
   const coreSkills = useMemo(() => skills.filter((s: SkillInfo) => s.is_system), [skills]);
   const customSkills = useMemo(() => skills.filter((s: SkillInfo) => !s.is_system), [skills]);
@@ -306,17 +308,21 @@ export function SkillsPage() {
         description={t("description")}
         actions={
           <div className="flex gap-2">
-            {tab === "custom" && (
+            {canWrite && tab === "custom" && (
               <Button variant="outline" size="sm" onClick={() => setUploadOpen(true)} className="gap-1">
                 <Upload className="h-3.5 w-3.5" /> {t("upload.button")}
               </Button>
             )}
-            <Button variant="outline" size="sm" onClick={handleRescanDeps} disabled={rescanning} className="gap-1">
-              <ScanSearch className="h-3.5 w-3.5" /> {t("deps.rescan")}
-            </Button>
-            <Button variant="outline" size="sm" onClick={handleInstallDeps} disabled={installingDeps || allMissing.length === 0} className="gap-1">
-              <Download className="h-3.5 w-3.5" /> {installingDeps ? t("deps.installing") : t("deps.installAll")}
-            </Button>
+            {canWrite && (
+              <Button variant="outline" size="sm" onClick={handleRescanDeps} disabled={rescanning} className="gap-1">
+                <ScanSearch className="h-3.5 w-3.5" /> {t("deps.rescan")}
+              </Button>
+            )}
+            {canWrite && (
+              <Button variant="outline" size="sm" onClick={handleInstallDeps} disabled={installingDeps || allMissing.length === 0} className="gap-1">
+                <Download className="h-3.5 w-3.5" /> {installingDeps ? t("deps.installing") : t("deps.installAll")}
+              </Button>
+            )}
             <Button variant="outline" size="sm" onClick={refresh} disabled={spinning} className="gap-1">
               <RefreshCw className={"h-3.5 w-3.5" + (spinning ? " animate-spin" : "")} /> {t("refresh", { ns: "common" })}
             </Button>
@@ -342,22 +348,24 @@ export function SkillsPage() {
         ))}
       </div>
 
-      <SkillBulkActionsToolbar
-        selectedCount={selectedSkills.length}
-        customSelectedCount={selectedCustomSkills.length}
-        skippedSystemCount={skippedSystemCount}
-        agentCount={agents.length}
-        loading={bulkLoading || deleteLoading}
-        downloadLoading={downloadLoading}
-        exportFormat={exportFormat}
-        onExportFormatChange={setExportFormat}
-        onDownload={() => handleDownloadSkills(selectedSkills)}
-        onEnable={() => handleBulkToggle(true)}
-        onDisable={() => handleBulkToggle(false)}
-        onGrantAllAgents={handleBulkGrantAllAgents}
-        onDelete={() => setBulkDeleteOpen(true)}
-        onClear={() => setSelectedIds(new Set())}
-      />
+      {canWrite && (
+        <SkillBulkActionsToolbar
+          selectedCount={selectedSkills.length}
+          customSelectedCount={selectedCustomSkills.length}
+          skippedSystemCount={skippedSystemCount}
+          agentCount={agents.length}
+          loading={bulkLoading || deleteLoading}
+          downloadLoading={downloadLoading}
+          exportFormat={exportFormat}
+          onExportFormatChange={setExportFormat}
+          onDownload={() => handleDownloadSkills(selectedSkills)}
+          onEnable={() => handleBulkToggle(true)}
+          onDisable={() => handleBulkToggle(false)}
+          onGrantAllAgents={handleBulkGrantAllAgents}
+          onDelete={() => setBulkDeleteOpen(true)}
+          onClear={() => setSelectedIds(new Set())}
+        />
+      )}
 
       <div className="mt-4">
         <MissingDepsPanel missing={allMissing} onInstallItem={installSingleDep} runtimes={tab === "core" ? runtimes : undefined} />
@@ -385,16 +393,18 @@ export function SkillsPage() {
             <table className="w-full min-w-[600px] text-sm">
               <thead>
                 <tr className="border-b bg-muted/50">
-                  <th className="w-10 px-4 py-3">
-                    <input
-                      type="checkbox"
-                      checked={allPageSelected}
-                      ref={(el) => { if (el) el.indeterminate = somePageSelected; }}
-                      onChange={toggleSelectPage}
-                      aria-label={t("bulk.selectPage")}
-                      className="h-4 w-4 cursor-pointer accent-primary"
-                    />
-                  </th>
+                  {canWrite && (
+                    <th className="w-10 px-4 py-3">
+                      <input
+                        type="checkbox"
+                        checked={allPageSelected}
+                        ref={(el) => { if (el) el.indeterminate = somePageSelected; }}
+                        onChange={toggleSelectPage}
+                        aria-label={t("bulk.selectPage")}
+                        className="h-4 w-4 cursor-pointer accent-primary"
+                      />
+                    </th>
+                  )}
                   <th className="px-4 py-3 text-left font-medium">{t("columns.name")}</th>
                   <th className="px-4 py-3 text-left font-medium">{t("columns.description")}</th>
                   {tab === "custom" && <th className="px-4 py-3 text-left font-medium">{t("columns.agents")}</th>}

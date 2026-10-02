@@ -4,9 +4,9 @@ import { Badge } from "@/components/ui/badge";
 import { useOrchestration } from "@/hooks/use-orchestration";
 
 const MODE_COLORS: Record<string, string> = {
-  spawn: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
-  delegate: "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300",
-  team: "bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300",
+  spawn: "bg-muted text-muted-foreground",
+  delegate: "bg-primary/15 text-primary",
+  team: "bg-brand-secondary/15 text-brand-secondary",
 };
 
 interface OrchestrationSectionProps {
@@ -23,7 +23,7 @@ export function OrchestrationSection({ agentId }: OrchestrationSectionProps) {
     <section className="space-y-3 rounded-lg border p-3 sm:p-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Network className="h-4 w-4 text-indigo-500 shrink-0" />
+          <Network className="h-4 w-4 text-primary shrink-0" />
           <h3 className="text-sm font-medium">{t("detail.orchestration.title")}</h3>
         </div>
         <Badge variant="outline" className={MODE_COLORS[mode] ?? ""}>

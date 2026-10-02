@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ConfirmDialog } from "@/components/shared/confirm-dialog";
+import { useCanWrite } from "@/components/shared/require-role";
 import { useHttp } from "@/hooks/use-ws";
 import { useContactPicker } from "@/hooks/use-contact-picker";
 import { useContactResolver } from "@/hooks/use-contact-resolver";
@@ -43,6 +44,7 @@ export function AgentSharesTab({ agentId }: AgentSharesTabProps) {
   const [newUserId, setNewUserId] = useState("");
   const [newRole, setNewRole] = useState("user");
   const [revokeTarget, setRevokeTarget] = useState<string | null>(null);
+  const canWrite = useCanWrite();
 
   // Contact picker for the add form
   const listContacts = useCallback(
@@ -80,39 +82,41 @@ export function AgentSharesTab({ agentId }: AgentSharesTabProps) {
   return (
     <div className="max-w-2xl space-y-6">
       {/* Add share form */}
-      <div className="rounded-lg border p-4">
-        <h3 className="mb-3 text-sm font-medium">{t("shares.grantAccess")}</h3>
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
-          <div className="flex-1 space-y-1.5">
-            <Label htmlFor="shareUserId">{t("shares.userId")}</Label>
-            <Combobox
-              value={newUserId}
-              onChange={handleUserIdChange}
-              options={options}
-              placeholder={t("shares.userIdPlaceholder")}
-            />
+      {canWrite && (
+        <div className="rounded-lg border p-4">
+          <h3 className="mb-3 text-sm font-medium">{t("shares.grantAccess")}</h3>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+            <div className="flex-1 space-y-1.5">
+              <Label htmlFor="shareUserId">{t("shares.userId")}</Label>
+              <Combobox
+                value={newUserId}
+                onChange={handleUserIdChange}
+                options={options}
+                placeholder={t("shares.userIdPlaceholder")}
+              />
+            </div>
+            <div className="w-full space-y-1.5 sm:w-36">
+              <Label>{t("shares.role")}</Label>
+              <Select value={newRole} onValueChange={setNewRole}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {ROLE_OPTIONS.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {t(`shares.role.${opt.value}`)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <Button onClick={handleAddShare} disabled={!newUserId.trim()} className="gap-1.5">
+              <Plus className="h-4 w-4" />
+              {t("shares.share")}
+            </Button>
           </div>
-          <div className="w-full space-y-1.5 sm:w-36">
-            <Label>{t("shares.role")}</Label>
-            <Select value={newRole} onValueChange={setNewRole}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {ROLE_OPTIONS.map((opt) => (
-                  <SelectItem key={opt.value} value={opt.value}>
-                    {t(`shares.role.${opt.value}`)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <Button onClick={handleAddShare} disabled={!newUserId.trim()} className="gap-1.5">
-            <Plus className="h-4 w-4" />
-            {t("shares.share")}
-          </Button>
         </div>
-      </div>
+      )}
 
       {/* Share list */}
       {loading && shares.length === 0 ? (
@@ -161,14 +165,18 @@ export function AgentSharesTab({ agentId }: AgentSharesTabProps) {
                   )}
                 </div>
                 <Badge variant={roleBadgeVariant(share.role)}>{share.role}</Badge>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8"
-                  onClick={() => setRevokeTarget(share.user_id)}
-                >
-                  <Trash2 className="h-3.5 w-3.5 text-destructive" />
-                </Button>
+                {canWrite ? (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={() => setRevokeTarget(share.user_id)}
+                  >
+                    <Trash2 className="h-3.5 w-3.5 text-destructive" />
+                  </Button>
+                ) : (
+                  <span />
+                )}
               </div>
             );
           })}

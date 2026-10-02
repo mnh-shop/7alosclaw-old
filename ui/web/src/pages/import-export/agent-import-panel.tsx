@@ -91,7 +91,7 @@ export function AgentImportPanel() {
         <div className="flex items-center justify-end gap-2 pt-2">
           {imp.status === "running" && (
             <>
-              <p className="text-xs text-amber-600 mr-auto flex items-center gap-1">
+              <p className="text-xs text-warning mr-auto flex items-center gap-1">
                 <AlertTriangle className="h-3.5 w-3.5" />
                 {t("betaWarning")}
               </p>

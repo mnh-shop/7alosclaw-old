@@ -143,7 +143,7 @@ export function PersonalitySection({
           </span>
           <Button variant="ghost" size="icon" className="shrink-0 size-7" onClick={copyAgentKey}>
             {copied
-              ? <Check className="h-3 w-3 text-green-500" />
+              ? <Check className="h-3 w-3 text-success" />
               : <Copy className="h-3 w-3" />}
           </Button>
         </div>

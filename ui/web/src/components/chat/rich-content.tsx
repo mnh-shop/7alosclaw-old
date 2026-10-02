@@ -47,11 +47,11 @@ function MediaBadge({ mediaType }: { mediaType: string }) {
 function ForwardBadge({ from, date }: { from: string; date: string }) {
   const { t } = useTranslation("chat");
   return (
-    <div className="flex items-center gap-1.5 rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
+    <div className="flex items-center gap-1.5 rounded-md border border-warning bg-warning px-2.5 py-1 text-xs text-warning dark:border-warning dark:bg-warning dark:text-warning">
       <Forward className="h-3.5 w-3.5" />
       <span>
         {t("forwardedFrom")} <span className="font-medium">{from}</span>
-        {date && <span className="text-amber-600 dark:text-amber-400"> &middot; {date}</span>}
+        {date && <span className="text-warning dark:text-warning"> &middot; {date}</span>}
       </span>
     </div>
   );
@@ -135,7 +135,7 @@ function FileBlock({ name: rawName, mime, content }: { name: string; mime: strin
 
 function LocationBadge({ lat, lng }: { lat: string; lng: string }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-md border border-green-200 bg-green-50 px-2 py-1 text-xs font-medium text-green-700 dark:border-green-800 dark:bg-green-950 dark:text-green-300">
+    <span className="inline-flex items-center gap-1.5 rounded-md border border-success bg-success px-2 py-1 text-xs font-medium text-success dark:border-success dark:bg-success dark:text-success">
       <MapPin className="h-3.5 w-3.5" />
       {lat}, {lng}
     </span>

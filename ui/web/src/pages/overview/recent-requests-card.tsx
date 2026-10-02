@@ -1,9 +1,10 @@
 import { useMemo } from "react";
-import { ArrowRight } from "lucide-react";
+import { Activity, ArrowRight } from "lucide-react";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { EmptyState } from "@/components/shared/empty-state";
 import { ROUTES } from "@/lib/constants";
 import {
   formatRelativeTime,
@@ -30,13 +31,16 @@ export function RecentRequestsCard({ traces }: { traces: Trace[] }) {
   const userIds = useMemo(() => traces.map((tr) => tr.user_id).filter(Boolean) as string[], [traces]);
   const { resolve } = useContactResolver(userIds);
   return (
-    <Card>
+    <Card className="gap-4">
       <CardHeader className="flex flex-row items-center justify-between pb-3">
-        <CardTitle className="text-base">{t("recentRequests.title")}</CardTitle>
+        <CardTitle className="flex items-center gap-2 text-base">
+          <Activity className="h-4 w-4 text-muted-foreground" />
+          {t("recentRequests.title")}
+        </CardTitle>
         {traces.length > 0 && (
           <Link
             to={ROUTES.TRACES}
-            className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            className="flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
           >
             {t("recentRequests.viewAll")} <ArrowRight className="h-3 w-3" />
           </Link>
@@ -44,58 +48,60 @@ export function RecentRequestsCard({ traces }: { traces: Trace[] }) {
       </CardHeader>
       <CardContent>
         {traces.length === 0 ? (
-          <p className="py-6 text-center text-sm text-muted-foreground">
-            {t("recentRequests.noRequests")}
-          </p>
+          <EmptyState
+            icon={Activity}
+            title={t("recentRequests.noRequests")}
+            className="py-10"
+          />
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+          <div className="overflow-x-auto overscroll-contain">
+            <table className="w-full min-w-[720px] text-sm">
               <thead>
                 <tr className="border-b text-left text-muted-foreground">
-                  <th className="pb-2 pr-4 font-medium">{t("recentRequests.columns.time")}</th>
+                  <th className="pb-2 pr-4 font-medium whitespace-nowrap">{t("recentRequests.columns.time")}</th>
                   <th className="pb-2 px-4 font-medium">{t("recentRequests.columns.name")}</th>
                   <th className="pb-2 px-4 font-medium">{t("recentRequests.columns.user")}</th>
                   <th className="pb-2 px-4 font-medium">{t("recentRequests.columns.channel")}</th>
-                  <th className="pb-2 px-4 font-medium text-right">{t("recentRequests.columns.tokens")}</th>
-                  <th className="pb-2 px-4 font-medium text-right">
+                  <th className="pb-2 px-4 text-right font-medium whitespace-nowrap">{t("recentRequests.columns.tokens")}</th>
+                  <th className="pb-2 px-4 text-right font-medium whitespace-nowrap">
                     {t("recentRequests.columns.duration")}
                   </th>
                   <th className="pb-2 pl-4 font-medium">{t("recentRequests.columns.status")}</th>
                 </tr>
               </thead>
               <tbody>
-                {traces.map((t) => (
-                  <tr key={t.id} className="border-b last:border-0">
+                {traces.map((trace) => (
+                  <tr key={trace.id} className="border-b last:border-0">
                     <td className="py-2.5 pr-4 text-muted-foreground whitespace-nowrap">
-                      {formatRelativeTime(t.created_at)}
+                      {formatRelativeTime(trace.created_at)}
                     </td>
                     <td className="py-2.5 px-4 max-w-[160px] truncate">
-                      {t.name || "--"}
+                      {trace.name || "--"}
                     </td>
                     <td className="py-2.5 px-4 font-mono text-xs">
-                      {t.user_id ? formatUserLabel(t.user_id, resolve) : "--"}
+                      {trace.user_id ? formatUserLabel(trace.user_id, resolve) : "--"}
                     </td>
-                    <td className="py-2.5 px-4">{t.channel || "--"}</td>
+                    <td className="py-2.5 px-4">{trace.channel || "--"}</td>
                     <td className="py-2.5 px-4 text-right tabular-nums">
                       {formatTokens(
-                        t.total_input_tokens + t.total_output_tokens,
+                        trace.total_input_tokens + trace.total_output_tokens,
                       )}
                     </td>
                     <td className="py-2.5 px-4 text-right tabular-nums">
-                      {formatDuration(t.duration_ms)}
+                      {formatDuration(trace.duration_ms)}
                     </td>
                     <td className="py-2.5 pl-4">
                       <StatusBadge
                         status={
-                          t.status === "completed"
+                          trace.status === "completed"
                             ? "success"
-                            : t.status === "error"
+                            : trace.status === "error"
                               ? "error"
-                              : t.status === "running"
+                              : trace.status === "running"
                                 ? "info"
                                 : "default"
                         }
-                        label={t.status}
+                        label={trace.status}
                       />
                     </td>
                   </tr>

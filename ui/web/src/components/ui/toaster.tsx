@@ -10,9 +10,9 @@ const icons: Record<Toast["variant"], typeof Info> = {
 };
 
 const styles: Record<Toast["variant"], string> = {
-  success: "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
-  destructive: "border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-300",
-  warning: "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300",
+  success: "border-success/30 bg-success/10 text-success dark:text-success",
+  destructive: "border-destructive/30 bg-destructive/10 text-destructive dark:text-destructive",
+  warning: "border-warning/30 bg-warning/10 text-warning dark:text-warning",
   default: "border-border bg-card text-foreground",
 };
 

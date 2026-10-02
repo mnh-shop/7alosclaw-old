@@ -192,9 +192,16 @@ export const Methods = {
   WORKSTATIONS_CREATE: "workstations.create",
   WORKSTATIONS_UPDATE: "workstations.update",
   WORKSTATIONS_DELETE: "workstations.delete",
-  WORKSTATIONS_TEST: "workstations.test",
-  WORKSTATIONS_LINK_AGENT: "workstations.link_agent",
-  WORKSTATIONS_UNLINK_AGENT: "workstations.unlink_agent",
+  // Must match pkg/protocol/methods.go MethodWorkstationsTest verbatim — the WS
+  // router dispatches on the string, so a mismatch is an unknown-method error.
+  WORKSTATIONS_TEST: "workstations.testConnection",
+  // Verbatim from pkg/protocol/methods.go MethodWorkstationsLinkAgent and
+  // MethodWorkstationsUnlinkAgent: both are camelCase there. These two read
+  // "link_agent"/"unlink_agent" and nobody noticed, because neither has a call
+  // site — the drift would only appear as an unknown-method error the first time
+  // someone wired the feature up. workstation-contract.test.ts now pins them.
+  WORKSTATIONS_LINK_AGENT: "workstations.linkAgent",
+  WORKSTATIONS_UNLINK_AGENT: "workstations.unlinkAgent",
   // Phase 6: permissions
   WORKSTATIONS_PERMS_LIST: "workstations.permissions.list",
   WORKSTATIONS_PERMS_ADD: "workstations.permissions.add",

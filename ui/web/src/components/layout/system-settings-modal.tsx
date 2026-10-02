@@ -162,8 +162,8 @@ export function SystemSettingsModal({ open, onOpenChange }: SystemSettingsModalP
   };
 
   const uxItems: FeatureSwitchItem[] = [
-    { icon: Brain, iconClass: "text-orange-500", label: t("ux.intentClassify"), hint: t("ux.intentClassifyHint"), checked: intentClassify, onCheckedChange: setIntentClassify, infoWhenOn: t("ux.intentClassifyInfo"), infoClass: "border-orange-200 bg-orange-50 text-orange-700 dark:border-orange-800 dark:bg-orange-950/30 dark:text-orange-300" },
-    { icon: UsersRound, iconClass: "text-blue-500", label: t("ux.teamWorkClassify"), hint: t("ux.teamWorkClassifyHint"), checked: teamWorkClassify && !!embProvider, onCheckedChange: setTeamWorkClassify, disabled: !embProvider, disabledHint: t("ux.teamWorkClassifyEmbeddingRequired"), infoWhenOn: t("ux.teamWorkClassifyInfo"), infoClass: "border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-800 dark:bg-blue-950/30 dark:text-blue-300" },
+    { icon: Brain, iconClass: "text-warning", label: t("ux.intentClassify"), hint: t("ux.intentClassifyHint"), checked: intentClassify, onCheckedChange: setIntentClassify, infoWhenOn: t("ux.intentClassifyInfo"), infoClass: "border-warning bg-warning text-warning dark:border-warning dark:bg-warning/30 dark:text-warning" },
+    { icon: UsersRound, iconClass: "text-primary", label: t("ux.teamWorkClassify"), hint: t("ux.teamWorkClassifyHint"), checked: teamWorkClassify && !!embProvider, onCheckedChange: setTeamWorkClassify, disabled: !embProvider, disabledHint: t("ux.teamWorkClassifyEmbeddingRequired"), infoWhenOn: t("ux.teamWorkClassifyInfo"), infoClass: "border-info bg-info text-info dark:border-info dark:bg-info/30 dark:text-info" },
   ];
 
   return (
@@ -191,9 +191,9 @@ export function SystemSettingsModal({ open, onOpenChange }: SystemSettingsModalP
             />
 
             {/* Knowledge Graph */}
-            <Card className="border-violet-200 dark:border-violet-800">
+            <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-base"><Network className="h-4 w-4 text-violet-500" />{t("kg.title")}</CardTitle>
+                <CardTitle className="flex items-center gap-2 text-base"><Network className="h-4 w-4 text-brand-secondary" />{t("kg.title")}</CardTitle>
                 <CardDescription>{t("kg.description")}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 pt-0">
@@ -203,16 +203,16 @@ export function SystemSettingsModal({ open, onOpenChange }: SystemSettingsModalP
                   <Input id="kgMinConf" type="number" min={0} max={1} step={0.05} placeholder="0.75" value={kgMinConfidence} onChange={(e) => setKgMinConfidence(e.target.value)} className="max-w-[120px] text-base md:text-sm" />
                   <p className="text-xs text-muted-foreground">{t("kg.minConfidenceHint")}</p>
                 </div>
-                <div className="flex items-start gap-2 rounded-md border border-violet-200 bg-violet-50 px-3 py-2 text-xs text-violet-700 dark:border-violet-800 dark:bg-violet-950/30 dark:text-violet-300">
+                <div className="flex items-start gap-2 rounded-md border border-info bg-info px-3 py-2 text-xs text-info dark:border-info dark:bg-info/30 dark:text-info">
                   <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" /><span>{t("kg.info")}</span>
                 </div>
               </CardContent>
             </Card>
 
             {/* Background Workers */}
-            <Card className="border-slate-200 dark:border-slate-700">
+            <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-base"><Cog className="h-4 w-4 text-slate-500" />{t("bg.title")}</CardTitle>
+                <CardTitle className="flex items-center gap-2 text-base"><Cog className="h-4 w-4 text-info" />{t("bg.title")}</CardTitle>
                 <CardDescription>{t("bg.description")}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 pt-0">
@@ -222,7 +222,7 @@ export function SystemSettingsModal({ open, onOpenChange }: SystemSettingsModalP
                   <Input id="providerRequestTimeout" type="number" min={1} step={1} placeholder="30" value={providerRequestTimeoutSec} onChange={(e) => setProviderRequestTimeoutSec(e.target.value)} className="max-w-[120px] text-base md:text-sm" />
                   <p className="text-xs text-muted-foreground">{t("providers.requestTimeoutHint")}</p>
                 </div>
-                <div className="flex items-start gap-2 rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-700 dark:border-slate-700 dark:bg-slate-950/30 dark:text-slate-300">
+                <div className="flex items-start gap-2 rounded-md border border-info bg-info px-3 py-2 text-xs text-info dark:border-info dark:bg-info/30 dark:text-info">
                   <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" /><span>{t("bg.info")}</span>
                 </div>
               </CardContent>
@@ -256,7 +256,7 @@ export function SystemSettingsModal({ open, onOpenChange }: SystemSettingsModalP
         {/* Footer */}
         <div className="flex flex-col gap-3 border-t pt-4 shrink-0">
           {embChanged && !embVerified && (
-            <p className="flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-400">
+            <p className="flex items-center gap-1.5 text-xs text-warning dark:text-warning">
               <AlertTriangle className="h-3.5 w-3.5 shrink-0" />{t("embedding.verifyRequired")}
             </p>
           )}

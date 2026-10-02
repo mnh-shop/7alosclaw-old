@@ -100,7 +100,7 @@ export function BehaviorChatCard({ value, onChange }: Props) {
     <Card>
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base">
-          <MessageSquareText className="h-4 w-4 text-emerald-500" />
+          <MessageSquareText className="h-4 w-4 text-success" />
           {t("behavior.chatTitle")}
         </CardTitle>
         <CardDescription>{t("behavior.chatDescription")}</CardDescription>

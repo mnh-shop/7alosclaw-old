@@ -7,6 +7,7 @@ export const ROUTES = {
   AGENT_DETAIL: "/agents/:id",
   AGENT_CODEX_POOL: "/agents/:id/codex-pool",
   IMPORT_EXPORT: "/import-export",
+  OPTIONS: "/options",
   SESSIONS: "/sessions",
   SESSION_DETAIL: "/sessions/:key",
   SKILLS: "/skills",

@@ -8,6 +8,7 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { SearchInput } from "@/components/shared/search-input";
 import { TableSkeleton } from "@/components/shared/loading-skeleton";
 import { ConfirmDialog } from "@/components/shared/confirm-dialog";
+import { useCanWrite } from "@/components/shared/require-role";
 import { useCron, type CronJob } from "./hooks/use-cron";
 import { CronFormDialog } from "./cron-form-dialog";
 import { CronDetailPage } from "./cron-detail-page";
@@ -21,6 +22,7 @@ export function CronPage() {
   const { id: detailId } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { jobs, loading, refreshing, refresh, createJob, toggleJob, deleteJob, runJob, getRunLog, updateJob } = useCron();
+  const canWrite = useCanWrite();
   const spinning = useMinLoading(refreshing);
   const showSkeleton = useDeferredLoading(loading && jobs.length === 0);
 
@@ -64,7 +66,7 @@ export function CronPage() {
           await deleteJob(id);
           navigate("/cron");
         }}
-        onUpdate={updateJob}
+        onUpdate={canWrite ? updateJob : undefined}
         getRunLog={getRunLog}
         onRefresh={refresh}
       />
@@ -81,9 +83,11 @@ export function CronPage() {
             <Button variant="outline" size="sm" onClick={refresh} disabled={spinning} className="gap-1">
               <RefreshCw className={"h-3.5 w-3.5" + (spinning ? " animate-spin" : "")} /> {tc("refresh")}
             </Button>
-            <Button size="sm" onClick={() => setShowCreate(true)} className="gap-1">
-              <Plus className="h-3.5 w-3.5" /> {t("newJob")}
-            </Button>
+            {canWrite && (
+              <Button size="sm" onClick={() => setShowCreate(true)} className="gap-1">
+                <Plus className="h-3.5 w-3.5" /> {t("newJob")}
+              </Button>
+            )}
           </div>
         }
       />
@@ -107,7 +111,7 @@ export function CronPage() {
             title={search ? t("noMatchTitle") : t("emptyTitle")}
             description={search ? t("noMatchDescription") : t("emptyDescription")}
             action={
-              !search ? (
+              !search && canWrite ? (
                 <Button size="sm" onClick={() => setShowCreate(true)} className="gap-1">
                   <Plus className="h-3.5 w-3.5" /> {t("newJob")}
                 </Button>
@@ -122,8 +126,8 @@ export function CronPage() {
                   key={job.id}
                   job={job}
                   onClick={() => navigate(`/cron/${job.id}`)}
-                  onRun={() => runJob(job.id)}
-                  onDelete={() => setDeleteTarget(job)}
+                  onRun={canWrite ? () => runJob(job.id) : undefined}
+                  onDelete={canWrite ? () => setDeleteTarget(job) : undefined}
                 />
               ))}
             </div>

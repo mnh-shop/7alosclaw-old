@@ -184,7 +184,7 @@ export function EventsPage() {
               key={val}
               type="button"
               onClick={() => setCategoryFilter(val)}
-              className={`rounded-full px-2.5 py-0.5 text-xs transition-colors ${
+              className={`rounded-md px-2.5 py-0.5 text-xs transition-colors ${
                 categoryFilter === val
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:bg-muted"

@@ -17,22 +17,22 @@ export interface EventCategoryConfig {
 const teamTask: EventCategoryConfig = {
   label: "Task",
   icon: ListTodo,
-  borderColor: "border-l-amber-500",
-  iconColor: "text-amber-500",
+  borderColor: "border-l-warning",
+  iconColor: "text-warning",
 };
 
 const teamMessage: EventCategoryConfig = {
   label: "Message",
   icon: MessageCircle,
-  borderColor: "border-l-green-500",
-  iconColor: "text-green-500",
+  borderColor: "border-l-success",
+  iconColor: "text-success",
 };
 
 const agent: EventCategoryConfig = {
   label: "Agent",
   icon: Bot,
-  borderColor: "border-l-orange-500",
-  iconColor: "text-orange-500",
+  borderColor: "border-l-warning",
+  iconColor: "text-warning",
 };
 
 const teamCrud: EventCategoryConfig = {

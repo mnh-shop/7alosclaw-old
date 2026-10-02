@@ -12,18 +12,18 @@ import type { VaultTreeEntry } from "../hooks/use-vault-tree";
 const DOC_TYPE_ICONS: Record<string, { icon: LucideIcon; color: string }> = {
   context:  { icon: FileText,   color: "text-blue-600 dark:text-blue-400" },
   memory:   { icon: Brain,      color: "text-purple-600 dark:text-purple-400" },
-  note:     { icon: StickyNote, color: "text-amber-600 dark:text-amber-400" },
-  skill:    { icon: Sparkles,   color: "text-emerald-600 dark:text-emerald-400" },
-  episodic: { icon: Clock,      color: "text-orange-600 dark:text-orange-400" },
-  media:    { icon: Image,      color: "text-rose-600 dark:text-rose-400" },
+  note:     { icon: StickyNote, color: "text-warning dark:text-warning" },
+  skill:    { icon: Sparkles,   color: "text-success dark:text-success" },
+  episodic: { icon: Clock,      color: "text-warning dark:text-warning" },
+  media:    { icon: Image,      color: "text-destructive dark:text-destructive" },
   document: { icon: FileType,   color: "text-cyan-600 dark:text-cyan-400" },
 };
 const DEFAULT_ICON = { icon: FileText, color: "text-muted-foreground" };
 
 const SCOPE_DOT: Record<string, string> = {
   personal: "bg-blue-400",
-  team:     "bg-green-400",
-  shared:   "bg-amber-400",
+  team:     "bg-success",
+  shared:   "bg-warning",
 };
 
 /** Truncate filename in the middle: "very-long-file-name.md" → "very-lo…me.md" */
@@ -83,12 +83,12 @@ function VaultTreeNode({
         >
           <ChevronRight className={`h-3 w-3 shrink-0 transition-transform text-muted-foreground group-hover:text-foreground ${expanded ? "rotate-90" : ""}`} />
           {expanded
-            ? <FolderOpen className="h-4 w-4 shrink-0 text-yellow-600 dark:text-yellow-500" />
-            : <Folder className="h-4 w-4 shrink-0 text-yellow-600 dark:text-yellow-500" />}
+            ? <FolderOpen className="h-4 w-4 shrink-0 text-warning dark:text-warning" />
+            : <Folder className="h-4 w-4 shrink-0 text-warning dark:text-warning" />}
           <span className="truncate text-xs text-foreground/80 group-hover:text-foreground">{node.name}</span>
           {node.loading && <Loader2 className="h-3 w-3 shrink-0 animate-spin text-muted-foreground ml-auto" />}
           {!node.loading && node.children.length > 0 && (
-            <span className="ml-auto shrink-0 rounded-full bg-muted px-1 text-2xs tabular-nums text-muted-foreground">
+            <span className="ml-auto shrink-0 rounded-md bg-muted px-1 text-2xs tabular-nums text-muted-foreground">
               {node.children.length}
             </span>
           )}

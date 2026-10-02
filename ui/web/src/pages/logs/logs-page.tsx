@@ -7,8 +7,8 @@ import { PageHeader } from "@/components/shared/page-header";
 import { useLogs, type LogEntry, type LogLevel } from "./hooks/use-logs";
 
 const levelColors: Record<string, string> = {
-  error: "text-red-500",
-  warn: "text-yellow-500",
+  error: "text-destructive",
+  warn: "text-warning",
   info: "text-blue-500",
   debug: "text-zinc-500",
 };
@@ -142,7 +142,7 @@ export function LogsPage() {
           <div className="flex items-center justify-center py-12 text-zinc-500">
             <div className="text-center">
               <Terminal className="mx-auto mb-2 h-8 w-8" />
-              <p className="text-yellow-500">{error}</p>
+              <p className="text-warning">{error}</p>
             </div>
           </div>
         ) : filtered.length === 0 ? (

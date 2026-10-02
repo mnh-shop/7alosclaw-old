@@ -67,7 +67,7 @@ function ToolEventCard({ p, resolveAgent }: { p: EnrichedAgentEventPayload; reso
         {isResult ? (
           <>
             {displayName && (
-              <span className={`truncate font-mono font-medium ${isSkill ? "text-amber-600 dark:text-amber-400" : ""}`}>
+              <span className={`truncate font-mono font-medium ${isSkill ? "text-warning dark:text-warning" : ""}`}>
                 {displayName}
               </span>
             )}
@@ -83,7 +83,7 @@ function ToolEventCard({ p, resolveAgent }: { p: EnrichedAgentEventPayload; reso
             <span className="truncate font-medium">{agentName}</span>
             <span className="shrink-0 text-muted-foreground">&rarr;</span>
             {displayName && (
-              <span className={`truncate font-mono font-medium ${isSkill ? "text-amber-600 dark:text-amber-400" : ""}`}>
+              <span className={`truncate font-mono font-medium ${isSkill ? "text-warning dark:text-warning" : ""}`}>
                 {displayName}
               </span>
             )}
@@ -167,7 +167,7 @@ function PillId({ label, id }: { label: string; id: string }) {
 function RunKindBadge({ kind }: { kind: string }) {
   const colors: Record<string, string> = {
     delegation: "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
-    announce: "bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300",
+    announce: "bg-warning text-warning dark:bg-warning/40 dark:text-warning",
   };
   return (
     <span className={`shrink-0 rounded px-1.5 py-0.5 text-xs font-medium ${colors[kind] ?? "bg-muted text-muted-foreground"}`}>

@@ -25,7 +25,8 @@ export function SidebarItem({
   const className = cn(
     "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
     "hover:bg-accent hover:text-accent-foreground",
-    active && "bg-accent text-accent-foreground font-medium",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring",
+    active && "bg-primary/10 font-medium text-foreground ring-1 ring-inset ring-primary/30",
     collapsed && "justify-center px-2",
   );
 
@@ -34,7 +35,7 @@ export function SidebarItem({
       <Icon className="h-4 w-4 shrink-0" />
       {!collapsed && <span className="truncate">{label}</span>}
       {!collapsed && badge != null && badge > 0 && (
-        <span className="ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-destructive px-1.5 text-xs font-medium text-destructive-foreground">
+        <span className="ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-md bg-destructive px-1.5 text-xs font-medium text-destructive-foreground">
           {badge}
         </span>
       )}

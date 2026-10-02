@@ -49,9 +49,15 @@ export function useTenantsAdmin() {
   );
 
   const createTenant = useCallback(
-    async (data: { name: string; slug: string }) => {
+    async (data: { name: string; slug: string; diskQuotaBytes: number }) => {
       try {
-        const res = await ws.call<TenantData>(Methods.TENANTS_CREATE, data);
+        // disk_quota_bytes is required on create (no engine default): the
+        // settings blob is the only place the engine reads it.
+        const res = await ws.call<TenantData>(Methods.TENANTS_CREATE, {
+          name: data.name,
+          slug: data.slug,
+          settings: { disk_quota_bytes: data.diskQuotaBytes },
+        });
         await invalidate();
         toast.success(i18next.t("tenants:createTenant"), i18next.t("tenants:name") + ": " + data.name);
         return res;

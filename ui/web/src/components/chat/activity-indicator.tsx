@@ -37,7 +37,7 @@ export function ActivityIndicator({ activity, isRunning }: ActivityIndicatorProp
 function getPhaseConfig(activity: RunActivity) {
   switch (activity.phase) {
     case "thinking":
-      return { icon: Brain, animation: "animate-pulse", color: "text-amber-500", label: "Thinking..." };
+      return { icon: Brain, animation: "animate-pulse", color: "text-warning", label: "Thinking..." };
     case "tool_exec":
       return {
         icon: Wrench,
@@ -48,16 +48,16 @@ function getPhaseConfig(activity: RunActivity) {
     case "streaming":
       return { icon: Pencil, animation: "", color: "text-foreground", label: "Writing..." };
     case "compacting":
-      return { icon: Archive, animation: "animate-pulse", color: "text-amber-500", label: "Optimizing context..." };
+      return { icon: Archive, animation: "animate-pulse", color: "text-warning", label: "Optimizing context..." };
     case "retrying":
       return {
         icon: RefreshCw,
         animation: "animate-spin",
-        color: "text-amber-500",
+        color: "text-warning",
         label: `Retrying (${activity.retryAttempt ?? 0}/${activity.retryMax ?? 0})...`,
       };
     case "leader_processing":
-      return { icon: Users, animation: "animate-pulse", color: "text-emerald-500", label: "Processing team results..." };
+      return { icon: Users, animation: "animate-pulse", color: "text-success", label: "Processing team results..." };
     default:
       return { icon: Brain, animation: "animate-pulse", color: "text-muted-foreground", label: "Working..." };
   }

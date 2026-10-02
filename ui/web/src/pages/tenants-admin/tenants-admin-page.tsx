@@ -20,11 +20,23 @@ import { useDeferredLoading } from "@/hooks/use-deferred-loading";
 import { useMinLoading } from "@/hooks/use-min-loading";
 import { useTenantsAdmin } from "./hooks/use-tenants-admin";
 import { ROUTES } from "@/lib/constants";
+import {
+  DEFAULT_DISK_QUOTA_GIB,
+  MAX_DISK_QUOTA_GIB,
+  parseDiskQuotaGiB,
+  type DiskQuotaError,
+} from "@/lib/disk-quota";
 
 function statusVariant(status: string): "default" | "secondary" | "destructive" {
   if (status === "active") return "default";
   if (status === "suspended") return "destructive";
   return "secondary";
+}
+
+function diskQuotaErrorKey(err: DiskQuotaError): string {
+  if (err === "required") return "diskQuotaRequired";
+  if (err === "notWhole") return "diskQuotaWhole";
+  return "diskQuotaRange";
 }
 
 export function TenantsAdminPage() {
@@ -39,19 +51,46 @@ export function TenantsAdminPage() {
   const [createOpen, setCreateOpen] = useState(false);
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
+  const [diskQuota, setDiskQuota] = useState(String(DEFAULT_DISK_QUOTA_GIB));
+  const [diskQuotaError, setDiskQuotaError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
+
+  const parsedQuota = parseDiskQuotaGiB(diskQuota);
+  const quotaBytes = "bytes" in parsedQuota ? parsedQuota.bytes : null;
 
   const handleCreate = async () => {
     if (!name.trim() || !slug.trim()) return;
+    const parsed = parseDiskQuotaGiB(diskQuota);
+    if ("error" in parsed) {
+      setDiskQuotaError(t(diskQuotaErrorKey(parsed.error)));
+      return;
+    }
     setCreating(true);
+    setSubmitError(null);
     try {
-      await createTenant({ name: name.trim(), slug: slug.trim() });
+      await createTenant({
+        name: name.trim(),
+        slug: slug.trim(),
+        diskQuotaBytes: parsed.bytes,
+      });
       setCreateOpen(false);
       setName("");
       setSlug("");
+      setDiskQuota(String(DEFAULT_DISK_QUOTA_GIB));
+      setDiskQuotaError(null);
+    } catch (err) {
+      // The engine's rejection already names the key and the range, so show it verbatim.
+      setSubmitError(err instanceof Error ? err.message : t("createError"));
     } finally {
       setCreating(false);
     }
+  };
+
+  const handleDiskQuotaChange = (v: string) => {
+    setDiskQuota(v);
+    const parsed = parseDiskQuotaGiB(v);
+    setDiskQuotaError("error" in parsed ? t(diskQuotaErrorKey(parsed.error)) : null);
   };
 
   const handleNameChange = (v: string) => {
@@ -68,7 +107,16 @@ export function TenantsAdminPage() {
         actions={
           <div className="flex gap-2">
             {isOwner && (
-              <Button size="sm" onClick={() => setCreateOpen(true)} className="gap-1">
+              <Button
+                size="sm"
+                onClick={() => {
+                  setSubmitError(null);
+                  setDiskQuotaError(null);
+                  setDiskQuota(String(DEFAULT_DISK_QUOTA_GIB));
+                  setCreateOpen(true);
+                }}
+                className="gap-1"
+              >
                 <Plus className="h-3.5 w-3.5" /> {t("createTenant")}
               </Button>
             )}
@@ -150,12 +198,39 @@ export function TenantsAdminPage() {
               />
               <p className="text-xs text-muted-foreground">{t("slugHelp")}</p>
             </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="tenant-disk-quota">{t("diskQuota")}</Label>
+              <Input
+                id="tenant-disk-quota"
+                type="number"
+                inputMode="numeric"
+                min={1}
+                max={MAX_DISK_QUOTA_GIB}
+                step={1}
+                value={diskQuota}
+                onChange={(e) => handleDiskQuotaChange(e.target.value)}
+                placeholder={String(DEFAULT_DISK_QUOTA_GIB)}
+                className="text-base md:text-sm"
+                aria-invalid={!!diskQuotaError}
+              />
+              <p className="text-xs text-muted-foreground">{t("diskQuotaHelp")}</p>
+              {quotaBytes !== null && !diskQuotaError && (
+                <p className="text-xs text-muted-foreground">
+                  {t("diskQuotaBytes", { bytes: quotaBytes.toLocaleString() })}
+                </p>
+              )}
+              {diskQuotaError && <p className="text-xs text-destructive">{diskQuotaError}</p>}
+            </div>
           </div>
+          {submitError && <p className="text-sm text-destructive">{submitError}</p>}
           <DialogFooter>
             <Button variant="outline" onClick={() => setCreateOpen(false)} disabled={creating}>
               {tc("cancel")}
             </Button>
-            <Button onClick={handleCreate} disabled={creating || !name.trim() || !slug.trim()}>
+            <Button
+              onClick={handleCreate}
+              disabled={creating || !name.trim() || !slug.trim() || !!diskQuotaError}
+            >
               {t("createTenant")}
             </Button>
           </DialogFooter>

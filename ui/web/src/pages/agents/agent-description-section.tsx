@@ -29,7 +29,7 @@ export function AgentDescriptionSection({ form, agentPresets }: AgentDescription
             key={preset.label}
             type="button"
             onClick={() => setValue("description", preset.prompt, { shouldValidate: true })}
-            className="rounded-full border px-2.5 py-0.5 text-xs transition-colors hover:bg-accent"
+            className="rounded-md border px-2.5 py-0.5 text-xs transition-colors hover:bg-accent"
           >
             {preset.label}
           </button>

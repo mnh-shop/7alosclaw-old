@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useHooksList } from "@/hooks/use-hooks";
+import { useCanWrite } from "@/components/shared/require-role";
 
 interface HooksSummaryCardProps {
   agentId: string;
@@ -12,18 +13,19 @@ interface HooksSummaryCardProps {
 }
 
 const EVENT_COLORS: Record<string, string> = {
-  session_start: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
-  user_prompt_submit: "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300",
-  pre_tool_use: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
-  post_tool_use: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
-  stop: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
-  subagent_start: "bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300",
-  subagent_stop: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300",
+  session_start: "bg-info text-info dark:bg-info/30 dark:text-info",
+  user_prompt_submit: "bg-warning text-warning dark:bg-warning/30 dark:text-warning",
+  pre_tool_use: "bg-destructive text-destructive dark:bg-destructive/30 dark:text-destructive",
+  post_tool_use: "bg-success text-success dark:bg-success/30 dark:text-success",
+  stop: "bg-muted text-muted-foreground",
+  subagent_start: "bg-primary text-primary dark:bg-primary/30 dark:text-primary",
+  subagent_stop: "bg-muted text-muted-foreground",
 };
 
 export function HooksSummaryCard({ agentId, onViewAll, onAddHook }: HooksSummaryCardProps) {
   const { t } = useTranslation("agents");
   const [expanded, setExpanded] = useState(false);
+  const canWrite = useCanWrite();
   const { data: hooks = [], isPending } = useHooksList({ agentId, scope: "agent" });
 
   const groupedByEvent = useMemo(() => {
@@ -62,10 +64,12 @@ export function HooksSummaryCard({ agentId, onViewAll, onAddHook }: HooksSummary
         </div>
         <p className="mt-2 text-xs text-muted-foreground">{t("hooks.card.empty")}</p>
         <p className="mt-1 text-xs text-muted-foreground">{t("hooks.card.emptyDesc")}</p>
-        <Button size="sm" variant="outline" onClick={onAddHook} className="mt-3 gap-1">
-          <Plus className="h-3.5 w-3.5" />
-          {t("hooks.card.addHook")}
-        </Button>
+        {canWrite && (
+          <Button size="sm" variant="outline" onClick={onAddHook} className="mt-3 gap-1">
+            <Plus className="h-3.5 w-3.5" />
+            {t("hooks.card.addHook")}
+          </Button>
+        )}
       </div>
     );
   }

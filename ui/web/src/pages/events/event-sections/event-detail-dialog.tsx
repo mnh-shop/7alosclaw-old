@@ -46,7 +46,7 @@ export function EventDetailDialog({ entry, onClose }: EventDetailDialogProps) {
               onClick={() => copy(json)}
             >
               {copied ? (
-                <Check className="h-3 w-3 text-green-500" />
+                <Check className="h-3 w-3 text-success" />
               ) : (
                 <Copy className="h-3 w-3" />
               )}
@@ -95,7 +95,7 @@ function JsonHighlight({ json }: { json: string }) {
         // String value
         if (part.startsWith('"')) {
           return (
-            <span key={i} className="text-emerald-600 dark:text-emerald-400">
+            <span key={i} className="text-success dark:text-success">
               {part}
             </span>
           );
@@ -103,7 +103,7 @@ function JsonHighlight({ json }: { json: string }) {
         // Boolean / null
         if (part === "true" || part === "false" || part === "null") {
           return (
-            <span key={i} className="text-amber-600 dark:text-amber-400">
+            <span key={i} className="text-warning dark:text-warning">
               {part}
             </span>
           );
@@ -111,7 +111,7 @@ function JsonHighlight({ json }: { json: string }) {
         // Number
         if (/^-?\d/.test(part)) {
           return (
-            <span key={i} className="text-orange-600 dark:text-orange-400">
+            <span key={i} className="text-warning dark:text-warning">
               {part}
             </span>
           );

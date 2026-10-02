@@ -14,12 +14,11 @@ export interface SystemMessagesData {
 
 export type SystemMessagesDraft = Record<string, Record<string, string>>;
 
+/** English only. The engine's message catalogs are English-only too, so
+ *  offering other locales here would let an admin author messages nothing can
+ *  render. */
 export const SYSTEM_MESSAGE_LOCALES = [
   { code: "en", labelKey: "systemMessages.locale.en" },
-  { code: "vi", labelKey: "systemMessages.locale.vi" },
-  { code: "zh", labelKey: "systemMessages.locale.zh" },
-  { code: "ko", labelKey: "systemMessages.locale.ko" },
-  { code: "ru", labelKey: "systemMessages.locale.ru" },
 ] as const;
 
 export function systemMessageDefinitionsFromSchema(schema: Record<string, any> | null | undefined): SystemMessageDefinition[] {

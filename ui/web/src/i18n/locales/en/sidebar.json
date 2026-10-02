@@ -2,11 +2,10 @@
   "groups": {
     "core": "Core",
     "conversations": "Conversations",
-    "connectivity": "Connectivity",
     "capabilities": "Capabilities",
     "data": "Data",
     "monitoring": "Monitoring",
-    "system": "System"
+    "settings": "Settings"
   },
   "nav": {
     "overview": "Overview",
@@ -15,11 +14,11 @@
     "agentTeams": "Agent Link & Team",
     "sessions": "Sessions",
     "pendingMessages": "Pending Messages",
-    "channels": "Channels",
+    "channels": "Messaging",
     "webhooks": "Webhooks",
     "contacts": "Contacts",
     "skills": "Skills",
-    "cron": "Cron",
+    "cron": "Cron Jobs",
     "hooks": "Hooks",
     "customTools": "Custom Tools",
     "builtinTools": "Built-in Tools",
@@ -27,7 +26,7 @@
     "memory": "Memory",
     "vault": "Vault",
     "knowledgeGraph": "Knowledge Graph",
-    "traces": "Traces",
+    "traces": "Activity Monitor",
     "realtimeEvents": "Realtime Events",
     "usage": "Usage",
     "logs": "Logs",
@@ -35,6 +34,7 @@
     "providers": "Providers",
     "config": "Config",
     "approvals": "Approvals",
+    "options": "Options",
     "importExport": "Import & Export",
     "nodes": "Nodes",
     "tts": "TTS",

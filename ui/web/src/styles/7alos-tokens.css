@@ -1,0 +1,154 @@
+/* 7alos design tokens — SINGLE source for website/, web/.
+   Extracted from the 7alos marketing palette. Sync with `make sync-tokens`.
+
+   The file is layered top-down; every layer references the one above it, so a
+   raw colour value appears exactly once:
+
+     1. hues         — brand palette, accent ramp and status hues, the only
+                        raw colour here
+     2. semantic     — surface / line / text / focus / link / status / series, dark only
+     3. scales       — space, radius, type (family, size, weight, line-height)
+
+   Components consume the semantic aliases and the scales, never the raw hues.
+   `src/index.css` maps the semantic aliases onto Tailwind's theme variables.
+
+   The console is dark only. The semantic values below are the live
+   `clients.7alos.com` theme, so there is no light set to switch to. */
+
+:root {
+  /* ── 1. Hues ───────────────────────────────────────────────────────────── */
+
+  /* Brand palette — fixed (do not re-brand without the owner). */
+  --brand-bg: #0B1120;
+  --brand-bg-deep: #04121A;
+  --brand-primary: #22D3EE;
+  --brand-primary-soft: #DFF6FB;
+  --brand-secondary: #8B5CF6;
+  --brand-secondary-soft: #A78BFA;
+  --brand-surface: #E9EFF7;
+  --brand-line: #C9D4E2;
+  --brand-muted: #9AA9BC;
+  --brand-muted-2: #AEBDD0;
+  --brand-dim: #66748A;
+  --brand-ink: #000000;
+  --brand-paper: #FFFFFF;
+
+  /* Warm accent ramp — the marketing accent orange and its steps. These are
+     data-vis series and identity accents, not status hues; charts and graphs
+     consume them via the series scale below or by name. */
+  --brand-accent: #E85D24;
+  --brand-accent-2: #E87820;
+  --brand-accent-3: #F0A020;
+  --brand-accent-soft: #F8D080;
+
+  /* Atmosphere neutrals — the slate behind translucent dark surfaces and the
+     elevated popover navy. Named here so no stylesheet carries a loose hex. */
+  --brand-slate: #94B2D7;
+  --brand-popover: #0D1424;
+
+  /* Status hues — no red/amber/green in the palette by owner decision.
+     Good is the brand cyan; warning and danger are the brand violet at two
+     intensities, so danger reads STRONGER than warning without a new hue.
+     Info is the neutral slate so it never reads as success cyan. */
+  --status-danger: var(--brand-secondary);
+  --status-danger-fg: var(--brand-ink);
+  --status-warn: var(--brand-secondary-soft);
+  --status-warn-fg: var(--brand-ink);
+  --status-success: var(--brand-primary);
+  --status-success-fg: var(--brand-ink);
+  --status-info: var(--brand-slate);
+  --status-info-fg: var(--brand-ink);
+
+  /* ── 2. Semantic aliases — dark (the only theme) ───────────────────────── */
+
+  /* Surfaces: translucent white over the deep background. The percentages
+     match the live theme's alpha steps (#ffffff08 / 05 / 0d). */
+  --surface: color-mix(in srgb, var(--brand-paper) 3%, transparent);          /* cards, sidebar */
+  --surface-secondary: color-mix(in srgb, var(--brand-paper) 2%, transparent); /* secondary fills */
+  --surface-muted: color-mix(in srgb, var(--brand-paper) 5%, transparent);    /* inset / muted blocks */
+  --surface-sunken: var(--brand-bg);        /* app background */
+  --surface-overlay: var(--brand-popover);  /* popovers, dropdowns */
+  --surface-sidebar: color-mix(in srgb, var(--brand-paper) 3%, transparent);  /* app shell rail */
+
+  /* Lines use the soft slate at the live theme's #94b2d724 step. */
+  --line: color-mix(in srgb, var(--brand-slate) 14%, transparent);
+
+  --text: var(--brand-surface);
+  --text-muted: var(--brand-muted);
+  --focus-ring: color-mix(in srgb, var(--brand-primary) 55%, transparent);
+  --accent-hover: color-mix(in srgb, var(--brand-primary) 7%, transparent); /* hover / selected fills */
+
+  /* Links: the brand hue that stays readable on the dark surface. */
+  --link: var(--brand-primary);
+  --link-hover: var(--brand-primary-soft);
+
+  /* Data-vis categorical series — the fixed order for donut slices, chart
+     lines and bars. Adjacent entries alternate hue families (orange / cyan /
+     violet / amber) so neighbours stay distinguishable. Charts consume by
+     position; the KG type map assigns them by name. */
+  --series-1: var(--brand-accent);
+  --series-2: var(--brand-primary);
+  --series-3: var(--brand-secondary);
+  --series-4: var(--brand-accent-3);
+  --series-5: var(--brand-secondary-soft);
+  --series-6: var(--brand-accent-soft);
+  --series-7: var(--brand-slate);
+  --series-8: var(--brand-accent-2);
+
+  /* ── 3a. Space — 4px base, on the same rhythm as Tailwind's scale ──────── */
+
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  /* semantic rhythm */
+  --space-gutter: var(--space-4);
+  --space-section: var(--space-6);
+  --space-page-x: var(--space-6);
+  --space-page-y: var(--space-6);
+
+  /* ── 3b. Radius ────────────────────────────────────────────────────────── */
+
+  --radius-control: 2px;  /* buttons, inputs, chips */
+  --radius-card: 2px;     /* cards, bubbles, panels */
+  --radius-panel: 2px;    /* dialogs, sheets */
+  --radius-pill: 9999px;
+  --radius-base: var(--radius-card); /* feeds Tailwind's derived radius scale */
+
+  /* ── 3c. Type ──────────────────────────────────────────────────────────── */
+
+  /* IBM Plex: one family for headings and body, with weight rather than a second
+     face providing the hierarchy. The previous pairing (a quirky geometric
+     display face over Inter) read as "designed" rather than as an operations
+     tool. IBM Plex Mono is loaded for real — the previous `JetBrains Mono` was
+     named here but never fetched, so eyebrows and inline code silently fell back
+     to the OS mono. */
+  --typeface-display: "IBM Plex Sans", system-ui, sans-serif;
+  --typeface-body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --typeface-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --typescale-eyebrow: 0.625rem;
+  --typescale-caption: 0.75rem;
+  --typescale-body: 0.875rem;
+  --typescale-body-lg: 1rem;
+  --typescale-title: 1.125rem;
+  --typescale-heading: 1.5rem;
+  --typescale-display: 2rem;
+
+  --typeweight-regular: 400;
+  --typeweight-medium: 500;
+  --typeweight-semibold: 600;
+  --typeweight-bold: 700;
+
+  --typeline-tight: 1.2;
+  --typeline-snug: 1.375;
+  --typeline-normal: 1.6;
+
+  --tracking-eyebrow: 0.18em;
+}

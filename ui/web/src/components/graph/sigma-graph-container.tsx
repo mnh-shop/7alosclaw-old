@@ -6,7 +6,6 @@ import FA2Layout from "graphology-layout-forceatlas2/worker";
 import forceAtlas2 from "graphology-layout-forceatlas2";
 import noverlap from "graphology-layout-noverlap";
 import type Graph from "graphology";
-import { useUiStore } from "@/stores/use-ui-store";
 import { SIGMA_SETTINGS, getFA2WorkerSettings, ZOOM_TIERS, TIER_MIN_DEGREE, TIER_EDGE_DEGREE } from "./graph-utils";
 import { resolveGraphNodeDisplayColor } from "./graph-node-colors";
 
@@ -28,20 +27,12 @@ export interface SigmaGraphContainerProps {
   hiddenTypes?: Set<string>;
 }
 
-/** Theme-aware colors — derived from store value, not DOM class.
- *  DOM class lags behind store update, causing stale reads on theme toggle. */
-function useThemeColors() {
-  const theme = useUiStore((s) => s.theme);
-  const systemDark = typeof window !== "undefined"
-    && window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const isDark = theme === "dark" || (theme === "system" && systemDark);
-  return {
-    isDark,
-    labelColor: isDark ? "#e2e8f0" : "#1e293b",
-    edgeColor: isDark ? "#71717a" : "#d4d4d8",
-    highlightEdgeColor: isDark ? "#d4d4d8" : "#3f3f46",
-  };
-}
+/** Dark-only palette — the console has no light theme. */
+const THEME_COLORS = {
+  labelColor: "#e2e8f0",
+  edgeColor: "#71717a",
+  highlightEdgeColor: "#d4d4d8",
+};
 
 /** Reposition orphan nodes (degree=0) into a compact ring around the connected cluster.
  *  Prevents FA2 from scattering them far away and forcing camera to zoom out. */
@@ -108,7 +99,7 @@ export function SigmaGraphContainer({
   const [cameraRatio, setCameraRatio] = useState(1);
   // Layout running state
   const [layoutRunning, setLayoutRunning] = useState(false);
-  const { isDark, labelColor, edgeColor, highlightEdgeColor } = useThemeColors();
+  const { labelColor, edgeColor, highlightEdgeColor } = THEME_COLORS;
 
   const setSigmaRef = useCallback(
     (instance: Sigma | null) => {
@@ -281,7 +272,7 @@ export function SigmaGraphContainer({
 
     sigma.setSetting("nodeReducer", (node, data) => {
       const docType = getNodeType(data);
-      const themedColor = resolveGraphNodeDisplayColor(data, isDark);
+      const themedColor = resolveGraphNodeDisplayColor(data);
       const themedData = { ...data, color: themedColor };
 
       // Filter: hide nodes of hidden types
@@ -369,7 +360,7 @@ export function SigmaGraphContainer({
 
     sigma.refresh();
     // sigmaVersion ensures this runs after sigma is created
-  }, [selectedNodeId, hoveredNode, graph, highlightEdgeColor, edgeColor, hiddenTypes, cameraRatio, sigmaVersion, isDark]);
+  }, [selectedNodeId, hoveredNode, graph, highlightEdgeColor, edgeColor, hiddenTypes, cameraRatio, sigmaVersion]);
 
   // --- Pulse animation for highlighted edges (only runs when a node is active) ---
   // Respects prefers-reduced-motion — skips animation entirely for accessibility

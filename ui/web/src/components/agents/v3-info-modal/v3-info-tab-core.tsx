@@ -4,7 +4,7 @@ import { V3FeatureCard } from "./v3-feature-card";
 
 const FEATURES = [
   { key: "pipeline", icon: Workflow, iconColor: "text-blue-500" },
-  { key: "resilience", icon: Shield, iconColor: "text-emerald-500" },
+  { key: "resilience", icon: Shield, iconColor: "text-success" },
   { key: "registry", icon: BookOpen, iconColor: "text-violet-500" },
 ] as const;
 

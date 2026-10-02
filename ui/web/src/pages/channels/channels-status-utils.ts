@@ -233,7 +233,7 @@ export function getChannelStatusMeta(
 
   if (!status) {
     return {
-      dotClass: "bg-slate-300 dark:bg-slate-600",
+      dotClass: "bg-muted-foreground/40",
       badgeVariant: "secondary",
       label: t("status.checking", { defaultValue: "Checking" }),
       surfaceClass: "border-border bg-card",
@@ -245,51 +245,51 @@ export function getChannelStatusMeta(
   switch (status?.state) {
     case "healthy":
       return {
-        dotClass: "bg-emerald-500",
+        dotClass: "bg-success",
         badgeVariant: "success",
         label: t("status.running", { defaultValue: "Running" }),
         surfaceClass:
-          "border-emerald-200/70 bg-emerald-500/[0.04] dark:border-emerald-500/20 dark:bg-emerald-500/10",
+          "border-success/20 bg-success/10",
         priority: 0,
         attention: false,
       };
     case "degraded":
       return {
-        dotClass: "bg-amber-500",
+        dotClass: "bg-warning",
         badgeVariant: "warning",
         label: t("status.degraded", { defaultValue: "Degraded" }),
         surfaceClass:
-          "border-amber-200/80 bg-amber-500/[0.06] dark:border-amber-500/25 dark:bg-amber-500/10",
+          "border-warning/25 bg-warning/10",
         priority: 4,
         attention: true,
       };
     case "starting":
       return {
-        dotClass: "bg-sky-500",
+        dotClass: "bg-info",
         badgeVariant: "info",
         label: t("status.starting", { defaultValue: "Starting" }),
         surfaceClass:
-          "border-sky-200/80 bg-sky-500/[0.05] dark:border-sky-500/25 dark:bg-sky-500/10",
+          "border-info/25 bg-info/10",
         priority: 3,
         attention: true,
       };
     case "registered":
       return {
-        dotClass: "bg-slate-400",
+        dotClass: "bg-muted-foreground/60",
         badgeVariant: "secondary",
         label: t("status.registered", { defaultValue: "Configured" }),
         surfaceClass:
-          "border-slate-200/80 bg-slate-500/[0.04] dark:border-slate-500/25 dark:bg-slate-500/10",
+          "border-border bg-muted/20",
         priority: 2,
         attention: true,
       };
     case "failed":
       return {
-        dotClass: "bg-red-500",
+        dotClass: "bg-destructive",
         badgeVariant: "destructive",
         label: t("status.failed", { defaultValue: "Failed" }),
         surfaceClass:
-          "border-red-200/80 bg-red-500/[0.05] dark:border-red-500/25 dark:bg-red-500/10",
+          "border-destructive/25 bg-destructive/10",
         priority: 5,
         attention: true,
       };
@@ -305,11 +305,11 @@ export function getChannelStatusMeta(
     default:
       return status?.running
         ? {
-            dotClass: "bg-emerald-500",
+            dotClass: "bg-success",
             badgeVariant: "success",
             label: t("status.running", { defaultValue: "Running" }),
             surfaceClass:
-              "border-emerald-200/70 bg-emerald-500/[0.04] dark:border-emerald-500/20 dark:bg-emerald-500/10",
+              "border-success/20 bg-success/10",
             priority: 0,
             attention: false,
           }

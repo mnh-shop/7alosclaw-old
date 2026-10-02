@@ -47,7 +47,7 @@ export function SystemSettingsCompactionCard({
 
         <div className="flex items-start justify-between gap-4 border-b py-4">
           <div className="flex items-start gap-3">
-            <Archive className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" />
+            <Archive className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
             <div className="space-y-0.5">
               <Label className="text-sm font-medium">{t("compaction.threshold")}</Label>
               <p className="text-xs text-muted-foreground">{t("compaction.thresholdHint")}</p>
@@ -58,7 +58,7 @@ export function SystemSettingsCompactionCard({
 
         <div className="flex items-start justify-between gap-4 border-b py-4">
           <div className="flex items-start gap-3">
-            <Clock className="mt-0.5 h-4 w-4 shrink-0 text-blue-500" />
+            <Clock className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
             <div className="space-y-0.5">
               <Label className="text-sm font-medium">{t("compaction.keepRecent")}</Label>
               <p className="text-xs text-muted-foreground">{t("compaction.keepRecentHint")}</p>
@@ -69,7 +69,7 @@ export function SystemSettingsCompactionCard({
 
         <div className="flex items-start justify-between gap-4 border-b py-4">
           <div className="flex items-start gap-3">
-            <Hash className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" />
+            <Hash className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
             <div className="space-y-0.5">
               <Label className="text-sm font-medium">{t("compaction.maxTokens")}</Label>
               <p className="text-xs text-muted-foreground">{t("compaction.maxTokensHint")}</p>
@@ -78,7 +78,7 @@ export function SystemSettingsCompactionCard({
           <Input type="number" value={compMaxTokens} onChange={(e) => setCompMaxTokens(e.target.value)} placeholder="4096" min={256} className="w-24 shrink-0 text-base md:text-sm" />
         </div>
 
-        <div className="flex items-start gap-2 rounded-md border border-orange-200 bg-orange-50 px-3 py-2 mt-4 text-xs text-orange-700 dark:border-orange-800 dark:bg-orange-950/30 dark:text-orange-300">
+        <div className="flex items-start gap-2 rounded-md border border-warning bg-warning px-3 py-2 mt-4 text-xs text-warning dark:border-warning dark:bg-warning/30 dark:text-warning">
           <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
           <span>{t("compaction.info")}</span>
         </div>

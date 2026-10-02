@@ -12,6 +12,7 @@ import { UserPickerCombobox } from "@/components/shared/user-picker-combobox";
 import { useContactResolver } from "@/hooks/use-contact-resolver";
 import { formatUserLabel } from "@/lib/format-user-label";
 import { useWs, useHttp } from "@/hooks/use-ws";
+import { useCanWrite } from "@/components/shared/require-role";
 import { Methods } from "@/api/protocol";
 import type { ChannelContact } from "@/types/contact";
 import type { DeliveryTarget } from "../hooks/use-agent-heartbeat";
@@ -57,6 +58,7 @@ export function AgentPermissionsTab({ agentId }: AgentPermissionsTabProps) {
   const ws = useWs();
   const http = useHttp();
   const { permissions, loading, load, grant, revoke, check } = useConfigPermissions(agentId);
+  const canWrite = useCanWrite();
 
   const [userId, setUserId] = useState("");
   const [configType, setConfigType] = useState("file_writer");
@@ -192,7 +194,7 @@ export function AgentPermissionsTab({ agentId }: AgentPermissionsTabProps) {
       <div className="flex items-start justify-between gap-2">
         <div>
           <h3 className="text-sm font-medium flex items-center gap-2">
-            <Shield className="h-4 w-4 text-amber-500" />
+            <Shield className="h-4 w-4 text-warning" />
             {t("permissions.title")}
           </h3>
           <p className="text-xs text-muted-foreground mt-1">{t("permissions.description")}</p>
@@ -209,6 +211,7 @@ export function AgentPermissionsTab({ agentId }: AgentPermissionsTabProps) {
       </div>
 
       {/* Add Rule form */}
+      {canWrite && (
       <div className="space-y-2">
         <div className="flex flex-wrap items-end gap-2">
           <UserPickerCombobox
@@ -280,8 +283,8 @@ export function AgentPermissionsTab({ agentId }: AgentPermissionsTabProps) {
             <div
               className={`flex min-w-0 items-center gap-1.5 rounded-md border px-2 py-1 text-xs ${
                 decision.allowed
-                  ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/60 dark:bg-emerald-950/40 dark:text-emerald-300"
-                  : "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-300"
+                  ? "border-success bg-success text-success dark:border-success/60 dark:bg-success/40 dark:text-success"
+                  : "border-warning bg-warning text-warning dark:border-warning/60 dark:bg-warning/40 dark:text-warning"
               }`}
             >
               {decision.allowed ? <CheckCircle2 className="h-3.5 w-3.5 shrink-0" /> : <XCircle className="h-3.5 w-3.5 shrink-0" />}
@@ -295,6 +298,7 @@ export function AgentPermissionsTab({ agentId }: AgentPermissionsTabProps) {
           <p className="text-xs text-muted-foreground">{t(currentDescKey)}</p>
         )}
       </div>
+      )}
 
       {/* Rules list */}
       {loading && permissions.length === 0 ? (
@@ -340,14 +344,16 @@ export function AgentPermissionsTab({ agentId }: AgentPermissionsTabProps) {
                               <span className="text-xs-plus text-muted-foreground shrink-0">{username}</span>
                             )}
                           </div>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-7 w-7 p-0 shrink-0 text-muted-foreground hover:text-destructive"
-                            onClick={() => revoke(p.scope, p.configType, p.userId)}
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
-                          </Button>
+                          {canWrite && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 w-7 p-0 shrink-0 text-muted-foreground hover:text-destructive"
+                              onClick={() => revoke(p.scope, p.configType, p.userId)}
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </Button>
+                          )}
                         </div>
                       );
                     })}
@@ -377,14 +383,16 @@ export function AgentPermissionsTab({ agentId }: AgentPermissionsTabProps) {
                       <span className="text-xs-plus text-muted-foreground shrink-0">{p.configType}</span>
                       <span className="text-xs-plus text-muted-foreground shrink-0">@ {scopeLabels.get(p.scope) ?? p.scope}</span>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-7 w-7 p-0 shrink-0 text-muted-foreground hover:text-destructive"
-                      onClick={() => revoke(p.scope, p.configType, p.userId)}
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </Button>
+                    {canWrite && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 w-7 p-0 shrink-0 text-muted-foreground hover:text-destructive"
+                        onClick={() => revoke(p.scope, p.configType, p.userId)}
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </Button>
+                    )}
                   </div>
                 ))}
               </div>

@@ -8,6 +8,7 @@ import { SkillTenantOverride } from "./skill-tenant-override";
 import { SkillAgentChips } from "./skill-agent-chips";
 import { SkillStatusBadges } from "./skill-status-badges";
 import { getSkillAccessModeBadgeVariant, getSkillAccessModeKey } from "./lib/skill-access-mode";
+import { useCanWrite } from "@/components/shared/require-role";
 import type { SkillInfo } from "./hooks/use-skills";
 
 interface SkillTableRowProps {
@@ -34,6 +35,7 @@ export function SkillTableRow({
   onSetTenantConfig, onDeleteTenantConfig,
 }: SkillTableRowProps) {
   const { t } = useTranslation("skills");
+  const canWrite = useCanWrite();
   const isArchived = skill.status === "archived";
   const isDisabled = skill.enabled === false;
   const accessModeKey = getSkillAccessModeKey(skill.visibility);
@@ -45,7 +47,7 @@ export function SkillTableRow({
   return (
     <tr className={cn("border-b last:border-0 hover:bg-muted/30", selected && "bg-primary/5", (isArchived || isDisabled) && "opacity-60")}>
       <td className="px-4 py-3">
-        {skill.id && (
+        {canWrite && skill.id && (
           <input
             type="checkbox"
             checked={selected}
@@ -87,7 +89,7 @@ export function SkillTableRow({
       {tab === "custom" && (
         <td className="px-4 py-3">
           {skill.visibility && (
-            skill.id ? (
+            skill.id && canWrite ? (
               <button type="button" onClick={() => onCycleAccessMode(skill)} title={t("accessMode.clickToCycle")}>
                 <Badge
                   variant={accessModeVariant}
@@ -106,7 +108,7 @@ export function SkillTableRow({
       )}
       <td className="px-4 py-3 text-right">
         <div className="flex items-center justify-end gap-2">
-          {skill.id && (
+          {canWrite && skill.id && (
             <>
               {hasTenantScope ? (
                 <SkillTenantOverride

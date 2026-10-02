@@ -1,5 +1,5 @@
 {
-  "title": "Cron",
+  "title": "Cron Jobs",
   "description": "Schedule recurring agent tasks",
   "newJob": "New Job",
   "emptyTitle": "No cron jobs",

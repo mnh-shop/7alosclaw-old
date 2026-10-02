@@ -19,6 +19,32 @@ export interface Workstation {
   active: boolean;
   createdAt: string;
   updatedAt: string;
+  /**
+   * Non-secret view of the stored metadata (store/workstation_store.go
+   * SanitizedView, json "metadataSummary"): carries the host-verification
+   * fields a workstation needs to connect, never credentials. The console
+   * dropped it along with the trust UI; both are required, because the gateway
+   * refuses the dial when no anchor is set.
+   */
+  metadataSummary?: {
+    knownHostsFingerprint?: string;
+    hostCaKey?: string;
+    allowInsecureHostKey?: boolean;
+    /**
+     * True for a pre-SSH container row (store/legacyContainerSummary): the
+     * shape written before the container backend moved onto the SSH transport.
+     * Such a row has no host, user or credentials and cannot be opened or
+     * tested; the console disables the test action for it with a reason.
+     */
+    legacy?: boolean;
+    // The Go side is map[string]any and carries more than the trust fields
+    // (host/port/user/hasKey for ssh, containerName for docker), so the
+    // three above are named for the code that reads them, not exhaustive.
+    // NOTE: SanitizedView populates the trust trio for ssh and for canonical
+    // container rows; a legacy row's summary omits them, so the edit dialog
+    // treats its stored anchor as unreadable and leaves it untouched.
+    [key: string]: unknown;
+  };
 }
 
 export interface CreateWorkstationParams {
@@ -32,6 +58,21 @@ export interface UpdateWorkstationParams {
   name?: string;
   active?: boolean;
   metadata?: Record<string, unknown>;
+}
+
+/**
+ * The sanitized report from workstation.TestConnection, wire-mirroring
+ * store's workstation.ConnectionTestResult (internal/workstation/backend.go).
+ * Runtime/Image are omitted for non-container backends; rootfulSocket and
+ * message are omitempty. Never carries credentials or host paths.
+ */
+export interface WorkstationConnectionTest {
+  backend: string;
+  runtime?: string;
+  image?: string;
+  imagePresent: boolean;
+  rootfulSocket?: boolean;
+  message?: string;
 }
 
 export function useWorkstations() {
@@ -86,6 +127,17 @@ export function useWorkstations() {
     [ws, load],
   );
 
+  // Diagnostic probe: opens a transient backend on the gateway, dials the
+  // remote host, and returns the sanitized result. A failure rejects with the
+  // backend's own message (e.g. the image is not present), which callers show
+  // verbatim because it is the actionable part.
+  const testWorkstation = useCallback(
+    async (id: string): Promise<WorkstationConnectionTest> => {
+      return ws.call<WorkstationConnectionTest>(Methods.WORKSTATIONS_TEST, { id });
+    },
+    [ws],
+  );
+
   return {
     workstations,
     loading,
@@ -94,5 +146,6 @@ export function useWorkstations() {
     createWorkstation,
     updateWorkstation,
     deleteWorkstation,
+    testWorkstation,
   };
 }

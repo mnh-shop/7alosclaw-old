@@ -1,20 +1,17 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import i18n from "@/i18n";
-import { type Language } from "@/lib/constants";
 
+/** The dashboard is dark only. Kept as a union so read sites stay explicit;
+ *  the store pins it to "dark" and never offers a setter. */
 export type Theme = "light" | "dark" | "system";
 
 interface UiState {
   theme: Theme;
-  language: Language;
   timezone: string; // IANA timezone or "auto"
   sidebarCollapsed: boolean;
   mobileSidebarOpen: boolean;
   pageSize: number; // global pagination page size preference
 
-  setTheme: (theme: Theme) => void;
-  setLanguage: (language: Language) => void;
   setTimezone: (tz: string) => void;
   toggleSidebar: () => void;
   setSidebarCollapsed: (collapsed: boolean) => void;
@@ -26,20 +23,10 @@ export const useUiStore = create<UiState>()(
   persist(
     (set, get) => ({
       theme: "dark" as Theme,
-      language: (i18n.language as Language) ?? "en",
       timezone: "auto",
       sidebarCollapsed: false,
       mobileSidebarOpen: false,
       pageSize: 20,
-
-      setTheme: (theme) => {
-        set({ theme });
-      },
-
-      setLanguage: (language) => {
-        i18n.changeLanguage(language);
-        set({ language });
-      },
 
       setTimezone: (tz) => {
         set({ timezone: tz });
@@ -62,10 +49,16 @@ export const useUiStore = create<UiState>()(
       partialize: (state) => ({
         // Persist user preferences — not transient UI state
         theme: state.theme,
-        language: state.language,
         timezone: state.timezone,
         sidebarCollapsed: state.sidebarCollapsed,
         pageSize: state.pageSize,
+      }),
+      // A "light"/"system" value persisted by an older build must not leak
+      // through and leave the app half-lit — force the only supported theme.
+      merge: (persisted, current) => ({
+        ...current,
+        ...(persisted as Partial<UiState>),
+        theme: "dark",
       }),
     }
   )

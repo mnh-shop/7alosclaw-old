@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import type { CronJob } from "../hooks/use-cron";
 import { formatSchedule } from "../cron-utils";
 import { useAgents } from "@/pages/agents/hooks/use-agents";
+import { useCanWrite } from "@/components/shared/require-role";
 
 interface CronHeaderProps {
   job: CronJob;
@@ -21,6 +22,7 @@ interface CronHeaderProps {
 export function CronHeader({ job, isRunning, onBack, onRun, onToggle, onDelete }: CronHeaderProps) {
   const { t } = useTranslation("cron");
   const { agents } = useAgents();
+  const canWrite = useCanWrite();
   const agent = job.agentId ? agents.find((a) => a.id === job.agentId) : null;
   const agentLabel = agent?.display_name || agent?.agent_key || job.agentId;
 
@@ -48,7 +50,7 @@ export function CronHeader({ job, isRunning, onBack, onRun, onToggle, onDelete }
                 <span
                   className={cn(
                     "inline-block h-2.5 w-2.5 shrink-0 rounded-full",
-                    job.enabled ? "bg-emerald-500" : "bg-muted-foreground/50",
+                    job.enabled ? "bg-success" : "bg-muted-foreground/50",
                   )}
                 />
               </TooltipTrigger>
@@ -71,44 +73,50 @@ export function CronHeader({ job, isRunning, onBack, onRun, onToggle, onDelete }
         </div>
 
         {/* Run Now */}
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onRun}
-          disabled={isRunning}
-          className="shrink-0 gap-1.5 size-9 sm:w-auto sm:px-3"
-        >
-          {isRunning
-            ? <Loader2 className="h-4 w-4 animate-spin" />
-            : <Play className="h-4 w-4" />}
-          <span className="hidden sm:inline">
-            {isRunning ? t("detail.running") : t("detail.runNow")}
-          </span>
-        </Button>
+        {canWrite && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onRun}
+            disabled={isRunning}
+            className="shrink-0 gap-1.5 size-9 sm:w-auto sm:px-3"
+          >
+            {isRunning
+              ? <Loader2 className="h-4 w-4 animate-spin" />
+              : <Play className="h-4 w-4" />}
+            <span className="hidden sm:inline">
+              {isRunning ? t("detail.running") : t("detail.runNow")}
+            </span>
+          </Button>
+        )}
 
         {/* Toggle */}
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onToggle}
-          className="shrink-0 gap-1.5 size-9 sm:w-auto sm:px-3"
-        >
-          <span className="hidden sm:inline">
-            {job.enabled ? t("detail.disable") : t("detail.enable")}
-          </span>
-          <Power className="h-4 w-4 sm:hidden" />
-        </Button>
+        {canWrite && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onToggle}
+            className="shrink-0 gap-1.5 size-9 sm:w-auto sm:px-3"
+          >
+            <span className="hidden sm:inline">
+              {job.enabled ? t("detail.disable") : t("detail.enable")}
+            </span>
+            <Power className="h-4 w-4 sm:hidden" />
+          </Button>
+        )}
 
         {/* Delete */}
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onDelete}
-          className="shrink-0 gap-1.5 size-9 sm:w-auto sm:px-3 text-muted-foreground hover:text-destructive"
-        >
-          <Trash2 className="h-4 w-4" />
-          <span className="hidden sm:inline">{t("delete.title")}</span>
-        </Button>
+        {canWrite && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onDelete}
+            className="shrink-0 gap-1.5 size-9 sm:w-auto sm:px-3 text-muted-foreground hover:text-destructive"
+          >
+            <Trash2 className="h-4 w-4" />
+            <span className="hidden sm:inline">{t("delete.title")}</span>
+          </Button>
+        )}
       </div>
     </TooltipProvider>
   );

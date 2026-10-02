@@ -72,7 +72,7 @@ export function ChannelHeader({
                     className={cn(
                       "inline-block h-2.5 w-2.5 shrink-0 rounded-full",
                       instance.enabled
-                        ? "bg-emerald-500"
+                        ? "bg-success"
                         : "bg-muted-foreground/50",
                     )}
                   />

@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import type { UseAgentHeartbeatReturn } from "@/pages/agents/hooks/use-agent-heartbeat";
+import { useCanWrite } from "@/components/shared/require-role";
 import { HeartbeatLogsDialog } from "../heartbeat-logs-dialog";
 import { formatRelativeTime } from "@/lib/format";
 
@@ -20,6 +21,7 @@ export function HeartbeatCard({ heartbeat }: HeartbeatCardProps) {
   const { config, loading, saving, toggle, update, test, getChecklist, setChecklist, fetchTargets, refresh, fetchLogs } = heartbeat;
   const [configOpen, setConfigOpen] = useState(false);
   const [logsOpen, setLogsOpen] = useState(false);
+  const canWrite = useCanWrite();
 
   if (loading) {
     return (
@@ -41,10 +43,12 @@ export function HeartbeatCard({ heartbeat }: HeartbeatCardProps) {
               <Heart className="h-4 w-4 text-muted-foreground" />
               <span className="text-sm font-medium">{t("heartbeat.title")}</span>
             </div>
-            <Button size="sm" variant="outline" onClick={() => setConfigOpen(true)}>
-              <Settings className="h-3.5 w-3.5" />
-              {t("heartbeat.setupButton")}
-            </Button>
+            {canWrite && (
+              <Button size="sm" variant="outline" onClick={() => setConfigOpen(true)}>
+                <Settings className="h-3.5 w-3.5" />
+                {t("heartbeat.setupButton")}
+              </Button>
+            )}
           </div>
           <p className="mt-2 text-xs text-muted-foreground">{t("heartbeat.notConfigured")}</p>
         </div>
@@ -72,15 +76,17 @@ export function HeartbeatCard({ heartbeat }: HeartbeatCardProps) {
       <div className="rounded-lg border p-4 space-y-3">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <Heart className={`h-4 w-4 ${config.enabled ? "fill-rose-500 text-rose-500 animate-pulse" : "text-rose-400"}`} />
+            <Heart className={`h-4 w-4 ${config.enabled ? "fill-destructive text-destructive animate-pulse" : "text-destructive"}`} />
             <span className="text-sm font-medium">{t("heartbeat.title")}</span>
           </div>
-          <Switch
-            checked={config.enabled}
-            disabled={saving}
-            onCheckedChange={(enabled) => toggle(enabled)}
-            aria-label={t("heartbeat.toggleEnabled")}
-          />
+          {canWrite && (
+            <Switch
+              checked={config.enabled}
+              disabled={saving}
+              onCheckedChange={(enabled) => toggle(enabled)}
+              aria-label={t("heartbeat.toggleEnabled")}
+            />
+          )}
         </div>
 
         <div className="space-y-1 text-xs text-muted-foreground">
@@ -94,7 +100,7 @@ export function HeartbeatCard({ heartbeat }: HeartbeatCardProps) {
               <span>{config.channel}{config.chatId ? `/${config.chatId}` : ""}</span>
             )}
             {config.model && (
-              <span className="text-orange-600 dark:text-orange-400">{config.model}</span>
+              <span className="text-warning dark:text-warning">{config.model}</span>
             )}
           </div>
 
@@ -120,10 +126,12 @@ export function HeartbeatCard({ heartbeat }: HeartbeatCardProps) {
         </div>
 
         <div className="flex gap-2 pt-1">
-          <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => setConfigOpen(true)}>
-            <Settings className="h-3 w-3" />
-            {t("heartbeat.configure")}
-          </Button>
+          {canWrite && (
+            <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => setConfigOpen(true)}>
+              <Settings className="h-3 w-3" />
+              {t("heartbeat.configure")}
+            </Button>
+          )}
           <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => setLogsOpen(true)}>
             <List className="h-3 w-3" />
             {t("heartbeat.logs")}

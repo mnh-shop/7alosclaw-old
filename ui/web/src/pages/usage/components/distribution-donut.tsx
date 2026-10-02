@@ -4,12 +4,10 @@ import type { PieSectorDataItem } from "recharts/types/polar/Pie";
 import { ChartWrapper } from "./chart-wrapper";
 import type { SnapshotBreakdown } from "../hooks/use-usage-analytics";
 
-const PALETTE = [
-  "#E85D24", "#10b981", "#E87820", "#ef4444", "#F0A020",
-  "#ec4899", "#f59e0b", "#84cc16", "#F8D080", "#f97316",
-];
-
+// Slice colours are the categorical series scale from 7alos-tokens.css, in
+// order; the aggregated "other" slice is the muted neutral, never a series.
 const MAX_SLICES = 8;
+const OTHER_COLOR = "var(--muted-foreground)";
 
 interface DistributionDonutProps {
   title: string;
@@ -24,6 +22,7 @@ interface SliceEntry {
   name: string;
   value: number;
   calls: number;
+  other?: boolean;
 }
 
 export function DistributionDonut({
@@ -44,7 +43,7 @@ export function DistributionDonut({
 
   if (rest.length > 0) {
     const otherCount = rest.reduce((sum, d) => sum + d[metric], 0);
-    slices.push({ name: t("analytics.distribution.other"), value: otherCount, calls: otherCount });
+    slices.push({ name: t("analytics.distribution.other"), value: otherCount, calls: otherCount, other: true });
   }
 
   const total = slices.reduce((sum, s) => sum + s.value, 0);
@@ -77,8 +76,8 @@ export function DistributionDonut({
             {slices.map((entry, idx) => (
               <Cell
                 key={entry.name}
-                fill={PALETTE[idx % PALETTE.length]}
-                stroke={activeValue === entry.name ? "#B83D10" : "transparent"}
+                fill={entry.other ? OTHER_COLOR : `var(--series-${(idx % MAX_SLICES) + 1})`}
+                stroke={activeValue === entry.name ? "var(--text)" : "transparent"}
                 strokeWidth={activeValue === entry.name ? 3 : 0}
                 opacity={activeValue && activeValue !== entry.name ? 0.5 : 1}
               />

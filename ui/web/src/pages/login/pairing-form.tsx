@@ -155,7 +155,7 @@ export function PairingForm({ onApproved }: PairingFormProps) {
   // Approved
   if (status === "approved") {
     return (
-      <p className="text-center text-sm text-green-600">
+      <p className="text-center text-sm text-success">
         {t("pairing.approved")}
       </p>
     );
@@ -230,7 +230,7 @@ function PairingCodeDisplay({
       </p>
 
       <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-        <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-amber-500" />
+        <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-warning" />
         {t("pairing.waitingForApproval")}
       </div>
 

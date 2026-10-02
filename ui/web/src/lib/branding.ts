@@ -5,9 +5,9 @@ export interface RuntimeBranding {
 }
 
 const FALLBACK_BRANDING: RuntimeBranding = {
-  appName: "ZalosClaw",
-  appShortName: "ZalosClaw",
-  logoUrl: "/zalosclaw-icon.svg",
+  appName: "7alosclaw",
+  appShortName: "7alosclaw",
+  logoUrl: "/7alos-mark.svg",
 };
 
 interface RuntimeBrandingPayload {

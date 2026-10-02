@@ -83,9 +83,9 @@ export function TreeItem({
             className={`h-3 w-3 shrink-0 transition-transform ${expanded ? "rotate-90" : ""}`}
           />
           {expanded ? (
-            <FolderOpen className="h-4 w-4 shrink-0 text-yellow-600" />
+            <FolderOpen className="h-4 w-4 shrink-0 text-warning" />
           ) : (
-            <Folder className="h-4 w-4 shrink-0 text-yellow-600" />
+            <Folder className="h-4 w-4 shrink-0 text-warning" />
           )}
           <span className="truncate">{node.name}</span>
           {node.loading && <Loader2 className="h-3 w-3 shrink-0 animate-spin text-muted-foreground ml-1" />}

@@ -104,7 +104,7 @@ export function getRunTimelineDisplay(item: Pick<RunTimelineItem, "item_type" | 
   if (item.item_type === "tool.call" || item.item_type === "tool.result") {
     return {
       icon: Wrench,
-      dotClass: "bg-amber-500/10 text-amber-700 dark:text-amber-300",
+      dotClass: "bg-warning/10 text-warning dark:text-warning",
       labelKey: item.item_type === "tool.call" ? "detail.timeline.toolCall" : "detail.timeline.toolResult",
     };
   }
@@ -132,7 +132,7 @@ export function getRunTimelineDisplay(item: Pick<RunTimelineItem, "item_type" | 
 function statusDotClass(status: RunTimelineItem["status"]) {
   switch (status) {
     case "completed":
-      return "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300";
+      return "bg-success/10 text-success dark:text-success";
     case "cancelled":
       return "bg-muted text-muted-foreground";
     case "running":

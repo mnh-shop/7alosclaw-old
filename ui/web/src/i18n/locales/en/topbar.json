@@ -3,6 +3,7 @@
   "collapseSidebar": "Collapse sidebar",
   "openMenu": "Open menu",
   "systemSettings": "System Settings",
+  "system": "System",
   "toggleTheme": "Toggle theme",
   "logout": "Logout",
   "logoutConfirm": "Are you sure you want to logout?",
@@ -27,9 +28,6 @@
     "releaseNotes": "Release Notes"
   },
   "languages": {
-    "en": "English",
-    "vi": "Tiếng Việt",
-    "zh": "中文",
-    "ko": "한국어"
+    "en": "English"
   }
 }

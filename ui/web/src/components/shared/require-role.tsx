@@ -8,6 +8,18 @@ function hasMinRole(role: string, minRole: string): boolean {
   return (levels[role] ?? 0) >= (levels[minRole] ?? 0);
 }
 
+/** True when the current seat may mutate (operator/admin/owner). Viewers are read-only. */
+export function useCanWrite(): boolean {
+  const role = useAuthStore((s) => s.role);
+  return hasMinRole(role, "operator");
+}
+
+/** True when the current seat may administer (admin/owner). */
+export function useIsAdmin(): boolean {
+  const role = useAuthStore((s) => s.role);
+  return hasMinRole(role, "admin");
+}
+
 /** Renders children only if user has admin role or higher. Redirects to overview otherwise. */
 export function RequireAdmin({ children }: { children: React.ReactNode }) {
   const role = useAuthStore((s) => s.role);

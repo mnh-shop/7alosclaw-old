@@ -1,7 +1,7 @@
 /**
  * CalloutBlock — styled callout/admonition block rendered from [!type] blockquotes.
  * Supports: note, info, warning, tip, danger, important
- * Full dark mode support via Tailwind dark: variants.
+ * Colours come from the semantic status tokens; the console is dark-only.
  */
 import { Info, AlertTriangle, Lightbulb, AlertOctagon, Star } from "lucide-react";
 import type { CalloutType } from "@/lib/remark-callouts";
@@ -17,45 +17,45 @@ interface CalloutConfig {
 const CALLOUT_CONFIG: Record<CalloutType, CalloutConfig> = {
   note: {
     icon: Info,
-    borderColor: "border-blue-400 dark:border-blue-500",
-    bgColor: "bg-blue-50 dark:bg-blue-950/40",
-    titleColor: "text-blue-700 dark:text-blue-300",
-    iconColor: "text-blue-500 dark:text-blue-400",
+    borderColor: "border-info/40",
+    bgColor: "bg-info/10",
+    titleColor: "text-info",
+    iconColor: "text-info",
   },
   info: {
     icon: Info,
-    borderColor: "border-blue-400 dark:border-blue-500",
-    bgColor: "bg-blue-50 dark:bg-blue-950/40",
-    titleColor: "text-blue-700 dark:text-blue-300",
-    iconColor: "text-blue-500 dark:text-blue-400",
+    borderColor: "border-info/40",
+    bgColor: "bg-info/10",
+    titleColor: "text-info",
+    iconColor: "text-info",
   },
   warning: {
     icon: AlertTriangle,
-    borderColor: "border-amber-400 dark:border-amber-500",
-    bgColor: "bg-amber-50 dark:bg-amber-950/40",
-    titleColor: "text-amber-700 dark:text-amber-300",
-    iconColor: "text-amber-500 dark:text-amber-400",
+    borderColor: "border-warning/40",
+    bgColor: "bg-warning/10",
+    titleColor: "text-warning",
+    iconColor: "text-warning",
   },
   tip: {
     icon: Lightbulb,
-    borderColor: "border-green-400 dark:border-green-500",
-    bgColor: "bg-green-50 dark:bg-green-950/40",
-    titleColor: "text-green-700 dark:text-green-300",
-    iconColor: "text-green-500 dark:text-green-400",
+    borderColor: "border-success/40",
+    bgColor: "bg-success/10",
+    titleColor: "text-success",
+    iconColor: "text-success",
   },
   danger: {
     icon: AlertOctagon,
-    borderColor: "border-red-400 dark:border-red-500",
-    bgColor: "bg-red-50 dark:bg-red-950/40",
-    titleColor: "text-red-700 dark:text-red-300",
-    iconColor: "text-red-500 dark:text-red-400",
+    borderColor: "border-destructive/40",
+    bgColor: "bg-destructive/10",
+    titleColor: "text-destructive",
+    iconColor: "text-destructive",
   },
   important: {
     icon: Star,
-    borderColor: "border-purple-400 dark:border-purple-500",
-    bgColor: "bg-purple-50 dark:bg-purple-950/40",
-    titleColor: "text-purple-700 dark:text-purple-300",
-    iconColor: "text-purple-500 dark:text-purple-400",
+    borderColor: "border-brand-secondary/40",
+    bgColor: "bg-brand-secondary/10",
+    titleColor: "text-brand-secondary",
+    iconColor: "text-brand-secondary",
   },
 };
 
@@ -78,7 +78,7 @@ export function CalloutBlock({ calloutType, calloutTitle, children }: CalloutBlo
         <Icon className={`h-4 w-4 shrink-0 ${config.iconColor}`} />
         <span>{calloutTitle}</span>
       </div>
-      <div className="prose prose-sm dark:prose-invert max-w-none text-sm">
+      <div className="prose prose-sm prose-invert max-w-none text-sm">
         {children}
       </div>
     </div>

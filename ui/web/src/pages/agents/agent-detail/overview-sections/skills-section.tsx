@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { SearchInput } from "@/components/shared/search-input";
 import { TableSkeleton } from "@/components/shared/loading-skeleton";
+import { useCanWrite } from "@/components/shared/require-role";
 import { useAgentSkills } from "../../hooks/use-agent-skills";
 
 interface SkillsSectionProps {
@@ -22,6 +23,7 @@ const visibilityVariant = (v: string) => {
 export function SkillsSection({ agentId }: SkillsSectionProps) {
   const { t } = useTranslation("agents");
   const { skills, loading, grantSkill, revokeSkill } = useAgentSkills(agentId);
+  const canWrite = useCanWrite();
   const [search, setSearch] = useState("");
   const [toggling, setToggling] = useState<string | null>(null);
 
@@ -50,7 +52,7 @@ export function SkillsSection({ agentId }: SkillsSectionProps) {
     <section className="space-y-3 rounded-lg border p-3 sm:p-4">
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <Zap className="h-4 w-4 text-amber-500" />
+          <Zap className="h-4 w-4 text-warning" />
           <h3 className="text-sm font-medium">{t("detail.skills")}</h3>
           {!loading && (
             <span className="text-xs text-muted-foreground">
@@ -81,7 +83,7 @@ export function SkillsSection({ agentId }: SkillsSectionProps) {
                     {skill.visibility}
                   </Badge>
                   {skill.is_system && (
-                    <Badge variant="outline" className="border-blue-500 text-blue-600 text-2xs shrink-0">
+                    <Badge variant="outline" className="border-primary text-primary text-2xs shrink-0">
                       {t("skills.system")}
                     </Badge>
                   )}
@@ -94,13 +96,13 @@ export function SkillsSection({ agentId }: SkillsSectionProps) {
                 <span className="text-xs text-muted-foreground whitespace-nowrap shrink-0">
                   {t("skills.alwaysAvailable")}
                 </span>
-              ) : (
+              ) : canWrite ? (
                 <Switch
                   checked={skill.granted}
                   disabled={toggling === skill.id}
                   onCheckedChange={() => handleToggle(skill.id, skill.granted)}
                 />
-              )}
+              ) : null}
             </div>
           ))}
           {filtered.length === 0 && (

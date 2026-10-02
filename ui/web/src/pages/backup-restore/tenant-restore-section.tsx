@@ -75,7 +75,7 @@ export function TenantRestoreSection() {
     const tablesRestored = (r.tables_restored ?? {}) as Record<string, number>;
     return (
       <div className="space-y-4">
-        <h3 className="text-sm font-medium text-green-600">{t("tenant.restore.complete")}</h3>
+        <h3 className="text-sm font-medium text-success">{t("tenant.restore.complete")}</h3>
         <OperationProgress steps={restore.steps} elapsed={restore.elapsed} />
 
         {!!r.dry_run && (

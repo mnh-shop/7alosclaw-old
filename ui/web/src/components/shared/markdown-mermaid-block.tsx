@@ -1,25 +1,17 @@
 /**
  * MermaidBlock — lazy-loads mermaid and renders diagrams as SVG.
- * Re-renders on theme change. Shows skeleton while loading, error fallback on failure.
+ * Shows skeleton while loading, error fallback on failure. The console is dark
+ * only, so diagrams always render with mermaid's dark theme.
  */
 import { useEffect, useState, useId } from "react";
-import { useUiStore } from "@/stores/use-ui-store";
 
 interface MermaidBlockProps {
   code: string;
 }
 
-function isDarkMode(theme: string): boolean {
-  if (theme === "dark") return true;
-  if (theme === "light") return false;
-  // "system" — detect from DOM
-  return document.documentElement.classList.contains("dark");
-}
-
 export function MermaidBlock({ code }: MermaidBlockProps) {
   const uid = useId().replace(/:/g, "");
   const diagramId = `mermaid-${uid}`;
-  const { theme } = useUiStore();
   const [svg, setSvg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -35,7 +27,7 @@ export function MermaidBlock({ code }: MermaidBlockProps) {
         const mermaid = (await import("mermaid")).default;
         mermaid.initialize({
           startOnLoad: false,
-          theme: isDarkMode(theme) ? "dark" : "default",
+          theme: "dark",
           securityLevel: "strict",
         });
 
@@ -55,7 +47,7 @@ export function MermaidBlock({ code }: MermaidBlockProps) {
     return () => {
       cancelled = true;
     };
-  }, [code, theme, diagramId]);
+  }, [code, diagramId]);
 
   if (loading) {
     return (
@@ -67,14 +59,14 @@ export function MermaidBlock({ code }: MermaidBlockProps) {
 
   if (error) {
     return (
-      <div className="not-prose my-3 rounded-lg border border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-950/30 p-3">
-        <p className="mb-2 text-xs font-semibold text-red-600 dark:text-red-400">
+      <div className="not-prose my-3 rounded-lg border border-destructive bg-destructive/30 p-3">
+        <p className="mb-2 text-xs font-semibold text-destructive">
           Mermaid render error
         </p>
-        <pre className="overflow-x-auto text-xs text-red-500 dark:text-red-400 whitespace-pre-wrap">
+        <pre className="overflow-x-auto text-xs text-destructive whitespace-pre-wrap">
           {error}
         </pre>
-        <hr className="my-2 border-red-200 dark:border-red-800" />
+        <hr className="my-2 border-destructive" />
         <pre className="overflow-x-auto text-xs text-muted-foreground whitespace-pre">{code}</pre>
       </div>
     );

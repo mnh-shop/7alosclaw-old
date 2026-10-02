@@ -153,7 +153,7 @@ export function SkillAgentGrantsDialog({
                       <div className="mt-1 flex items-center gap-1.5">
                         <Badge variant="secondary" className="text-2xs">v{grant.pinned_version}</Badge>
                         {grant.can_manage && (
-                          <Badge variant="outline" className="text-2xs border-emerald-500 text-emerald-600">
+                          <Badge variant="outline" className="text-2xs border-success text-success">
                             {t("grants.canManage")}
                           </Badge>
                         )}
@@ -192,7 +192,7 @@ export function SkillAgentGrantsDialog({
             </Select>
             <label className="flex items-center justify-between gap-3 rounded-md border px-3 py-2">
               <span className="flex min-w-0 items-center gap-2 text-sm">
-                <ShieldCheck className="h-4 w-4 text-emerald-600" />
+                <ShieldCheck className="h-4 w-4 text-success" />
                 {t("grants.allowManage")}
               </span>
               <Switch checked={canManage} onCheckedChange={setCanManage} />

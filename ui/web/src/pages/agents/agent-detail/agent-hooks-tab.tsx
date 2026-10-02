@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { EmptyState } from "@/components/shared/empty-state";
 import { TableSkeleton } from "@/components/shared/loading-skeleton";
 import { ConfirmDialog } from "@/components/shared/confirm-dialog";
+import { useCanWrite } from "@/components/shared/require-role";
 import { useMinLoading } from "@/hooks/use-min-loading";
 import { toast } from "@/stores/use-toast-store";
 import {
@@ -32,6 +33,7 @@ export function AgentHooksTab({ agentId, initialCreateOpen, onCreateOpenChange }
   const [editTarget, setEditTarget] = useState<HookConfig | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<HookConfig | null>(null);
   const [testTarget, setTestTarget] = useState<HookConfig | null>(null);
+  const canWrite = useCanWrite();
 
   // Handle initial create open from parent (overview card "Add hook" button)
   useEffect(() => {
@@ -132,9 +134,11 @@ export function AgentHooksTab({ agentId, initialCreateOpen, onCreateOpenChange }
           title={t("hooks.tab.emptyTitle")}
           description={t("hooks.tab.emptyDesc")}
           action={
-            <Button size="sm" onClick={() => setShowCreate(true)} className="gap-1">
-              <Plus className="h-3.5 w-3.5" /> {t("hooks.tab.createFirst")}
-            </Button>
+            canWrite ? (
+              <Button size="sm" onClick={() => setShowCreate(true)} className="gap-1">
+                <Plus className="h-3.5 w-3.5" /> {t("hooks.tab.createFirst")}
+              </Button>
+            ) : undefined
           }
         />
         <HookFormDialog
@@ -154,9 +158,11 @@ export function AgentHooksTab({ agentId, initialCreateOpen, onCreateOpenChange }
           <RefreshCw className={"h-3.5 w-3.5" + (spinning ? " animate-spin" : "")} />
           {t("hooks.tab.refresh")}
         </Button>
-        <Button size="sm" onClick={() => setShowCreate(true)} className="gap-1">
-          <Plus className="h-3.5 w-3.5" /> {t("hooks.tab.create")}
-        </Button>
+        {canWrite && (
+          <Button size="sm" onClick={() => setShowCreate(true)} className="gap-1">
+            <Plus className="h-3.5 w-3.5" /> {t("hooks.tab.create")}
+          </Button>
+        )}
       </div>
 
       <div className="flex flex-col gap-2">
@@ -164,7 +170,7 @@ export function AgentHooksTab({ agentId, initialCreateOpen, onCreateOpenChange }
           <HookListRow
             key={hook.id}
             hook={hook}
-            onClick={() => setEditTarget(hook)}
+            onClick={canWrite ? () => setEditTarget(hook) : undefined}
             onToggle={(enabled) => toggleMutation.mutate({ hookId: hook.id, enabled })}
             onEdit={() => setEditTarget(hook)}
             onDelete={() => setDeleteTarget(hook)}

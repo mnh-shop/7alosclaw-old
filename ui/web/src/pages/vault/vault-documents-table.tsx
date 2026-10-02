@@ -8,17 +8,17 @@ import type { VaultDocument } from "@/types/vault";
 const DOC_TYPE_COLORS: Record<string, string> = {
   context: "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300",
   memory: "bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300",
-  note: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300",
-  skill: "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300",
-  episodic: "bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-300",
-  media: "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300",
+  note: "bg-warning text-warning dark:bg-warning dark:text-warning",
+  skill: "bg-success text-success dark:bg-success dark:text-success",
+  episodic: "bg-warning text-warning dark:bg-warning dark:text-warning",
+  media: "bg-destructive text-destructive dark:bg-destructive dark:text-destructive",
   document: "bg-cyan-100 text-cyan-700 dark:bg-cyan-900 dark:text-cyan-300",
 };
 
 const SCOPE_COLORS: Record<string, string> = {
   personal: "bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300",
   team: "bg-violet-100 text-violet-700 dark:bg-violet-900 dark:text-violet-300",
-  shared: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300",
+  shared: "bg-success text-success dark:bg-success dark:text-success",
 };
 
 /** Truncate path from the start, keeping the tail visible (e.g. ".../subdir/file.md") */

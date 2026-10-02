@@ -149,7 +149,7 @@ export function ChannelManagersTab({
                       <span className="font-mono text-sm">{shortGroupId(g.group_id)}</span>
                       <span className="ml-2 text-xs text-muted-foreground">{g.group_id}</span>
                     </div>
-                    <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-xs font-medium tabular-nums">
+                    <span className="shrink-0 rounded-md bg-muted px-2 py-0.5 text-xs font-medium tabular-nums">
                       {g.writer_count === 1
                         ? t("detail.managers.managersCount", { count: g.writer_count })
                         : t("detail.managers.managersCountPlural", { count: g.writer_count })}

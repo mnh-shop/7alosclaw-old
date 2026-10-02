@@ -87,7 +87,7 @@ export function AudioTagPicker({
               type="button"
               onClick={() => setActiveCategory(key)}
               className={cn(
-                "rounded-full px-2 py-0.5 text-xs border transition-colors",
+                "rounded-md px-2 py-0.5 text-xs border transition-colors",
                 activeCategory === key
                   ? "bg-primary text-primary-foreground border-primary"
                   : "border-border hover:bg-muted"

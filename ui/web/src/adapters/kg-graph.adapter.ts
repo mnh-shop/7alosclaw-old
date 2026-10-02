@@ -2,14 +2,20 @@ import Graph from "graphology";
 import type { KGEntity, KGRelation } from "@/types/knowledge-graph";
 import type { KGGraphNode, KGGraphEdge } from "@/types/graph-dto";
 import { getNodeSize, truncateMiddle } from "@/components/graph/graph-utils";
+import { resolveTokenColor } from "@/components/graph/graph-node-colors";
 
-// Solid colors per entity type
+// Solid colors per entity type — values are design tokens from
+// 7alos-tokens.css (the only place a raw colour exists). CSS consumers
+// (legend dots, filter list) use the var() form directly; the graph builders
+// below resolve them for Sigma's canvas programs.
 export const KG_TYPE_COLORS: Record<string, string> = {
-  person: "#E85D24", organization: "#ef4444", project: "#22c55e",
-  product: "#f97316", technology: "#3b82f6", task: "#f59e0b",
-  event: "#ec4899", document: "#8b5cf6", concept: "#a78bfa", location: "#14b8a6",
+  person: "var(--brand-accent)", organization: "var(--brand-secondary)",
+  project: "var(--brand-primary)", product: "var(--brand-accent-3)",
+  technology: "var(--brand-slate)", task: "var(--brand-secondary-soft)",
+  event: "var(--brand-accent-2)", document: "var(--brand-accent-soft)",
+  concept: "var(--brand-muted)", location: "var(--brand-dim)",
 };
-export const KG_DEFAULT_COLOR = "#9ca3af";
+export const KG_DEFAULT_COLOR = "var(--brand-muted)";
 
 /** Compute degree (edge count) for each entity id. */
 export function computeDegreeMap(entities: KGEntity[], relations: KGRelation[]): Map<string, number> {
@@ -39,7 +45,7 @@ export function buildKGGraphFromDTO(nodes: KGGraphNode[], edges: KGGraphEdge[]):
       label: truncateMiddle(n.n, 28),
       x: 0, y: 0,
       size: getNodeSize(deg.get(n.id) ?? 0, nodes.length),
-      color: KG_TYPE_COLORS[n.t] ?? KG_DEFAULT_COLOR,
+      color: resolveTokenColor(KG_TYPE_COLORS[n.t] ?? KG_DEFAULT_COLOR),
       entityType: n.t,
     });
   }
@@ -70,7 +76,7 @@ export function buildKGGraph(entities: KGEntity[], allRelations: KGRelation[]): 
         x: 0,
         y: 0,
         size: getNodeSize(degree, entities.length),
-        color: KG_TYPE_COLORS[e.entity_type] ?? KG_DEFAULT_COLOR,
+        color: resolveTokenColor(KG_TYPE_COLORS[e.entity_type] ?? KG_DEFAULT_COLOR),
         entityType: e.entity_type,
       });
     }

@@ -45,7 +45,7 @@ export function ProviderHeader({ provider, onBack, onAdvanced, onDelete }: Provi
                 <span
                   className={cn(
                     "inline-block h-2.5 w-2.5 shrink-0 rounded-full",
-                    provider.enabled ? "bg-emerald-500" : "bg-muted-foreground/50",
+                    provider.enabled ? "bg-success" : "bg-muted-foreground/50",
                   )}
                 />
               </TooltipTrigger>

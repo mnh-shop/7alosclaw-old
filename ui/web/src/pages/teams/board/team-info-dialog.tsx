@@ -49,7 +49,7 @@ export function TeamInfoDialog({
                 {team.status}
               </Badge>
               <button type="button" className="relative inline-flex items-center" onClick={() => setFeaturesOpen(true)}>
-                <Badge className="bg-gradient-to-r from-orange-500 to-amber-500 text-2xs px-2 py-0.5 text-white border-0 font-semibold hover:from-orange-600 hover:to-amber-600">
+                <Badge className="bg-gradient-to-r from-warning to-warning text-2xs px-2 py-0.5 text-white border-0 font-semibold hover:from-warning hover:to-warning">
                   v2 Super Team
                 </Badge>
               </button>

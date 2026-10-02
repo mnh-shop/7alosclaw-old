@@ -13,64 +13,64 @@ export interface RequestAccentClasses {
 
 export const REQUEST_ACCENTS: RequestAccentClasses[] = [
   {
-    card: "border-emerald-500/20",
+    card: "border-success/20",
     glow:
-      "from-emerald-500/[0.12] via-emerald-500/[0.04] to-transparent dark:from-emerald-500/[0.16] dark:via-emerald-500/[0.06]",
-    stripe: "from-emerald-400/90 via-teal-400/75 to-cyan-400/35",
-    marker: "bg-emerald-500",
+      "from-success/[0.12] via-success/[0.04] to-transparent dark:from-success/[0.16] dark:via-success/[0.06]",
+    stripe: "from-success/90 via-success/75 to-success/35",
+    marker: "bg-success",
     index:
-      "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/15 dark:text-emerald-200",
+      "border-success/30 bg-success/10 text-success dark:border-success/30 dark:bg-success/15 dark:text-success",
     directBadge:
-      "border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:border-emerald-500/25 dark:bg-emerald-500/15 dark:text-emerald-200",
+      "border-success/20 bg-success/10 text-success dark:border-success/25 dark:bg-success/15 dark:text-success",
     pill:
-      "border-emerald-500/15 bg-emerald-500/[0.07] text-emerald-950 dark:border-emerald-500/20 dark:bg-emerald-500/[0.12] dark:text-emerald-100",
+      "border-success/15 bg-success/[0.07] text-success dark:border-success/20 dark:bg-success/[0.12] dark:text-success",
     trace:
-      "text-emerald-700 hover:border-emerald-500/25 hover:bg-emerald-500/10 hover:text-emerald-800 dark:text-emerald-200 dark:hover:border-emerald-500/30 dark:hover:bg-emerald-500/15 dark:hover:text-emerald-100",
+      "text-success hover:border-success/25 hover:bg-success/10 hover:text-success dark:text-success dark:hover:border-success/30 dark:hover:bg-success/15 dark:hover:text-success",
   },
   {
-    card: "border-sky-500/20",
+    card: "border-info/20",
     glow:
-      "from-sky-500/[0.12] via-sky-500/[0.04] to-transparent dark:from-sky-500/[0.16] dark:via-sky-500/[0.06]",
-    stripe: "from-sky-400/90 via-cyan-400/75 to-blue-400/35",
-    marker: "bg-sky-500",
+      "from-info/[0.12] via-info/[0.04] to-transparent dark:from-info/[0.16] dark:via-info/[0.06]",
+    stripe: "from-info/90 via-info/75 to-info/35",
+    marker: "bg-info",
     index:
-      "border-sky-500/30 bg-sky-500/10 text-sky-700 dark:border-sky-500/30 dark:bg-sky-500/15 dark:text-sky-200",
+      "border-info/30 bg-info/10 text-info dark:border-info/30 dark:bg-info/15 dark:text-info",
     directBadge:
-      "border-sky-500/20 bg-sky-500/10 text-sky-700 dark:border-sky-500/25 dark:bg-sky-500/15 dark:text-sky-200",
+      "border-info/20 bg-info/10 text-info dark:border-info/25 dark:bg-info/15 dark:text-info",
     pill:
-      "border-sky-500/15 bg-sky-500/[0.07] text-sky-950 dark:border-sky-500/20 dark:bg-sky-500/[0.12] dark:text-sky-100",
+      "border-info/15 bg-info/[0.07] text-info dark:border-info/20 dark:bg-info/[0.12] dark:text-info",
     trace:
-      "text-sky-700 hover:border-sky-500/25 hover:bg-sky-500/10 hover:text-sky-800 dark:text-sky-200 dark:hover:border-sky-500/30 dark:hover:bg-sky-500/15 dark:hover:text-sky-100",
+      "text-info hover:border-info/25 hover:bg-info/10 hover:text-info dark:text-info dark:hover:border-info/30 dark:hover:bg-info/15 dark:hover:text-info",
   },
   {
-    card: "border-amber-500/20",
+    card: "border-warning/20",
     glow:
-      "from-amber-500/[0.12] via-amber-500/[0.04] to-transparent dark:from-amber-500/[0.16] dark:via-amber-500/[0.06]",
-    stripe: "from-amber-400/90 via-orange-400/75 to-yellow-400/35",
-    marker: "bg-amber-500",
+      "from-warning/[0.12] via-warning/[0.04] to-transparent dark:from-warning/[0.16] dark:via-warning/[0.06]",
+    stripe: "from-warning/90 via-warning/75 to-warning/35",
+    marker: "bg-warning",
     index:
-      "border-amber-500/30 bg-amber-500/10 text-amber-800 dark:border-amber-500/30 dark:bg-amber-500/15 dark:text-amber-100",
+      "border-warning/30 bg-warning/10 text-warning dark:border-warning/30 dark:bg-warning/15 dark:text-warning",
     directBadge:
-      "border-amber-500/20 bg-amber-500/10 text-amber-800 dark:border-amber-500/25 dark:bg-amber-500/15 dark:text-amber-100",
+      "border-warning/20 bg-warning/10 text-warning dark:border-warning/25 dark:bg-warning/15 dark:text-warning",
     pill:
-      "border-amber-500/15 bg-amber-500/[0.07] text-amber-950 dark:border-amber-500/20 dark:bg-amber-500/[0.12] dark:text-amber-50",
+      "border-warning/15 bg-warning/[0.07] text-warning dark:border-warning/20 dark:bg-warning/[0.12] dark:text-warning",
     trace:
-      "text-amber-800 hover:border-amber-500/25 hover:bg-amber-500/10 hover:text-amber-900 dark:text-amber-100 dark:hover:border-amber-500/30 dark:hover:bg-amber-500/15 dark:hover:text-amber-50",
+      "text-warning hover:border-warning/25 hover:bg-warning/10 hover:text-warning dark:text-warning dark:hover:border-warning/30 dark:hover:bg-warning/15 dark:hover:text-warning",
   },
   {
-    card: "border-rose-500/20",
+    card: "border-destructive/20",
     glow:
-      "from-rose-500/[0.12] via-rose-500/[0.04] to-transparent dark:from-rose-500/[0.16] dark:via-rose-500/[0.06]",
-    stripe: "from-rose-400/90 via-pink-400/75 to-orange-300/35",
-    marker: "bg-rose-500",
+      "from-destructive/[0.12] via-destructive/[0.04] to-transparent dark:from-destructive/[0.16] dark:via-destructive/[0.06]",
+    stripe: "from-destructive/90 via-destructive/75 to-warning/35",
+    marker: "bg-destructive",
     index:
-      "border-rose-500/30 bg-rose-500/10 text-rose-700 dark:border-rose-500/30 dark:bg-rose-500/15 dark:text-rose-200",
+      "border-destructive/30 bg-destructive/10 text-destructive dark:border-destructive/30 dark:bg-destructive/15 dark:text-destructive",
     directBadge:
-      "border-rose-500/20 bg-rose-500/10 text-rose-700 dark:border-rose-500/25 dark:bg-rose-500/15 dark:text-rose-200",
+      "border-destructive/20 bg-destructive/10 text-destructive dark:border-destructive/25 dark:bg-destructive/15 dark:text-destructive",
     pill:
-      "border-rose-500/15 bg-rose-500/[0.07] text-rose-950 dark:border-rose-500/20 dark:bg-rose-500/[0.12] dark:text-rose-100",
+      "border-destructive/15 bg-destructive/[0.07] text-destructive dark:border-destructive/20 dark:bg-destructive/[0.12] dark:text-destructive",
     trace:
-      "text-rose-700 hover:border-rose-500/25 hover:bg-rose-500/10 hover:text-rose-800 dark:text-rose-200 dark:hover:border-rose-500/30 dark:hover:bg-rose-500/15 dark:hover:text-rose-100",
+      "text-destructive hover:border-destructive/25 hover:bg-destructive/10 hover:text-destructive dark:text-destructive dark:hover:border-destructive/30 dark:hover:bg-destructive/15 dark:hover:text-destructive",
   },
 ];
 

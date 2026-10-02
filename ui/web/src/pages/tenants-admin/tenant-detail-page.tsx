@@ -1,8 +1,9 @@
 import { useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, Plus, RefreshCw, Users, Trash2, Calendar, Hash, Shield } from "lucide-react";
+import { ArrowLeft, Pencil, Plus, RefreshCw, Users, Trash2, Calendar, Hash, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -30,6 +31,9 @@ import { formatUserLabel } from "@/lib/format-user-label";
 import { useDeferredLoading } from "@/hooks/use-deferred-loading";
 import { useMinLoading } from "@/hooks/use-min-loading";
 import { useTenantDetail } from "./hooks/use-tenant-detail";
+import { buildUpdateParams, capIsSet, type TenantUpdateError } from "./tenant-update";
+import { BYTES_PER_GIB, MAX_DISK_QUOTA_GIB, parseDiskQuotaGiB } from "@/lib/disk-quota";
+import { ApiError } from "@/api/errors";
 import { ROUTES } from "@/lib/constants";
 
 const TENANT_ROLES = ["owner", "admin", "operator", "member", "viewer"] as const;
@@ -40,12 +44,31 @@ const ROLE_KEYS: Record<string, string> = {
 };
 
 const ROLE_COLORS: Record<string, string> = {
-  owner: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300",
-  admin: "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300",
+  owner: "bg-warning text-warning dark:bg-warning/30 dark:text-warning",
+  admin: "bg-warning text-warning dark:bg-warning/30 dark:text-warning",
   operator: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
   member: "bg-muted text-muted-foreground",
   viewer: "bg-muted text-muted-foreground",
 };
+
+const EDIT_ERROR_KEYS: Record<TenantUpdateError, string> = {
+  nameRequired: "nameRequired",
+  required: "diskQuotaRequired",
+  notWhole: "diskQuotaWhole",
+  outOfRange: "diskQuotaRange",
+};
+
+function describeEditError(err: unknown, t: (key: string) => string): string {
+  if (err instanceof ApiError) {
+    // The engine classifies a missing tenant as NOT_FOUND and a store fault as
+    // INTERNAL with a generic message; show each with its own copy.
+    if (err.code === "NOT_FOUND") return t("updateErrorNotFound");
+    if (err.code === "INTERNAL") return t("updateErrorInternal");
+    // Other rejections (e.g. a set-once cap race) already name the problem.
+    return err.message;
+  }
+  return t("updateErrorInternal");
+}
 
 export function TenantDetailPage() {
   const { id = "" } = useParams<{ id: string }>();
@@ -53,7 +76,7 @@ export function TenantDetailPage() {
   const { t } = useTranslation("tenants");
   const { t: tc } = useTranslation("common");
 
-  const { tenant, tenantLoading, users, usersLoading, usersRefreshing, refreshUsers, addUser, removeUser } =
+  const { tenant, tenantLoading, users, usersLoading, usersRefreshing, refreshUsers, updateTenant, addUser, removeUser } =
     useTenantDetail(id);
 
   const spinning = useMinLoading(usersRefreshing);
@@ -69,6 +92,13 @@ export function TenantDetailPage() {
   const [adding, setAdding] = useState(false);
   const [removeTarget, setRemoveTarget] = useState<string | null>(null);
   const [removing, setRemoving] = useState(false);
+
+  const [editOpen, setEditOpen] = useState(false);
+  const [editName, setEditName] = useState("");
+  const [editQuota, setEditQuota] = useState("");
+  const [editQuotaError, setEditQuotaError] = useState<string | null>(null);
+  const [editError, setEditError] = useState<string | null>(null);
+  const [editSubmitting, setEditSubmitting] = useState(false);
 
   const handleAdd = async () => {
     if (!userId.trim()) return;
@@ -94,6 +124,43 @@ export function TenantDetailPage() {
     }
   };
 
+  const hasCap = tenant ? capIsSet(tenant) : false;
+  const currentCapGiB = hasCap && tenant ? (tenant.settings?.disk_quota_bytes as number) / BYTES_PER_GIB : null;
+
+  const handleEdit = async () => {
+    if (!tenant) return;
+    const result = buildUpdateParams(tenant, editName, editQuota);
+    if ("error" in result) {
+      setEditError(t(EDIT_ERROR_KEYS[result.error]));
+      return;
+    }
+    setEditSubmitting(true);
+    setEditError(null);
+    try {
+      await updateTenant(result.params);
+      setEditOpen(false);
+    } catch (err) {
+      setEditError(describeEditError(err, t));
+    } finally {
+      setEditSubmitting(false);
+    }
+  };
+
+  const handleEditQuotaChange = (v: string) => {
+    setEditQuota(v);
+    const parsed = parseDiskQuotaGiB(v);
+    setEditQuotaError("error" in parsed ? t(EDIT_ERROR_KEYS[parsed.error]) : null);
+  };
+
+  const openEdit = () => {
+    if (!tenant) return;
+    setEditName(tenant.name);
+    setEditQuota("");
+    setEditQuotaError(null);
+    setEditError(null);
+    setEditOpen(true);
+  };
+
   if (tenantLoading) {
     return <div className="p-4 sm:p-6 pb-10"><TableSkeleton rows={3} /></div>;
   }
@@ -104,9 +171,16 @@ export function TenantDetailPage() {
         title={tenant?.name ?? t("detail")}
         description=""
         actions={
-          <Button variant="outline" size="sm" onClick={() => navigate(ROUTES.TENANTS)} className="gap-1">
-            <ArrowLeft className="h-3.5 w-3.5" /> {t("back")}
-          </Button>
+          <div className="flex gap-2">
+            {tenant && (
+              <Button variant="outline" size="sm" onClick={openEdit} className="gap-1">
+                <Pencil className="h-3.5 w-3.5" /> {t("editTenant")}
+              </Button>
+            )}
+            <Button variant="outline" size="sm" onClick={() => navigate(ROUTES.TENANTS)} className="gap-1">
+              <ArrowLeft className="h-3.5 w-3.5" /> {t("back")}
+            </Button>
+          </div>
         }
       />
 
@@ -161,7 +235,7 @@ export function TenantDetailPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${ROLE_COLORS[u.role] || ROLE_COLORS.member}`}>
+                  <span className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium ${ROLE_COLORS[u.role] || ROLE_COLORS.member}`}>
                     {t(ROLE_KEYS[u.role] ?? u.role)}
                   </span>
                   <Button
@@ -213,6 +287,73 @@ export function TenantDetailPage() {
           <DialogFooter>
             <Button variant="outline" onClick={() => setAddOpen(false)} disabled={adding}>{tc("cancel")}</Button>
             <Button onClick={handleAdd} disabled={adding || !userId.trim()}>{t("addUser")}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Tenant Dialog */}
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent className="max-sm:inset-0 max-sm:translate-x-0 max-sm:translate-y-0 sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{t("editTenant")}</DialogTitle>
+            <DialogDescription>{t("editTenantHelp")}</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <div className="space-y-1.5">
+              <Label htmlFor="tenant-edit-name">{t("name")}</Label>
+              <Input
+                id="tenant-edit-name"
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
+                className="text-base md:text-sm"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label>{t("slug")}</Label>
+              <code className="block rounded bg-muted px-2 py-1.5 text-sm font-mono">{tenant?.slug}</code>
+              <p className="text-xs text-muted-foreground">{t("slugReadonlyHelp")}</p>
+            </div>
+            {hasCap ? (
+              <div className="space-y-1.5">
+                <Label>{t("currentCap")}</Label>
+                <p className="text-sm font-medium">{currentCapGiB} GiB</p>
+                <p className="text-xs text-muted-foreground">{t("diskCapReadonlyHelp")}</p>
+              </div>
+            ) : (
+              <div className="space-y-1.5">
+                <Label htmlFor="tenant-edit-disk-quota">{t("diskQuota")}</Label>
+                <Input
+                  id="tenant-edit-disk-quota"
+                  type="number"
+                  inputMode="numeric"
+                  min={1}
+                  max={MAX_DISK_QUOTA_GIB}
+                  step={1}
+                  value={editQuota}
+                  onChange={(e) => handleEditQuotaChange(e.target.value)}
+                  className="text-base md:text-sm"
+                  aria-invalid={!!editQuotaError}
+                />
+                <p className="text-xs text-muted-foreground">{t("diskQuotaHelp")}</p>
+                {editQuota && !editQuotaError && (
+                  <p className="text-xs text-muted-foreground">
+                    {t("diskQuotaBytes", {
+                      bytes: (Number(editQuota) * BYTES_PER_GIB).toLocaleString(),
+                    })}
+                  </p>
+                )}
+                {editQuotaError && <p className="text-xs text-destructive">{editQuotaError}</p>}
+              </div>
+            )}
+          </div>
+          {editError && <p className="text-sm text-destructive">{editError}</p>}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setEditOpen(false)} disabled={editSubmitting}>
+              {tc("cancel")}
+            </Button>
+            <Button onClick={handleEdit} disabled={editSubmitting || !editName.trim() || !!editQuotaError}>
+              {t("save")}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

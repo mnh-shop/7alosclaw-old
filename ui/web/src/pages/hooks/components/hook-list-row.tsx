@@ -4,11 +4,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import type { HookConfig } from "@/hooks/use-hooks";
+import { useCanWrite } from "@/components/shared/require-role";
 import { SystemBadge } from "./system-badge";
 
 interface HookListRowProps {
   hook: HookConfig;
-  onClick: () => void;
+  onClick?: () => void;
   onToggle: (enabled: boolean) => void;
   onEdit: () => void;
   onDelete: () => void;
@@ -18,22 +19,23 @@ interface HookListRowProps {
 const EVENT_COLORS: Record<string, string> = {
   session_start: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
   user_prompt_submit: "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300",
-  pre_tool_use: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
-  post_tool_use: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
-  stop: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
+  pre_tool_use: "bg-warning text-warning dark:bg-warning/30 dark:text-warning",
+  post_tool_use: "bg-success text-success dark:bg-success/30 dark:text-success",
+  stop: "bg-destructive text-destructive dark:bg-destructive/30 dark:text-destructive",
   subagent_start: "bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300",
-  subagent_stop: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300",
+  subagent_stop: "bg-warning text-warning dark:bg-warning/30 dark:text-warning",
 };
 
 const HANDLER_COLORS: Record<string, string> = {
   command: "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
   http: "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300",
-  prompt: "bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300",
-  script: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300",
+  prompt: "bg-destructive text-destructive dark:bg-destructive/30 dark:text-destructive",
+  script: "bg-success text-success dark:bg-success/30 dark:text-success",
 };
 
 export function HookListRow({ hook, onClick, onToggle, onEdit, onDelete, onTest }: HookListRowProps) {
   const { t } = useTranslation("hooks");
+  const canWrite = useCanWrite();
 
   return (
     <div className="flex w-full items-center gap-3 rounded-lg border bg-card px-4 py-3 transition-all hover:border-primary/30 hover:shadow-sm">
@@ -74,46 +76,50 @@ export function HookListRow({ hook, onClick, onToggle, onEdit, onDelete, onTest 
       </button>
 
       {/* Toggle */}
-      <div className="shrink-0" onClick={(e) => e.stopPropagation()}>
-        <Switch
-          checked={hook.enabled}
-          onCheckedChange={onToggle}
-          aria-label={t("actions.toggle")}
-          className="scale-90"
-        />
-      </div>
+      {canWrite && (
+        <div className="shrink-0" onClick={(e) => e.stopPropagation()}>
+          <Switch
+            checked={hook.enabled}
+            onCheckedChange={onToggle}
+            aria-label={t("actions.toggle")}
+            className="scale-90"
+          />
+        </div>
+      )}
 
       {/* Actions */}
-      <div className="flex shrink-0 items-center gap-1" onClick={(e) => e.stopPropagation()}>
-        <Button
-          variant="ghost"
-          size="xs"
-          className="text-muted-foreground hover:text-primary"
-          onClick={onTest}
-          title={t("actions.test")}
-        >
-          <FlaskConical className="h-3.5 w-3.5" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="xs"
-          className="text-muted-foreground hover:text-primary"
-          onClick={onEdit}
-          title={t("actions.edit")}
-        >
-          <Pencil className="h-3.5 w-3.5" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="xs"
-          className="text-muted-foreground hover:text-destructive disabled:opacity-40"
-          onClick={onDelete}
-          disabled={hook.source === "builtin"}
-          title={hook.source === "builtin" ? t("form.builtinReadonly") : t("actions.delete")}
-        >
-          <Trash2 className="h-3.5 w-3.5" />
-        </Button>
-      </div>
+      {canWrite && (
+        <div className="flex shrink-0 items-center gap-1" onClick={(e) => e.stopPropagation()}>
+          <Button
+            variant="ghost"
+            size="xs"
+            className="text-muted-foreground hover:text-primary"
+            onClick={onTest}
+            title={t("actions.test")}
+          >
+            <FlaskConical className="h-3.5 w-3.5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="xs"
+            className="text-muted-foreground hover:text-primary"
+            onClick={onEdit}
+            title={t("actions.edit")}
+          >
+            <Pencil className="h-3.5 w-3.5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="xs"
+            className="text-muted-foreground hover:text-destructive disabled:opacity-40"
+            onClick={onDelete}
+            disabled={hook.source === "builtin"}
+            title={hook.source === "builtin" ? t("form.builtinReadonly") : t("actions.delete")}
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

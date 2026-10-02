@@ -18,9 +18,9 @@ export function ChannelAttentionPanel({
   if (attentionPreview.length === 0) return null;
 
   return (
-    <div className="mt-3 rounded-lg border border-amber-200/70 bg-amber-500/[0.05] p-3 dark:border-amber-500/20 dark:bg-amber-500/10">
+    <div className="mt-4 rounded-lg border border-warning/25 bg-warning/5 p-3">
       <div className="mb-2 flex items-center justify-between gap-3">
-        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        <p className="brand-eyebrow text-warning">
           {t("systemHealth.needsAttention", {
             defaultValue: "Needs attention",
           })}
@@ -32,7 +32,7 @@ export function ChannelAttentionPanel({
           })}
         </span>
       </div>
-      <div className="space-y-2">
+      <div className="space-y-2.5">
         {attentionPreview.map(([name, ch]) => {
           const meta = getChannelStatusMeta(ch, ch.enabled, t);
           const checked = formatRelativeTime(ch.checked_at);

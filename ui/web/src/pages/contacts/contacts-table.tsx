@@ -12,8 +12,8 @@ interface ContactsTableProps {
   page: number;
   pageSize: number;
   totalPages: number;
-  onToggleSelect: (id: string) => void;
-  onToggleSelectAll: () => void;
+  onToggleSelect?: (id: string) => void;
+  onToggleSelectAll?: () => void;
   onPageChange: (page: number) => void;
   onPageSizeChange: (size: number) => void;
 }
@@ -37,14 +37,16 @@ export function ContactsTable({
       <table className="w-full min-w-[750px] text-sm">
         <thead>
           <tr className="border-b bg-muted/50">
-            <th className="w-10 px-3 py-2.5">
-              <input
-                type="checkbox"
-                checked={contacts.length > 0 && selectedIds.size === contacts.length}
-                onChange={onToggleSelectAll}
-                className="accent-primary h-4 w-4 cursor-pointer"
-              />
-            </th>
+            {onToggleSelectAll && (
+              <th className="w-10 px-3 py-2.5">
+                <input
+                  type="checkbox"
+                  checked={contacts.length > 0 && selectedIds.size === contacts.length}
+                  onChange={onToggleSelectAll}
+                  className="accent-primary h-4 w-4 cursor-pointer"
+                />
+              </th>
+            )}
             <th className="px-3 py-2.5 text-left font-medium text-xs uppercase tracking-wide text-muted-foreground">{t("columns.name")}</th>
             <th className="px-3 py-2.5 text-left font-medium text-xs uppercase tracking-wide text-muted-foreground">{t("columns.username")}</th>
             <th className="px-3 py-2.5 text-left font-medium text-xs uppercase tracking-wide text-muted-foreground">{t("columns.senderId")}</th>
@@ -57,25 +59,29 @@ export function ContactsTable({
           {contacts.map((c) => (
             <tr
               key={c.id}
-              className={`border-b last:border-0 transition-colors cursor-pointer ${
+              className={`border-b last:border-0 transition-colors ${
+                onToggleSelect ? "cursor-pointer" : ""
+              } ${
                 selectedIds.has(c.id) ? "bg-primary/5" : "hover:bg-muted/20"
               }`}
-              onClick={() => onToggleSelect(c.id)}
+              onClick={() => onToggleSelect?.(c.id)}
             >
-              <td className="px-3 py-2.5" onClick={(e) => e.stopPropagation()}>
-                <input
-                  type="checkbox"
-                  checked={selectedIds.has(c.id)}
-                  onChange={() => onToggleSelect(c.id)}
-                  className="accent-primary h-4 w-4 cursor-pointer"
-                />
-              </td>
+              {onToggleSelect && (
+                <td className="px-3 py-2.5" onClick={(e) => e.stopPropagation()}>
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.has(c.id)}
+                    onChange={() => onToggleSelect(c.id)}
+                    className="accent-primary h-4 w-4 cursor-pointer"
+                  />
+                </td>
+              )}
               <td className="px-3 py-2.5">
                 <span className="flex items-center gap-1.5">
                   {c.display_name || <span className="text-muted-foreground">—</span>}
                   {c.merged_id && (
                     <span title={t("columns.merged")}>
-                      <Link2 className="h-3 w-3 text-blue-500 shrink-0" />
+                      <Link2 className="h-3 w-3 text-info shrink-0" />
                     </span>
                   )}
                 </span>
@@ -98,7 +104,7 @@ export function ContactsTable({
                   variant={c.contact_type === "user" ? "outline" : c.contact_type === "topic" ? "outline" : "secondary"}
                   className={
                     c.contact_type === "user"
-                      ? "text-xs-plus bg-primary/10 text-primary border-primary/30 dark:bg-primary/20 dark:text-primary-foreground dark:border-primary/40"
+                      ? "text-xs-plus bg-primary/20 text-primary-foreground border-primary/40"
                       : "text-xs-plus"
                   }
                 >

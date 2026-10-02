@@ -154,13 +154,13 @@ export function GitHubBinariesSection({ packages, onInstall, onUninstall }: Prop
       />
 
       {!dismissed && (
-        <Alert className="mb-3 border-amber-200/70 bg-amber-50/70 text-amber-950 dark:border-amber-900/50 dark:bg-amber-950/20 dark:text-amber-100">
-          <Info className="h-4 w-4 text-amber-600 dark:text-amber-300" />
-          <AlertDescription className="flex items-start justify-between gap-2 text-xs text-amber-800 dark:text-amber-200">
+        <Alert className="mb-3 border-warning/70 bg-warning/70 text-warning dark:border-warning/50 dark:bg-warning/20 dark:text-warning">
+          <Info className="h-4 w-4 text-warning dark:text-warning" />
+          <AlertDescription className="flex items-start justify-between gap-2 text-xs text-warning dark:text-warning">
             <span className="flex-1">{t("github.muslWarning")}</span>
             <button
               onClick={handleDismiss}
-              className="shrink-0 rounded p-1 hover:bg-amber-100 dark:hover:bg-amber-900"
+              className="shrink-0 rounded p-1 hover:bg-warning dark:hover:bg-warning"
               aria-label={t("github.muslDismiss")}
             >
               <X className="h-3.5 w-3.5" />
@@ -353,7 +353,7 @@ function GitHubReleasePicker({ repo, open, onClose, onSelect }: PickerProps) {
                     <div className="font-medium font-mono text-sm flex items-center gap-2">
                       {rel.tag}
                       {rel.prerelease && (
-                        <span className="text-xs bg-amber-100 dark:bg-amber-900/40 text-amber-900 dark:text-amber-200 rounded px-1.5 py-0.5">
+                        <span className="text-xs bg-warning dark:bg-warning/40 text-warning dark:text-warning rounded px-1.5 py-0.5">
                           {t("github.pickerPrerelease")}
                         </span>
                       )}

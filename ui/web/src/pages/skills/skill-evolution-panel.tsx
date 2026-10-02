@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useSkillEvolution } from "./hooks/use-skill-evolution";
+import { useCanWrite } from "@/components/shared/require-role";
 import type { SkillInfo } from "@/types/skill";
 
 interface SkillEvolutionPanelProps {
@@ -21,6 +22,7 @@ interface SkillEvolutionPanelProps {
 
 export function SkillEvolutionPanel({ skill, active }: SkillEvolutionPanelProps) {
   const { t } = useTranslation("skills");
+  const canWrite = useCanWrite();
   const {
     settings,
     metrics,
@@ -116,7 +118,7 @@ export function SkillEvolutionPanel({ skill, active }: SkillEvolutionPanelProps)
                     <p className="text-sm text-muted-foreground">{item.reason || t("evolution.noReason")}</p>
                   </div>
                   <div className="flex shrink-0 gap-1">
-                    {item.status === "pending" && (
+                    {canWrite && item.status === "pending" && (
                       <>
                         <Button type="button" variant="outline" size="icon" className="h-8 w-8" onClick={() => approveSuggestion(item.id)} aria-label={t("evolution.approve")}>
                           <Check className="h-3.5 w-3.5" />
@@ -126,7 +128,7 @@ export function SkillEvolutionPanel({ skill, active }: SkillEvolutionPanelProps)
                         </Button>
                       </>
                     )}
-                    {item.status === "approved" && !skill.is_system && (
+                    {canWrite && item.status === "approved" && !skill.is_system && (
                       <Button type="button" variant="outline" size="icon" className="h-8 w-8" onClick={() => applySuggestion(item.id)} aria-label={t("evolution.apply")}>
                         <Play className="h-3.5 w-3.5" />
                       </Button>

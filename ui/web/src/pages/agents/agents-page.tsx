@@ -11,6 +11,7 @@ import { useDeferredLoading } from "@/hooks/use-deferred-loading";
 import { Button } from "@/components/ui/button";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { ConfirmDeleteDialog } from "@/components/shared/confirm-delete-dialog";
+import { useCanWrite } from "@/components/shared/require-role";
 import {
   Select,
   SelectContent,
@@ -32,6 +33,7 @@ export function AgentsPage() {
   const { id: detailId } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { agents, loading, createAgent, deleteAgent, refresh, resummonAgent, cancelSummonAgent } = useAgents();
+  const canWrite = useCanWrite();
   const showSkeleton = useDeferredLoading(loading && agents.length === 0);
 
   const [search, setSearch] = useState("");
@@ -98,14 +100,16 @@ export function AgentsPage() {
         title={t("title")}
         description={t("description")}
         actions={
-          <div className="flex items-center gap-2">
-            <Button variant="outline" onClick={() => navigate("/import-export?tab=agents")} className="gap-1">
-              <ArrowLeftRight className="h-4 w-4" /> {t("transfer.title")}
-            </Button>
-            <Button onClick={() => setCreateOpen(true)} className="gap-1">
-              <Plus className="h-4 w-4" /> {t("createAgent")}
-            </Button>
-          </div>
+          canWrite ? (
+            <div className="flex items-center gap-2">
+              <Button variant="outline" onClick={() => navigate("/import-export?tab=agents")} className="gap-1">
+                <ArrowLeftRight className="h-4 w-4" /> {t("transfer.title")}
+              </Button>
+              <Button onClick={() => setCreateOpen(true)} className="gap-1">
+                <Plus className="h-4 w-4" /> {t("createAgent")}
+              </Button>
+            </div>
+          ) : undefined
         }
       />
 
@@ -213,8 +217,8 @@ export function AgentsPage() {
                       key={agent.id}
                       agent={agent}
                       onClick={() => handleClick(agent)}
-                      onResummon={() => handleResummon(agent)}
-                      onDelete={() => setDeleteTarget({ id: agent.id, name: agent.display_name || agent.agent_key })}
+                      onResummon={canWrite ? () => handleResummon(agent) : undefined}
+                      onDelete={canWrite ? () => setDeleteTarget({ id: agent.id, name: agent.display_name || agent.agent_key }) : undefined}
                     />
                   ))}
                 </div>
@@ -226,8 +230,8 @@ export function AgentsPage() {
                       agent={agent}
                       ownerName={resolveOwnerName(agent.owner_id)}
                       onClick={() => handleClick(agent)}
-                      onResummon={() => handleResummon(agent)}
-                      onDelete={() => setDeleteTarget({ id: agent.id, name: agent.display_name || agent.agent_key })}
+                      onResummon={canWrite ? () => handleResummon(agent) : undefined}
+                      onDelete={canWrite ? () => setDeleteTarget({ id: agent.id, name: agent.display_name || agent.agent_key }) : undefined}
                     />
                   ))}
                 </div>

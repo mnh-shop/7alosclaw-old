@@ -33,7 +33,7 @@ export function TenantBackupSection() {
     const tableCounts = (r.table_counts ?? {}) as Record<string, number>;
     return (
       <div className="space-y-4">
-        <h3 className="text-sm font-medium text-green-600">{t("tenant.backup.complete")}</h3>
+        <h3 className="text-sm font-medium text-success">{t("tenant.backup.complete")}</h3>
         <OperationProgress steps={backup.steps} elapsed={backup.elapsed} />
 
         {Object.keys(tableCounts).length > 0 && (

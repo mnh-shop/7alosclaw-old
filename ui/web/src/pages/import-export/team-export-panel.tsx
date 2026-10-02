@@ -60,7 +60,7 @@ function ExportTree({ steps, elapsed, teamLabel }: { steps: ProgressStep[]; elap
 }
 
 function StepIcon({ status }: { status: string }) {
-  if (status === "done") return <CheckCircle2 className="h-4 w-4 shrink-0 text-green-500" />;
+  if (status === "done") return <CheckCircle2 className="h-4 w-4 shrink-0 text-success" />;
   return <Loader2 className="h-4 w-4 shrink-0 text-blue-500 animate-spin" />;
 }
 

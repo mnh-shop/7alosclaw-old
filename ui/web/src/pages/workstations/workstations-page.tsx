@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MonitorCog, Plus, RefreshCw, Trash2, ChevronDown, ChevronRight } from "lucide-react";
+import { MonitorCog, Pencil, Plus, RefreshCw, Trash2, ChevronDown, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,11 +13,12 @@ import { useDeferredLoading } from "@/hooks/use-deferred-loading";
 import { formatDate } from "@/lib/format";
 import { useWorkstations, type Workstation } from "./hooks/use-workstations";
 import { WorkstationCreateDialog } from "./workstation-create-dialog";
+import { WorkstationEditDialog } from "./workstation-edit-dialog";
 import { WorkstationActivityTab } from "./workstation-activity-tab";
 
 export function WorkstationsPage() {
   const { t } = useTranslation("workstations");
-  const { workstations, loading, refresh, createWorkstation, deleteWorkstation } = useWorkstations();
+  const { workstations, loading, refresh, createWorkstation, updateWorkstation, deleteWorkstation, testWorkstation } = useWorkstations();
 
   const spinning = useMinLoading(loading);
   const isEmpty = workstations.length === 0;
@@ -25,6 +26,7 @@ export function WorkstationsPage() {
 
   const [createOpen, setCreateOpen] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<Workstation | null>(null);
+  const [editTarget, setEditTarget] = useState<Workstation | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   function toggleExpand(id: string) {
@@ -107,6 +109,15 @@ export function WorkstationsPage() {
                           <Button
                             variant="ghost"
                             size="sm"
+                            onClick={() => setEditTarget(ws)}
+                            className="gap-1"
+                          >
+                            <Pencil className="h-3.5 w-3.5" />
+                            {t("actions.edit")}
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             onClick={() => setDeleteTarget(ws)}
                             className="gap-1"
                           >
@@ -144,6 +155,15 @@ export function WorkstationsPage() {
         onCreate={async (params) => {
           await createWorkstation(params);
         }}
+      />
+      <WorkstationEditDialog
+        workstation={editTarget}
+        onOpenChange={(open) => { if (!open) setEditTarget(null); }}
+        onSave={async (id, params) => {
+          await updateWorkstation(id, params);
+          await refresh();
+        }}
+        onTest={testWorkstation}
       />
 
       {deleteTarget && (

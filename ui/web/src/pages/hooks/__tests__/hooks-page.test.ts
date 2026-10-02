@@ -119,32 +119,18 @@ describe("hooks i18n key contracts", () => {
     }
   });
 
-  it("vi locale has same top-level keys as en", async () => {
+  it("every shipped locale has the same top-level keys as en", async () => {
     const en = await import("@/i18n/locales/en/hooks.json");
-    const vi = await import("@/i18n/locales/vi/hooks.json");
     const enKeys = Object.keys(en as unknown as Record<string, unknown>).sort();
-    const viKeys = Object.keys(vi as unknown as Record<string, unknown>).sort();
-    expect(viKeys).toEqual(enKeys);
-  });
 
-  it("zh locale has same top-level keys as en", async () => {
-    const en = await import("@/i18n/locales/en/hooks.json");
-    const zh = await import("@/i18n/locales/zh/hooks.json");
-    const enKeys = Object.keys(en as unknown as Record<string, unknown>).sort();
-    const zhKeys = Object.keys(zh as unknown as Record<string, unknown>).sort();
-    expect(zhKeys).toEqual(enKeys);
-  });
-
-  it("ru locale has same top-level keys as en", async () => {
-    const en = await import("@/i18n/locales/en/hooks.json");
-    const ru = await import("@/i18n/locales/ru/hooks.json");
-    const enKeys = Object.keys(en as unknown as Record<string, unknown>).sort();
-    const ruKeys = Object.keys(ru as unknown as Record<string, unknown>).sort();
-    expect(ruKeys).toEqual(enKeys);
+    for (const locale of ["en"]) {
+      const mod = await import(`@/i18n/locales/${locale}/hooks.json`);
+      expect(Object.keys(mod as unknown as Record<string, unknown>).sort(), locale).toEqual(enKeys);
+    }
   });
 
   it("decision keys exist in all locales", async () => {
-    for (const locale of ["en", "vi", "zh", "ru"]) {
+    for (const locale of ["en"]) {
       const mod = await import(`@/i18n/locales/${locale}/hooks.json`);
       const data = mod as unknown as Record<string, Record<string, string>>;
       expect(data.decision?.allow).toBeTruthy();
@@ -155,7 +141,7 @@ describe("hooks i18n key contracts", () => {
   });
 
   it("prompt provider/model keys exist in all locales", async () => {
-    for (const locale of ["en", "vi", "zh", "ru"]) {
+    for (const locale of ["en"]) {
       const mod = await import(`@/i18n/locales/${locale}/hooks.json`);
       const data = mod as unknown as Record<string, Record<string, string>>;
       expect(data.form?.provider).toBeTruthy();
