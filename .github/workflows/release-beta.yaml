@@ -2,10 +2,6 @@ name: Release Beta
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "v*-beta*"
-      - "v*-rc*"
 
 permissions:
   contents: write
