@@ -6,7 +6,7 @@ backup/
 # the cmd/pkg-helper/ source directory, which breaks Docker builds
 # on uploaders that pattern-match .gitignore against the whole tree
 # — notably `railway up`).
-/openclaw-go
+/zalosclaw
 /pkg-helper
 /zalosclaw.exe
 /zalosclaw-local.exe
@@ -31,7 +31,7 @@ backup/
 
 app
 browser-poc
-openclaw-go
+zalosclaw
 zalosclaw
 /config.json
 prompt.md
