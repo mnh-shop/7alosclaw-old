@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="_statics/zalosclaw-logo.svg" alt="7alosclaw" height="200" />
-</p>
-
 <p align="center"><strong>7alosclaw</strong> — multi-tenant AI agent runtime</p>
 
 <p align="center">
@@ -13,49 +9,6 @@ Single binary. Production-tested. Agents that orchestrate for you.
   <a href="https://docs.7alos.com">Documentation</a> •
   <a href="https://docs.7alos.com/#quick-start">Quick Start</a>
 </p>
-
-<p align="center">
-  <a href="https://go.dev/"><img src="https://img.shields.io/badge/Go_1.26-00ADD8?style=flat-square&logo=go&logoColor=white" alt="Go" /></a>
-  <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL_18-316192?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" /></a>
-  <a href="https://www.docker.com/"><img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker" /></a>
-  <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSocket"><img src="https://img.shields.io/badge/WebSocket-010101?style=flat-square&logo=socket.io&logoColor=white" alt="WebSocket" /></a>
-  <a href="https://opentelemetry.io/"><img src="https://img.shields.io/badge/OpenTelemetry-000000?style=flat-square&logo=opentelemetry&logoColor=white" alt="OpenTelemetry" /></a>
-  <a href="https://www.anthropic.com/"><img src="https://img.shields.io/badge/Anthropic-191919?style=flat-square&logo=anthropic&logoColor=white" alt="Anthropic" /></a>
-  <a href="https://openai.com/"><img src="https://img.shields.io/badge/OpenAI_Compatible-412991?style=flat-square&logo=openai&logoColor=white" alt="OpenAI" /></a>
-
-</p>
-
-🌐 **Languages:**
-[🇻🇳 Tiếng Việt](_readmes/README.vi.md) ·
-[🇨🇳 简体中文](_readmes/README.zh-CN.md) ·
-[🇯🇵 日本語](_readmes/README.ja.md) ·
-[🇰🇷 한국어](_readmes/README.ko.md) ·
-[🇵🇭 Tagalog](_readmes/README.tl.md) ·
-[🇪🇸 Español](_readmes/README.es.md) ·
-[🇧🇷 Português](_readmes/README.pt.md) ·
-[🇮🇹 Italiano](_readmes/README.it.md) ·
-[🇩🇪 Deutsch](_readmes/README.de.md) ·
-[🇫🇷 Français](_readmes/README.fr.md) ·
-[🇸🇦 العربية](_readmes/README.ar.md) ·
-[🇮🇳 हिन्दी](_readmes/README.hi.md) ·
-[🇷🇺 Русский](_readmes/README.ru.md) ·
-[🇧🇩 বাংলা](_readmes/README.bn.md) ·
-[🇮🇱 עברית](_readmes/README.he.md) ·
-[🇵🇱 Polski](_readmes/README.pl.md) ·
-[🇨🇿 Čeština](_readmes/README.cs.md) ·
-[🇳🇱 Nederlands](_readmes/README.nl.md) ·
-[🇹🇷 Türkçe](_readmes/README.tr.md) ·
-[🇺🇦 Українська](_readmes/README.uk.md) ·
-[🇮🇩 Bahasa Indonesia](_readmes/README.id.md) ·
-[🇹🇭 ไทย](_readmes/README.th.md) ·
-[🇵🇰 اردو](_readmes/README.ur.md) ·
-[🇷🇴 Română](_readmes/README.ro.md) ·
-[🇸🇪 Svenska](_readmes/README.sv.md) ·
-[🇬🇷 Ελληνικά](_readmes/README.el.md) ·
-[🇭🇺 Magyar](_readmes/README.hu.md) ·
-[🇫🇮 Suomi](_readmes/README.fi.md) ·
-[🇩🇰 Dansk](_readmes/README.da.md) ·
-[🇳🇴 Norsk](_readmes/README.nb.md)
 
 ## Core Features
 
@@ -124,22 +77,6 @@ git tag lite-v0.1.0 && git push origin lite-v0.1.0
 ```
 
 ## Architecture
-
-<p align="center">
-  <img src="_statics/Multi-Tenant Architecture.jpg" alt="Multi-Tenant Architecture" width="800" />
-</p>
-
-<p align="center">
-  <img src="_statics/3-Tier Memory Architecture.jpg" alt="3-Tier Memory" width="800" />
-</p>
-
-<p align="center">
-  <img src="_statics/8-Stage Agent Pipeline.jpg" alt="8-Stage Agent Pipeline" width="800" />
-</p>
-
-<p align="center">
-  <img src="_statics/Mode Prompt System.jpg" alt="4-Mode Prompt System" width="800" />
-</p>
 
 ## Quick Start
 
@@ -247,10 +184,6 @@ Open **About** dialog → click **Update Now** (admin only). The update includes
 
 ## Multi-Agent Orchestration
 
-<p align="center">
-  <img src="_statics/Agent Orchestration.jpg" alt="Agent Orchestration" width="800" />
-</p>
-
 Each agent runs with its own identity, tools, LLM provider, and context files.
 Agent Links define outbound, inbound, or bidirectional permission edges.
 Delegation can run synchronously or asynchronously and exchanges files through
@@ -261,33 +194,17 @@ the caller's `.delegations/<delegation-id>/` directory.
 
 ## Knowledge Vault
 
-<p align="center">
-  <img src="_statics/Knowledge Vault.jpg" alt="Knowledge Vault" width="800" />
-</p>
-
 Document registry with `[[wikilinks]]` for bidirectional linking. Hybrid search combines full-text (BM25) and semantic (pgvector) for precise retrieval. Filesystem sync keeps vault in sync with on-disk files.
 
 ## Self-Evolution
-
-<p align="center">
-  <img src="_statics/Self-Evolution System.jpg" alt="Self-Evolution" width="800" />
-</p>
 
 Agents improve themselves through a 3-stage guardrailed pipeline: metrics collection → suggestion analysis → auto-adaptation. Can refine communication style and domain expertise (CAPABILITIES.md) — but never change identity, name, or core purpose.
 
 ## Provider Adapters
 
-<p align="center">
-  <img src="_statics/Provider Adapter System.jpg" alt="Provider Adapters" width="800" />
-</p>
-
 20+ LLM providers unified through a single adapter interface. Capability-based routing, encrypted API keys (AES-256-GCM), extended thinking support per-provider, and prompt caching for Anthropic + OpenAI.
 
 ## Event-Driven Architecture
-
-<p align="center">
-  <img src="_statics/DomainEventBus.jpg" alt="DomainEventBus" width="800" />
-</p>
 
 Typed domain events power the consolidation pipeline — session summaries, knowledge graph extraction, and dreaming promotion all run asynchronously via worker pools with dedup and retry.
 

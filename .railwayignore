@@ -16,7 +16,6 @@ tmp
 tmp-*
 *.exe
 ._*
-_statics
 _readmes
 examples
 CHANGELOG.md
